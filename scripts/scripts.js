@@ -49,7 +49,7 @@ function buildAutoBlocks(main) {
  * @param {Element} main The container element
  */
 function buildFloatingImages(main) {
-  const sections = main.querySelectorAll('.section.image-right .default-content-wrapper');
+  const sections = main.querySelectorAll('.section.image-right .default-content-wrapper, .section.image-left .default-content-wrapper');
   if (sections) {
     sections.forEach((section) => {
       const image = document.createElement('div');

@@ -42,12 +42,6 @@
   }
 }
 
-@media (max-width: 600px) {
-  h2 {
-    font-size: var(--heading-font-size-l);
-  }
-}
-
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
@@ -101,6 +95,13 @@ header {
 main .section {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+@media (max-width: 600px) {
+  h2 {
+    font-size: var(--heading-font-size-l);
+    line-height: 35px;
+  }
 }
 
 @font-face {
