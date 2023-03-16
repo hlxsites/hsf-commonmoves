@@ -103,7 +103,7 @@ main .section.image-left .default-content-wrapper .content .button-container {
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 599px) {
     main .section.image-right .default-content-wrapper,
     main .section.image-left .default-content-wrapper {
         height: auto;

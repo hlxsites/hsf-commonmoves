@@ -1,18 +1,17 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
-
 export default function decorate(block) {
-  /* change to ul, li */
-  const ul = document.createElement('ul');
   [...block.children].forEach((row) => {
-    const li = document.createElement('li');
-    li.innerHTML = row.innerHTML;
-    [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
-      else div.className = 'cards-card-body';
+    row.className = 'cards-item';
+    [...row.children].forEach((div) => {
+      if (div.querySelector('picture')) {
+        // update container for picture with label
+        div.className = 'cards-card-image';
+        if (div.lastChild.nodeType === Node.TEXT_NODE) {
+          const picture = div.querySelector('picture');
+          const paragraphElement = document.createElement(('p'));
+          paragraphElement.append(div.lastChild);
+          div.append(picture, paragraphElement);
+        }
+      } else div.className = 'cards-card-body';
     });
-    ul.append(li);
   });
-  ul.querySelectorAll('img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
-  block.textContent = '';
-  block.append(ul);
 }
