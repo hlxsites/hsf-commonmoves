@@ -21,6 +21,9 @@
   --black: #000;
   --gray: #d8d8d8;
   --white: #fff;
+  --nav-background: #552448;
+  --white-background: #fff;
+  --border-gray: #d8d8d8;
 
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
@@ -35,11 +38,12 @@
   --heading-font-size-s: 16px;
 
   /* Body */
+  --body-font-size-xl: 26px;
   --body-font-size-m: 16px;
   --body-font-size-s: 14px;
 
   /* nav height */
-  --nav-height: 90px;
+  --nav-height: 65px;
 }
 
 @media screen and (min-width: 992px) {
@@ -117,7 +121,7 @@ main .section {
 }
 
 .button.secondary {
-  background: var(--secondary-button-background);
+  background: var(--white-background);
   border: 1px solid var(--body-color);
   text-align: center;
   vertical-align: middle;
