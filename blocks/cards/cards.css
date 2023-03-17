@@ -109,20 +109,23 @@
     flex-direction: row;
   }
 
-  .cards.three-column .cards-item {
+  .cards.cards-3-cols .cards-item {
     width: 33.33%;
     margin-bottom: 0;
   }
 
-  .cards.two-column .cards-item {
+  .cards.cards-2-cols .cards-item {
     width: 50%;
     margin-bottom: 0;
   }
 
   .cards.cards-checklist.block {
-    border-top: 1px solid var(--gray);
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .cards.cards-2-cols.cards-checklist .cards-item {
+    width: calc(100% - 20px);
     margin-bottom: 0;
   }
 }

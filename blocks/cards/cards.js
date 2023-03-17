@@ -1,6 +1,7 @@
 export default function decorate(block) {
   // add logic for check-list case
   if (block.classList.contains('cards-checklist')) {
+    block.classList.add('cards-2-cols');
     [...block.children].forEach((row) => {
       row.className = 'cards-item';
       [...row.children].forEach((div) => {
@@ -12,6 +13,8 @@ export default function decorate(block) {
       row.append(checkbox, description);
     });
   } else {
+    const cols = block.children;
+    block.classList.add(`cards-${cols.length}-cols`);
     [...block.children].forEach((row) => {
       row.className = 'cards-item';
       [...row.children].forEach((div) => {
