@@ -62,7 +62,8 @@
 
 .cards-container .default-content-wrapper h4 {
   text-transform: uppercase;
-  font-family: var(--font-family-proxima-semibold);
+  font-family: var(--font-family-proxima);
+  font-weight: 600;
   letter-spacing: 0.13em;
 }
 

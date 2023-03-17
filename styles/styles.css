@@ -23,7 +23,6 @@
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
   --font-family-proxima: 'ProximaNova', 'ProximaNova Fallback', 'Arial', sans-serif;
-  --font-family-proxima-semibold: 'ProximaSemibold', 'ProximaSemibold Fallback', 'Arial', sans-serif;
   --font-family-gotham: 'Gotham', 'Gotham Fallback', 'Arial', sans-serif;
   --font-family-font-awesome: 'Font Awesome';
 
@@ -141,13 +140,6 @@ main .section {
   descent-override: 21.17%;
   line-gap-override: 0.00%;
   size-adjust: 99.19%;
-}
-
-@font-face {
-  font-family: 'ProximaSemibold Fallback';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Arial');
 }
 
 @font-face {
