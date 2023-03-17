@@ -19,6 +19,8 @@
   --secondary-button-background: #fff;
   --lightgray: #f6f6f6;
   --black: #000;
+  --gray: #d8d8d8;
+  --white: #fff;
 
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
@@ -97,6 +99,10 @@ main .section {
 /* common styles */
 .background-lightgray {
   background: var(--lightgray);
+}
+
+.background-white {
+  background: var(--white);
 }
 
 .button-container a {

@@ -60,11 +60,43 @@
   padding: 32px 0;
 }
 
-.cards-container .default-content-wrapper h4 {
+.cards-container .default-content-wrapper h4,
+.cards-checklist .cards-card-body h4{
   text-transform: uppercase;
   font-family: var(--font-family-proxima);
   font-weight: 600;
   letter-spacing: 0.13em;
+  line-height: 1.4em;
+  text-align: center;
+}
+
+.cards-checklist .cards-item {
+  border-top: 1px solid var(--gray);
+  padding: 15px 0 25px;
+  flex-direction: row;
+  margin-bottom: 0;
+}
+
+.cards-checklist .cards-card-body h4 {
+  text-align: left;
+}
+
+.cards-checklist .checkmark {
+  width: 32px;
+  height: 32px;
+  background: url('../../icons/checkmark.svg') no-repeat;
+  background-size: 100%;
+  background-position: 50% 50%;
+  margin: 6px 16px 0 0;
+
+}
+
+.cards-checklist .cards-card-body {
+  width: calc(100% - 32px);
+}
+
+.cards.block.cards-checklist .cards-card-body p{
+  margin-bottom: 0;
 }
 
 @media (min-width: 992px) {
@@ -84,6 +116,13 @@
 
   .cards.two-column .cards-item {
     width: 50%;
+    margin-bottom: 0;
+  }
+
+  .cards.cards-checklist.block {
+    border-top: 1px solid var(--gray);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     margin-bottom: 0;
   }
 }
