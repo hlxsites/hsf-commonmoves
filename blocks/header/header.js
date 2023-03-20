@@ -166,15 +166,12 @@ export default async function decorate(block) {
     nav.append(buildLogo());
 
     // Add Nav sections.
-    const linkWrapper = document.createElement('div');
-    linkWrapper.classList.add('nav-links');
-    nav.append(linkWrapper);
     decorateSections(html);
     html.querySelectorAll('.section[data-section]').forEach((section) => {
       const clazz = section.getAttribute('data-section');
       const wrapper = section.children[0];
       wrapper.classList.replace('default-content-wrapper', `nav-${clazz}`);
-      linkWrapper.append(wrapper);
+      nav.append(wrapper);
     });
 
     addProfileLogin(nav);
