@@ -1,10 +1,16 @@
+.listing-container {
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
 .listing > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  grid-gap: 16px;
+  grid-gap: 20px;
 }
 
 .listing > ul > li {
@@ -13,7 +19,8 @@
 }
 
 .listing .listing-card-body {
-  margin: 16px;
+  margin: 6px 16px 16px 10px;
+  font-family: var(--font-family-proxima);
 }
 
 .listing .listing-card-image {
@@ -29,3 +36,88 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
+
+.listing > ul > li .listing-card-body:nth-of-type(0) {
+  font-size: 14px;
+  color: #3a3a3a;
+  letter-spacing: .12px;
+  line-height: 18px;
+  opacity: .9;
+  margin: 2px 0;
+  padding-top: 4px;
+  font-family: var(--font-family-proxima);
+}
+.listing-tile {
+  position: relative;
+}
+
+.listing p:not(:first-child) {
+  display: block;
+  background: #fff;
+  position: absolute;
+
+}
+
+.listing-tile p:last-of-type {
+  font-size: 25px;
+  background: #fff;
+  color: #3a3a3a;
+  line-height: 1.25;
+  position: absolute;
+  padding: 7px 30px 0px 10px;
+  bottom: 0;
+  font-family: var(--font-family-proxima-bold);
+}
+.default-content-wrapper p:first-child {
+  color: #3a3a3a;
+  font-family: var(--font-family-proxima-bold);
+  border-bottom: 3px solid #552448;
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 30px 24px 0;
+  text-transform: uppercase;
+  letter-spacing: initial;
+  display: inline-block;
+}
+
+.button-container {
+  justify-content: flex-end;
+  display: flex;
+  margin-bottom: 1.5rem;
+}
+
+.button-container a {
+  cursor:pointer;
+  font-family: var(--font-family-proxima);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 7px 25px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid #000;
+}
+.button-container a:hover {
+  border-color: #c3c5c7;
+}
+/*
+.btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+  d}
+
+  
+
+.btn-secondary:focus,.btn-secondary.focus {
+  box-shadow: 0 0 0 .2rem rgba(108,117,125,0.5)
+}
+*/

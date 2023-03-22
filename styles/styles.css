@@ -25,7 +25,9 @@
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
   --font-family-proxima: 'ProximaNova', 'ProximaNova Fallback', 'Arial', sans-serif;
-  --font-family-gotham: 'Gotham', 'Gotham Fallback', 'Arial', sans-serif;
+  --font-family-proxima-semibold: 'ProximaNovaSemibold', 'ProximaNova Fallback', 'Arial', sans-serif;
+  --font-family-proxima-bold: 'ProximaNovaBold', 'ProximaNova Fallback', 'Arial', sans-serif;
+  --font-family-gotham: 'Gotham', 'Gotham Fallback', 'Arial Bold', sans-serif;
   --font-family-font-awesome: 'Font Awesome';
 
   /* Headings */
