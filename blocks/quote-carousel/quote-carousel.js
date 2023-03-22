@@ -2,7 +2,6 @@ const DEFAULT_SCROLL_INTERVAL_MS = 6000;
 const numChildren = {};
 const scrollInterval = {};
 const event = new Event('startAutoScroll');
-const defaultCarouselClasses = ['quote-carousel', 'block'];
 
 /**
  * Get key to retrieve data for carousel block
@@ -11,8 +10,7 @@ const defaultCarouselClasses = ['quote-carousel', 'block'];
  * @returns {string}
  */
 function getDataKey(block) {
-  const classesList = block.classList.value.split(' ');
-  return classesList.find((item) => !defaultCarouselClasses.includes(item));
+  return block.querySelector('div > div > div:nth-child(2)').innerText;
 }
 
 /**
@@ -110,7 +108,7 @@ export default async function decorate(block) {
   const key = getDataKey(block);
   const content = await getBlockContent(key);
   numChildren[key] = content.total;
-
+  block.querySelector('div:nth-child(1)').style.display = 'none';
   // generate carousel content from loaded data
   const slidesContainer = document.createElement('div');
   slidesContainer.classList.add('carousel-content');
@@ -140,7 +138,7 @@ export default async function decorate(block) {
     <button name="prev" aria-label="Previous" class="control-button" disabled><svg><use xlink:href="../../icons/arrow.svg#carrot"/></svg></button>
     <button name="next" aria-label="Next" class="control-button"><svg><use xlink:href="../../icons/arrow.svg#carrot"/></svg></button>
   `;
-  block.replaceChildren(slidesContainer, controlsContainer);
+  block.append(slidesContainer, controlsContainer);
 
   const nextButton = block.querySelector('button[name="next"]');
   const prevButton = block.querySelector('button[name="prev"]');
