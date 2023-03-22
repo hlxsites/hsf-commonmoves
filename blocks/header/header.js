@@ -163,7 +163,11 @@ export default async function decorate(block) {
 
     const nav = document.createElement('nav');
 
-    nav.append(buildLogo());
+    const primaryWrapper = document.createElement('div');
+    primaryWrapper.classList.add('nav-primary-wrapper');
+    nav.append(primaryWrapper);
+
+    primaryWrapper.append(buildLogo());
 
     // Add Nav sections.
     decorateSections(html);
@@ -171,22 +175,37 @@ export default async function decorate(block) {
       const clazz = section.getAttribute('data-section');
       const wrapper = section.children[0];
       wrapper.classList.replace('default-content-wrapper', `nav-${clazz}`);
-      nav.append(wrapper);
     });
+
+    nav.append(html.querySelector('.nav-profile'));
+    primaryWrapper.append(html.querySelector('.nav-sections'));
 
     addProfileLogin(nav);
 
     const navSections = nav.querySelector('.nav-sections');
     if (navSections) {
       navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
-        if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-        navSection.addEventListener('click', () => {
+        let hasSubmenu = false;
+        if (navSection.querySelector('ul')) {
+          navSection.classList.add('nav-drop');
+          hasSubmenu = true;
+        }
+        navSection.addEventListener('click', (e) => {
           if (isDesktop.matches) {
             const expanded = navSection.getAttribute('aria-expanded') === 'true';
             toggleAllNavSections(navSections);
             navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+            if (!expanded && hasSubmenu) {
+              e.preventDefault();
+              e.stopPropagation();
+            }
           }
         });
+      });
+      document.body.addEventListener('click', () => {
+        if (isDesktop.matches) {
+          toggleAllNavSections(navSections);
+        }
       });
     }
     const hamburger = buildHamburger();

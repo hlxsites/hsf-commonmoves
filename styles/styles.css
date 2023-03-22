@@ -29,7 +29,7 @@
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
   --font-family-proxima: 'ProximaNova', 'ProximaNova Fallback', 'Arial', sans-serif;
   --font-family-gotham: 'Gotham', 'Gotham Fallback', 'Arial', sans-serif;
-  --font-family-font-awesome: 'Font Awesome';
+  --font-family-fontawesome: 'FontAwesome';
 
   /* Headings */
   --heading-font-size-xl: 40px;
@@ -41,6 +41,7 @@
   --body-font-size-xl: 26px;
   --body-font-size-m: 16px;
   --body-font-size-s: 14px;
+  --body-font-size-xs: 12px;
 
   /* nav height */
   --nav-height: 65px;
@@ -52,14 +53,16 @@
   }
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
 }
 
+
 body {
   color: var(--body-color);
   text-align: left;
+  background-color: var(--nav-background)
 }
 
 h2 {
@@ -128,6 +131,17 @@ main .section {
   padding: 7px 25px;
   height: 40px;
   display: block;
+}
+
+header {
+  height: var(--nav-height);
+}
+
+main .section {
+  max-width: 1350px;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 @font-face {
