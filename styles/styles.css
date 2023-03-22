@@ -25,6 +25,7 @@
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
   --font-family-proxima: 'ProximaNova', 'ProximaNova Fallback', 'Arial', sans-serif;
+  --font-family-proxima-light: 'ProximaNovaLight', 'ProximaNova Fallback', 'Arial', sans-serif;
   --font-family-gotham: 'Gotham', 'Gotham Fallback', 'Arial', sans-serif;
   --font-family-font-awesome: 'Font Awesome';
 
@@ -35,11 +36,18 @@
   --heading-font-size-s: 16px;
 
   /* Body */
+  --body-font-size-xxl: 40px;
+  --body-font-size-xl: 25px;
+  --body-font-size-l: 20px;
   --body-font-size-m: 16px;
   --body-font-size-s: 14px;
+  --body-font-size-xs: 12px;
+  --line-height-l: 1.4em;
+  --line-height-m: 1.3em;
 
   /* nav height */
   --nav-height: 90px;
+  --section-padding: 15px;
 }
 
 @media screen and (min-width: 992px) {
@@ -56,6 +64,7 @@
 body {
   color: var(--body-color);
   text-align: left;
+  font-family: var(--font-family-proxima);
 }
 
 h2 {
@@ -92,8 +101,8 @@ header {
 }
 
 main .section {
-  padding-left: 15px;
-  padding-right: 15px;
+  padding-left: var(--section-padding);
+  padding-right: var(--section-padding);
 }
 
 /* common styles */
@@ -124,6 +133,16 @@ main .section {
   padding: 7px 25px;
   height: 40px;
   display: block;
+}
+
+/* common styles */
+ .default-content-wrapper h4 {
+  text-transform: uppercase;
+  font-family: var(--font-family-proxima);
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  line-height: 1.4em;
+  text-align: center;
 }
 
 @font-face {
