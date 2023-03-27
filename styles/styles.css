@@ -117,6 +117,10 @@ body {
   display: none;
 }
 
+body.no-scroll {
+  overflow-y: hidden;
+}
+
 body.appear {
   display: block;
 }
