@@ -3,6 +3,7 @@
     padding-bottom: 35px;
     border-top: 1px solid var(--body-color);
     border-bottom: 1px solid var(--body-color);
+    background-color: var(--white);
 }
 
 .quote-carousel-container .default-content-wrapper h4 {

@@ -9,8 +9,8 @@ const event = new Event('startAutoScroll');
  * @param {Element} block
  * @returns {string}
  */
-function getDataKey(block) {
-  return block.querySelector('div > div > div:nth-child(2)').innerText;
+function getBlockId(block) {
+  return block.id;
 }
 
 /**
@@ -19,7 +19,7 @@ function getDataKey(block) {
  * @param {Element} block
  */
 function stopAutoScroll(block) {
-  const key = getDataKey(block);
+  const key = getBlockId(block);
   const interval = scrollInterval[key];
   clearInterval(interval);
   scrollInterval[key] = undefined;
@@ -44,7 +44,7 @@ function getCurrentSlideIndex(block) {
  * @param {Element} block
  */
 function switchSlide(nextIndex, block) {
-  const key = getDataKey(block);
+  const key = getBlockId(block);
   const slidesContainer = block.querySelector('.carousel-content');
   const currentIndex = getCurrentSlideIndex(slidesContainer);
   const prevButton = block.querySelector('.controls-container button[name="prev"]');
@@ -78,7 +78,7 @@ function switchSlide(nextIndex, block) {
  * @param {number} interval
  */
 function startAutoScroll(block, interval = DEFAULT_SCROLL_INTERVAL_MS) {
-  const key = getDataKey(block);
+  const key = getBlockId(block);
   scrollInterval[key] = setInterval(() => {
     const currentIndex = getCurrentSlideIndex(block);
     switchSlide((currentIndex + 1) % numChildren[key], block);
@@ -88,11 +88,11 @@ function startAutoScroll(block, interval = DEFAULT_SCROLL_INTERVAL_MS) {
 /**
  * Returns block content from the spreadsheet
  *
- * @param {string} type
+ * @param {Element} block
  * @returns {Promise<any>}
  */
-async function getBlockContent(type) {
-  const url = `/drafts/quotes/helix-quotes.json?sheet=${type}`;
+async function getContent(block) {
+  const url = block.querySelector('div > div > div:nth-child(2) > a').href;
   let data = { data: {} };
   try {
     const resp = await fetch(url);
@@ -105,14 +105,14 @@ async function getBlockContent(type) {
 }
 
 export default async function decorate(block) {
-  const key = getDataKey(block);
-  const content = await getBlockContent(key);
-  numChildren[key] = content.total;
-  block.querySelector('div:nth-child(1)').style.display = 'none';
+  const blockId = crypto.randomUUID();
+  const content = await getContent(block);
+  block.querySelector('div:nth-child(1)');
   // generate carousel content from loaded data
   const slidesContainer = document.createElement('div');
   slidesContainer.classList.add('carousel-content');
-
+  block.setAttribute('id', blockId);
+  numChildren[blockId] = content.total;
   [...content.data].forEach((row) => {
     const rowContent = document.createElement('div');
     rowContent.classList.add('item');
@@ -133,12 +133,12 @@ export default async function decorate(block) {
     <div class="pagination">
         <span class="index">1</span>
         &nbsp;of&nbsp;
-        <span class="total">${numChildren[key]}</span>
+        <span class="total">${numChildren[blockId]}</span>
     </div>
     <button name="prev" aria-label="Previous" class="control-button" disabled><svg><use xlink:href="../../icons/arrow.svg#carrot"/></svg></button>
-    <button name="next" aria-label="Next" class="control-button"><svg><use xlink:href="../../icons/arrow.svg#carrot"/></svg></button>
+    <button name="next" aria-label="Next" class="control-button"><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
   `;
-  block.append(slidesContainer, controlsContainer);
+  block.replaceChildren(slidesContainer, controlsContainer);
 
   const nextButton = block.querySelector('button[name="next"]');
   const prevButton = block.querySelector('button[name="prev"]');
@@ -146,12 +146,12 @@ export default async function decorate(block) {
   nextButton.addEventListener('click', () => {
     const currentIndex = getCurrentSlideIndex(slidesContainer);
 
-    switchSlide((currentIndex + 1) % numChildren[key], block);
+    switchSlide((currentIndex + 1) % numChildren[blockId], block);
   });
   prevButton.addEventListener('click', () => {
     const currentIndex = getCurrentSlideIndex(slidesContainer);
     switchSlide(
-      (((currentIndex - 1) % numChildren[key]) + numChildren[key]) % numChildren[key],
+      (((currentIndex - 1) % numChildren[blockId]) + numChildren[blockId]) % numChildren[blockId],
       block,
     );
   });
