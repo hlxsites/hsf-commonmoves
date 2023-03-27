@@ -16,18 +16,20 @@
 :root {
   /* Colors */
   --body-color: #3a3a3a;
-  --secondary-button-background: #fff;
   --lightgray: #f6f6f6;
   --black: #000;
   --gray: #d8d8d8;
   --white: #fff;
+  --nav-background: #552448;
+  --white-background: #fff;
+  --border-gray: #d8d8d8;
 
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
   --font-family-proxima: 'ProximaNova', 'ProximaNova Fallback', 'Arial', sans-serif;
   --font-family-proxima-light: 'ProximaNovaLight', 'ProximaNova Fallback', 'Arial', sans-serif;
   --font-family-gotham: 'Gotham', 'Gotham Fallback', 'Arial', sans-serif;
-  --font-family-font-awesome: 'Font Awesome';
+  --font-family-fontawesome: 'FontAwesome';
 
   /* Headings */
   --heading-font-size-xl: 40px;
@@ -37,7 +39,7 @@
 
   /* Body */
   --body-font-size-xxl: 40px;
-  --body-font-size-xl: 25px;
+  --body-font-size-xl: 26px;
   --body-font-size-l: 20px;
   --body-font-size-m: 16px;
   --body-font-size-s: 14px;
@@ -46,7 +48,7 @@
   --line-height-m: 1.3em;
 
   /* nav height */
-  --nav-height: 90px;
+  --nav-height: 65px;
   --section-padding: 15px;
 }
 
@@ -56,14 +58,16 @@
   }
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
 }
 
+
 body {
   color: var(--body-color);
   text-align: left;
+  background-color: var(--nav-background);
   font-family: var(--font-family-proxima);
 }
 
@@ -101,6 +105,8 @@ header {
 }
 
 main .section {
+  max-width: 1350px;
+  margin: 0 auto;
   padding-left: var(--section-padding);
   padding-right: var(--section-padding);
 }
@@ -126,7 +132,7 @@ main .section {
 }
 
 .button.secondary {
-  background: var(--secondary-button-background);
+  background: var(--white-background);
   border: 1px solid var(--body-color);
   text-align: center;
   vertical-align: middle;
