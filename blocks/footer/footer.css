@@ -114,7 +114,7 @@ footer {
   opacity: .4;
 }
 
-.icon-bhhs_seal_blk > svg {
+.footer-container-flex > div:nth-child(1) svg {
   height: 68px;
   width: 68px;
 }
@@ -123,14 +123,22 @@ footer {
   padding-top: 40px;
 }
 
+.footer-container-flex p:nth-of-type(3) {
+  padding-top: 15px;
+}
+
+.footer-container-flex p:nth-of-type(4) {
+  padding-top: 15px;
+}
+
+.footer-container-flex p:nth-of-type(5) {
+  padding-top: 15px;
+}
+
 .footer-container-flex > div:last-child p {
   font-size: 12px;
   letter-spacing: .6px;
   line-height: 17px;
-}
-
-.footer-container-flex p:nth-of-type(3), p:nth-of-type(4), p:nth-of-type(5) {
-  padding-top: 15px;
 }
 
 .footer-container-flex > div:last-child p a {
