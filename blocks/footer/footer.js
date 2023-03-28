@@ -14,12 +14,28 @@ export default async function decorate(block) {
 
   if (resp.ok) {
     const html = await resp.text();
-
     // decorate footer DOM
     const footer = document.createElement('div');
-    footer.innerHTML = html;
-
+    footer.className = 'footer-container'
+    const footer_flex = document.createElement('div');
+    footer_flex.className = 'footer-container-flex';
+    footer_flex.innerHTML = html;
+    footer.append(footer_flex);
     decorateIcons(footer);
     block.append(footer);
+    
+    const parentDiv = block.querySelector('ul').closest('div');
+    const ulChildren = [...parentDiv.querySelectorAll('ul')];
+    const wrapper = document.createElement('div');
+    wrapper.className = 'link-menu-row';
+    ulChildren.forEach(elem => {
+      const div = document.createElement('div');
+      div.className = 'link-menu-col';
+      div.append(elem);
+      wrapper.append(div);
+    });
+    parentDiv.prepend(wrapper);
+    
+    console.log(block);
   }
 }
