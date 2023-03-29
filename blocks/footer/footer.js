@@ -37,7 +37,6 @@ export default async function decorate(block) {
     });
     parentDiv.prepend(wrapper);
     const footerContainerFlexDivs = [...document.querySelector('.footer-container-flex').children];
-    console.log(footerContainerFlexDivs);
     footerContainerFlexDivs.slice(0, -1).forEach((elem) => elem.classList.add('column-12'));
     footerContainerFlexDivs[0].classList.add('column-md-3');
     footerContainerFlexDivs[1].classList.add('column-md-4');
