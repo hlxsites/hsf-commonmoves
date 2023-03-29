@@ -12,6 +12,7 @@
 
 @import url('reset.css');
 @import url('floating-images.css');
+@import url('blog-nav.css');
 
 :root {
   /* Colors */
@@ -32,7 +33,7 @@
   --font-family-fontawesome: 'FontAwesome';
 
   /* Headings */
-  --heading-font-size-xl: 40px;
+  --heading-font-size-xl: 36px;
   --heading-font-size-l: 24px;
   --heading-font-size-m: 20px;
   --heading-font-size-s: 16px;
@@ -67,7 +68,7 @@
 body {
   color: var(--body-color);
   text-align: left;
-  background-color: var(--nav-background);
+  background-color: var(--white);
   font-family: var(--font-family-proxima);
 }
 

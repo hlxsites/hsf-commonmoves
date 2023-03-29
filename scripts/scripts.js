@@ -44,6 +44,57 @@ function buildAutoBlocks(main) {
   }
 }
 
+function isSelectedBlogCategory(block) {
+  const catPath = block.querySelector('a').href;
+  return catPath === window.location.href;
+}
+/**
+ * Build blog navigation menu
+ * @param {Element} main The container element
+ */
+function buildBlogNavigation(main) {
+  const sections = main.querySelectorAll('.blog-listing-container');
+  if (sections) {
+    sections.forEach((section) => {
+      const blogNav = document.createElement('nav');
+      const blogNavContent = section.querySelector('.default-content-wrapper');
+      const selectedCategoryEl = document.createElement('div');
+      let categoryName = 'Blog Categories';
+      selectedCategoryEl.classList.add('blog-nav-selected');
+      blogNav.classList.add('blog-nav', 'sticky');
+      [...blogNavContent.children].forEach((child) => {
+        if (child.querySelector('li')) {
+          [...child.children].forEach((category) => {
+            if (isSelectedBlogCategory(category)) {
+              category.querySelector('a').classList.add('selected-cat');
+              categoryName = category.textContent;
+            }
+          });
+          selectedCategoryEl.innerHTML = ` ${categoryName} <img src="/icons/dropdown-icon.svg" alt="dropdown-icon" loading="lazy" class="category-dropdown-icon">`;
+          blogNav.appendChild(selectedCategoryEl);
+        }
+        blogNav.appendChild(child);
+      });
+      section.replaceChild(blogNav, blogNavContent);
+      const categoriesList = section.querySelector('ul');
+
+      selectedCategoryEl.addEventListener('click', () => {
+        categoriesList.style.visibility = window.getComputedStyle(categoriesList).visibility === 'hidden' ? 'visible' : 'hidden';
+      });
+
+      // add logic to stick blog nav header to top of the page
+      window.onscroll = () => {
+        const sticky = blogNav.offsetTop;
+        if (window.pageYOffset > sticky) {
+          blogNav.classList.add('sticky');
+        } else {
+          blogNav.classList.remove('sticky');
+        }
+      };
+    });
+  }
+}
+
 /**
  * Build Floating image block
  * @param {Element} main The container element
@@ -86,6 +137,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   buildFloatingImages(main);
+  buildBlogNavigation(main);
 }
 
 /**
