@@ -11,16 +11,13 @@ footer {
   line-height: 23px;
 }
 
-.footer-container {
+.footer-container-flex {
+  display: flex;
+  flex-wrap: wrap;
   max-width: 1350px;
   margin: 0 auto;
   width: 100%;
   padding: 0 15px;
-}
-
-.footer-container-flex {
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .footer-container-flex > div:not(:last-child)  {

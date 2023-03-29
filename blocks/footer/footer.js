@@ -16,11 +16,8 @@ export default async function decorate(block) {
     const html = await resp.text();
     // decorate footer DOM
     const footer = document.createElement('div');
-    footer.className = 'footer-container';
-    const footerFlex = document.createElement('div');
-    footerFlex.className = 'footer-container-flex';
-    footerFlex.innerHTML = html;
-    footer.append(footerFlex);
+    footer.className = 'footer-container-flex';
+    footer.innerHTML = html;
     decorateIcons(footer);
     block.append(footer);
     const parentDiv = block.querySelector('ul').closest('div');
