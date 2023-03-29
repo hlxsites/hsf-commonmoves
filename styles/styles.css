@@ -68,7 +68,7 @@
 body {
   color: var(--body-color);
   text-align: left;
-  background-color: var(--white);
+  background-color: var(--nav-background);
   font-family: var(--font-family-proxima);
 }
 
