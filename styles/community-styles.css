@@ -101,7 +101,6 @@ main.liveby-community h2 {
   main.liveby-community .section.narrow > div {
     flex-basis: 33%;
   }
-
 }
 
 @media screen and (min-width: 1200px) {
