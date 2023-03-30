@@ -61,7 +61,7 @@ function buildBlogNavigation(main) {
       const selectedCategoryEl = document.createElement('div');
       let categoryName = 'Blog Categories';
       selectedCategoryEl.classList.add('blog-nav-selected');
-      blogNav.classList.add('blog-nav', 'sticky');
+      blogNav.classList.add('blog-nav');
       [...blogNavContent.children].forEach((child) => {
         if (child.querySelector('li')) {
           [...child.children].forEach((category) => {
@@ -82,7 +82,7 @@ function buildBlogNavigation(main) {
         categoriesList.style.visibility = window.getComputedStyle(categoriesList).visibility === 'hidden' ? 'visible' : 'hidden';
       });
 
-      // add logic to stick blog nav header to top of the page
+      //add logic to stick blog nav header to top of the page
       window.onscroll = () => {
         const sticky = blogNav.offsetTop;
         if (window.pageYOffset > sticky) {
