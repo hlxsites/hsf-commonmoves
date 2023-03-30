@@ -39,7 +39,7 @@ function buildLiveByMetadata(main) {
     section.append(buildBlock('liveby-metadata', { elems: [] }));
     main.prepend(section);
     main.classList.add('liveby-community');
-    loadCSS(`${window.hlx.codeBasePath}/styles/community-styles.css`)
+    loadCSS(`${window.hlx.codeBasePath}/styles/community-styles.css`);
   }
 }
 
