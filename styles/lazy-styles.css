@@ -2,14 +2,6 @@
 
 @font-face {
   font-family: GeorgiaPro;
-  src: url('fonts/woff2/GeorgiaPro-Regular.woff2') format('woff2'), url('./fonts/woff/GeorgiaPro-Regular.woff') format('woff'), url('./fonts/ttf/GeorgiaPro-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: GeorgiaPro;
   src: url('fonts/woff2/GeorgiaPro-SemiBold.woff2') format('woff2'), url('./fonts/woff/GeorgiaPro-SemiBold.woff') format('woff'), url('./fonts/ttf/GeorgiaPro-SemiBold.ttf') format('truetype');
   font-weight: 600;
   font-style: normal;

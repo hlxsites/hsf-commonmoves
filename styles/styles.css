@@ -31,7 +31,8 @@
   --font-family-fontawesome: 'FontAwesome';
 
   /* Headings */
-  --heading-font-size-xl: 40px;
+  --heading-font-size-xxl: 40px;
+  --heading-font-size-xl: 36px;
   --heading-font-size-l: 24px;
   --heading-font-size-m: 20px;
   --heading-font-size-s: 16px;
@@ -103,7 +104,7 @@ header {
 }
 
 main .section {
-  max-width: 1350px;
+  max-width: 1600px;
   margin: 0 auto;
   padding-left: var(--section-padding);
   padding-right: var(--section-padding);
@@ -152,34 +153,23 @@ main .section {
 @font-face {
   font-family: 'GeorgiaPro Fallback';
   font-style: normal;
-  font-weight: 400;
-  src: local('Arial');
-  ascent-override: 92.31%;
-  descent-override: 22.07%;
-  line-gap-override: 0.00%;
-  size-adjust: 99.34%;
-}
-
-@font-face {
-  font-family: 'GeorgiaPro Fallback';
-  font-style: normal;
   font-weight: 600;
-  src: local('Arial');
-  ascent-override: 85.27%;
-  descent-override: 20.39%;
+  src: local('Arial Bold');
+  ascent-override: 92.25%;
+  descent-override: 22.06%;
   line-gap-override: 0.00%;
-  size-adjust: 107.54%;
+  size-adjust: 99.40%;
 }
 
 @font-face {
   font-family: 'GeorgiaPro Fallback';
   font-style: normal;
   font-weight: 700;
-  src: local('Arial');
-  ascent-override: 79.14%;
-  descent-override: 18.92%;
+  src: local('Arial Bold');
+  ascent-override: 85.62%;
+  descent-override: 20.47%;
   line-gap-override: 0.00%;
-  size-adjust: 115.87%;
+  size-adjust: 107.10%;
 }
 
 @font-face {
@@ -208,11 +198,22 @@ main .section {
   font-family: 'ProximaNova Fallback';
   font-style: normal;
   font-weight: 600;
-  src: local('Arial');
-  ascent-override: 78.09%;
-  descent-override: 20.76%;
+  src: local('Arial Bold');
+  ascent-override: 84.49%;
+  descent-override: 22.46%;
   line-gap-override: 0.00%;
-  size-adjust: 101.16%;
+  size-adjust: 93.50%;
+}
+
+@font-face {
+  font-family: 'ProximaNova Fallback';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Arial Bold');
+  ascent-override: 83.31%;
+  descent-override: 22.15%;
+  line-gap-override: 0.00%;
+  size-adjust: 94.82%;
 }
 
 @font-face {
