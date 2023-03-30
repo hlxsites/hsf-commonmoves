@@ -62,11 +62,10 @@
   -webkit-font-smoothing: antialiased;
 }
 
-
 body {
   color: var(--body-color);
   text-align: left;
-  background-color: var(--nav-background);
+  background-color: var(--white-background);
   font-family: var(--font-family-proxima);
 }
 
@@ -80,7 +79,7 @@ h2 {
 h3 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-m);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.2em;
   padding-top: 0.8em;
 }
@@ -162,6 +161,39 @@ main .section {
 }
 
 @font-face {
+  font-family: 'GeorgiaPro Fallback';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Arial');
+  ascent-override: 85.27%;
+  descent-override: 20.39%;
+  line-gap-override: 0.00%;
+  size-adjust: 107.54%;
+}
+
+@font-face {
+  font-family: 'GeorgiaPro Fallback';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Arial');
+  ascent-override: 79.14%;
+  descent-override: 18.92%;
+  line-gap-override: 0.00%;
+  size-adjust: 115.87%;
+}
+
+@font-face {
+  font-family: 'ProximaNova Fallback';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Arial');
+  ascent-override: 80.85%;
+  descent-override: 21.49%;
+  line-gap-override: 0.00%;
+  size-adjust: 97.72%;
+}
+
+@font-face {
   font-family: 'ProximaNova Fallback';
   font-style: normal;
   font-weight: 400;
@@ -170,6 +202,17 @@ main .section {
   descent-override: 21.17%;
   line-gap-override: 0.00%;
   size-adjust: 99.19%;
+}
+
+@font-face {
+  font-family: 'ProximaNova Fallback';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Arial');
+  ascent-override: 78.09%;
+  descent-override: 20.76%;
+  line-gap-override: 0.00%;
+  size-adjust: 101.16%;
 }
 
 @font-face {
@@ -182,5 +225,6 @@ main .section {
   line-gap-override: 0.00%;
   size-adjust: 112.75%;
 }
+
 
 
