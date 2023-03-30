@@ -2,8 +2,8 @@
 
 @font-face {
   font-family: GeorgiaPro;
-  src: url('./fonts/woff2/GeorgiaPro-Bold.woff2') format('woff2'), url('./fonts/woff/GeorgiaPro-Bold.woff') format('woff'), url('./fonts/ttf/GeorgiaPro-Bold.ttf') format('truetype');
-  font-weight: 700;
+  src: url('fonts/woff2/GeorgiaPro-Regular.woff2') format('woff2'), url('./fonts/woff/GeorgiaPro-Regular.woff') format('woff'), url('./fonts/ttf/GeorgiaPro-Regular.ttf') format('truetype');
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -11,16 +11,17 @@
 @font-face {
   font-family: GeorgiaPro;
   src: url('fonts/woff2/GeorgiaPro-SemiBold.woff2') format('woff2'), url('./fonts/woff/GeorgiaPro-SemiBold.woff') format('woff'), url('./fonts/ttf/GeorgiaPro-SemiBold.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: ProximaNova;
-  src: url('./fonts/woff2/ProximaNova-Light.woff2') format('woff2'), url('./fonts/woff/ProximaNova-Light.woff') format('woff'), url('./fonts/ttf/ProximaNova-Light.ttf') format('truetype');
-  font-weight: 300;
+  font-family: GeorgiaPro;
+  src: url('./fonts/woff2/GeorgiaPro-Bold.woff2') format('woff2'), url('./fonts/woff/GeorgiaPro-Bold.woff') format('woff'), url('./fonts/ttf/GeorgiaPro-Bold.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -43,4 +44,11 @@
   src: url("./fonts/woff2/fontawesome-webfont.woff2") format("woff2"), url("./fonts/woff/fontawesome-webfont.woff") format("woff"), url("./fonts/ttf/fontawesome-webfont.ttf") format("truetype"), url("./fonts/svg/fontawesome-webfont.svg?#fontawesomeregular") format("svg");
   font-weight: normal;
   font-style: normal
+}
+
+@font-face {
+  font-family: ProximaNova;
+  src: url('./fonts/woff2/ProximaNova-Light.woff2') format('woff2'), url('./fonts/woff/ProximaNova-Light.woff') format('woff'), url('./fonts/ttf/ProximaNova-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
 }

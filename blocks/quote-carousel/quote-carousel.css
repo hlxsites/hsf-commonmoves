@@ -47,7 +47,7 @@
 
 .carousel-content .item .author {
     font-family: var(--font-family-georgia);
-    font-weight: 400;
+    font-weight: 600;
     font-size: var(--body-font-size-l);
     line-height: var(--line-height-m);
     margin: 30px 0 0;
