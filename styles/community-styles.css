@@ -1,10 +1,8 @@
 
-/* hide everything for now */
 main.liveby-community .section {
   margin-top: 3em;
   margin-bottom: 3em;
 }
-
 
 main.liveby-community .liveby-metadata-container {
   display: none;
