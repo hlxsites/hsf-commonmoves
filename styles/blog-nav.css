@@ -1,12 +1,12 @@
 .section.blog-listing-container {
     padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 .blog-nav {
     display: flex;
     z-index: 10;
     flex-direction: column;
-    /*justify-content: space-between;*/
-    /*align-items: ;*/
     background-color: var(--nav-background);
     color: var(--white);
     height: 117px;
@@ -15,11 +15,11 @@
     text-transform: uppercase;
     font-family: var(--font-family-proxima);
     font-size: var(--body-font-size-m);
-    /*font-size: 70px;*/
     width: 100vw;
+    max-width: 1600px;
     box-sizing: border-box;
     position: sticky;
-    /*align-items: center;*/
+    align-self: center;
 }
 
 .sticky {

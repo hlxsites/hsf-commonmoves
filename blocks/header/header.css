@@ -43,7 +43,7 @@
 
 .header.block nav[aria-expanded="true"] .nav-logo {
   background-color: var(--white-background);
-  border-bottom: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-grey);
 }
 
 .header.block nav .nav-logo a {
@@ -191,7 +191,7 @@
 .header.block nav[aria-expanded="true"] .nav-hamburger {
   filter: none;
   background-color: var(--white-background);
-  border-bottom: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-grey);
 }
 
 .header.block nav .nav-hamburger .close {
@@ -232,7 +232,7 @@
   .header.block nav[aria-expanded="true"] .nav-profile {
     grid-area: profile;
     height: 40px;
-    border-bottom: 1px solid var(--border-gray);
+    border-bottom: 1px solid var(--border-grey);
   }
 
   .header.block nav .nav-profile > ul {

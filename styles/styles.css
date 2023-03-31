@@ -17,13 +17,16 @@
 :root {
   /* Colors */
   --body-color: #3a3a3a;
-  --lightgray: #f6f6f6;
+  --lightgrey: #f6f6f6;
+  --darkgrey: #797676;
   --black: #000;
-  --gray: #d8d8d8;
+  --grey: #d8d8d8;
   --white: #fff;
+  --greyblue: #36758d;
   --nav-background: #552448;
   --white-background: #fff;
-  --border-gray: #d8d8d8;
+  --border-grey: #d8d8d8;
+  --beige: rgb(240, 240, 224);
 
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
@@ -68,10 +71,13 @@
 body {
   color: var(--body-color);
   text-align: left;
-  background-color: var(--nav-background);
+  background-color: var(--white);
   font-family: var(--font-family-proxima);
 }
 
+.header {
+  background-color: var(--nav-background);
+}
 h2 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-xl);
@@ -114,7 +120,7 @@ main .section {
 
 /* common styles */
 .background-lightgray {
-  background: var(--lightgray);
+  background: var(--lightgrey);
 }
 
 .background-white {
