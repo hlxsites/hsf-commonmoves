@@ -14,6 +14,8 @@ import {
   getMetadata,
 } from './lib-franklin.js';
 
+export const LIVEBY_API = 'https://api.liveby.com/v1/';
+
 const LCP_BLOCKS = ['hero']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'bhhs-commonmoves'; // add your RUM generation information here
 
