@@ -5,9 +5,9 @@
     overflow: hidden;
     max-width: 1600px;
 }
-.carousel-list {
-    margin-bottom: 40px;
-}
+/*.carousel-list {*/
+/*    margin-bottom: 40px;*/
+/*}*/
 .carousel-list .container {
     display: flex;
     transition: transform 200ms;
@@ -27,7 +27,7 @@
 .carousel-list .blog-item {
     display: flex;
     flex-direction: column;
-    margin: 0 0 30px 0;
+    margin: 0 0 0 0;
     flex: 0 0 100%;
     background-color: inherit;
 }
@@ -43,10 +43,12 @@
     padding: 0;
 }
 
-.blog-item div{
-    width: 100%;
+/*.blog-item div{*/
+/*    width: 100%;*/
+/*}*/
+.blogs-grid-list {
+    align-self: center;
 }
-
 .blog-item .blog-content{
     display: flex;
     flex-direction: column;
@@ -66,13 +68,14 @@
 .carousel-list .blog-category {
     margin-top: 30px;
 }
-.blog-item h3 {
+.blog-item .title {
+    font-size: var(--body-font-size-l);
     margin-bottom: 16px;
     font-family: var(--font-family-proxima);
     font-weight: 700;
     letter-spacing: 0.5px;
 }
-.carousel-list .blog-item h3{
+.carousel-list .blog-item .title{
     margin: 20px 0;
 }
 .description {
@@ -103,6 +106,7 @@
 .carousel-list .owl-dots {
     text-align: center;
     margin-top: 10px;
+    margin-bottom: 40px;
 }
 .carousel-list .owl-dot {
     margin-top: 20px;
@@ -134,10 +138,42 @@
         flex-basis: 45%;
     }
 
+    @media screen and (min-width: 1024px) {
+        .carousel-list .container {
+            height: 480px;
+        }
+        .carousel-list .blog-item picture {
+            width: 50%;
+        }
+
+        .carousel-list .blog-item picture img {
+            height: 100%;
+        }
+        .carousel-list .blog-item .title {
+            font-size: 1.375rem;
+            line-height: 30px;
+        }
+
+        .carousel-list .blog-item {
+            flex-direction: row;
+            /*margin: 0 0 0 0;*/
+            vertical-align: center;
+        }
+
+        .carousel-list .blog-content{
+            align-self: center;
+            /*todo check this padding*/
+        }
+    }
+
     @media screen and (min-width: 1280px) {
 
         .blog-item {
             flex-basis: 30%;
+        }
+        .carousel-list .blog-item {
+            flex-direction: row;
+            flex: 0 0 100%;
         }
     }
 }

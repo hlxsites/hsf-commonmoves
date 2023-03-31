@@ -41,28 +41,6 @@ function switchSlide(nextIndex, block) {
   const slidesContainer = block.querySelector('.carousel-list .container');
   const slidesButtons = block.querySelector('.carousel-list .owl-dots');
   const currentIndex = getCurrentSlideIndex(slidesContainer);
-  // const prevButton = block.querySelector('.controls-container button[name="prev"]');
-  // const nextButton = block.querySelector('.controls-container button[name="next"]');
-  // const indexElement = block.querySelector('.controls-container .index');
-  // indexElement.textContent = nextIndex + 1;
-  // if (currentIndex === 0) {
-  //   // enable previous button
-  //   // prevButton.removeAttribute('disabled');
-  // } else if (nextIndex === 0) {
-  //   indexElement.dispatchEvent(event);
-  //   // disable previous button
-  //   prevButton.setAttribute('disabled', true);
-  // } else if (nextIndex === (numChildren[key] - 1)) {
-  //   // disable next button
-  //   nextButton.setAttribute('disabled', true);
-  //   stopAutoScroll(block);
-  // } else if (currentIndex === (numChildren[key] - 1)) {
-  //   // disable next button
-  //   nextButton.removeAttribute('disabled');
-  // }
-  // if (nextIndex === (numCarouselItems - 1)) {
-  //     stopAutoScroll(block);
-  //   }
   slidesContainer.children[currentIndex].removeAttribute('active');
   slidesContainer.children[nextIndex].setAttribute('active', true);
   slidesButtons.children[currentIndex].classList.remove('active');
@@ -117,12 +95,12 @@ function buildBlogList(block, data) {
         <picture>
             <source media="(max-width:767px)" srcset="${buildImageUrl(mobileImage)}">
             <source media="(min-width:768px) and (max-width:1279px)" srcset="${buildImageUrl(tabletImage)}">
-            <img data-src="${buildImageUrl(image)}" src="${buildImageUrl(image)}" loading="lazy" class="image" aria-label="${title}">
+            <img data-src="${buildImageUrl(image)}" src="${buildImageUrl(image)}" class="image" aria-label="${title}">
         </picture>
     </div>
     <div class="blog-content">
         <p class="blog-category">${category}</p>
-         <h3 role="heading" class="title">${title}</h3>
+         <p role="heading" class="title">${title}</p>
         <div class="description">${trimDescription(description)}</div> 
         <a href="${link}" target="_blank" class="readmore">read more
       <img src="/icons/arrow-back.svg"  aria-hidden="true" alt="read-more-icon #1" class="arrowIcon"></a>
@@ -132,6 +110,13 @@ function buildBlogList(block, data) {
 }
 
 export default async function decorate(block) {
+
+//todo move here auto blocking for nav
+  //todo fix carousel in a large screen flex-basics: 50%
+  //todo fix alignment for block list
+  //todo add logic for load more button
+
+
   //get config values
   [...block.children].forEach((child) => {
     if (child.textContent.includes('Carousel Items')) {
@@ -142,7 +127,6 @@ export default async function decorate(block) {
     //clean up block
     block.removeChild(child);
   });
-  //add error if numBlogItems >
   if (numCarouselItems > numBlogItems) {
     console.error('number of carousel items should be less or equal to number of blogs in the list');
     return;
@@ -166,6 +150,10 @@ export default async function decorate(block) {
       buttonElement.classList.add('owl-dot');
       buttonElement.ariaLabel = `carousel-slide-${index}`
       buttonElement.innerHTML = `<span/>`;
+      buttonElement.addEventListener('click', () => {
+        switchSlide((index) % numCarouselItems, block);
+        stopAutoScroll(block);
+      });
       carouselButtons.appendChild(buttonElement);
     }
     buildBlogList(blogsGridContainer, blog)
@@ -173,7 +161,6 @@ export default async function decorate(block) {
   carouselButtons.querySelectorAll('.owl-dot')[0].classList.add('active');
   carouselContainer.append(carouselButtons);
   carouselContainer.querySelector('.container').children[0].setAttribute('active', true);
-  //add logic to switch slides
   //add logic for load more button
   block.append(carouselContainer, blogsGridContainer);
   //todo add logic to switch items on click
