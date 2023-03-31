@@ -24,7 +24,7 @@ function preloadHeroImage(picture) {
     .filter((source) => source.getAttribute('type') === 'image/webp')
     .find((source) => {
       const media = source.getAttribute('media');
-      return media === undefined || window.matchMedia(media).matches;
+      return !media || window.matchMedia(media).matches;
     });
 
   const link = document.createElement('link');
