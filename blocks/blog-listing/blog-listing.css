@@ -1,36 +1,48 @@
-/*body {*/
-/*    background-color: white;*/
-/*}*/
-.blog-listing.block {
-    overflow: hidden;
+@import url('blog-nav.css');
+
+.section.blog-listing-container {
     max-width: 1600px;
 }
-/*.carousel-list {*/
-/*    margin-bottom: 40px;*/
-/*}*/
+
+.blog-listing.block {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
 .carousel-list .container {
     display: flex;
     transition: transform 200ms;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    width: 100vw;
+    flex-flow: row nowrap;
 }
+
 .blogs-grid-list {
     margin: 0 5% 30px;
+    align-self: center;
+    justify-content: flex-start;
 }
+
 .blog-item {
     display: flex;
     flex-direction: column;
     width: 100%;
     margin: 0 16px 30px;
 }
+
 .carousel-list .blog-item {
     display: flex;
     flex-direction: column;
-    margin: 0 0 0 0;
+    margin: 0;
     flex: 0 0 100%;
     background-color: inherit;
 }
+
+.readmore img {
+    padding: 3px 5px 5px 8px;
+    width: 25px;
+    vertical-align: middle;
+}
+
 .blog-item picture img{
     object-fit: cover;
     height: 245px;
@@ -39,35 +51,33 @@
     vertical-align: middle;
 
 }
+
 .carousel-list .blog-item picture img {
     padding: 0;
 }
 
-/*.blog-item div{*/
-/*    width: 100%;*/
-/*}*/
-.blogs-grid-list {
-    align-self: center;
-}
 .blog-item .blog-content{
     display: flex;
     flex-direction: column;
     width: calc(100% - 20px);
     margin: 5px 0 0 20px;
 }
+
 .carousel-list .blog-content{
-    /*todo check this padding*/
     padding: 0  30px 0 32px ;
 }
+
 .blog-category {
     margin-bottom: 16px;
     text-transform: uppercase;
     font-size: var(--body-font-size-s);
     color: var(--darkgrey);
 }
+
 .carousel-list .blog-category {
     margin-top: 30px;
 }
+
 .blog-item .title {
     font-size: var(--body-font-size-l);
     margin-bottom: 16px;
@@ -75,9 +85,11 @@
     font-weight: 700;
     letter-spacing: 0.5px;
 }
+
 .carousel-list .blog-item .title{
     margin: 20px 0;
 }
+
 .description {
     text-align: left;
     margin-bottom: 16px;
@@ -94,13 +106,8 @@
 }
 
 .carousel-list .readmore {
-    margin: 10px 0 60px 0;
+    margin: 10px 0 60px;
     padding: 0 0 0 40px;
-}
-.readmore img {
-    padding: 3px 5px 5px 8px;
-    width: 25px;
-    vertical-align: middle;
 }
 
 .carousel-list .owl-dots {
@@ -108,15 +115,21 @@
     margin-top: 10px;
     margin-bottom: 40px;
 }
+
 .carousel-list .owl-dot {
     margin-top: 20px;
     border: 0;
     background: 0;
 }
 
-.carousel-list .active span{
-    background-color: rgb(170, 170, 170);
+.see-more-content span {
+    font-size: var(--body-font-size-s);
 }
+
+.carousel-list .active span {
+    background-color: rgb(170 170 170);
+}
+
 .carousel-list .owl-dot span {
     width: 10px;
     height: 10px;
@@ -124,14 +137,31 @@
     border-radius: 30px;
     border: 1px solid #aaa;
     display: block;
-
 }
+
+.see-more-content {
+    background-color: var(--primary-color);
+    padding: 10px 25px;
+    width: 229px;
+    height: 48px;
+    align-self: center;
+    border: 2px solid;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 50px;
+}
+
+.see-more-content:hover {
+    background-color: var(--white);
+    border: 1px solid #aaa;
+    color: var(--body-color);
+}
+
 @media screen and (min-width: 768px) {
     .blogs-grid-list {
         display: flex;
         width: 100%;
         flex-wrap: wrap;
-        /*flex-direction: column;*/
     }
 
      .blog-item{
@@ -142,13 +172,20 @@
         .carousel-list .container {
             height: 480px;
         }
-        .carousel-list .blog-item picture {
+
+        .carousel-list .blog-content{
+            align-self: center;
+        }
+
+        .carousel-list .blog-item .image-content,
+        .carousel-list .blog-item .blog-content {
             width: 50%;
         }
 
         .carousel-list .blog-item picture img {
             height: 100%;
         }
+
         .carousel-list .blog-item .title {
             font-size: 1.375rem;
             line-height: 30px;
@@ -156,24 +193,21 @@
 
         .carousel-list .blog-item {
             flex-direction: row;
-            /*margin: 0 0 0 0;*/
-            vertical-align: center;
-        }
 
-        .carousel-list .blog-content{
-            align-self: center;
-            /*todo check this padding*/
+            /* margin: 0 0 0 0; */
+            vertical-align: center;
         }
     }
 
     @media screen and (min-width: 1280px) {
-
         .blog-item {
             flex-basis: 30%;
         }
+
         .carousel-list .blog-item {
             flex-direction: row;
             flex: 0 0 100%;
         }
+
     }
 }

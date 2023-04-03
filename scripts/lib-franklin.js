@@ -610,6 +610,78 @@ export function setup() {
 }
 
 /**
+ * Build blog navigation menu
+ */
+export function buildBlogNavigation() {
+  const sections = document.querySelectorAll('.blog-listing-container');
+  if (sections) {
+    sections.forEach((section) => {
+      const blogNav = document.createElement('nav');
+      const blogNavContent = section.querySelector('.default-content-wrapper');
+      const selectedCategoryEl = document.createElement('div');
+      let categoryName = 'Blog Categories';
+      selectedCategoryEl.classList.add('blog-nav-selected');
+      blogNav.classList.add('blog-nav');
+      [...blogNavContent.children].forEach((child) => {
+        if (child.querySelector('li')) {
+          [...child.children].forEach((category) => {
+            if (category.querySelector('a').href === window.location.href) {
+              category.querySelector('a').classList.add('selected-cat');
+              categoryName = category.textContent;
+            }
+          });
+          selectedCategoryEl.innerHTML = ` ${categoryName} <img src="/icons/dropdown-icon.svg" alt="dropdown-icon" loading="lazy" class="category-dropdown-icon">`;
+          blogNav.appendChild(selectedCategoryEl);
+        }
+        blogNav.appendChild(child);
+      });
+      section.replaceChild(blogNav, blogNavContent);
+      const categoriesList = section.querySelector('ul');
+
+      selectedCategoryEl.addEventListener('click', () => {
+        categoriesList.style.visibility = window.getComputedStyle(categoriesList).visibility === 'hidden' ? 'visible' : 'hidden';
+      });
+
+      //add logic to stick blog nav header to top of the page
+      window.onscroll = () => {
+        const sticky = blogNav.offsetTop;
+        if (window.pageYOffset > sticky) {
+          blogNav.classList.add('sticky');
+        } else {
+          blogNav.classList.remove('sticky');
+        }
+      };
+    });
+  }
+}
+
+export function getBackgroundColor(category) {
+  let color;
+  switch (category) {
+    case 'Buyer Advice':
+      color = 'var(--grey-background)';
+      break;
+    case 'Seller Advice':
+      color = 'var(--beige)';
+      break;
+    case 'Home Improvement':
+      color = 'var(--yellowbeige)';
+      break;
+    case 'Finance':
+      color = 'var(--rose)';
+      break;
+    case 'Lifestyle':
+      color = 'var(--mint)';
+      break;
+    case 'General':
+      color = 'var(--lightrose)';
+      break;
+    default:
+      color = 'var(--primary-color)';
+  }
+  return color;
+}
+/**
  * Auto initializiation.
  */
 function init() {

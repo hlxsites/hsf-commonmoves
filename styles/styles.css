@@ -12,7 +12,6 @@
 
 @import url('reset.css');
 @import url('floating-images.css');
-@import url('blog-nav.css');
 
 :root {
   /* Colors */
@@ -27,7 +26,13 @@
   --greyblue: #36758d;
   --white-background: #fff;
   --border-grey: #d8d8d8;
-  --beige: rgb(240, 240, 224);
+  --beige: rgb(240 240 224);
+  --yellowbeige: rgb(252 245 217);
+  --rose: rgb(247 232 229);
+  --mint: rgb(229 249 247);
+  --lightrose: rgb(229 222 227);
+  --grey-background: rgb(228 232 234);
+;
 
 
   /* Fonts */
@@ -79,8 +84,9 @@ body {
 }
 
 .header {
-  background-color: var(--nav-background);
+  background-color: var(--primary-color);
 }
+
 h2 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-xl);
@@ -102,11 +108,11 @@ h4 {
   font-weight: 500;
 }
 
-p {
+p, span {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-m);
   font-weight: 400;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.05em;
   line-height: 23px;
 }
 
