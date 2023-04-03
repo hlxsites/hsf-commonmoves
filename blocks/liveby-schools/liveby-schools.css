@@ -104,6 +104,10 @@ main .section.liveby-schools-container p {
   text-decoration: none;
 }
 
+.liveby-schools .school-lists section .school-item .school-details a:hover {
+  text-decoration: underline;
+}
+
 .liveby-schools .school-lists section .school-item .school-details li {
   font-size: var(--body-font-size-xs);
   line-height: 1.5;
