@@ -16,6 +16,8 @@
 
 :root {
   /* Colors */
+  --primary-color: #552448;
+  --primary-color-lighten: rgba(98 98 121 / 12.5%);
   --body-color: #3a3a3a;
   --lightgrey: #f6f6f6;
   --darkgrey: #797676;
@@ -23,10 +25,10 @@
   --grey: #d8d8d8;
   --white: #fff;
   --greyblue: #36758d;
-  --nav-background: #552448;
   --white-background: #fff;
   --border-grey: #d8d8d8;
   --beige: rgb(240, 240, 224);
+
 
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
@@ -37,12 +39,14 @@
   /* Headings */
   --heading-font-size-xxl: 40px;
   --heading-font-size-xl: 36px;
-  --heading-font-size-l: 24px;
-  --heading-font-size-m: 20px;
-  --heading-font-size-s: 16px;
+  --heading-font-size-l: 30px;
+  --heading-font-size-m: 24px;
+  --heading-font-size-s: 20px;
+  --heading-font-size-xs: 16px;
 
   /* Body */
-  --body-font-size-xxl: 40px;
+  --body-font-size-xxxl: 40px;
+  --body-font-size-xxl: 32px;
   --body-font-size-xl: 26px;
   --body-font-size-l: 20px;
   --body-font-size-m: 16px;
@@ -94,7 +98,7 @@ h3 {
 
 h4 {
   font-family: var(--font-family-proxima);
-  font-size: var(--heading-font-size-s);
+  font-size: var(--heading-font-size-xs);
   font-weight: 500;
 }
 
@@ -111,11 +115,12 @@ header {
 }
 
 main .section {
-  max-width: 1600px;
+  max-width: 1350px;
   margin: 0 auto;
   padding-left: var(--section-padding);
   padding-right: var(--section-padding);
 }
+
 
 /* common styles */
 .background-lightgray {
@@ -148,13 +153,19 @@ main .section {
 }
 
 /* common styles */
- .default-content-wrapper h4 {
+.default-content-wrapper h4 {
   text-transform: uppercase;
   font-family: var(--font-family-proxima);
   font-weight: 600;
   letter-spacing: 0.13em;
   line-height: 1.4em;
   text-align: center;
+}
+
+@media screen and (min-width: 600px) {
+  h2 {
+    font-size: var(--heading-font-size-l);
+  }
 }
 
 @font-face {
