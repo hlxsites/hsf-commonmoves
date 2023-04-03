@@ -59,12 +59,21 @@ function buildSchoolList(type, schools, sort = ratingSort) {
   section.append(header);
 
   sorted.forEach((s) => {
+    let title;
+    if (s.overviewLink) {
+      title = `<a href="${s.overviewLink}" target="_blank">${s.name}</a>`;
+    } else {
+      title = s.name;
+    }
+    const a = document.createElement('a');
+
+
     const item = document.createElement('div');
     item.classList.add('school-item');
     item.innerHTML = `
       <div class="school-details">
         <span class="type">${s.type}</span>
-        <h3 class="school-name"><a href="${s.overviewLink}" target="_blank">${s.name}</a></h3>
+        <h3 class="school-name">${title}</h3>
         <ul>
           <li><span class="info-label">Grades</span><span class="info-value">${s.gradeRange}</span></li>
           <li><span class="info-label">Enrollment</span><span class="info-value">${s.enrollment}</span></li>
