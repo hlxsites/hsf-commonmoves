@@ -65,8 +65,6 @@ function buildSchoolList(type, schools, sort = ratingSort) {
     } else {
       title = s.name;
     }
-    const a = document.createElement('a');
-
 
     const item = document.createElement('div');
     item.classList.add('school-item');
