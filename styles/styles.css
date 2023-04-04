@@ -83,10 +83,6 @@ body {
   font-family: var(--font-family-proxima);
 }
 
-.header {
-  background-color: var(--primary-color);
-}
-
 h2 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-xl);

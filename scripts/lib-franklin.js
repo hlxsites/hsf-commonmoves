@@ -642,7 +642,7 @@ export function buildBlogNavigation() {
         categoriesList.style.visibility = window.getComputedStyle(categoriesList).visibility === 'hidden' ? 'visible' : 'hidden';
       });
 
-      //add logic to stick blog nav header to top of the page
+      // add logic to stick blog nav header to top of the page
       window.onscroll = () => {
         const sticky = blogNav.offsetTop;
         if (window.pageYOffset > sticky) {
@@ -655,6 +655,12 @@ export function buildBlogNavigation() {
   }
 }
 
+/**
+ * Returns background color by block category name
+ *
+ * @param {string} category
+ * @returns {string}
+ */
 export function getBackgroundColor(category) {
   let color;
   switch (category) {
