@@ -58,7 +58,6 @@ export default async function decorate(block) {
     const categories = document.createElement('div');
     categories.classList.add('categories');
 
-
     const yelp = document.createElement('div');
     yelp.classList.add('yelp-trademark');
     yelp.innerHTML = '<img src="/icons/yelp/logo.png" alt="yelp trademark" />';
