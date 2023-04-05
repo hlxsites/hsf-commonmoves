@@ -76,8 +76,7 @@ main .section.liveby-schools-container p {
   display: flex;
   position: relative;
   flex-direction: column;
-  flex: 1 1;
-  flex-basis: 0;
+  flex: 1 1 0;
 }
 
 .liveby-schools .school-lists section .school-item .school-details .type {
