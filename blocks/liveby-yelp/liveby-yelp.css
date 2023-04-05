@@ -114,6 +114,10 @@
   display: none;
 }
 
+.liveby-yelp.block .load-more p {
+  text-align: center;
+}
+
 .liveby-yelp.block .amenities ul .amenity-item::before {
   display: block;
   content: '';
