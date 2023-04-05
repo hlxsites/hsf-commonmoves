@@ -1,0 +1,166 @@
+.property-listings-cards {
+  width: 100%;
+}
+
+.property-tile {
+  margin-bottom: 30px;
+}
+
+.property-image-wrapper {
+  margin: 0 auto;
+  position: relative;
+}
+
+.property-image {
+  position: relative;
+  padding-top: 73.529%
+}
+
+.image-content {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  background: #e7e7e7;
+}
+
+.property-thumbnail {
+  height: 100%;
+  width: 100%;
+  background-size: auto 100%;
+  position: absolute;
+  background-position: 50% 50%;
+  padding: 0;
+}
+
+.position-absolute-bottom {
+  bottom: -63px;
+  position: absolute;
+  width: 100%;
+}
+
+.property-label {
+  display: flex;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  flex-wrap: wrap;
+}
+
+.property-label-new-listing {
+  display: inline-block;
+  height: 24px;
+  color: #3a3a3a;
+  font-size: 12px;
+  padding: 0 7px;
+  line-height: 24px;
+  font-family: var(--font-family-proxima);
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: #fff;
+  text-transform: capitalize;
+  text-align: center;
+}
+
+.property-price {
+  background: #fff;
+  color: #3a3a3a;
+  display: inline-block;
+  font-family: var(--font-family-proxima);
+  font-size: 20px;
+  line-height: 1.25;
+  min-height: 40px;
+  max-width: 70%;
+  padding: 7px 10px 0 10px;
+  position: relative;
+  vertical-align: bottom;
+  z-index: 1;
+}
+
+.property-info {
+  margin-bottom: -15px;
+}
+
+.address {
+  font-family: var(--font-family-proxima);
+  font-size: 14px;
+  color: #3a3a3a;
+  letter-spacing: .12px;
+  line-height: 18px;
+  opacity: .9;
+  margin: 2px 0;
+  padding-top: 4px;
+}
+
+.specs {
+  font-family: var(--font-family-proxima);
+  color: #3a3a3a;
+  font-size: 12px;
+  letter-spacing: .12px;
+  line-height: 16px;
+  padding-top: 3px;
+}
+
+.property-buttons {
+  margin-top: 13px;
+  margin: 0 auto;
+  position: relative;
+  padding-top: 25px;
+  display: flex;
+}
+
+.buttons-row-flex {
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+.button-property {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  z-index: 4;
+  margin-top: 12px;
+  margin-left: 10px;
+}
+
+.button-property svg {
+  position: absolute;
+  opacity: 1;
+  width: 24px;
+  height: 24px;
+}
+
+.extra-info {
+  font-size: 12px;
+  font-family: var(--font-family-proxima);
+  padding-left: 10px;
+  opacity: 1;
+  color: #797676;
+  letter-spacing: 0;
+  line-height: 14px;
+}
+@media (min-width: 600px) {
+  .property-listings-cards {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .property-tile {
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .property-tile {
+    width: calc(25% - 15px);
+  }
+
+  .property-price {
+    font-size: 25px;
+  }
+}
