@@ -87,6 +87,7 @@ main .section.liveby-schools-container p {
   font-weight: 400;
   font-size: var(--body-font-size-xxs);
   text-transform: uppercase;
+  opacity: 62.5%;
 }
 
 
@@ -137,6 +138,7 @@ main .section.liveby-schools-container p {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-xxs);
   text-align: center;
+  opacity: 62.5%;
   line-height: 2.5;
 }
 
