@@ -59,11 +59,9 @@ function buildSchoolList(type, schools, sort = ratingSort) {
   section.append(header);
 
   sorted.forEach((s) => {
-    let title;
+    let title = s.name;
     if (s.overviewLink) {
       title = `<a href="${s.overviewLink}" target="_blank">${s.name}</a>`;
-    } else {
-      title = s.name;
     }
 
     const item = document.createElement('div');
