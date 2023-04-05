@@ -34,21 +34,11 @@ main.liveby-community .section .button-container a {
   text-decoration: none;
 }
 
-
 main.liveby-community .hero-container {
   display: block;
   margin: 0 auto;
   padding: 0;
   max-width: 1600px;
-}
-
-main.liveby-community .section p {
-  margin-bottom: 2em;
-}
-
-main.liveby-community .section > div {
-  padding-left: 16px;
-  padding-right: 16px;
 }
 
 main.liveby-community .hero-container  .hero.block {
