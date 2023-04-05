@@ -1,0 +1,174 @@
+.liveby-yelp.block {
+  display: block;
+}
+
+.liveby-yelp.block .categories {
+  display: flex;
+  margin: 0 -.5em;
+  flex-flow: wrap;
+  justify-content: center;
+}
+
+.liveby-yelp.block .categories a.category {
+  display: block;
+  padding: .5em .75em;
+  font-size: var(--body-font-size-s);
+  letter-spacing: normal;
+  line-height: 1.15;
+  color: var(--primary-color);
+  background-color: var(--white-background);
+  border: 1px solid var(--primary-color);
+  transition: color .15s ease, background-color .15s ease;
+}
+
+.liveby-yelp.block .categories a.category.active,
+.liveby-yelp.block .categories a.category:hover {
+  color: var(--white);
+  background-color: var(--primary-color);
+}
+
+.liveby-yelp.block .yelp-trademark {
+  display: flex;
+  width: 100%;
+  height: 3.5em;
+  justify-content: flex-end;
+}
+
+.liveby-yelp.block .amenities {
+  position: relative;
+  margin: 0 auto 2em;
+  max-width: 350px;
+/* Add this back when/if we decide to move to workers
+  height: 350px;
+*/
+}
+
+.liveby-yelp.block .amenities.loading .spinner {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background: rgba(246 246 246 / 50%);
+  align-items: center;
+  justify-content: center;
+}
+
+.liveby-yelp.block .amenities .spinner span {
+  display: none;
+  border: 10px solid var(--border-gray);
+  border-top: 10px solid var(--primary-color);
+  background-color: var(--white-background);
+  border-radius: 50%;
+  width: 75px;
+  height: 75px;
+  animation: spin 2s linear infinite;
+}
+
+.liveby-yelp.block .amenities.loading .spinner span {
+  display: block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.liveby-yelp.block .amenities ul {
+  display: none;
+  width: 100%;
+  grid-template-columns: 1fr;
+}
+
+.liveby-yelp.block .amenities ul.active {
+  display: grid;
+}
+
+
+.liveby-yelp.block .amenities ul .amenity-item {
+  position: relative;
+  margin: .625em;
+  background-position-x: 50%;
+  background-position-y: 50%;
+  background-size: cover;
+}
+
+.liveby-yelp.block .amenities ul .amenity-item::before {
+  display: block;
+  content: '';
+  padding-top: 70%;
+}
+
+.liveby-yelp.block .amenities ul .amenity-item > a {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  align-content: flex-end;
+  flex-wrap: wrap;
+  text-decoration: none;
+  color: var(--white);
+}
+
+.liveby-yelp.block .amenities ul .amenity-item > a .name {
+  padding: 0 16px;
+  flex-basis: 100%;
+  font-weight: 600;
+}
+
+.liveby-yelp.block .amenities ul .amenity-item > a .rating,
+.liveby-yelp.block .amenities ul .amenity-item > a .reviews {
+  margin: 16px 0;
+  flex: 1;
+  font-size: var(--body-font-size-xs);
+}
+
+.liveby-yelp.block .amenities ul .amenity-item > a .rating {
+  margin-left: 16px;
+  text-indent: -9999px;
+}
+
+.liveby-yelp.block .amenities ul .amenity-item > a .reviews {
+  text-align: right;
+  margin-right: 16px;
+}
+
+
+.liveby-yelp .amenities ul .amenity-item > a .rating[data-rating="5"] {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(data:image/png;base64,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);
+}
+
+@media screen and (min-width: 600px) {
+  .liveby-yelp.block .amenities {
+    max-width: unset;
+  }
+
+  .liveby-yelp.block .amenities ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .liveby-yelp.block .amenities ul .amenity-item::before {
+    padding-top: 100%;
+  }
+
+  .liveby-yelp.block .amenities ul .amenity-item > a .rating {
+    font-size: var(--body-font-size-m);
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .liveby-yelp.block .amenities ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .liveby-yelp.block .amenities ul .amenity-item > a .rating {
+    font-size: var(--body-font-size-xs);
+  }
+}
