@@ -1,3 +1,141 @@
+.property-listings-cards ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 20px;
+}
+
+.listing-image-container {
+  position: relative;
+}
+
+.property-image img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.image-position-top {
+  position: absolute;
+  top: 0;
+}
+
+.image-position-bottom {
+  position: absolute;
+  bottom: -63px;
+  width: 100%;
+}
+
+.property-labels {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.property-label-new-listing {
+  display: inline-block;
+  height: 24px;
+  font-size: 12px;
+  padding: 0 7px;
+  line-height: 24px;
+  font-family: 'ProximaNovaSemibold';
+  color: var(--body-color);
+  margin-left: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: var(--white);
+  text-align: center;
+}
+
+.property-info-wrapper {
+  background: var(--white);
+  color: var(--body-color);
+  display: inline-block;
+  font-family: 'ProximaNovaBold';
+  font-size: 20px;
+  line-height: 1.25;
+  min-height: 40px;
+  max-width: 70%;
+  padding: 7px 10px 0 10px;
+  position: relative;
+  vertical-align: bottom;
+  z-index: 1;
+}
+
+.property-info {
+  margin-bottom: -15px;
+}
+
+.address {
+  font-family: var(--font-family-proxima);
+  font-size: 14px;
+  color: var(--body-color);
+  letter-spacing: .12px;
+  line-height: 18px;
+  opacity: .9;
+  margin: 2px 0;
+  padding-top: 4px;
+}
+
+.specs {
+  font-family: 'ProximaNovaLight';
+  color: var(--body-color);
+  font-size: 12px;
+  letter-spacing: .12px;
+  line-height: 16px;
+  padding-top: 3px;
+}
+
+.property-buttons {
+  margin: 13px auto 0 auto;
+  position: relative;
+  padding-top: 25px;
+  display: flex;
+}
+
+.buttons-row-flex {
+  justify-content: flex-end;
+  flex-grow: 1;
+  display: flex;
+}
+
+.button-property {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  z-index: 4;
+  margin-top: 12px;
+  margin-left: 10px;
+}
+
+.button-property svg {
+  height: 24px;
+  width: 24px;
+  position: absolute;
+  opacity: 1;
+}
+
+.extra-info {
+  display: block;
+  font-size: 12px;
+  font-family: 'ProximaNovaLight';
+  padding-left: 10px;
+  opacity: 1;
+  color: #797676;
+  letter-spacing: 0;
+  line-height: 14px;
+}
+
+@media (min-width: 1200px) {
+  .property-info-wrapper {
+    font-size: 25px;
+  }
+}
+/*
 .property-listings-cards {
   width: 100%;
 }
@@ -164,3 +302,4 @@
     font-size: 25px;
   }
 }
+*/
