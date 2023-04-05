@@ -1,13 +1,6 @@
-import { BREAKPOINTS, LIVEBY_API } from '../../scripts/scripts.js';
+import { LIVEBY_API } from '../../scripts/scripts.js';
 
-const limits = {
-  large: 8,
-  medium: 8,
-  small: 4,
-};
-const pages = {};
-
-async function getAmenities(category, page, limit) {
+async function getAmenities(category) {
   const resp = await fetch(`${LIVEBY_API}/yelp-businesses`, {
     method: 'POST',
     headers: {
@@ -16,8 +9,8 @@ async function getAmenities(category, page, limit) {
     },
     body: JSON.stringify({
       language: 'en',
-      offset: page * limit,
-      limit,
+      offset: 0,
+      limit: 12,
       categories: [category],
       lat: window.liveby.geometry.coordinates[0][0][1],
       lon: window.liveby.geometry.coordinates[0][0][0],
@@ -46,28 +39,11 @@ const buildItem = (business) => {
   return li;
 };
 
-async function addPage(ul) {
-  const category = ul.getAttribute('data-category');
-  if (pages[category] === undefined) {
-    pages[category] = 0;
-  } else {
-    pages[category] += 1;
-  }
-
-  const size = Object.keys(limits).find((k) => BREAKPOINTS[k].matches);
-  const amount = limits[size] || 2;
-  const businesses = await getAmenities(category, pages[category], amount);
-  ul.append(...businesses.map(buildItem));
-}
-
 async function checkAndFillContent(ul) {
   const category = ul.getAttribute('data-category');
-  const size = Object.keys(limits).find((k) => BREAKPOINTS[k].matches);
-  const amount = limits[size] || 2;
-
   const items = ul.querySelectorAll('li');
-  if (items.length < amount) {
-    const businesses = await getAmenities(category, 0, amount - items.length);
+  if (!items.length) {
+    const businesses = await getAmenities(category);
     ul.append(...businesses.map(buildItem));
   }
 }
@@ -82,9 +58,10 @@ export default async function decorate(block) {
     const categories = document.createElement('div');
     categories.classList.add('categories');
 
+
     const yelp = document.createElement('div');
     yelp.classList.add('yelp-trademark');
-    yelp.innerHTML = '<img src="/icons/yelp.png" alt="yelp trademark" />';
+    yelp.innerHTML = '<img src="/icons/yelp/logo.png" alt="yelp trademark" />';
 
     const amenitiesWrapper = document.createElement('div');
     amenitiesWrapper.classList.add('amenities');
@@ -131,16 +108,15 @@ export default async function decorate(block) {
     more.querySelector('a').addEventListener('click', async (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const loading = e.currentTarget.closest('.block').querySelector('.amenities');
-      loading.classList.add('loading');
-      await addPage(loading.querySelector('ul.active'));
-      loading.classList.remove('loading');
+      const wrapper = e.currentTarget.closest('.liveby-yelp.block');
+      wrapper.setAttribute('data-page', parseInt(wrapper.getAttribute('data-page'), 10) + 1);
     });
 
     block.replaceChildren(categories, yelp, amenitiesWrapper, more);
+    block.setAttribute('data-page', 1);
 
     // TODO: Possibly make this party of Party Town loading?
-    await addPage(block.querySelector('ul.active'));
+    await checkAndFillContent(block.querySelector('ul.active'));
   } else {
     block.remove();
   }
