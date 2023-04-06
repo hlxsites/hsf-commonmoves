@@ -60,7 +60,7 @@ export default async function decorate(block) {
 
     const yelp = document.createElement('div');
     yelp.classList.add('yelp-trademark');
-    yelp.innerHTML = '<img src="/icons/yelp/logo.png" alt="yelp trademark" />';
+    yelp.innerHTML = '<img src="/icons/yelp/logo.png" alt="yelp trademark" height="46" width="71" />';
 
     const amenitiesWrapper = document.createElement('div');
     amenitiesWrapper.classList.add('amenities');
