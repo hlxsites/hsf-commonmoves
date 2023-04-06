@@ -116,6 +116,7 @@
 
 .liveby-yelp.block .load-more p {
   text-align: center;
+  text-transform: uppercase;
 }
 
 .liveby-yelp.block .amenities ul .amenity-item::before {
