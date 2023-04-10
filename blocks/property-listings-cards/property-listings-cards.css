@@ -215,6 +215,19 @@
   line-height: 14px;
 }
 
+.extra-info-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rimls-image {
+  max-height: 30px;
+  width: auto;
+  padding: 5px;
+  vertical-align: middle;
+}
+
 @media (min-width: 600px) {
   .button-container {
     justify-content: flex-end;

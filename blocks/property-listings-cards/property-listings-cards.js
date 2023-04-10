@@ -56,8 +56,18 @@ function createCard(listing) {
       <div class="extra-info"> 
           Listing courtesy of: ${listing.CourtesyOf}
       </div> 
-      <div class="extra-info"> 
+      <div class="extra-info extra-info-flex"> 
+        <div>
           Listing provided by: ${listing.listAor}
+        <div>`;
+  if (listing.listAor === 'RIMLS') {
+    html += `
+      <div>
+        <img class="rimls-image" src="https://hsfbhimages.fnistools.com/images/Common/brlogos/rimls_logo.jpg" alt="Disclaimer Logo Image" loading="lazy">
+      </div>
+    `;
+  }
+  html += `
       </div> 
     </li>
   `;
