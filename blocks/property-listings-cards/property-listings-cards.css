@@ -6,10 +6,10 @@
 
 .default-content-wrapper p:first-child {
   color: #3a3a3a;
-  font-family: ProximaNovaBold, sans-serif;
+  font-family: var(--font-family-proxima);
   border-bottom: 3px solid #552448;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 700;
   margin: 0 30px 24px 0;
   text-transform: uppercase;
   letter-spacing: initial;
@@ -17,7 +17,6 @@
 }
 
 .button-container {
-  justify-content: flex-end;
   display: flex;
   margin-bottom: 1.5rem;
 }
@@ -90,7 +89,8 @@
   font-size: 12px;
   padding: 0 7px;
   line-height: 24px;
-  font-family: ProximaNovaSemibold, sans-serif;
+  font-family: var(--font-family-proxima);
+  font-weight: 600;
   margin-left: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -111,7 +111,8 @@
   background: var(--white);
   color: var(--body-color);
   display: inline-block;
-  font-family: ProximaNovaBold, sans-serif;
+  font-family: var(--font-family-proxima);
+  font-weight: 700;
   font-size: 20px;
   line-height: 1.25;
   min-height: 40px;
@@ -128,6 +129,7 @@
 
 .address {
   font-family: var(--font-family-proxima);
+  font-weight: 400;
   font-size: 14px;
   color: var(--body-color);
   letter-spacing: .12px;
@@ -138,7 +140,8 @@
 }
 
 .specs {
-  font-family: ProximaNovaLight, sans-serif;
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
   color: var(--body-color);
   font-size: 12px;
   letter-spacing: .12px;
@@ -166,6 +169,7 @@
   z-index: 4;
   margin-top: 12px;
   margin-left: 10px;
+  background-color: transparent;
 }
 
 .button-property svg {
@@ -175,15 +179,46 @@
   opacity: 1;
 }
 
+.icon-envelopedark {
+  display: none;
+}
+
+.icon-heartemptydark {
+  display: none;
+}
+
+.button-property:hover .icon-envelopedark {
+  display: block;
+}
+
+.button-property:hover .icon-heartemptydark {
+  display: block;
+}
+
+.button-property:hover .icon-envelope {
+  display: none;
+}
+
+.button-property:hover .icon-heartempty {
+  display: none;
+}
+
 .extra-info {
   display: block;
   font-size: 12px;
-  font-family: ProximaNovaLight, sans-serif;
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
   padding-left: 10px;
   opacity: 1;
   color: #797676;
   letter-spacing: 0;
   line-height: 14px;
+}
+
+@media (min-width: 600px) {
+  .button-container {
+    justify-content: flex-end;
+  }
 }
 
 @media (min-width: 1200px) {
