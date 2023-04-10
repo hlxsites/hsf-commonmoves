@@ -1,24 +1,9 @@
-import { readBlockConfig } from '../../scripts/lib-franklin.js';
-import { getData } from './property.js';
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+// import { readBlockConfig } from '../../scripts/lib-franklin.js';
 
-export default function decorate(block) {
-  const cfg = readBlockConfig(block);
-  block.textContent = '';
-  console.log(cfg);
-  const data = getData();
-  const listings = data.properties;
-  const cards = listings.slice(0, 8);
-  var innerHTML = "<ul>";
-  cards.forEach((listing) => {
-    innerHTML += createCard(listing);
-  });
-  innerHTML += "</ul>";
-  block.innerHTML = innerHTML;
-}
+const COMMONMOVES_API_PROPERTY = 'https://www.commonmoves.com/bin/bhhs/CregPropertySearchServlet?SearchType=Map&MinPrice=800000&PropertyType=1,2,4&ApplicationType=FOR_SALE&ListingStatus=1&NewListing=true&Sort=DATE_DESCENDING&PageSize=10&Page=1&NorthEastLatitude=42.88103227227745&NorthEastLongitude=-68.5569598543709&SouthWestLatitude=40.731686815498&SouthWestLongitude=-71.8089129793709&SearchParameter=%7B%22type%22:%22FeatureCollection%22,%22features%22:%5B%7B%22type%22:%22Feature%22,%22properties%22:%7B%7D,%22geometry%22:%7B%22type%22:%22Polygon%22,%22coordinates%22:%5B%5B%5B-71.8089129793709,42.88103227227745%5D,%5B-71.8089129793709,40.731686815498%5D,%5B-68.5569598543709,40.731686815498%5D,%5B-68.5569598543709,42.88103227227745%5D,%5B-71.8089129793709,42.88103227227745%5D%5D%5D%7D%7D%5D%7D&MapSearchType=MapBounds&listingAgentId=&ucsid=false';
 
 function createCard(listing) {
-  var html = `
+  let html = `
     <li class="listing-tile"> 
       <div class="listing-image-container"> 
         <div class="property-image"> 
@@ -29,9 +14,15 @@ function createCard(listing) {
         <div class="image-position-top">
         </div>
         <div class="image-position-bottom"> 
-          <div class="property-labels"> 
-            <span class="property-label-new-listing">NEW LISTING</span> 
-          </div> 
+          <div class="property-labels">`;
+  if (listing.FeaturedListing) {
+    html += '<span class="property-label featured-listing">Featured Listing</span>';
+  }
+  if (listing.newListing) {
+    html += '<span class="property-label new-listing">NEW LISTING</span>';
+  }
+  html += `
+        </div> 
           <div class="property-info-wrapper"> 
             <div class="property-price">
               ${listing.ListPriceUS}
@@ -69,4 +60,21 @@ function createCard(listing) {
     </li>
   `;
   return html;
+}
+
+export default async function decorate(block) {
+  // const cfg = readBlockConfig(block);
+  const resp = await fetch(COMMONMOVES_API_PROPERTY);
+  if (resp.ok) {
+    const data = await resp.json();
+    const listings = data.properties;
+    const cards = listings.slice(0, 8);
+    let innerHTML = '<ul>';
+    cards.forEach((listing) => {
+      innerHTML += createCard(listing);
+    });
+    innerHTML += '</ul>';
+    block.textContent = '';
+    block.innerHTML = innerHTML;
+  }
 }
