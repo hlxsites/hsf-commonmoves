@@ -343,23 +343,23 @@
     width: 20px;
   }
 
+  .header.block nav .nav-sections > ul > li[aria-expanded="true"] a,
+  .header.block nav[aria-expanded="true"] .nav-sections > ul > li:hover a {
+    color: var(--body-color);
+  }
+
   .header.block nav[aria-expanded="true"] .nav-sections > ul > li:hover > a {
     background-color: var(--lightgray);
   }
-  
-  .header.block nav[aria-expanded="true"] .nav-sections > ul > li.nav-drop:hover > a,
-  .header.block nav .nav-sections > ul > li.nav-drop[aria-expanded="true"] > a {
+
+  .header.block nav .nav-sections > ul > li.nav-drop[aria-expanded="true"] > a,
+  .header.block nav[aria-expanded="true"] .nav-sections > ul > li.nav-drop:hover > a {
     box-shadow: 0 0 6px 0 rgba(0 0 0 / 24%);
     background-color: var(--white-background);
   }
 
-  .header.block nav[aria-expanded="true"] .nav-sections > ul > li:hover a,
-  .header.block nav .nav-sections > ul > li[aria-expanded="true"] a {
-    color: var(--body-color);
-  }
-
-  .header.block nav[aria-expanded="true"] .nav-sections > ul > li:hover .cover,
-  .header.block nav .nav-sections > ul > li[aria-expanded="true"] .cover {
+  .header.block nav .nav-sections > ul > li[aria-expanded="true"] .cover,
+  .header.block nav[aria-expanded="true"] .nav-sections > ul > li:hover .cover {
     position: absolute;
     margin-top: -5px;
     bottom: 0;
@@ -384,6 +384,7 @@
     display: block;
   }
 
+  /* stylelint-disable-next-line no-descending-specificity */
   .header.block nav[aria-expanded="true"] .nav-sections > ul > li > ul > li > a {
     padding: 10px 15px;
     font-size: var(--body-font-size-s);
