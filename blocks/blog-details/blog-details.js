@@ -1,3 +1,5 @@
+const apiBasePath = 'https://www.bhhs.com'
+
 /**
  * Returns background color by block category name
  *
@@ -31,41 +33,51 @@ export function getBackgroundColor(category) {
   return color;
 }
 
-function buildApiPath() {
-  return 'https://www.commonmoves.com/blog/blog-detail/jcr:content/2023/03/are-there-tax-benefits-for-buying-a-home-.json';
+function getBlogDetailsPath() {
+  const url = window.location.pathname;
+  const startIndex = url.indexOf("/blog/blog-detail/") + "/blog/blog-detail/".length;
+  return  url.substring(startIndex);
 }
 
-  /**
-   * Returns background color by block category name
-   *
-   * @param {string} category
-   * @returns {string}
-   */
-  function buildCategoryUrl(category) {
-    const host = window.location.origin;
-    let path = '/blog/';
-    switch (category) {
-      case 'Buyer Advice':
-        path += 'buyer-advice/';
-        break;
-      case 'Seller Advice':
-        path += 'seller-advice/';
-        break;
-      case 'Home Improvement':
-        path += 'home-improvement/';
-        break;
-      case 'Finance':
-        path += 'finance/';
-        break;
-      case 'Lifestyle':
-        path += 'lifestyle/';
-        break;
-      case 'General':
-        path += 'general/';
-        break;
-    }
-    return host + path;
+function buildApiPath() {
+  return `${apiBasePath}/blog/blog-detail/jcr:content/${getBlogDetailsPath()}.json`;
+}
+
+function buildImageUrl(path) {
+  return `${apiBasePath}${path}`;
+}
+
+/**
+ * Returns background color by block category name
+ *
+ * @param {string} category
+ * @returns {string}
+ */
+function buildCategoryUrl(category) {
+  const host = window.location.origin;
+  let path = '/blog/';
+  switch (category) {
+    case 'Buyer Advice':
+      path += 'buyer-advice/';
+      break;
+    case 'Seller Advice':
+      path += 'seller-advice/';
+      break;
+    case 'Home Improvement':
+      path += 'home-improvement/';
+      break;
+    case 'Finance':
+      path += 'finance/';
+      break;
+    case 'Lifestyle':
+      path += 'lifestyle/';
+      break;
+    case 'General':
+      path += 'general/';
+      break;
   }
+  return host + path;
+}
 
 async function getData() {
   const url = buildApiPath();
@@ -84,22 +96,18 @@ async function getData() {
   return data;
 }
 
-function buildImageUrl(path) {
-  return `${host}${path}`;
-}
-
-function prepareLink (path) {
-    return path;
+function prepareLink(path) {
+  return path.replace(/\.html$/, '');;
 }
 
 export default async function decorate(block) {
   // auto blocking
-  const {title, description, image, mobileImage, tabletImage, publisheddate, category, previousarticle, previousarticlelink, relatedarticles}  = await getData();
+  const { title, description, image, mobileImage, tabletImage, publisheddate, category, previousarticle, previousarticlelink, relatedarticles } = await getData();
   //buildBlogNavigation(buildCategoryUrl(category));
   const blogNav = document.querySelector('.blog-nav');
   blogNav.style.backgroundColor = getBackgroundColor(category);
   blogNav.style.color = 'var(--primary-color)';
-  blogNav.style.setProperty('--border-color','var(--primary-color)')
+  blogNav.style.setProperty('--border-color', 'var(--primary-color)')
   block.innerHTML = `
     <div class="title-section">
         <p id="main-title" role="heading" aria-level="1" class="title">${title}</p>
@@ -123,7 +131,7 @@ export default async function decorate(block) {
                 <span class="share-this-page text-up">Share This Page</span></button>
             <div>
                 <span>Published:</span>
-                <span>${new Date(publisheddate).toLocaleDateString('en-US', {month: 'long', day: 'numeric', year: 'numeric'})}</span>
+                <span>${new Date(publisheddate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
             </div>
             <div>
                 <span>Category:</span>
@@ -143,20 +151,20 @@ export default async function decorate(block) {
                 <p class="article-share-page__description">Share this page on your social media platforms.</p>
                 <ul class="article-share-page-icons">
                     <li class="araticle-share-page__item article-share-page__item--twitter">
-                        <a href="https://twitter.com/share?text=${title}&amp;url=https://www.commonmoves.com/blog/blog-detail/2023/03/are-there-tax-benefits-for-buying-a-home-.html"
+                        <a href="https://twitter.com/share?text=${title}&amp;url=${window.location.href}"
                            data-text=${title}
-                           data-url="https://www.commonmoves.com/blog/blog-detail/2023/03/are-there-tax-benefits-for-buying-a-home-.html"
+                           data-url="${window.location.href}"
                            data-lang="en" data-show-count="false" target="_blank"
                            aria-label="twitter-icon" class=" twitter"></a>
                     </li>
-                    <li data-href="https://www.commonmoves.com/blog/blog-detail/2023/03/are-there-tax-benefits-for-buying-a-home-.html"
+                    <li data-href="${window.location.href}"
                         data-layout="button_count" data-size="small" data-keyboard="false" data-backdrop="static"
                         class="article-share-page__item article-share-page__item--facebook">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.commonmoves.com/blog/blog-detail/2023/03/are-there-tax-benefits-for-buying-a-home-.html"
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=${window.location.href}"
                            target="_blank" aria-label="facebook-icon" class="facebook"></a>
                     </li>
                     <li class="article-share-page__item article-share-page__item--linkedin">
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://www.commonmoves.com/blog/blog-detail/2023/03/are-there-tax-benefits-for-buying-a-home-.html"
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url=${window.location.href}"
                            rel="noopener" target="_blank" aria-label="linkedin-icon" class="linkedin"></a>
                     </li>
                 </ul>
@@ -194,9 +202,6 @@ export default async function decorate(block) {
 
 // todo:
 //articles logic
-// form urls relative to main website see xprepareLink
-//   -autoblocking details;
-//   -details page redirect
 //     - franklin set up;
 //   - change logic in blog listing
 //   - details page mock up;

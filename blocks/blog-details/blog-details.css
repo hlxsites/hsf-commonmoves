@@ -2,8 +2,9 @@ html {
     scroll-behavior: smooth;
 }
 
-.section.blog-details-container{
+.section.blog-details-container {
     position: relative;
+    padding: 0;
 }
 
 .section .blog-details-wrapper {

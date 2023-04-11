@@ -69,7 +69,7 @@ function buildBlogNav(main) {
 function buildBlogDetails(main) {
   if (getMetadata('template') === 'blog-detail-template') {
     const section = document.createElement('div');
-    section.append(buildBlock('blog-detail', {elems: []}));
+    section.append(buildBlock('blog-details', {elems: []}));
     main.append(section);
   }
 }

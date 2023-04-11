@@ -5,7 +5,7 @@ let numCarouselItems;
 let numBlogItems;
 const loadMoreCount = 6;
 let loadOffset = 0;
-const apiHost = 'https://www.bhhs.com';
+const apiBasePath = 'https://www.bhhs.com';
 const event = new Event('startAutoScroll');
 let scrollInterval;
 
@@ -43,9 +43,9 @@ export function getBackgroundColor(category) {
 }
 
 function buildApiPath(category, offset, count) {
-  let url = `${apiHost}/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${blogCategory}.offset_${offset}.count_${count}.json`;
+  let url = `${apiBasePath}/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${blogCategory}.offset_${offset}.count_${count}.json`;
   if (category === '') {
-    url = `${apiHost}/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
+    url = `${apiBasePath}/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
   }
   return url;
 }
@@ -75,7 +75,11 @@ function trimDescription(description) {
 }
 
 function buildImageUrl(path) {
-  return `${apiHost}${path}`;
+  return `${apiBasePath}${path}`;
+}
+
+function prepareBlogArticleUrl(link) {
+  return link.replace(/\.html$/, '');
 }
 
 function buildBlogList(block, data, setBackgroundColor = false) {
@@ -98,7 +102,7 @@ function buildBlogList(block, data, setBackgroundColor = false) {
         <p class="blog-category text-up">${category}</p>
          <p class="title">${title}</p>
         <div class="description"><p>${trimDescription(description)}</p></div> 
-        <a href="${link}" target="_blank" class="readmore text-up">read more
+        <a href="${prepareBlogArticleUrl(link)}" target="_blank" class="readmore text-up">read more
       <img src="/icons/arrow-back.svg"  aria-hidden="true" alt="read-more-icon #1" class="arrowIcon"></a>
      </div>
     `;
