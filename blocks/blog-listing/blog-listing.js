@@ -1,8 +1,3 @@
-import {
-  buildBlogNavigation,
-  getBackgroundColor, loadCSS,
-} from '../../scripts/lib-franklin.js';
-
 const DEFAULT_SCROLL_INTERVAL_MS = 6000;
 const DEFAULT_DESCRIPTION_LENGTH = 141;
 let blogCategory = false;
@@ -10,14 +5,47 @@ let numCarouselItems;
 let numBlogItems;
 const loadMoreCount = 6;
 let loadOffset = 0;
-const host = 'https://www.commonmoves.com';
+const host = 'https://www.bhhs.com';
 const event = new Event('startAutoScroll');
 let scrollInterval;
 
+/**
+ * Returns background color by block category name
+ *
+ * @param {string} category
+ * @returns {string}
+ */
+export function getBackgroundColor(category) {
+  let color;
+  switch (category) {
+    case 'Buyer Advice':
+      color = 'var(--grey-background)';
+      break;
+    case 'Seller Advice':
+      color = 'var(--beige)';
+      break;
+    case 'Home Improvement':
+      color = 'var(--yellowbeige)';
+      break;
+    case 'Finance':
+      color = 'var(--rose)';
+      break;
+    case 'Lifestyle':
+      color = 'var(--mint)';
+      break;
+    case 'General':
+      color = 'var(--lightrose)';
+      break;
+    default:
+      color = 'var(--primary-color)';
+  }
+  return color;
+}
+
 function buildApiPath(category, offset, count) {
-  let url = `https://www.commonmoves.com/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${blogCategory}.offset_${offset}.count_${count}.json`;
+  let url = `${host}/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${blogCategory}.offset_${offset}.count_${count}.json`;
   if (category === '') {
-    url = `https://www.commonmoves.com/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
+    url = `${host}/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
   }
   return url;
 }
@@ -150,9 +178,6 @@ function stopAutoScroll() {
 }
 
 export default async function decorate(block) {
-  // auto blocking
-  loadCSS(`${window.hlx.codeBasePath}/styles/blog-nav.css`);
-  buildBlogNavigation();
   // get config values
   [...block.children].forEach((child) => {
     if (child.textContent.includes('Carousel Items')) {

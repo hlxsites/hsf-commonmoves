@@ -1,8 +1,35 @@
-import {
-  buildBlogNavigation,
-  getBackgroundColor, loadCSS,
-} from '../../scripts/lib-franklin.js';
-const host = 'https://www.commonmoves.com';
+/**
+ * Returns background color by block category name
+ *
+ * @param {string} category
+ * @returns {string}
+ */
+export function getBackgroundColor(category) {
+  let color;
+  switch (category) {
+    case 'Buyer Advice':
+      color = 'var(--grey-background)';
+      break;
+    case 'Seller Advice':
+      color = 'var(--beige)';
+      break;
+    case 'Home Improvement':
+      color = 'var(--yellowbeige)';
+      break;
+    case 'Finance':
+      color = 'var(--rose)';
+      break;
+    case 'Lifestyle':
+      color = 'var(--mint)';
+      break;
+    case 'General':
+      color = 'var(--lightrose)';
+      break;
+    default:
+      color = 'var(--primary-color)';
+  }
+  return color;
+}
 
 function buildApiPath() {
   return 'https://www.commonmoves.com/blog/blog-detail/jcr:content/2023/03/are-there-tax-benefits-for-buying-a-home-.json';
@@ -169,7 +196,6 @@ export default async function decorate(block) {
 // todo:
 //articles logic
 // form urls relative to main website see xprepareLink
-// - autoblocking blog-nav;
 //   -autoblocking details;
 //   -details page redirect
 //     - franklin set up;
