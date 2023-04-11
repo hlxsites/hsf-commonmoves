@@ -58,6 +58,31 @@
   position: relative;
 }
 
+.property-no-available-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #f6f6f6;
+  height: 100%;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin: 0;
+  color: #3a3a3a;
+  line-height: 1;
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.property-no-available-image > span {
+  top: 50%;
+  transform: translateY(-50%);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
 .property-image img {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -95,6 +120,18 @@
   margin-top: 5px;
   margin-bottom: 5px;
   text-align: center;
+}
+
+.open-house {
+  display: inline-flex;
+  background-color: var(--white);
+  color: var(--body-color);
+}
+
+.open-house svg {
+  height: 24px;
+  width: 24px;
+  margin-right: 5px;
 }
 
 .featured-listing {
