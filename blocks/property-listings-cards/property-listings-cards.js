@@ -95,6 +95,7 @@ function createCard(listing) {
 }
 
 export default async function decorate(block) {
+  block.textContent = '';
   const resp = await fetch(COMMONMOVES_API_PROPERTY);
   if (resp.ok) {
     const data = await resp.json();
@@ -105,7 +106,6 @@ export default async function decorate(block) {
       ul.innerHTML += createCard(listing);
     });
     decorateIcons(ul);
-    block.textContent = '';
     block.append(ul);
   }
 }

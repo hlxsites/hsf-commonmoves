@@ -59,12 +59,12 @@
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  background: #f6f6f6;
+  background: var(--lightgray);
   height: 100%;
-  font-size: 14px;
+  font-size: var(--body-font-size-s);
   text-transform: uppercase;
   margin: 0;
-  color: #3a3a3a;
+  color: var(--body-color);
   line-height: 1;
   font-family: var(--font-family-proxima);
   font-weight: 300;
@@ -72,7 +72,6 @@
 
 .property-no-available-image > span {
   top: 50%;
-  transform: translateY(-50%);
   position: absolute;
   left: 0;
   width: 100%;
@@ -242,7 +241,7 @@
   font-weight: 300;
   padding-left: 10px;
   opacity: 1;
-  color: #797676;
+  color: var(--mediumgray);
   letter-spacing: 0;
   line-height: 14px;
 }
