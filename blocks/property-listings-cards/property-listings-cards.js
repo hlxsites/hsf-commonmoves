@@ -1,5 +1,5 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
-import {getData} from './property.js';
+
 const COMMONMOVES_API_PROPERTY = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?SearchType=Map&MinPrice=800000&PropertyType=1,2,4&ApplicationType=FOR_SALE&ListingStatus=1&NewListing=true&Sort=DATE_DESCENDING&PageSize=10&Page=1&NorthEastLatitude=42.88103227227745&NorthEastLongitude=-68.5569598543709&SouthWestLatitude=40.731686815498&SouthWestLongitude=-71.8089129793709&SearchParameter=%7B%22type%22:%22FeatureCollection%22,%22features%22:%5B%7B%22type%22:%22Feature%22,%22properties%22:%7B%7D,%22geometry%22:%7B%22type%22:%22Polygon%22,%22coordinates%22:%5B%5B%5B-71.8089129793709,42.88103227227745%5D,%5B-71.8089129793709,40.731686815498%5D,%5B-68.5569598543709,40.731686815498%5D,%5B-68.5569598543709,42.88103227227745%5D,%5B-71.8089129793709,42.88103227227745%5D%5D%5D%7D%7D%5D%7D&MapSearchType=MapBounds&listingAgentId=&ucsid=false';
 
 function createCard(listing) {
@@ -8,20 +8,20 @@ function createCard(listing) {
       <div class="listing-image-container"> 
         <div class="property-image"> 
           <a href="${listing.PdpPath}" rel="noopener" aria-label="${listing.StreetName}">`;
-  if (listing.SmallMedia.length == 0) {
+  if (listing.SmallMedia.length > 0) {
+    html += `<img src="${listing.SmallMedia[0].mediaUrl} alt="property-image" loading="lazy" class="property-thumbnail">`;
+  } else {
     html += `
             <div class="property-no-available-image">
               <span>no images available</span>
             </div>
     `;
-  } else {
-    html += `<img src="${listing.SmallMedia[0].mediaUrl} alt="property-image" loading="lazy" class="property-thumbnail">`;
   }
   html += `          
           </a> 
         </div>
         <div class="image-position-top">`;
-  if(listing.OpenHouses.length > 0) {
+  if (listing.OpenHouses.length > 0) {
     html += `
           <div class="property-labels">
             <span class="property-label open-house">
@@ -39,7 +39,7 @@ function createCard(listing) {
     html += '<span class="property-label featured-listing">Featured Listing</span>';
   }
   if (listing.newListing) {
-    html += '<span class="property-label new-listing">NEW LISTING</span>';
+    html += '<span class="property-label new-listing">New Listing</span>';
   }
   html += `
         </div> 
@@ -83,7 +83,7 @@ function createCard(listing) {
   if (listing.listAor === 'RIMLS') {
     html += `
       <div>
-        <img class="rimls-image" src="https://hsfbhimages.fnistools.com/images/Common/brlogos/rimls_logo.jpg" alt="Disclaimer Logo Image" loading="lazy">
+        <img class="rimls-image" src="/styles/images/rimls_logo.jpg" alt="Disclaimer Logo Image" loading="lazy">
       </div>
     `;
   }
@@ -95,24 +95,11 @@ function createCard(listing) {
 }
 
 export default async function decorate(block) {
-  const data = getData();
-  const listings = data.properties;
-  const cards = listings.slice(0, 8);
-  console.log(cards);
-  const ul = document.createElement('ul');
-  cards.forEach((listing) => {
-    ul.innerHTML += createCard(listing);
-  });
-  decorateIcons(ul);
-  block.textContent = '';
-  block.append(ul);
-  /*
   const resp = await fetch(COMMONMOVES_API_PROPERTY);
   if (resp.ok) {
     const data = await resp.json();
     const listings = data.properties;
     const cards = listings.slice(0, 8);
-    console.log(cards);
     const ul = document.createElement('ul');
     cards.forEach((listing) => {
       ul.innerHTML += createCard(listing);
@@ -121,5 +108,4 @@ export default async function decorate(block) {
     block.textContent = '';
     block.append(ul);
   }
-  */
 }

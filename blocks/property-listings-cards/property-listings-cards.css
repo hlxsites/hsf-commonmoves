@@ -68,7 +68,6 @@
   line-height: 1;
   font-family: var(--font-family-proxima);
   font-weight: 300;
-  text-transform: uppercase;
 }
 
 .property-no-available-image > span {
@@ -137,6 +136,7 @@
 .new-listing {
   background-color: var(--white);
   color: var(--body-color);
+  text-transform: uppercase;
 }
 
 .property-info-wrapper {
