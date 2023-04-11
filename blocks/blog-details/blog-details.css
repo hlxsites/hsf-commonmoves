@@ -12,7 +12,7 @@ html {
 }
 
 .blog-details.block {
-    width: 100vw;
+    /* width: 100vw; */
     padding: 0 15px;
 
 }
@@ -25,19 +25,23 @@ html {
     margin: 30px 0 40px 16px;
     color: var(--primary-color);
 }
+
 .content {
     display: flex;
     flex-direction: column;
 }
+
 .left-section {
     display: flex;
     flex-direction: column;
 }
+
 .left-section img {
     object-fit: cover;
     width: 100%;
     vertical-align: middle;
 }
+
 .left-section .description {
     margin: 40px 16px;
     text-align: left;
@@ -49,20 +53,61 @@ html {
     margin-block-start: 1em;
     margin-block-end: 1em;
 }
+
+.article-share-page p {
+    margin-bottom: 16px;
+}
+
 .left-section .description p,li{
     margin-bottom: 24px;
     line-height: 1.4em;
 }
+
+.article-share-page-icons li,
+.article-share-page-icons a{
+    padding-right: 20px;
+    width: 50px;
+    height: 30px;
+    border: none;
+    margin-bottom: 0;
+}
+
+.article-share-page-icons a {
+    display: block;
+    background-repeat: no-repeat;
+}
+
 .left-section .description li{
     padding-left: 16px;
 }
+
+.next-article a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: var(--body-font-size-xs);
+    font-weight: 600;
+    line-height: 23px;
+    letter-spacing: 0.96px;
+}
+
+.right-section a {
+    color: inherit;
+}
+
+.next-article a:hover {
+    color: var(--grey);
+    text-decoration: underline;
+}
+
 .left-section .description a{
     color: inherit;
 }
+
 .right-section {
     display: flex;
     flex-direction: column;
 }
+
 .right-section button {
     align-self: center;
 }
@@ -89,6 +134,7 @@ html {
     vertical-align: middle;
     line-height: 23px;
 }
+
 .blog-details-heading {
     color: var(--grey-blog-category);
 }
@@ -96,8 +142,12 @@ html {
 .right-section div {
     padding: 5px 0;
 }
-.right-section div {
-    padding: 5px 0;
+
+.button.secondary span {
+    font-size: var(--body-font-size-xs);
+    padding: 9px 20px;
+    letter-spacing: 1.2px;
+    line-height: 23px;
 }
 
 .right-section div span:nth-child(1) {
@@ -111,12 +161,9 @@ html {
     letter-spacing: normal;
     color: var(--body-color);
 }
-.right-section a {
-    color: inherit;
-}
 
 .right-section .related-articles {
-    padding: 20px 0 10px 0;
+    padding: 20px 0 10px;
     color: var(--primary-color);
 }
 
@@ -128,25 +175,21 @@ html {
 
 .next-article {
     margin-bottom: 50px;
+    display: flex;
 }
+
 .next-article img {
     vertical-align: middle;
     width: 25px;
     padding: 5px;
 }
 
-.next-article a {
-    color: var(--primary-color);
-    text-decoration: none;
-    font-size: var(--body-font-size-xs);
-    font-weight: 600;
-    line-height: 23px;
-    letter-spacing: 0.96px;
+.next-article img:nth-child(2) {
+    transform: rotate(180deg);
 }
 
-.next-article a:hover {
-    color: var(--grey);
-    text-decoration: underline;
+.align-evenly {
+    justify-content: space-between;
 }
 
 .article-share-page {
@@ -172,6 +215,7 @@ html {
 .article-share-page .container * {
     color: inherit;
 }
+
 .article-share-page h3 {
     padding-top: 32px;
     margin-bottom: 32px;
@@ -179,34 +223,21 @@ html {
     font-weight: 700;
 }
 
-.article-share-page p {
-    margin-bottom: 16px;
-}
-
 .article-share-page .close-icon {
     text-align: right;
     padding: 20px 15px;
     font-size: var(--heading-font-size-l);
 }
+
 .article-share-page-icons {
     display: flex;
     margin-bottom: 2em;
 }
-.article-share-page-icons li,
-.article-share-page-icons a{
-    padding-right: 20px;
-    width: 50px;
-    height: 30px;
-    border: none;
-    margin-bottom: 0;
-}
-.article-share-page-icons a {
-    display: block;
-    background-repeat: no-repeat;
-}
+
 .twitter {
     background-image: url("/icons/twitter.svg");
 }
+
 .facebook {
     background-image: url("/icons/facebook-dark.svg");
 }
@@ -222,17 +253,11 @@ html {
     height: 33px;
 }
 
-.button.secondary span {
-    font-size: var(--body-font-size-xs);
-    padding: 9px 20px;
-    letter-spacing: 1.2px;
-    line-height: 23px;
-}
-
 @media screen and (min-width: 992px) {
     .content {
         flex-direction: row;
     }
+
     .left-section {
         flex-basis: 75%;
     }
@@ -246,6 +271,7 @@ html {
         margin-left: 40px;
         font-size: var(--body-font-size-xxxl);
     }
+
     .right-section button {
         align-self: flex-start;
         margin-bottom: 20px;
@@ -258,7 +284,12 @@ html {
     .article-share-page.slide {
         width: 35%;
     }
+
     .left-section .description {
         margin: 40px 0;
+    }
+
+    .next-article {
+        width: 75%;
     }
 }

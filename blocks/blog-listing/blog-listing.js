@@ -16,30 +16,8 @@ let scrollInterval;
  * @returns {string}
  */
 export function getBackgroundColor(category) {
-  let color;
-  switch (category) {
-    case 'Buyer Advice':
-      color = 'var(--grey-background)';
-      break;
-    case 'Seller Advice':
-      color = 'var(--beige)';
-      break;
-    case 'Home Improvement':
-      color = 'var(--yellowbeige)';
-      break;
-    case 'Finance':
-      color = 'var(--rose)';
-      break;
-    case 'Lifestyle':
-      color = 'var(--mint)';
-      break;
-    case 'General':
-      color = 'var(--lightrose)';
-      break;
-    default:
-      color = 'var(--primary-color)';
-  }
-  return color;
+  const colorString = category ? category.toLocaleLowerCase().replace(/\s+/g, '-') : 'primary-color';
+  return `var(--${colorString})`;
 }
 
 function buildApiPath(category, offset, count) {
@@ -87,7 +65,7 @@ function buildBlogList(block, data, setBackgroundColor = false) {
     category, description, image, link, mobileImage, tabletImage, title,
   } = data;
   const blogContainer = document.createElement('div');
-  //@todo can we change variable name(????)
+  // @todo can we change variable name(????)
   blogContainer.style.backgroundColor = setBackgroundColor ? getBackgroundColor(category) : 'inherit';
   blogContainer.classList.add('blog-item');
   blogContainer.innerHTML = `

@@ -58,9 +58,9 @@ function buildBlogNav(main) {
   if (blogTemplates.includes(template)) {
     const h1 = main.querySelector('div:first-of-type > h1');
     const nav = main.querySelector('div:first-of-type > ul');
-    if (h1 && nav && (nav.compareDocumentPosition(h1) & Node.DOCUMENT_POSITION_PRECEDING)) {
+    if (h1 && nav && (nav.compareDocumentPosition(h1) && Node.DOCUMENT_POSITION_PRECEDING)) {
       const section = document.createElement('div');
-      section.append(buildBlock('blog-menu', { elems: [h1, nav]}));
+      section.append(buildBlock('blog-menu', { elems: [h1, nav] }));
       main.prepend(section);
     }
   }
@@ -69,7 +69,7 @@ function buildBlogNav(main) {
 function buildBlogDetails(main) {
   if (getMetadata('template') === 'blog-detail-template') {
     const section = document.createElement('div');
-    section.append(buildBlock('blog-details', {elems: []}));
+    section.append(buildBlock('blog-details', { elems: [] }));
     main.append(section);
   }
 }
@@ -143,7 +143,6 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   buildFloatingImages(main);
-
 }
 
 /**

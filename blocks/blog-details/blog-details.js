@@ -1,4 +1,4 @@
-const apiBasePath = 'https://www.bhhs.com'
+const apiBasePath = 'https://www.bhhs.com';
 
 /**
  * Returns background color by block category name
@@ -7,36 +7,14 @@ const apiBasePath = 'https://www.bhhs.com'
  * @returns {string}
  */
 export function getBackgroundColor(category) {
-  let color;
-  switch (category) {
-    case 'Buyer Advice':
-      color = 'var(--grey-background)';
-      break;
-    case 'Seller Advice':
-      color = 'var(--beige)';
-      break;
-    case 'Home Improvement':
-      color = 'var(--yellowbeige)';
-      break;
-    case 'Finance':
-      color = 'var(--rose)';
-      break;
-    case 'Lifestyle':
-      color = 'var(--mint)';
-      break;
-    case 'General':
-      color = 'var(--lightrose)';
-      break;
-    default:
-      color = 'var(--primary-color)';
-  }
-  return color;
+  const colorString = category ? category.toLocaleLowerCase().replace(/\s+/g, '-') : 'primary-color';
+  return `var(--${colorString})`;
 }
 
 function getBlogDetailsPath() {
   const url = window.location.pathname;
-  const startIndex = url.indexOf("/blog/blog-detail/") + "/blog/blog-detail/".length;
-  return  url.substring(startIndex);
+  const startIndex = url.indexOf('/blog/blog-detail/') + '/blog/blog-detail/'.length;
+  return url.substring(startIndex);
 }
 
 function buildApiPath() {
@@ -55,28 +33,8 @@ function buildImageUrl(path) {
  */
 function buildCategoryUrl(category) {
   const host = window.location.origin;
-  let path = '/blog/';
-  switch (category) {
-    case 'Buyer Advice':
-      path += 'buyer-advice/';
-      break;
-    case 'Seller Advice':
-      path += 'seller-advice/';
-      break;
-    case 'Home Improvement':
-      path += 'home-improvement/';
-      break;
-    case 'Finance':
-      path += 'finance/';
-      break;
-    case 'Lifestyle':
-      path += 'lifestyle/';
-      break;
-    case 'General':
-      path += 'general/';
-      break;
-  }
-  return host + path;
+  const path = '/blog/';
+  return host + path + category.toLocaleLowerCase().replace(/\s+/g, '-');
 }
 
 async function getData() {
@@ -97,18 +55,28 @@ async function getData() {
 }
 
 function prepareLink(path) {
-  return path.replace(/\.html$/, '');;
+  return path.replace(/\.html$/, '');
+}
+
+function selectCategoryInMenu(category) {
+  const selector = `a[title="${category}"]`;
+  document.querySelector(selector).classList.add('selected-cat');
 }
 
 export default async function decorate(block) {
   // auto blocking
-  const { title, description, image, mobileImage, tabletImage, publisheddate, category, previousarticle, previousarticlelink, relatedarticles } = await getData();
-  //buildBlogNavigation(buildCategoryUrl(category));
+  const {
+    title, description, image, mobileImage, tabletImage, publisheddate, category,
+    previousarticle, previousarticlelink, relatedarticles, nextarticle, nextarticlelink,
+  } = await getData();
+
   const blogNav = document.querySelector('.blog-nav');
+  let html;
   blogNav.style.backgroundColor = getBackgroundColor(category);
+  selectCategoryInMenu(category);
   blogNav.style.color = 'var(--primary-color)';
-  blogNav.style.setProperty('--border-color', 'var(--primary-color)')
-  block.innerHTML = `
+  blogNav.style.setProperty('--border-color', 'var(--primary-color)');
+  html = `
     <div class="title-section">
         <p id="main-title" role="heading" aria-level="1" class="title">${title}</p>
     </div>
@@ -172,14 +140,32 @@ export default async function decorate(block) {
                     <span class="text-up">cancel</span></button>
             </div>
         </div>
+    </div>`;
+  if (nextarticle) {
+    html += `<div class="next-article align-evenly">
+            <div>
+              <img src="/icons/preview-arrow.svg" alt="previous-article">
+                <a href=${prepareLink(previousarticlelink)}
+                  aria-label="previous-article-${previousarticle}"
+                  class="text-up">${previousarticle}</a>
+            </div>
+            <div>
+              <a href=${prepareLink(nextarticlelink)}
+                aria-label="previous-article-${nextarticle}"
+                class="text-up">${nextarticle}</a>
+                <img src="/icons/preview-arrow.svg" alt="previous-article">
+          </div>
     </div>
-    <div class="next-article">
+ `;
+  } else {
+    html += `<div class="next-article">
             <img src="/icons/preview-arrow.svg" alt="previous-article">
             <a href=${prepareLink(previousarticlelink)}
                aria-label="previous-article-${previousarticle}"
                class="text-up">${previousarticle}</a>
-    </div>
- `;
+    </div>`;
+  }
+  block.innerHTML = html;
   const shareBlogContainer = block.querySelector('.article-share-page');
 
   block.querySelector('.share-page').addEventListener('click', () => {
@@ -195,14 +181,5 @@ export default async function decorate(block) {
 
   block.querySelector('.close-button').addEventListener('click', () => {
     shareBlogContainer.style.visibility = 'hidden';
-  })
-
+  });
 }
-
-
-// todo:
-//articles logic
-//     - franklin set up;
-//   - change logic in blog listing
-//   - details page mock up;
-//   - update background details by styles;
