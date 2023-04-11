@@ -6,7 +6,7 @@
 
 body.light-nav {
   --logo-filter: invert(1);
-  --hamburger-filter: none;
+  --hamburger-filter: none  ;
 }
 
 .header.block nav {
@@ -26,6 +26,7 @@ body.light-nav {
 
 .header.block nav[aria-expanded="true"] {
   height: 100vh;
+  --logo-filter: var(--primary-color-svg-filter);
 }
 
 .header.block nav svg {
