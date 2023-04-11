@@ -25,8 +25,9 @@ body.light-nav {
 }
 
 .header.block nav[aria-expanded="true"] {
-  height: 100vh;
   --logo-filter: var(--primary-color-svg-filter);
+
+  height: 100vh;
 }
 
 .header.block nav svg {
@@ -219,10 +220,6 @@ body.light-nav {
     --nav-color: var(--white);
   }
 
-  body.light-nav .header.block nav[aria-expanded="true"] {
-    --logo-filter: invert(1);
-  }
-
   .header.block nav {
     grid-template:
       'profile' 40px
@@ -234,6 +231,10 @@ body.light-nav {
   .header.block nav[aria-expanded="true"] {
     height: var(--nav-height);
     background: transparent;
+  }
+  
+  body.light-nav .header.block nav[aria-expanded="true"] {
+    --logo-filter: invert(1);
   }
 
   .header.block nav .nav-primary-wrapper {
