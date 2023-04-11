@@ -64,7 +64,6 @@ function selectCategoryInMenu(category) {
 }
 
 export default async function decorate(block) {
-  // auto blocking
   const {
     title, description, image, mobileImage, tabletImage, publisheddate, category,
     previousarticle, previousarticlelink, relatedarticles, nextarticle, nextarticlelink,
