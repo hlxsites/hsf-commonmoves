@@ -254,9 +254,6 @@ html {
         display: none;
     }
 
-    .article-share-page .container {
-        margin-top: 0;
-    }
     .article-share-page.slide {
         width: 35%;
     }

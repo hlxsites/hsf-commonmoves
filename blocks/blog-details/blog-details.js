@@ -167,6 +167,8 @@ export default async function decorate(block) {
 
 
 // todo:
+//articles logic
+// form urls relative to main website see xprepareLink
 // - autoblocking blog-nav;
 //   -autoblocking details;
 //   -details page redirect
