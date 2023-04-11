@@ -612,8 +612,8 @@ export function setup() {
 /**
  * Build blog navigation menu
  */
-export function buildBlogNavigation() {
-  const sections = document.querySelectorAll('.blog-listing-container');
+export function buildBlogNavigation(selectedCategoryUrl = window.location.href) {
+  const sections = document.querySelectorAll('.blog-listing-container, .blog-details-container');
   if (sections) {
     sections.forEach((section) => {
       const blogNav = document.createElement('nav');
@@ -625,7 +625,7 @@ export function buildBlogNavigation() {
       [...blogNavContent.children].forEach((child) => {
         if (child.querySelector('li')) {
           [...child.children].forEach((category) => {
-            if (category.querySelector('a').href === window.location.href) {
+            if (selectedCategoryUrl.includes(category.querySelector('a').href)) {
               category.querySelector('a').classList.add('selected-cat');
               categoryName = category.textContent;
             }

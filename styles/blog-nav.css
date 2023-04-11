@@ -20,6 +20,7 @@
     box-sizing: border-box;
     position: sticky;
     align-self: center;
+    --border-color: var(--white);
 }
 
 .sticky {
@@ -34,7 +35,7 @@
     font-family: var(--font-family-proxima);
     font-size: var(--body-font-size-m);
     line-height: 1.5em;
-    color: var(--white);
+    color: inherit;
     text-decoration-style: solid;
     font-weight: 400;
 }
@@ -56,7 +57,7 @@
     padding: 16px 0;
     letter-spacing: 0.1em;
     line-height: 1.5em;
-    background-color: var(--primary-color);
+    background-color: inherit;
 }
 
 .blog-nav ul {
@@ -64,7 +65,7 @@
     text-align: center;
     width: 100%;
     z-index: 12;
-    background-color: var(--primary-color);
+    background-color: inherit;
 }
 
 .blog-nav li {
@@ -73,7 +74,7 @@
     line-height: 1.4em;
     letter-spacing: 0.1em;
     padding: 16px 0;
-    border-top: solid 1px var(--white);
+    border-top: solid 1px var(--border-color);
 }
 
 .blog-nav .blog-nav-selected {
@@ -89,7 +90,7 @@
 
 .blog-nav .selected-cat {
     font-weight: bold;
-    border-bottom: 2px solid var(--white);
+    border-bottom: 2px solid var(--border-color);
 }
 
 @media (min-width: 992px) {

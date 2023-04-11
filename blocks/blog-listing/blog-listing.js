@@ -1,6 +1,6 @@
 import {
   buildBlogNavigation,
-  getBackgroundColor,
+  getBackgroundColor, loadCSS,
 } from '../../scripts/lib-franklin.js';
 
 const DEFAULT_SCROLL_INTERVAL_MS = 6000;
@@ -151,6 +151,7 @@ function stopAutoScroll() {
 
 export default async function decorate(block) {
   // auto blocking
+  loadCSS(`${window.hlx.codeBasePath}/styles/blog-nav.css`);
   buildBlogNavigation();
   // get config values
   [...block.children].forEach((child) => {

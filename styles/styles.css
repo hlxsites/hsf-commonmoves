@@ -32,7 +32,9 @@
   --mint: rgb(229 249 247);
   --lightrose: rgb(229 222 227);
   --grey-background: rgb(228 232 234);
-;
+  --grey-blog-category: #aaa;
+  --secondary-grey: #EFEFEF;
+  --transperent: #FFFFFFE6;
 
 
   /* Fonts */
@@ -109,7 +111,15 @@ p, span {
   font-size: var(--body-font-size-m);
   font-weight: 400;
   letter-spacing: 0.05em;
-  line-height: 23px;
+  line-height: 1.4em;
+}
+
+b, strong {
+  font-weight: bolder;
+}
+
+i {
+  font-style: italic;
 }
 
 header {
@@ -152,6 +162,10 @@ main .section {
   padding: 7px 25px;
   height: 40px;
   display: block;
+}
+
+.text-up {
+  text-transform: uppercase;
 }
 
 /* common styles */
