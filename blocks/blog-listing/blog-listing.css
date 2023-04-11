@@ -68,7 +68,6 @@
 
 .blog-category {
     margin-bottom: 16px;
-    text-transform: uppercase;
     font-size: var(--body-font-size-s);
     color: var(--darkgrey);
 }
@@ -95,7 +94,6 @@
 }
 
 .readmore {
-    text-transform: uppercase;
     text-decoration: none;
     color: var(--greyblue);
     letter-spacing: 1.12px;
@@ -134,7 +132,7 @@
     height: 10px;
     margin: 5px 7px 5px 12px;
     border-radius: 30px;
-    border: 1px solid #aaa;
+    border: 1px solid var(--grey-blog-category);
     display: block;
 }
 
@@ -152,7 +150,7 @@
 
 .see-more-content:hover {
     background-color: var(--white);
-    border: 1px solid #aaa;
+    border: 1px solid var(--grey-blog-category);
     color: var(--body-color);
 }
 

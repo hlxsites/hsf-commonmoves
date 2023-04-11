@@ -94,9 +94,8 @@ function prepareLink (path) {
 
 export default async function decorate(block) {
   // auto blocking
-  loadCSS(`${window.hlx.codeBasePath}/styles/blog-nav.css`)
   const {title, description, image, mobileImage, tabletImage, publisheddate, category, previousarticle, previousarticlelink, relatedarticles}  = await getData();
-  buildBlogNavigation(buildCategoryUrl(category));
+  //buildBlogNavigation(buildCategoryUrl(category));
   const blogNav = document.querySelector('.blog-nav');
   blogNav.style.backgroundColor = getBackgroundColor(category);
   blogNav.style.color = 'var(--primary-color)';

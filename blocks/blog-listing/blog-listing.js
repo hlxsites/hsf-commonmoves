@@ -5,7 +5,7 @@ let numCarouselItems;
 let numBlogItems;
 const loadMoreCount = 6;
 let loadOffset = 0;
-const host = 'https://www.bhhs.com';
+const apiHost = 'https://www.bhhs.com';
 const event = new Event('startAutoScroll');
 let scrollInterval;
 
@@ -43,9 +43,9 @@ export function getBackgroundColor(category) {
 }
 
 function buildApiPath(category, offset, count) {
-  let url = `${host}/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${blogCategory}.offset_${offset}.count_${count}.json`;
+  let url = `${apiHost}/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${blogCategory}.offset_${offset}.count_${count}.json`;
   if (category === '') {
-    url = `${host}/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
+    url = `${apiHost}/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
   }
   return url;
 }
@@ -75,7 +75,7 @@ function trimDescription(description) {
 }
 
 function buildImageUrl(path) {
-  return `${host}${path}`;
+  return `${apiHost}${path}`;
 }
 
 function buildBlogList(block, data, setBackgroundColor = false) {
@@ -83,6 +83,7 @@ function buildBlogList(block, data, setBackgroundColor = false) {
     category, description, image, link, mobileImage, tabletImage, title,
   } = data;
   const blogContainer = document.createElement('div');
+  //@todo can we change variable name(????)
   blogContainer.style.backgroundColor = setBackgroundColor ? getBackgroundColor(category) : 'inherit';
   blogContainer.classList.add('blog-item');
   blogContainer.innerHTML = `
@@ -94,10 +95,10 @@ function buildBlogList(block, data, setBackgroundColor = false) {
         </picture>
     </div>
     <div class="blog-content">
-        <p class="blog-category">${category}</p>
+        <p class="blog-category text-up">${category}</p>
          <p class="title">${title}</p>
         <div class="description"><p>${trimDescription(description)}</p></div> 
-        <a href="${link}" target="_blank" class="readmore">read more
+        <a href="${link}" target="_blank" class="readmore text-up">read more
       <img src="/icons/arrow-back.svg"  aria-hidden="true" alt="read-more-icon #1" class="arrowIcon"></a>
      </div>
     `;
@@ -114,7 +115,7 @@ function getBlogCategory() {
 function buildSeeMoreContentButton(block, dataKey) {
   const buttonContainer = document.createElement('button');
   const blogsGridContainer = block.querySelector('.blogs-grid-list');
-  buttonContainer.classList.add('see-more-content');
+  buttonContainer.classList.add('see-more-content', 'text-up');
   buttonContainer.innerHTML = `
   <span class="text">see more content</span>
   `;
@@ -155,6 +156,7 @@ function switchSlide(nextIndex, block) {
   slidesButtons.children[nextIndex].classList.add('active');
   slidesContainer.style.transform = `translateX(-${nextIndex * 100}%)`;
 }
+
 /**
  * Start auto scroll
  *
