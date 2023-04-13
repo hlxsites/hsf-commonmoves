@@ -1,27 +1,21 @@
-/* block specific CSS goes here */
+@import './search.css';
 
-main .hero-container > div {
+main .section.hero-container {
+  padding: 0;
   max-width: unset;
 }
-  
-main .hero-container {
-  padding: 0;
-}
-  
-main .hero {
+
+.hero.block {
   position: relative;
-  padding: 32px;
-  min-height: 300px;
+  height: 480px;
+  margin-bottom: 57px;
 }
 
-main .hero h1 {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  color: white;
+.hero.block.under-nav {
+  margin-top: calc(var(--nav-height) * -1);
 }
 
-main .hero picture {
+.hero.block .images {
   position: absolute;
   z-index: -1;
   top: 0;
@@ -29,11 +23,88 @@ main .hero picture {
   bottom: 0;
   right: 0;
   object-fit: cover;
-  box-sizing: border-box;
 }
 
-main .hero img {
+.hero.block .images picture {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity .6s linear;
+}
+
+.hero.block .images picture.active {
+  opacity: 1;
+}
+
+.hero.block .images img {
   object-fit: cover;
+  object-position: center;
   width: 100%;
   height: 100%;
 }
+
+.hero.block > div {
+  display: flex;
+  height: 100%;
+  padding: 110px 16px 3em;
+  background-color: rgba(0 0 0 / 30%);
+}
+
+.hero.block > div .content {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 1.5em 16px;
+}
+
+.hero.block > div .content h2 {
+  margin-bottom: .75em;
+  font-family: var(--font-family-georgia);
+  font-weight: 700;
+  font-size: var(--heading-font-size-m);
+  line-height: 30px;
+  color: var(--white);
+}
+
+@media screen and (min-width: 600px) {
+  .hero.block {
+    height: 620px;
+    margin-bottom: 80px;
+  }
+
+  .hero.block > div {
+    padding: 145px 60px 1.5em;
+  }
+
+  .hero.block > div .content h2 {
+    font-size: var(--heading-font-size-xxl);
+    line-height: 50px;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .hero.block > div {
+    padding: 145px 130px 3em;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .hero.block {
+    height: 600px;
+  }
+
+  .hero.block.under-nav {
+    margin-top: -100px;
+  }
+
+  .hero.block > div {
+    padding: 145px 130px 3em;
+  }
+}
+

@@ -66,13 +66,15 @@
 *, *::before, *::after {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  color: var(--body-color);
+  font-family: var(--font-family-proxima);
+  font-weight: 400;
+  font-size: var(--body-font-size-m);
+  text-align: left;
 }
 
 body {
-  color: var(--body-color);
-  text-align: left;
   background-color: var(--white-background);
-  font-family: var(--font-family-proxima);
 }
 
 h2 {

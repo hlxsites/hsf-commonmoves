@@ -1,5 +1,3 @@
-
-
 main.liveby-community .section {
   padding-top: 3em;
   padding-bottom: 3em;
@@ -14,6 +12,16 @@ main.liveby-community .liveby-metadata-container {
   display: none;
 }
 
+main.liveby-community .hero-container {
+  display: block;
+  margin: 0;
+  padding: 0;
+  max-width: 1600px;
+}
+
+main.liveby-community .hero-container .hero-wrapper {
+  padding: 0;
+}
 
 main.liveby-community .section p {
   margin-bottom: 2em;
@@ -44,6 +52,7 @@ main.liveby-community .hero-container {
 main.liveby-community .hero-container  .hero.block {
   position: relative;
   padding: 0;
+  height: unset;
 }
 
 main.liveby-community .hero-container .hero.block picture {
@@ -68,7 +77,7 @@ main.liveby-community .hero-container .hero.block > div {
   justify-content: center;
 }
 
-main.liveby-community .hero-container  .hero.block > div > div {
+main.liveby-community .hero-container .hero.block > div > div {
   display: flex;
   padding: 3em 5%;
   margin: 6em 0;
@@ -106,7 +115,7 @@ main.liveby-community h2 {
     font-size: var(--heading-font-size-l);
   }
 
-  main.liveby-community .hero.block > div > div {
+  main.liveby-community .hero.block > div .content {
     width: unset;
   }
 }
