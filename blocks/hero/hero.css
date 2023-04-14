@@ -12,11 +12,15 @@ main .section.hero-container {
   margin-bottom: 57px;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0 0 0 / 30%);
 }
 
 .hero.block.under-nav {
   margin-top: calc(var(--nav-height) * -1);
+  background: linear-gradient(180deg, rgba(0 0 0 / 30%) 0, rgba(0 0 0 / 30%) 100px, transparent 100%);
+}
+
+.hero.block.has-content.under-nav {
+  background: rgba(0 0 0 / 30%);
 }
 
 .hero.block .images {
@@ -63,6 +67,7 @@ main .section.hero-container {
   flex-direction: column;
   justify-content: flex-start;
   padding: 1.5em 16px;
+  color: var(--white);
 }
 
 .hero.block > div .content h2 {
@@ -71,6 +76,12 @@ main .section.hero-container {
   font-weight: 700;
   font-size: var(--heading-font-size-m);
   line-height: 30px;
+  color: var(--white);
+}
+
+.hero.block > div .content h1,
+.hero.block > div .content h2,
+.hero.block > div .content p {
   color: var(--white);
 }
 
@@ -99,6 +110,7 @@ main .section.hero-container {
 @media screen and (min-width: 1200px) {
   .hero.block {
     height: 600px;
+    justify-content: unset;
   }
 
   .hero.block.under-nav {

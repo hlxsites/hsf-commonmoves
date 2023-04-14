@@ -30,6 +30,9 @@ function rotateImage(images) {
 }
 
 function buildSearch(ul) {
+  if (!ul) {
+    return undefined;
+  }
   const wrapper = document.createElement('div');
   wrapper.classList.add('search');
   const tabs = document.createElement('ul');
@@ -82,15 +85,21 @@ export default async function decorate(block) {
   images.classList.add('images');
   images.append(...pictures);
 
-  const content = document.createElement('div');
-  content.classList.add('content');
-  content.append(block.querySelector('h1, h2'));
+  const contentWrapper = document.createElement('div');
+  contentWrapper.classList.add('content');
+  const content = block.querySelector('h1, h2')?.parentElement;
+  if (content) {
+    contentWrapper.append(...content.childNodes);
+    block.classList.add('has-content');
+  }
 
   const search = buildSearch(block.querySelector('ul'));
-  content.append(search);
+  if (search) {
+    contentWrapper.append(search);
+  }
 
   const wrapper = document.createElement('div');
-  wrapper.append(images, content);
+  wrapper.append(images, contentWrapper);
   block.replaceChildren(wrapper);
 
   if (pictures.length > 1) {
