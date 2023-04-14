@@ -187,7 +187,13 @@ export default function decorate(block) {
     countrySelect.querySelector('.search-results-dropdown').innerHTML = addOptions(COUNTRIES, 'US', 'country');
     const defaultSuggestionMessage = 'Please enter at least 3 characters.';
     const priceSelect = buildDropdownElement('price');
-    priceSelect.classList.add('container-item');
+    priceSelect.classList.add('container-item', 'left-border');
+    const bedroomsSelect = buildDropdownElement('any beds');
+    bedroomsSelect.classList.add('container-item', 'left-border');
+    const bathroomsSelect = buildDropdownElement('any baths');
+    bathroomsSelect.classList.add('container-item', 'left-border');
+    const areaSelect = buildDropdownElement('square feet');
+    areaSelect.classList.add('container-item', 'left-border');
     block.innerHTML = `<div class="search-listing-block">
     <div class="primary-search container-item">
         ${countrySelect.outerHTML}
@@ -207,6 +213,9 @@ export default function decorate(block) {
         </a>
     </div>
     ${priceSelect.outerHTML}
+    ${bedroomsSelect.outerHTML}
+    ${bathroomsSelect.outerHTML}
+    ${areaSelect.outerHTML}
     <div class ="filter-container container-item">
             <a role="button" aria-label="Filter">
                 <svg role="presentation">
@@ -214,6 +223,11 @@ export default function decorate(block) {
                 </svg>
             </a>
         </div>
+        <div class="button-container container-item save-search">
+        <a target="_blank" tabindex="" class="btn btn-search" role="button">
+            <span>save search</span>
+        </a>
+    </div>
 </div>`;
 
     //add logic for select on click
