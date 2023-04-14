@@ -1,4 +1,5 @@
-@import './home-search.css';
+@import url('./home-search.css');
+@import url('./agent-search.css');
 
 .hero.block > div .content .search .options {
   display: flex;
@@ -22,10 +23,64 @@
   border-bottom: 3px solid var(--white);
 }
 
+/* Shared Search Option CSS */
+
+.hero.block .content .search-bar {
+  display: flex;
+  padding: 5px;
+  margin-bottom: 8px;
+  background-color: var(--white);
+  border: 1px solid var(--border-medium-gray);
+}
+
+.hero.block .content .search-bar .search-suggester {
+  display: flex;
+  flex: 1;
+  height: 36px;
+}
+
+.hero.block .content .search-bar input {
+  height: 100%;
+  width: 100%;
+  text-overflow: ellipsis;
+  border: none;
+  opacity: .75;
+}
+
+.hero.block .content .search-bar .suggester-results {
+  display: none;
+}
+
+
+.hero.block .content .search-bar .search-submit {
+  height: 35px;
+  min-width: 70px;
+  padding: 0 5px;
+  font-size: var(--body-font-size-xs);
+  letter-spacing: 1.5px;
+  line-height: 2em;
+  text-align: center;
+  text-transform: uppercase;
+  border: 1px solid var(--border-medium-gray);
+  background: transparent;
+}
+
+.hero.block .content .search-bar .search-submit span {
+  width: 100%;
+  text-align: center;
+}
+
 @media screen and (min-width: 600px) {
   .hero.block > div .content .search .options .option {
     flex: 0 1 auto;
     margin-right: 20px;
     line-height: 1.5em;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .hero.block .content .search-bar {
+    width: 620px;
+    padding: 10px;
   }
 }

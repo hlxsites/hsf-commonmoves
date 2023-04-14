@@ -57,6 +57,20 @@ function buildSearch(ul) {
   const active = wrapper.querySelector('.search .options .option');
   active.classList.add('active');
   wrapper.querySelector(`form[data-option="${active.getAttribute('data-option')}"]`).classList.add('active');
+
+  wrapper.querySelectorAll('.search .options .option').forEach((option) => {
+    option.addEventListener('click', () => {
+      if (option.classList.contains('active')) {
+        return;
+      }
+      const selected = option.getAttribute('data-option');
+      option.parentElement.querySelector('.active').classList.remove('active');
+      option.classList.add('active');
+      wrapper.querySelector('form.active').classList.remove('active');
+      wrapper.querySelector(`form.${selected}`).classList.add('active');
+    });
+  });
+
   return wrapper;
 }
 

@@ -1,145 +1,183 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { BREAKPOINTS } from '../../scripts/scripts.js';
 
-const COUNTRIES = ['US', 'CA', 'MX', 'KY', 'AW', 'AE', 'BS', 'GB', 'GR', 'ES', 'IT', 'PT', 'IN'];
+// TODO: Finish this - needs a better design
+// const COUNTRIES = ['US', 'CA', 'MX', 'KY', 'AW', 'AE', 'BS', 'GB', 'GR', 'ES', 'IT', 'PT', 'IN'];
+//
+// function buildCountrySelect() {
+//   const select = document.createElement('select');
+//
+//   const ul = document.createElement('ul');
+//   ul.classList.add('select-items');
+//
+//   COUNTRIES.forEach((country) => {
+//     const option = document.createElement('option');
+//     option.value = country;
+// eslint-disable-next-line max-len
+//     option.innerHTML = `<img src="/icons/flags/${country}.png" alt="${country}" class="label-image" role="presentation" aria-hidden="true" tabIndex="-1" height="25" width="25">${country}`;
+//     select.append(option);
+//
+//     const li = document.createElement('li');
+//     li.setAttribute('data-value', country);
+//     li.setAttribute('role', 'option');
+//     li.set
+//   });
+//
+//
+//   const selected = document.createElement('div');
+//   selected.classList.add('selected');
+//   selected.setAttribute('aria-haspopup', 'listbox');
+//   selected.setAttribute('aria-expanded', 'false');
+//   selected.setAttribute('aria-label', 'Select Country');
+//   selected.setAttribute('role', 'button');
+//   selected.setAttribute('tabIndex', '0');
+//   selected.innerHTML = select.querySelector('option').innerHTML;
+//
+//   const wrapper = document.createElement('div');
+//   wrapper.classList.add('select-wrapper');
+//   wrapper.append(select, selected);
+//   return wrapper;
+// }
 
-function buildCountrySelect() {
-  const select = document.createElement('select');
+const noOverlayAt = BREAKPOINTS.medium;
 
-  COUNTRIES.forEach((country) => {
-    const option = document.createElement('option');
-    option.value = country;
-    option.innerHTML = `<img src="/icons/flags/${country}.png" alt="${country}" class="label-image" role="presentation" aria-hidden="true" tabIndex="-1" height="25" width="25">${country}`;
-    select.append(option);
-  });
-
-  const selected = document.createElement('div');
-  selected.classList.add('selected');
-  selected.setAttribute('aria-haspopup', 'listbox');
-  selected.setAttribute('aria-expanded', 'false');
-  selected.setAttribute('aria-label', 'Select Country');
-  selected.setAttribute('role', 'button');
-  selected.setAttribute('tabIndex', '0');
-  selected.innerHTML = select.querySelector('option').innerHTML;
-
+/**
+ * Creates a Select dropdown for filtering search.
+ * @param {String} name
+ * @param {String} placeholder
+ * @param {number} number
+ * @returns {HTMLDivElement}
+ */
+function buildSelect(name, placeholder, number) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('select-wrapper');
-  wrapper.append(select, selected);
+  wrapper.innerHTML = `
+    <select name="${name}" aria-label="${placeholder}">
+      <option value="">Bedrooms</option>
+    </select>
+    <div class="selected" role="button" aria-haspopup="listbox" aria-label="${placeholder}">${placeholder}</div>
+    <ul class="select-items" role="listbox">
+      <li role="option">${placeholder}</li>
+    </ul>
+  `;
+
+  const select = wrapper.querySelector('select');
+  const ul = wrapper.querySelector('ul');
+  for (let i = 1; i <= number; i += 1) {
+    const option = document.createElement('option');
+    const li = document.createElement('li');
+    li.setAttribute('role', 'option');
+
+    option.value = `${i}`;
+    // eslint-disable-next-line no-multi-assign
+    option.textContent = li.textContent = `${i}+`;
+    select.append(option);
+    ul.append(li);
+  }
   return wrapper;
+}
+
+function addEventListeners(form) {
+  noOverlayAt.addEventListener('change', () => {
+    if (noOverlayAt.matches) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = null;
+    }
+  });
+
+  form.querySelector('button.filter').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.closest('form').classList.add('show-filters');
+    if (!noOverlayAt.matches) {
+      document.body.style.overflowY = 'hidden';
+    }
+  });
+
+  form.querySelectorAll('button.close').forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.closest('form').classList.remove('show-filters');
+      if (!noOverlayAt.matches) {
+        document.body.style.overflowY = 'hidden';
+      }
+    });
+  });
+
+  form.querySelectorAll('.select-wrapper .selected').forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      e.currentTarget.closest('.select-wrapper').classList.toggle('open');
+    });
+  });
+
+  form.querySelectorAll('.select-wrapper .select-items li').forEach((li) => {
+    li.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const count = e.currentTarget.textContent;
+      const wrapper = e.currentTarget.closest('.select-wrapper');
+      wrapper.querySelector('.selected').textContent = count;
+      wrapper.querySelector('ul li.selected')?.classList.toggle('selected');
+      e.currentTarget.classList.add('selected');
+      wrapper.querySelector('select option[selected="selected"]')?.removeAttribute('selected');
+      wrapper.querySelector(`select option[value="${count.replace('+', '')}"]`).setAttribute('selected', 'selected');
+      wrapper.classList.toggle('open');
+    });
+  });
 }
 
 function buildForm() {
   const form = document.createElement('form');
   form.classList.add('homes');
+  form.setAttribute('action', '/search');
 
-  const html = `
+  form.innerHTML = `
+    <div class="mobile-header">
+      <div class="logo">
+        <img alt="Logo" src="/styles/images/logo-black.svg" />
+      </div>
+      <button class="close" aria-label="Close" type="button">
+        <svg role="presentation" aria-hidden="true" tabindex="-1">
+          <use xlink:href="/icons/icons.svg#close-x"></use>
+        </svg>
+      </button>
+    </div>
     <div class="search-bar" role="search">
       <div class="search-suggester">
-        ${buildCountrySelect().outerHTML}
         <div class="suggester-input">
-          <input type="text" placeholder="Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#" aria-label="Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#">
+          <input type="text" placeholder="Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#" 
+              aria-label="Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#">
           <ul class="suggester-results">
             <li>Please enter at least 3 characters.</li>
           </ul>
         </div>
       </div>
-      <button class="search-filter" type="button" aria-label="More Filters" aria-haspopup="true">
+      <button class="filter" type="button" aria-label="More Filters" aria-haspopup="true">
         <span class="icon icon-filter"></span>
       </button>
       <button class="search-submit" aria-label="Search Homes" type="submit">
         <span>Search</span>
       </button>
     </div>
-  `;
-
-  form.innerHTML = html;
-
-  const tmp = `
-    <div class="search-bar-wrapper" role="search">
-     
-      <button class="btn--close" type="button" aria-label="Close Filters" aria-expanded="true">
-        <svg role="presentation">
-          <use xlink:href="/etc/clientlibs/bhhs-pagelibs/icons.svg#close-x"></use>
+    <div class="filters">
+      <input type="text" placeholder="$ Minimum Price" name="MinPrice" aria-label="minimum price">
+      <input type="text" placeholder="$ Maximum Price" name="MaxPrice" aria-label="maximum price">
+      ${buildSelect('MinBedroomsTotal', 'Bedrooms', 12).outerHTML}
+      ${buildSelect('MinBathroomsTotal', 'Bathrooms', 8).outerHTML}
+       <button class="close" aria-label="Close" type="button">
+         <svg role="presentation" aria-hidden="true">
+          <use xlink:href="/icons/icons.svg#close-x"></use>
         </svg>
       </button>
-      <button class="btn--filter" type="button" aria-label="More Filters" aria-haspopup="true">
-        <svg role="presentation">
-          <use xlink:href="/etc/clientlibs/bhhs-pagelibs/icons.svg#filter"></use>
-        </svg>
-      </button>
-      <button class="btn--search" type="submit" aria-label="Homes Search">
-        <span class="text-uppercase">search</span>
-      </button>
     </div>
-    <div class="filters homes">
-      <input type="text" placeholder="$ minimum price" name="MinPrice" aria-label="minimum price">
-        <input type="text" placeholder="$ maximum price" name="MaxPrice" aria-label="maximum price">
-          <section class="cmp-dropdown">
-            <div class="select-wrapper text-capitalize">
-              <select name="MinBedroomsTotal" aria-label="bedrooms">
-                <option value="">bedrooms</option>
-                <option value="1">1+</option>
-                <option value="2">2+</option>
-                <option value="3">3+</option>
-                <option value="4">4+</option>
-                <option value="5">5+</option>
-                <option value="6">6+</option>
-                <option value="7">7+</option>
-                <option value="8">8+</option>
-                <option value="9">9+</option>
-                <option value="10">10+</option>
-                <option value="11">11+</option>
-                <option value="12">12+</option>
-              </select>
-              <div class="select-selected" role="button" aria-haspopup="listbox" aria-label="Bedrooms">bedrooms
-              </div>
-              <ul class="select-items select-hide" role="listbox">
-                <li role="option">bedrooms</li>
-                <li role="option">1+</li>
-                <li role="option">2+</li>
-                <li role="option">3+</li>
-                <li role="option">4+</li>
-                <li role="option">5+</li>
-                <li role="option">6+</li>
-                <li role="option">7+</li>
-                <li role="option">8+</li>
-                <li role="option">9+</li>
-                <li role="option">10+</li>
-                <li role="option">11+</li>
-                <li role="option">12+</li>
-              </ul>
-            </div>
-          </section>
-          <section class="cmp-dropdown">
-            <div class="select-wrapper text-capitalize">
-              <select name="MinBathroomsTotal" aria-label="bathrooms">
-                <option value="">bathrooms</option>
-                <option value="1">1+</option>
-                <option value="2">2+</option>
-                <option value="3">3+</option>
-                <option value="4">4+</option>
-                <option value="5">5+</option>
-                <option value="6">6+</option>
-                <option value="7">7+</option>
-                <option value="8">8+</option>
-              </select>
-              <div class="select-selected" role="button" aria-haspopup="listbox" aria-label="Bathrooms">bathrooms
-              </div>
-              <ul class="select-items select-hide" role="listbox">
-                <li role="option">bathrooms</li>
-                <li role="option">1+</li>
-                <li role="option">2+</li>
-                <li role="option">3+</li>
-                <li role="option">4+</li>
-                <li role="option">5+</li>
-                <li role="option">6+</li>
-                <li role="option">7+</li>
-                <li role="option">8+</li>
-              </ul>
-            </div>
-          </section>
-    </div>
-    <button class="btn btn-primary btn--submit-mobile text-capitalize" type="submit">search</button>`;
+    <button class="submit" type="submit">Search</button>
+`;
 
+  addEventListeners(form);
   decorateIcons(form);
   return form;
 }

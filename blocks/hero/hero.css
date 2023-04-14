@@ -1,4 +1,4 @@
-@import './search.css';
+@import url('./search.css');
 
 main .section.hero-container {
   padding: 0;
@@ -6,9 +6,13 @@ main .section.hero-container {
 }
 
 .hero.block {
+  display: flex;
   position: relative;
   height: 480px;
   margin-bottom: 57px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0 0 0 / 30%);
 }
 
 .hero.block.under-nav {
@@ -48,10 +52,8 @@ main .section.hero-container {
 }
 
 .hero.block > div {
-  display: flex;
-  height: 100%;
-  padding: 110px 16px 3em;
-  background-color: rgba(0 0 0 / 30%);
+  margin-top: var(--nav-height);
+  padding: 0 16px;
 }
 
 .hero.block > div .content {
@@ -79,7 +81,7 @@ main .section.hero-container {
   }
 
   .hero.block > div {
-    padding: 145px 60px 1.5em;
+    padding: 0 60px;
   }
 
   .hero.block > div .content h2 {
@@ -90,7 +92,7 @@ main .section.hero-container {
 
 @media screen and (min-width: 900px) {
   .hero.block > div {
-    padding: 145px 130px 3em;
+    padding: 0 130px;
   }
 }
 
@@ -104,7 +106,7 @@ main .section.hero-container {
   }
 
   .hero.block > div {
-    padding: 145px 130px 3em;
+    margin-top: 100px;
   }
 }
 
