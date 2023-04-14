@@ -42,13 +42,6 @@ main.liveby-community .section .button-container a {
   text-decoration: none;
 }
 
-main.liveby-community .hero-container {
-  display: block;
-  margin: 0 auto;
-  padding: 0;
-  max-width: 1600px;
-}
-
 main.liveby-community .hero-container  .hero.block {
   position: relative;
   padding: 0;
