@@ -23,7 +23,8 @@
   --gray: #d8d8d8;
   --white: #fff;
   --white-background: #fff;
-  --border-gray: #d8d8d8;
+  --border-light-gray: #d8d8d8;
+  --border-medium-gray: #aaa;
   --primary-color-svg-filter: invert(14%) sepia(47%) saturate(1309%) hue-rotate(272deg) brightness(96%) contrast(89%);
 
   /* Fonts */
