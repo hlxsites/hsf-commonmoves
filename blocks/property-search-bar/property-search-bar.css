@@ -1,0 +1,222 @@
+.search-listing-block {
+    display: flex;
+    height: 50px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    align-items: center;
+    cursor: pointer;
+}
+
+.header svg {
+    height: 7px;
+    width: 12px;
+    min-width: 12px;
+}
+.container {
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    padding: 0 15px;
+    /*border-left: 1px solid var(--black);*/
+}
+
+.container .header {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.select-country {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    /*width: 80px;*/
+    /*flex-direction: row-reverse;*/
+}
+.hide {
+    display: none;
+    /*visibility: hidden;*/
+}
+
+.show {
+    display: initial;
+    /*visibility: visible;*/
+}
+
+.opened .arrow {
+    transform: rotate(180deg);
+}
+.selected-country {
+    display: flex;
+    align-items: center;
+    padding: 0  5px 0 0;
+}
+
+.selected-country span {
+    font-weight: 300;
+}
+
+.input-container input {
+    padding: 10px;
+    border: 1px solid #aaa;
+    letter-spacing: normal;
+}
+
+.input-container input:focus {
+    background: var(--white);
+    outline: none;
+}
+
+.container-item {
+    margin: 0 8px;
+    order: 3;
+}
+
+.primary-search {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 550px;
+    order: 1;
+}
+
+.filter-container {
+    width: 35px;
+    order: 2;
+}
+.filter-container a {
+    display: block;
+    width: 35px;
+    height: 35px;
+    position: relative;
+    cursor: pointer;
+}
+
+.filter-container a svg {
+    width: 21px;
+    height: 20px;
+    position: absolute;
+    cursor: pointer;
+    top: calc(50% - 10px);
+    left: calc(50% - 10px);
+}
+
+.label-image {
+    height: auto;
+    width: 25px;
+    margin-right: 5px;
+    padding: 5px;
+}
+
+.search-result-dropdown {
+    display: flex;
+    align-items: center;
+}
+
+.search-results-dropdown div:first-child {
+    position: relative;
+}
+.input-container {
+    flex-grow: 1;
+}
+.select-country {
+    width: 80px;
+    flex-direction: row-reverse;
+    /*margin-right: 0.5rem;*/
+    /*margin-left: 0.5rem;*/
+}
+.input-container input {
+    height: 36px;
+    background-color: rgba(241,241,241,0.1);
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #aaa;
+}
+.header .title {
+    font-size: var(--body-font-size-s);
+    margin-right: 10px;
+    white-space: pre;
+}
+.select-country .title {
+    display: none;
+    letter-spacing: 1px;
+    line-height: 1px;
+    margin-right: 10px;
+}
+
+.button-container {
+    margin: 0 15px 0 8px;
+}
+.button-container a {
+    color: var(--white);
+    border: 1px solid #aaa;
+    min-width: 70px;
+    padding: 7px 10px;
+    font-size: var(--body-font-size-xs);
+}
+
+.select-country .select-item {
+    padding: 10px;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    top: calc(100% + 12px);
+    width: 100px;
+    left: -20px;
+    color: var(--body-color);
+    position: absolute;
+    background: var(--white);
+    z-index: 99;
+    white-space: nowrap
+}
+
+.select-country .select-item li {
+    display: flex;
+    /*todo move to variable*/
+    border-left: 1px solid var(--list-border-grey);
+    border-right: 1px solid var(--list-border-grey);
+    padding: 4px 10px;
+    line-height: 30px;
+    letter-spacing: 0.25px;
+    font-size: var(--body-font-size-s);
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.select-country .select-item li:hover {
+    background: var(--lightgray);
+}
+
+.select-country .select-item li:first-child  {
+    border-top: 1px solid var(--list-border-grey);
+}
+
+.select-country .select-item li:last-child  {
+    border-bottom: 1px solid var(--list-border-grey);
+}
+
+.select-country .tooltip-container {
+    position: relative;
+    display: none;
+}
+
+.select-country .tooltip-container a {
+    color: var(--body-color);
+    text-decoration: none;
+}
+.select-country .select-item .custom-tooltip {
+    background: var(--white);
+    position: absolute;
+    left: 100%;
+    top: 0;
+}
+
+.select-country .select-item li a {
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .filter-container {
+        order: 3;
+    }
+}

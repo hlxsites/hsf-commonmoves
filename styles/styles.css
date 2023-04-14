@@ -25,6 +25,8 @@
   --white-background: #fff;
   --border-gray: #d8d8d8;
   --primary-color-svg-filter: invert(14%) sepia(47%) saturate(1309%) hue-rotate(272deg) brightness(96%) contrast(89%);
+  --list-border-grey: #e7e7e7;
+
 
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
@@ -96,7 +98,7 @@ h4 {
   font-weight: 500;
 }
 
-p {
+p, input {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-m);
   font-weight: 400;
@@ -150,6 +152,10 @@ main .section.center p {
 }
 
 /* common styles */
+
+.text-up {
+  text-transform: uppercase;
+}
 .default-content-wrapper h4 {
   text-transform: uppercase;
   font-family: var(--font-family-proxima);
