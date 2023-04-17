@@ -1,4 +1,5 @@
 
+
 main.liveby-community .section {
   padding-top: 3em;
   padding-bottom: 3em;
@@ -13,19 +14,39 @@ main.liveby-community .liveby-metadata-container {
   display: none;
 }
 
+
+main.liveby-community .section p {
+  margin-bottom: 2em;
+}
+
+main.liveby-community .section > div {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+main.liveby-community .section .button-container a {
+  margin: .25em .5em;
+  padding: .85em 1.15em;
+  font-size: var(--body-font-size-m);
+  color: var(--white);
+  background-color: var(--primary-color);
+  text-transform: capitalize;
+  text-decoration: none;
+}
+
 main.liveby-community .hero-container {
   display: block;
-  margin: 0;
+  margin: 0 auto;
   padding: 0;
   max-width: 1600px;
 }
 
-main.liveby-community .hero.block {
+main.liveby-community .hero-container  .hero.block {
   position: relative;
   padding: 0;
 }
 
-main.liveby-community .hero.block picture {
+main.liveby-community .hero-container .hero.block picture {
   position: absolute;
   z-index: -1;
   top: 0;
@@ -35,19 +56,19 @@ main.liveby-community .hero.block picture {
   object-fit: cover;
 }
 
-main.liveby-community .hero.block picture img {
+main.liveby-community .hero-container .hero.block picture img {
   object-fit: cover;
   object-position: center 70%;
   width: 100%;
   height: 100%;
 }
 
-main.liveby-community .hero.block > div {
+main.liveby-community .hero-container .hero.block > div {
   display: flex;
   justify-content: center;
 }
 
-main.liveby-community .hero.block > div > div {
+main.liveby-community .hero-container  .hero.block > div > div {
   display: flex;
   padding: 3em 5%;
   margin: 6em 0;
@@ -57,7 +78,7 @@ main.liveby-community .hero.block > div > div {
   background-color: rgba(0 0 0 / 60%);
 }
 
-main.liveby-community .hero.block > div > div h1 {
+main.liveby-community .hero-container .hero.block > div > div h1 {
   margin-left: 0;
   margin-right: 0;
   font-family: var(--font-family-proxima);
@@ -71,7 +92,7 @@ main.liveby-community .hero.block > div > div h1 {
 }
 
 main.liveby-community h2 {
-  margin-bottom: 13px;
+  margin-bottom: 1em;
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-m);
   font-weight: 600;
