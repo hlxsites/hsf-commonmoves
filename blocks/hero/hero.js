@@ -19,6 +19,9 @@ async function getPictures(block) {
       }
     }
   }
+  pictures.forEach((picture) => {
+    picture.querySelector('img').setAttribute('loading', 'eager');
+  });
   return pictures;
 }
 
