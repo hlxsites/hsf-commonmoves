@@ -26,19 +26,19 @@
 };
 
  const BEDROOMS = [
-     {"value": "1", "label": "1+ beds"},
-     {"value": "2", "label": "2+ beds"},
-     {"value": "3", "label": "3+ beds"},
-     {"value": "4", "label": "4+ beds"},
-     {"value": "5", "label": "5+ beds"}
+     {"value": "1", "label": "1+ Beds"},
+     {"value": "2", "label": "2+ Beds"},
+     {"value": "3", "label": "3+ Beds"},
+     {"value": "4", "label": "4+ Beds"},
+     {"value": "5", "label": "5+ Beds"}
  ];
 
  const BATHROOMS = [
-     {"value": "1", "label": "1+ baths"},
-     {"value": "2", "label": "2+ baths"},
-     {"value": "3", "label": "3+ baths"},
-     {"value": "4", "label": "4+ baths"},
-     {"value": "5", "label": "5+ baths"}
+     {"value": "1", "label": "1+ Baths"},
+     {"value": "2", "label": "2+ Baths"},
+     {"value": "3", "label": "3+ Baths"},
+     {"value": "4", "label": "4+ Baths"},
+     {"value": "5", "label": "5+ Baths"}
  ];
 const SQUARE_FEET = [
     {"value": "500", "label": "500 sq ft"},
@@ -61,7 +61,7 @@ const SQUARE_FEET = [
 function buildCountriesList(config) {
     let optionsList = '';
     Object.keys(config).forEach(country => {
-       optionsList+= `<option value=${country}><img src="/icons/property-search/${country}.png" alt="${country}" className="label-image"
+       optionsList+= `<option value=${country}><img src="/icons/property-search/${country}.png" alt="${country}"
                                 role="presentation" aria-hidden="true" tabIndex="-1">
                                 ${country}</option>`
     });
@@ -85,51 +85,65 @@ function buildCountriesList(config) {
      return optionsList;
 }
 
- function buildDropdownElement(title) {
+ function buildDropdownElement(title, mode = '', defaultValue = '') {
      const dropdownContainer = document.createElement('div');
-     const className =  title.toLocaleLowerCase().replace(/ /g, '-');
-     dropdownContainer.classList.add('container', className);
+     const identifier =  title.toLocaleLowerCase().replace(/ /g, '-');
+     let selectedOptionHtml = `<div class="title text-up">${title}</div>`;
+     if (mode === 'country') {
+         selectedOptionHtml =`
+            <div role="button" aria-label="Select Country" class="title selected-country">
+                <img src="/icons/property-search/${defaultValue}.png" alt="${defaultValue}Country Flag" class="label-image">
+                <span>${defaultValue}</span>
+            </div>`;
+     }
+     dropdownContainer.classList.add('container', identifier);
+     dropdownContainer.setAttribute('id', identifier);
      dropdownContainer.innerHTML =
          `<div class="header">
-             <div class="title text-up">${title}</div>
+             ${selectedOptionHtml}
              <svg role="presentation" class="arrow">
                 <use xlink:href="/icons/icons.svg#arrow-down-white"></use>
              </svg>
              </div>
-       <div class="search-results-dropdown"/>`;
+       <div class="search-results-dropdown hide shadow"/>`;
 
      return dropdownContainer
  }
- function addRangeOption(config, defaultValue, mode = '') {
-    return `<div id="MinPrice" className="input-dropdown">
-                <input type="text" maxLength="14" list="listMinPrice"
-                    id="bbh-MinPrice" aria-describedby="MinPrice"
-                    placeholder="No min" aria-label="Minimum Price"
-                    className="form-control value1 price-list">
-            <datalist id="listMinPrice" className="listPrices"></datalist>
-            </div>
-        <span className="range-label ml-3 mr-3">to</span>
-        <div id="MaxPrice" className="input-dropdown">
-            <input type="text" maxLength="14" list="listMaxPrice" id="bbh-MaxPrice" aria-describedby="MaxPrice"
-                                                             placeholder="No max" aria-label="Maximum Price"
-                                                             className="form-control value2 price-list">
-            <datalist id="listMaxPrice" className="listPrices"></datalist></div>`
 
+ function addRangeOptionArea() {
+     return `<div class="multiple-inputs">
+                ${addOptions(SQUARE_FEET, 'No Min')}
+                <span class="range-label text-up">to</span>
+                ${addOptions(SQUARE_FEET, 'No Max')}
+                </section>
+            </div>
+            `
+ }
+
+ function addRangeOption(filterName, fromLabel = 'No Min', toLabel = 'No Max', maxLength = 14) {
+    const filterLabel = filterName.charAt(0).toLocaleUpperCase() + filterName.slice(1).toLowerCase();
+    return `<div class="multiple-inputs ">
+                <div id="Min${filterLabel}" class="input-dropdown">
+                <input type="text" maxLength="${maxLength}" list="listMin${filterLabel}"
+                    id="bbh-Min${filterLabel}" aria-describedby="Min${filterLabel}"
+                    placeholder="${fromLabel}" aria-label="Minimum ${filterLabel}"
+                    class="form-control value1 price-list">
+                <datalist id="listMinPrice" class="list${filterLabel}"></datalist>
+            </div>
+        <span class="range-label text-up">to</span>
+        <div id="Max{filterLabel}" class="input-dropdown">
+            <input type="text" maxLength="${maxLength}" list="listMax${filterLabel}" id="bbh-Max${filterLabel}" aria-describedby="Max${filterLabel}"
+                  placeholder="${toLabel}" aria-label="Maximum ${filterLabel}"
+                  class="form-control ${filterLabel}-list">
+            <datalist id="listMax${filterLabel}" class="list${filterLabel}"></datalist>
+            </div>
+        </div>`
  }
  function addOptions(config, defaultValue, mode = '') {
-    let selectedOptionHtml = `<div role="button" aria-haspopup="listbox">${defaultValue}</div>`;
-    if (mode === 'country') {
-        selectedOptionHtml =`
-            <div role="button" aria-label="Select Country" class="selected-country">
-                <img src="/icons/property-search/${defaultValue}.png" alt="${defaultValue}Country Flag" class="label-image">
-                <span>${defaultValue}</span>
-            </div>`;
-    }
     return `<section>
         <div>
             <select class="hide" aria-label="${defaultValue}">${buildSelectOptions(config, defaultValue, mode)}</select>
-            ${selectedOptionHtml}
-            <ul class="select-item hide" role="listbox">${buildListBoxOptions(config, defaultValue, mode)}</ul>
+            <ul class="select-item" role="listbox">${buildListBoxOptions(config, defaultValue, mode)}</ul>
         </div>
     </section>`
  }
@@ -166,10 +180,10 @@ function buildCountriesList(config) {
      if (mode === 'country') {
          output += buildTooltipByCountry(config);
      } else {
-         output += `<li data-value="" role="option">${defaultValue}</li>`
+         output += `<li data-value="" class="tooltip-container">${defaultValue}</li>`
          config.forEach(config => {
 
-             output += `<li data-value="${config.value}" role="option">${config.label}</li>`
+             output += `<li data-value="${config.value}" class="tooltip-container">${config.label}</li>`
          });
      }
      return output
@@ -179,21 +193,39 @@ function buildCountriesList(config) {
      return country === 'US' ? 'Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#' : 'Enter City'
  }
 
+ function closeSelect(element) {
+
+     element.classList.remove('opened');
+     element.querySelector('.search-results-dropdown').classList.add('hide');
+ }
+
+ function openSelect(element) {
+     element.classList.add('opened');
+     // element.querySelectorAll('.hide').forEach((el) => {
+     //     el.classList.remove('hide');
+     //     }
+     // );
+     element.querySelector('.search-results-dropdown').classList.remove('hide');
+ }
 function getInternationalSearchOptions() {
     return `https://www.commonmoves.com/bin/bhhs/cregPropertySearchOptionsServlet`
 }
 export default function decorate(block) {
-    const countrySelect = buildDropdownElement('Select Country');
+    const countrySelect = buildDropdownElement('Select Country', 'country', 'US');
     countrySelect.querySelector('.search-results-dropdown').innerHTML = addOptions(COUNTRIES, 'US', 'country');
     const defaultSuggestionMessage = 'Please enter at least 3 characters.';
     const priceSelect = buildDropdownElement('price');
+    priceSelect.querySelector('.search-results-dropdown').innerHTML = addRangeOption('price');
     priceSelect.classList.add('container-item', 'left-border');
     const bedroomsSelect = buildDropdownElement('any beds');
     bedroomsSelect.classList.add('container-item', 'left-border');
+    bedroomsSelect.querySelector('.search-results-dropdown').innerHTML = addOptions(BEDROOMS, 'Any Beds');
     const bathroomsSelect = buildDropdownElement('any baths');
     bathroomsSelect.classList.add('container-item', 'left-border');
+    bathroomsSelect.querySelector('.search-results-dropdown').innerHTML = addOptions(BATHROOMS, 'Any Baths');
     const areaSelect = buildDropdownElement('square feet');
     areaSelect.classList.add('container-item', 'left-border');
+    areaSelect.querySelector('.search-results-dropdown').innerHTML = addRangeOptionArea();
     block.innerHTML = `<div class="search-listing-block">
     <div class="primary-search container-item">
         ${countrySelect.outerHTML}
@@ -234,47 +266,47 @@ export default function decorate(block) {
     const selectCountryElement = block.querySelector('.container.select-country');
     const selectedCountryButton = block.querySelector('.container.select-country .selected-country');
     const countriesListItems = block.querySelectorAll('.container.select-country .select-item .tooltip-container');
-    const countriesListItemsButtons = block.querySelectorAll('.container.select-country .select-item .tooltip-container > a')
+    const countriesListItemsButtons = block.querySelectorAll('.container.select-country .select-item .tooltip-container > a');
+    const filterOptions = block.querySelectorAll('.container .select-item .tooltip-container');
     const selectElement = selectCountryElement.querySelector('.search-results-dropdown > section > div > ul');
     const inputContainer = block.querySelector('.input-container input');
     const filters = block.querySelectorAll('.container');
-    filters.forEach((el) => {el.addEventListener('click', () => {
-        if (el.classList.contains('opened')) {
-            el.classList.remove('opened');
-            //selectElement.classList.add('hide');
+    filters.forEach((selectedFilter) => {selectedFilter.addEventListener('click', () => {
+        //close all other elements
+        filters.forEach((elem) => {
+            if (elem.hasAttribute('id')
+                && elem.getAttribute('id') !== selectedFilter.getAttribute('id')
+                && elem.classList.contains('opened')
+            ) {
+                closeSelect(elem);
+            }
+        });
+        if (selectedFilter.classList.contains('opened')) {
+            closeSelect(selectedFilter);
         } else {
-            el.classList.add('opened');
-            //selectElement.classList.remove('hide');
+            openSelect(selectedFilter);
         }
     })
-    });
-
-    selectedCountryButton.addEventListener('click', () => {
-        if (selectCountryElement.classList.contains('opened')) {
-            selectCountryElement.classList.remove('opened');
-            selectElement.classList.add('hide');
-        } else {
-            selectCountryElement.classList.add('opened');
-            selectElement.classList.remove('hide');
-        }
     });
 
     //update country name, flag, input placeholder on click
-    countriesListItemsButtons.forEach((element) => {
+    filterOptions.forEach((element) => {
         element.addEventListener('click', (e) => {
-            const selectedCountry = e.target.closest('.tooltip-container').getAttribute('data-value');
-            //@todo move to method???
-            selectedCountryButton.innerHTML = `
-            <img src="/icons/property-search/${selectedCountry}.png" alt="${selectedCountry}Country Flag" class="label-image">
-                <span>${selectedCountry}</span>
-            `;
-            selectCountryElement.classList.remove('opened');
-            selectElement.classList.add('hide');
-            //update input placeholder
-            inputContainer.ariaLabel = getPlaceholder(selectedCountry);
-            inputContainer.placeholder = getPlaceholder(selectedCountry);
+            const selectedElValue = element.innerText;
+            const headerTitle = element.closest('.container').querySelector('.header .title');
+            if (headerTitle.childElementCount > 0) {
+                const selectedCountry = e.target.closest('.tooltip-container').getAttribute('data-value');
+                headerTitle.innerHTML = `
+                <img src="/icons/property-search/${selectedCountry}.png" alt="${selectedCountry}Country Flag" class="label-image">
+                    <span>${selectedCountry}</span>`;
+                //update input placeholder
+                inputContainer.ariaLabel = getPlaceholder(selectedCountry);
+                inputContainer.placeholder = getPlaceholder(selectedCountry);
+            } else {
+                headerTitle.innerHTML = selectedElValue;
+            }
         });
-    })
+    });
     //display country tooltip on hover
     countriesListItems.forEach((element) => {
         element.addEventListener('pointerover', (e) => {
