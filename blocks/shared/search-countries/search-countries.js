@@ -2,7 +2,7 @@ import {
   loadCSS,
 } from '../../../scripts/lib-franklin.js';
 
-const imgHTML = (country) => `<img src="/icons/flags/${country}.png" alt="${country}" class="label-image" role="presentation" aria-hidden="true" tabIndex="-1" height="25" width="25"/>${country}`
+const imgHTML = (country) => `<img src="/icons/flags/${country}.png" alt="${country}" class="label-image" role="presentation" aria-hidden="true" tabIndex="-1" height="25" width="25"/>${country}`;
 
 function addListeners(wrapper) {
   wrapper.querySelector('.selected').addEventListener('click', (e) => {
@@ -70,6 +70,7 @@ export default async function buildCountrySelect() {
 
     const submenu = li.querySelector(':scope ul');
     if (submenu) {
+      item.classList.add('has-children');
       item.append(submenu);
     }
   });
