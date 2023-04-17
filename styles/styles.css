@@ -111,6 +111,11 @@ header {
   height: var(--nav-height);
 }
 
+main {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
 main .section {
   max-width: 1350px;
   margin: 0 auto;

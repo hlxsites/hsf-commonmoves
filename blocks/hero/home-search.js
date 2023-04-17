@@ -1,43 +1,6 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 import { BREAKPOINTS } from '../../scripts/scripts.js';
-
-// TODO: Finish this - needs a better design
-// const COUNTRIES = ['US', 'CA', 'MX', 'KY', 'AW', 'AE', 'BS', 'GB', 'GR', 'ES', 'IT', 'PT', 'IN'];
-//
-// function buildCountrySelect() {
-//   const select = document.createElement('select');
-//
-//   const ul = document.createElement('ul');
-//   ul.classList.add('select-items');
-//
-//   COUNTRIES.forEach((country) => {
-//     const option = document.createElement('option');
-//     option.value = country;
-// eslint-disable-next-line max-len
-//     option.innerHTML = `<img src="/icons/flags/${country}.png" alt="${country}" class="label-image" role="presentation" aria-hidden="true" tabIndex="-1" height="25" width="25">${country}`;
-//     select.append(option);
-//
-//     const li = document.createElement('li');
-//     li.setAttribute('data-value', country);
-//     li.setAttribute('role', 'option');
-//     li.set
-//   });
-//
-//
-//   const selected = document.createElement('div');
-//   selected.classList.add('selected');
-//   selected.setAttribute('aria-haspopup', 'listbox');
-//   selected.setAttribute('aria-expanded', 'false');
-//   selected.setAttribute('aria-label', 'Select Country');
-//   selected.setAttribute('role', 'button');
-//   selected.setAttribute('tabIndex', '0');
-//   selected.innerHTML = select.querySelector('option').innerHTML;
-//
-//   const wrapper = document.createElement('div');
-//   wrapper.classList.add('select-wrapper');
-//   wrapper.append(select, selected);
-//   return wrapper;
-// }
+import buildCountrySelect from '../shared/search-countries/search-countries.js';
 
 const noOverlayAt = BREAKPOINTS.medium;
 
@@ -130,7 +93,8 @@ function addEventListeners(form) {
   });
 }
 
-function buildForm() {
+async function buildForm() {
+  const countrySelect = await buildCountrySelect();
   const form = document.createElement('form');
   form.classList.add('homes');
   form.setAttribute('action', '/search');
@@ -177,6 +141,9 @@ function buildForm() {
     <button class="submit" type="submit">Search</button>
 `;
 
+  if (countrySelect) {
+    form.querySelector('.search-suggester').prepend(countrySelect);
+  }
   addEventListeners(form);
   decorateIcons(form);
   return form;

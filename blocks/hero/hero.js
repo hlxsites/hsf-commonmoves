@@ -29,7 +29,7 @@ function rotateImage(images) {
   next.classList.add('active');
 }
 
-function buildSearch(ul) {
+async function buildSearch(ul) {
   if (!ul) {
     return undefined;
   }
@@ -40,11 +40,13 @@ function buildSearch(ul) {
   wrapper.append(tabs);
 
   const items = ul.querySelectorAll('li');
-  items.forEach((item) => {
+  for (let i = 0; i < items.length; i += 1) {
+    const item = items[i];
     item.classList.add('option');
     let form;
     if (item.textContent.toLowerCase() === 'homes') {
-      form = homes.buildForm();
+      // eslint-disable-next-line no-await-in-loop
+      form = await homes.buildForm();
     } else if (item.textContent.toLowerCase() === 'agents') {
       form = agents.buildForm();
     }
@@ -56,7 +58,7 @@ function buildSearch(ul) {
       form.setAttribute('data-option', option);
       wrapper.append(form);
     }
-  });
+  }
   const active = wrapper.querySelector('.search .options .option');
   active.classList.add('active');
   wrapper.querySelector(`form[data-option="${active.getAttribute('data-option')}"]`).classList.add('active');
@@ -93,7 +95,7 @@ export default async function decorate(block) {
     block.classList.add('has-content');
   }
 
-  const search = buildSearch(block.querySelector('ul'));
+  const search = await buildSearch(block.querySelector('ul'));
   if (search) {
     contentWrapper.append(search);
   }
