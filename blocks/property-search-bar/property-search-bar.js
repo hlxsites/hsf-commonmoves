@@ -112,9 +112,9 @@ function buildCountriesList(config) {
 
  function addRangeOptionArea() {
      return `<div class="multiple-inputs">
-                ${addOptions(SQUARE_FEET, 'No Min')}
+                ${addOptions(SQUARE_FEET, 'No Min', 'area')}
                 <span class="range-label text-up">to</span>
-                ${addOptions(SQUARE_FEET, 'No Max')}
+                ${addOptions(SQUARE_FEET, 'No Max', 'area')}
                 </section>
             </div>
             `
@@ -140,9 +140,16 @@ function buildCountriesList(config) {
         </div>`
  }
  function addOptions(config, defaultValue, mode = '') {
+    let selectedHtml = '';
+    if (mode === 'area') {
+        selectedHtml = `
+            <div class="select-selected" data-ol-has-click-handler="" role="button" aria-haspopup="listbox">${defaultValue}</div>
+            `;
+    }
     return `<section>
         <div>
             <select class="hide" aria-label="${defaultValue}">${buildSelectOptions(config, defaultValue, mode)}</select>
+            ${selectedHtml}
             <ul class="select-item" role="listbox">${buildListBoxOptions(config, defaultValue, mode)}</ul>
         </div>
     </section>`
@@ -199,6 +206,15 @@ function buildCountriesList(config) {
      element.querySelector('.search-results-dropdown').classList.add('hide');
  }
 
+ function createPriceList(d) {
+     var h = []
+         , k = [10, 100, 1E3, 1E4, 1E5, 1E6];
+     if (d)
+         for (var m = 1; 6 >= m; m++)
+             h.push(d * k[m - 1]);
+     return h
+ }
+
  function openSelect(element) {
      element.classList.add('opened');
      // element.querySelectorAll('.hide').forEach((el) => {
@@ -226,6 +242,9 @@ export default function decorate(block) {
     const areaSelect = buildDropdownElement('square feet');
     areaSelect.classList.add('container-item', 'left-border');
     areaSelect.querySelector('.search-results-dropdown').innerHTML = addRangeOptionArea();
+    areaSelect.querySelectorAll('.select-item').forEach((el) => {
+        el.classList.add('hide');
+    });
     block.innerHTML = `<div class="search-listing-block">
     <div class="primary-search container-item">
         ${countrySelect.outerHTML}
@@ -270,41 +289,64 @@ export default function decorate(block) {
     const filterOptions = block.querySelectorAll('.container .select-item .tooltip-container');
     const selectElement = selectCountryElement.querySelector('.search-results-dropdown > section > div > ul');
     const inputContainer = block.querySelector('.input-container input');
-    const filters = block.querySelectorAll('.container');
-    filters.forEach((selectedFilter) => {selectedFilter.addEventListener('click', () => {
-        //close all other elements
-        filters.forEach((elem) => {
-            if (elem.hasAttribute('id')
-                && elem.getAttribute('id') !== selectedFilter.getAttribute('id')
-                && elem.classList.contains('opened')
-            ) {
-                closeSelect(elem);
+    const filters = block.querySelectorAll('.container .header');
+    const multipleSelectInputs = block.querySelectorAll('.select-selected');
+    filters.forEach((selectedFilter) => {
+        selectedFilter.addEventListener('click', () => {
+            //close all other elements
+            filters.forEach((elem) => {
+                if (elem.parentElement.hasAttribute('id')
+                    && elem.parentElement.getAttribute('id') !== selectedFilter.parentElement.getAttribute('id')
+                    && elem.parentElement.classList.contains('opened')
+                ) {
+                    closeSelect(elem.parentElement);
+                }
+            });
+            if (selectedFilter.parentElement.classList.contains('opened')) {
+                closeSelect(selectedFilter.parentElement);
+            } else {
+                openSelect(selectedFilter.parentElement);
             }
-        });
-        if (selectedFilter.classList.contains('opened')) {
-            closeSelect(selectedFilter);
-        } else {
-            openSelect(selectedFilter);
-        }
-    })
+        })
     });
 
+    multipleSelectInputs.forEach((el) => {
+        el.addEventListener('click', () => {
+            el.closest('section > div').querySelector('.select-item').classList.remove('hide');
+        })
+    })
     //update country name, flag, input placeholder on click
     filterOptions.forEach((element) => {
         element.addEventListener('click', (e) => {
-            const selectedElValue = element.innerText;
-            const headerTitle = element.closest('.container').querySelector('.header .title');
-            if (headerTitle.childElementCount > 0) {
+            let selectedElValue = element.innerText;
+            let container = element.closest('.container');
+            const headerTitle = container.querySelector('.header .title');
+            if (container.querySelector('.multiple-inputs')) {
+                //logic
+                element.closest('section > div').querySelector('.select-selected').innerHTML = selectedElValue;
+                const headerItems = container.querySelectorAll('.multiple-inputs .select-selected');
+                const fromSelectedValue = headerItems[0].innerText;
+                const toSelectedValue = headerItems[1].innerText;
+                if (fromSelectedValue === 'No Min' && toSelectedValue === 'No Max') {
+                    selectedElValue = 'square feet';
+                } else {
+                    selectedElValue = fromSelectedValue + '-' + toSelectedValue;
+                }
+                container = element.closest('.select-item');
+            }
+            else if (headerTitle.childElementCount > 0) {
                 const selectedCountry = e.target.closest('.tooltip-container').getAttribute('data-value');
-                headerTitle.innerHTML = `
+                selectedElValue = `
                 <img src="/icons/property-search/${selectedCountry}.png" alt="${selectedCountry}Country Flag" class="label-image">
                     <span>${selectedCountry}</span>`;
                 //update input placeholder
                 inputContainer.ariaLabel = getPlaceholder(selectedCountry);
                 inputContainer.placeholder = getPlaceholder(selectedCountry);
-            } else {
-                headerTitle.innerHTML = selectedElValue;
             }
+            headerTitle.innerHTML = selectedElValue;
+            //todo update logic for multiple select
+            closeSelect(container);
+
         });
     });
     //display country tooltip on hover

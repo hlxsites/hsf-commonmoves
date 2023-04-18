@@ -256,7 +256,8 @@ main .section.property-search-bar-container {
     font-size: var(--body-font-size-s);
     opacity: 1; /* Firefox */
 }
-.price .search-results-dropdown {
+.price .search-results-dropdown,
+.square-feet .search-results-dropdown{
     position: absolute;
     padding: 10px;
     background-color: var(--white);
@@ -272,6 +273,33 @@ main .section.property-search-bar-container {
 
 .shadow {
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15) !important;
+}
+
+.multiple-inputs section div:first-child {
+    width: 125px;
+}
+.multiple-inputs .select-selected {
+    color: var(--black);
+    text-align: left;
+    font-size: var(--body-font-size-s);
+    height: 45px;
+    font-family: var(--font-family-proxima);
+    line-height: 45px;
+    border: 1px solid var(--list-border-grey);
+    padding: 0 15px;
+}
+
+.multiple-inputs .select-selected:after {
+    position: absolute;
+    content: "";
+    height: 7px;
+    width: 12px;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    top: calc(50% - 3.5px);
+    right: 15px;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjdweCIgdmlld0JveD0iMCAwIDEyIDciIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+ICAgICAgICA8dGl0bGU+VUkvQ2Fycm90L0NvbGxhcHNlL0RhcmtHcmF5IENvcHkgMzwvdGl0bGU+ICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPiAgICA8ZGVmcz48L2RlZnM+ICAgIDxnIGlkPSItLS0t4pe877iOLVVJLUVsZW1lbnRzIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4gICAgICAgIDxnIGlkPSJVSS1FbGVtZW50cy9JY29ucyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTM5NC4wMDAwMDAsIC0yODguMDAwMDAwKSIgZmlsbD0iI0FBQUFBQSI+ICAgICAgICAgICAgPGcgaWQ9IlVJL0NhcnJvdC9FeHBhbmQvR3JheSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzk0LjAwMDAwMCwgMjg4LjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8cG9seWdvbiBpZD0iUGF0aC0yIiBwb2ludHM9IjAuNzM0NTU4NTc2IDAuNjcxMzk5NzczIDExLjI5MzM0NTkgMC42NzEzOTk3NzMgNi4wMTM5NTIyNSA2LjY2MDUzMjIiPjwvcG9seWdvbj4gICAgICAgICAgICA8L2c+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4=);
 }
 
 @media (min-width: 992px) {
