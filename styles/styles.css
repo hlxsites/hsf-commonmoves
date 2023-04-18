@@ -31,6 +31,11 @@
   --font-family-proxima: 'ProximaNova', 'ProximaNova Fallback', 'Arial', sans-serif;
   --font-family-gotham: 'Gotham', 'Gotham Fallback', 'Arial', sans-serif;
   --font-family-fontawesome: 'FontAwesome';
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-heavier: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
 
   /* Headings */
   --heading-font-size-xxl: 40px;
@@ -49,8 +54,38 @@
   --body-font-size-s: 14px;
   --body-font-size-xs: 12px;
   --body-font-size-xxs: 10px;
-  --line-height-l: 1.4em;
-  --line-height-m: 1.3em;
+
+  --line-height-2xs: 17px;
+  --line-height-xs: 1.15em; /*18.4px*/
+  --line-height-s: 1.2em; /*19.2px*/
+  --line-height-n: 1.25em; /*20px*/
+  --line-height-m: 1.3em; /*20.8px*/
+  --line-height-l: 1.4em; /*22.4px*/
+  --line-height-xl: 23px;
+  --line-height-2xl: 24px; /*1.5em*/
+  --line-height-3xl: 30px;
+  --line-height-4xl: 32px;
+  --line-height-45xl: 35px;
+  --line-height-5xl: 2.5em; /*40px*/
+  --line-height-6xl: 50px;
+
+  /* Common spacing values */
+  --letter-spacing-0: 0px;	
+  --letter-spacing-1: 0.25px;
+  --letter-spacing-2: 0.4px;
+  --letter-spacing-3: 0.5px;
+  --letter-spacing-4: 0.6px;
+  --letter-spacing-5: 0.7px;
+  --letter-spacing-6: 0.8px;
+  --letter-spacing-7: 0.93px;
+  --letter-spacing-8: 1px;
+  --letter-spacing-9: 1.3px;
+  --letter-spacing-10: 0.13em; /* ~2.08px */
+  --letter-spacing-11: 0.2em; /* ~3.2px */
+  --letter-spacing-12: 3.6px;
+
+  /* Common dimensions */
+  --max-page-width: 1350px;
 
   /* nav height */
   --nav-height: 65px;
@@ -78,30 +113,30 @@ body {
 h2 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-xl);
-  font-weight: 700;
-  line-height: 50px;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-6xl);
 }
 
 h3 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-m);
-  font-weight: 500;
-  line-height: 1.2em;
+  font-weight: var(--font-weight-heavier);
+  line-height: var(--line-height-s);
   padding-top: 0.8em;
 }
 
 h4 {
   font-family: var(--font-family-proxima);
   font-size: var(--heading-font-size-xs);
-  font-weight: 500;
+  font-weight: var(--font-weight-heavier);
 }
 
 p {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-m);
-  font-weight: 400;
-  letter-spacing: 0.8px;
-  line-height: 23px;
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-6);
+  line-height: var(--line-height-xl);
 }
 
 header {
@@ -109,7 +144,7 @@ header {
 }
 
 main .section {
-  max-width: 1350px;
+  max-width: var(--max-page-width);
   margin: 0 auto;
   padding-left: var(--section-padding);
   padding-right: var(--section-padding);
@@ -131,9 +166,9 @@ main .section.center p {
 .button-container a {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-s);
-  font-weight: 400;
-  letter-spacing: .7px;
-  line-height: 24px;
+  font-weight: var(--font-weight-normal);
+  letter-spacing:var(--letter-spacing-5);
+  line-height: var(--line-height-2xl);
   text-transform: uppercase;
   text-decoration: none;
   color: var(--body-color);
@@ -153,9 +188,9 @@ main .section.center p {
 .default-content-wrapper h4 {
   text-transform: uppercase;
   font-family: var(--font-family-proxima);
-  font-weight: 600;
-  letter-spacing: 0.13em;
-  line-height: 1.4em;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-10);
+  line-height: var(--line-height-l);
   text-align: center;
 }
 
@@ -168,7 +203,7 @@ main .section.center p {
 @font-face {
   font-family: 'GeorgiaPro Fallback';
   font-style: normal;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   src: local('Arial Bold');
   ascent-override: 92.25%;
   descent-override: 22.06%;
@@ -179,7 +214,7 @@ main .section.center p {
 @font-face {
   font-family: 'GeorgiaPro Fallback';
   font-style: normal;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   src: local('Arial Bold');
   ascent-override: 85.62%;
   descent-override: 20.47%;
@@ -190,7 +225,7 @@ main .section.center p {
 @font-face {
   font-family: 'ProximaNova Fallback';
   font-style: normal;
-  font-weight: 300;
+  font-weight: var(--font-weight-light);
   src: local('Arial');
   ascent-override: 80.85%;
   descent-override: 21.49%;
@@ -201,7 +236,7 @@ main .section.center p {
 @font-face {
   font-family: 'ProximaNova Fallback';
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   src: local('Arial');
   ascent-override: 79.64%;
   descent-override: 21.17%;
@@ -212,7 +247,7 @@ main .section.center p {
 @font-face {
   font-family: 'ProximaNova Fallback';
   font-style: normal;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   src: local('Arial Bold');
   ascent-override: 84.49%;
   descent-override: 22.46%;
@@ -223,7 +258,7 @@ main .section.center p {
 @font-face {
   font-family: 'ProximaNova Fallback';
   font-style: normal;
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   src: local('Arial Bold');
   ascent-override: 83.31%;
   descent-override: 22.15%;
@@ -234,7 +269,7 @@ main .section.center p {
 @font-face {
   font-family: 'Gotham Fallback';
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   src: local('Arial');
   ascent-override: 85.14%;
   descent-override: 21.29%;
