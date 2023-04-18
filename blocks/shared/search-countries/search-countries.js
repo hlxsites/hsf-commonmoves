@@ -5,6 +5,9 @@ import {
 const imgHTML = (country) => `<img src="/icons/flags/${country}.png" alt="${country}" class="label-image" role="presentation" aria-hidden="true" tabIndex="-1" height="25" width="25"/>${country}`;
 
 function addListeners(wrapper, cbs) {
+  // eslint-disable-next-line no-param-reassign
+  cbs = cbs.type instanceof Array ? cbs : [cbs];
+
   wrapper.querySelector('.selected').addEventListener('click', (e) => {
     e.stopPropagation();
     e.preventDefault();
@@ -25,8 +28,6 @@ function addListeners(wrapper, cbs) {
       wrapper.querySelector(`select option[value="${selected}"]`).setAttribute('selected', 'selected');
       wrapper.classList.toggle('open');
       if (cbs) {
-        // eslint-disable-next-line no-param-reassign
-        cbs = cbs.type === 'Array' ? cbs : [cbs];
         cbs.forEach((cb) => {
           cb(selected);
         });
@@ -38,10 +39,11 @@ function addListeners(wrapper, cbs) {
 /**
  * Create the Country Select drop down to use in various locations.
  *
- * @param {function|Array.<function>} callbacks one or more callbacks to attach when the selection in the dropdown changes.
+ * @param {function|Array.<function>} callbacks
+ *  one or more callbacks to attach when the selection in the dropdown changes.
  * @returns {Promise.<HTMLElement>} the HTML string of the select element.
  */
-export default async function buildCountrySelect(callbacks= undefined) {
+export default async function buildCountrySelect(callbacks = undefined) {
   const resp = await fetch('/search/country-list.plain.html');
   if (!resp.ok) {
     return undefined;
