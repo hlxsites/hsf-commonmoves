@@ -26,6 +26,7 @@
   --greyblue: #36758d;
   --white-background: #fff;
   --border-grey: #d8d8d8;
+  --primary-color-svg-filter: invert(14%) sepia(47%) saturate(1309%) hue-rotate(272deg) brightness(96%) contrast(89%);
   --seller-advice: rgb(240 240 224);
   --home-improvement: rgb(252 245 217);
   --finance: rgb(247 232 229);
@@ -35,7 +36,6 @@
   --grey-blog-category: #aaa;
   --secondary-grey: #EFEFEF;
   --transparent: #FFFFFFE6;
-
 
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
@@ -68,7 +68,7 @@
   --section-padding: 15px;
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 1200px) {
   :root {
     --nav-height: 140px;
   }
