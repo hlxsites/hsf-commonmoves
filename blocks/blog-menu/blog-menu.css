@@ -81,11 +81,15 @@
     text-align: center;
 }
 
-.blog-nav img {
+.blog-nav .category-dropdown-icon {
     width: auto;
     vertical-align: middle;
     filter: brightness(100);
     padding: 0 0 2px;
+}
+
+.blog-detail-template .category-dropdown-icon {
+    filter: initial;
 }
 
 .blog-nav .selected-cat {

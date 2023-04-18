@@ -1,3 +1,7 @@
+import {
+  readBlockConfig,
+} from '../../scripts/lib-franklin.js';
+
 const DEFAULT_SCROLL_INTERVAL_MS = 6000;
 const DEFAULT_DESCRIPTION_LENGTH = 141;
 let blogCategory = false;
@@ -163,15 +167,10 @@ function stopAutoScroll() {
 
 export default async function decorate(block) {
   // get config values
-  [...block.children].forEach((child) => {
-    if (child.textContent.includes('Carousel Items')) {
-      numCarouselItems = parseInt(child.lastElementChild.textContent, 10);
-    } else if (child.textContent.includes('List Items')) {
-      numBlogItems = parseInt(child.lastElementChild.textContent, 10);
-    }
-    // clean up block
-    block.removeChild(child);
-  });
+  const config = readBlockConfig(block);
+  numCarouselItems = parseInt(config['carousel-items'], 10);
+  numBlogItems = parseInt(config['list-items'], 10);
+  block.innerHTML = '';
   if (numCarouselItems > numBlogItems) {
     // eslint-disable-next-line no-console
     console.error('number of carousel items should be less or equal to number of blogs in the list');
@@ -183,7 +182,7 @@ export default async function decorate(block) {
   const carouselButtons = document.createElement('div');
   let dataKey = 'articles';
   carouselContainer.classList.add('carousel-list');
-  carouselContainer.innerHTML = '<div class="container"/>';
+  carouselContainer.innerHTML = '<div class="container"></div>';
   blogsGridContainer.classList.add('blogs-grid-list');
   carouselButtons.classList.add('owl-dots');
   // get blog items

@@ -58,18 +58,19 @@ html {
     margin-bottom: 16px;
 }
 
-.left-section .description p,li{
-    margin-bottom: 24px;
-    line-height: 1.4em;
-}
-
 .article-share-page-icons li,
-.article-share-page-icons a{
+.article-share-page-icons a {
     padding-right: 20px;
     width: 50px;
     height: 30px;
     border: none;
     margin-bottom: 0;
+}
+
+.left-section .description p,
+.left-section .description li{
+    margin-bottom: 24px;
+    line-height: 1.4em;
 }
 
 .article-share-page-icons a {
@@ -199,7 +200,7 @@ html {
     z-index: 10;
     visibility: hidden;
     transform: translateX(0);
-    background: var(--transperent);
+    background: var(--transparent);
     height: 100%;
 }
 
