@@ -85,7 +85,15 @@ function addEventListeners(form) {
     button.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      e.currentTarget.closest('.select-wrapper').classList.toggle('open');
+      const wrapper = e.currentTarget.closest('.select-wrapper');
+      const wasOpen = wrapper.classList.contains('open');
+      const thisForm = e.currentTarget.closest('form');
+      thisForm.querySelectorAll('.select-wrapper.open').forEach((select) => {
+        select.classList.remove('open');
+      });
+      if (!wasOpen) {
+        wrapper.classList.add('open');
+      }
     });
   });
 
