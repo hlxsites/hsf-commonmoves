@@ -69,7 +69,12 @@ function addEventListeners(form) {
     button.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      e.currentTarget.closest('form').classList.remove('show-filters');
+      const thisForm = e.currentTarget.closest('form');
+      thisForm.classList.remove('show-filters');
+      thisForm.querySelectorAll('.select-wrapper.open').forEach((select) => {
+        select.classList.remove('open');
+      });
+
       if (!noOverlayAt.matches) {
         document.body.style.overflowY = 'hidden';
       }
@@ -122,7 +127,7 @@ async function buildForm() {
           <input type="text" placeholder="${getPlaceholder()}" 
               aria-label="${getPlaceholder()}">
           <ul class="suggester-results">
-            <li>Please enter at least 3 characters.</li>
+            <li class="list-title">Please enter at least 3 characters.</li>
           </ul>
         </div>
       </div>
