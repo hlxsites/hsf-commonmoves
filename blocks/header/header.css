@@ -279,7 +279,7 @@ body.light-nav {
     width: unset;
     padding: 0 10px;
     font-size: var(--body-font-size-xs);
-    letter-var(--letter-spacing-8);
+    letter-spacing: var(--letter-spacing-8);
     line-height: unset;
   }
 
