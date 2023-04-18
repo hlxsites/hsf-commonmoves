@@ -24,6 +24,7 @@
   display: inline;
   position: absolute;
   right: 7px;
+  width: 10px;
   content: '\f0d7';
   font-family: var(--font-family-fontawesome);
   height: unset;
