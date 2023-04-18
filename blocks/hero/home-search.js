@@ -40,6 +40,13 @@ function buildSelect(name, placeholder, number) {
   return wrapper;
 }
 
+function getPlaceholder(country) {
+  if (country && country !== 'US') {
+    return 'Enter City';
+  }
+  return 'Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#';
+}
+
 function addEventListeners(form) {
   noOverlayAt.addEventListener('change', () => {
     if (noOverlayAt.matches) {
@@ -94,7 +101,6 @@ function addEventListeners(form) {
 }
 
 async function buildForm() {
-  const countrySelect = await buildCountrySelect();
   const form = document.createElement('form');
   form.classList.add('homes');
   form.setAttribute('action', '/search');
@@ -113,8 +119,8 @@ async function buildForm() {
     <div class="search-bar" role="search">
       <div class="search-suggester">
         <div class="suggester-input">
-          <input type="text" placeholder="Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#" 
-              aria-label="Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#">
+          <input type="text" placeholder="${getPlaceholder()}" 
+              aria-label="${getPlaceholder()}">
           <ul class="suggester-results">
             <li>Please enter at least 3 characters.</li>
           </ul>
@@ -141,6 +147,14 @@ async function buildForm() {
     <button class="submit" type="submit">Search</button>
 `;
 
+  const changeCountry = (country) => {
+    const placeholder = getPlaceholder(country);
+    const input = form.querySelector('.suggester-input input');
+    input.setAttribute('placeholder', placeholder);
+    input.setAttribute('aria-label', placeholder);
+  };
+
+  const countrySelect = await buildCountrySelect(changeCountry);
   if (countrySelect) {
     form.querySelector('.search-suggester').prepend(countrySelect);
   }
