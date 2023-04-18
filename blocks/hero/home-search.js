@@ -1,6 +1,6 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 import { BREAKPOINTS } from '../../scripts/scripts.js';
-import buildCountrySelect from '../shared/search-countries/search-countries.js';
+import { build as buildCountrySelect, close as closeCountrySelect } from '../shared/search-countries/search-countries.js';
 
 const noOverlayAt = BREAKPOINTS.medium;
 
@@ -91,6 +91,7 @@ function addEventListeners(form) {
       thisForm.querySelectorAll('.select-wrapper.open').forEach((select) => {
         select.classList.remove('open');
       });
+      closeCountrySelect(thisForm);
       if (!wasOpen) {
         wrapper.classList.add('open');
       }

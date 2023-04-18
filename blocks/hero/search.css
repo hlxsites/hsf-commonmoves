@@ -26,6 +26,7 @@
 /* Shared Search Option CSS */
 
 .hero.block .content .search-bar {
+  position: relative;
   display: flex;
   padding: 5px;
   margin-bottom: 8px;
@@ -49,8 +50,30 @@
 
 .hero.block .content .search-bar .suggester-results {
   display: none;
+  position: absolute;
+  top: 56px;
+  left: 0;
+  width: 100%;
+  max-height: 290px;
+  overflow-y: scroll;
+  background-color: var(--white-background);
+  border: 1px solid var(--border-medium-gray);
+  box-shadow: 0 3px 9px 2px rgba(0,0,0,0.23);
+  z-index: 10;
 }
 
+.hero.block .content .search-bar .suggester-results.visible {
+  display: block;
+}
+
+.hero.block .content .search-bar .suggester-results .list-title {
+  padding: 15px 15px 5px;
+  font-family: var(--font-family-proxima);
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
 
 .hero.block .content .search-bar .search-submit {
   height: 35px;
