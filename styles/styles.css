@@ -55,18 +55,19 @@
   --body-font-size-xs: 12px;
   --body-font-size-xxs: 10px;
 
+  /* Line heights */
   --line-height-2xs: 17px;
-  --line-height-xs: 1.15em; /*18.4px*/
-  --line-height-s: 1.2em; /*19.2px*/
-  --line-height-n: 1.25em; /*20px*/
-  --line-height-m: 1.3em; /*20.8px*/
-  --line-height-l: 1.4em; /*22.4px*/
+  --line-height-xs: 1.15em; /* 18.4px */
+  --line-height-s: 1.2em;   /* 19.2px */
+  --line-height-n: 1.25em;  /* 20px */
+  --line-height-m: 1.3em;   /* 20.8px */
+  --line-height-l: 1.4em;   /* 22.4px */
   --line-height-xl: 23px;
-  --line-height-2xl: 24px; /*1.5em*/
+  --line-height-2xl: 24px;  /* 1.5em */
   --line-height-3xl: 30px;
   --line-height-4xl: 32px;
   --line-height-45xl: 35px;
-  --line-height-5xl: 2.5em; /*40px*/
+  --line-height-5xl: 2.5em; /* 40px */
   --line-height-6xl: 50px;
 
   /* Common spacing values */
