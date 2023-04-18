@@ -54,7 +54,10 @@ export async function build(...callbacks) {
     return undefined;
   }
 
-  loadCSS(`${window.hlx.codeBasePath}/blocks/shared/search-countries/search-countries.css`);
+  await new Promise((resolve) => {
+    loadCSS(`${window.hlx.codeBasePath}/blocks/shared/search-countries/search-countries.css`, resolve);
+  });
+
   const tmp = document.createElement('div');
   tmp.innerHTML = await resp.text();
 
