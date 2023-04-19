@@ -6,7 +6,7 @@ import {
   getSelected as getSelectedCountry,
 } from '../shared/search-countries/search-countries.js';
 
-import { abortSuggestions, getSuggestions } from '../../scripts/creg/creg.js';
+import { abortSuggestions, getSuggestions } from '../../scripts/apis/creg/creg.js';
 
 const noOverlayAt = BREAKPOINTS.medium;
 
@@ -99,7 +99,13 @@ const buildSuggestions = (suggestions) => {
   return lists;
 };
 
-const inputChanged = (e, suggestionsTarget) => {
+/**
+ * Handles the input changed event for the text field. Will add suggestions based on user input.
+ *
+ * @param {Event} e the change event
+ * @param {HTMLElement} target the container in which to add suggestions
+ */
+const inputChanged = (e, target) => {
   const { value } = e.currentTarget;
   if (value.length > 0) {
     e.currentTarget.closest('.search-bar').classList.add('has-input');
@@ -109,15 +115,16 @@ const inputChanged = (e, suggestionsTarget) => {
 
   if (value.length <= 2) {
     abortSuggestions();
-    updateSuggestions([], suggestionsTarget);
+    updateSuggestions([], target);
   } else {
-    getSuggestions(value, getSelectedCountry(e.currentTarget.closest('form'))).then((suggestions) => {
-      let suggestionList = [noSuggestions];
-      if (suggestions.length) {
-        suggestionList = buildSuggestions(suggestions);
-      }
-      updateSuggestions(suggestionList, suggestionsTarget);
-    });
+    getSuggestions(value, getSelectedCountry(e.currentTarget.closest('form')))
+      .then((suggestions) => {
+        let suggestionList = [noSuggestions];
+        if (suggestions.length) {
+          suggestionList = buildSuggestions(suggestions);
+        }
+        updateSuggestions(suggestionList, target);
+      });
   }
 };
 

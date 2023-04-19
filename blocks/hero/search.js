@@ -25,9 +25,9 @@ export default async function buildSearch(types) {
 
     if (form) {
       item.textContent = type;
-      item.setAttribute('data-option', type);
+      item.setAttribute('data-option', type.toLowerCase());
       tabs.append(item);
-      form.setAttribute('data-option', type);
+      form.setAttribute('data-option', type.toLowerCase());
       wrapper.append(form);
     }
   }
