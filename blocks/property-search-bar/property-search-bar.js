@@ -46,18 +46,37 @@ const SQUARE_FEET = [
     {"value": "1000", "label": "1,000 sq ft"},
     {"value": "1250", "label": "1,250  sq ft"},
     {"value": "1500", "label": "1,500 sq ft"},
-    {"value": "500", "label": "1,750 sq ft"},
-    {"value": "500", "label": "2,000 sq ft"},
-    {"value": "500", "label": "2,250 sq ft"},
-    {"value": "500", "label": "2,500 sq ft"},
-    {"value": "500", "label": "2,750 sq ft"},
-    {"value": "500", "label": "3,000 sq ft"},
-    {"value": "500", "label": "3,500 sq ft"},
-    {"value": "500", "label": "4,000 sq ft"},
-    {"value": "500", "label": "5,000 sq ft"},
-    {"value": "500", "label": "7,500 sq ft"},
+    {"value": "1750", "label": "1,750 sq ft"},
+    {"value": "2000", "label": "2,000 sq ft"},
+    {"value": "2250", "label": "2,250 sq ft"},
+    {"value": "2500", "label": "2,500 sq ft"},
+    {"value": "2750", "label": "2,750 sq ft"},
+    {"value": "3000", "label": "3,000 sq ft"},
+    {"value": "3500", "label": "3,500 sq ft"},
+    {"value": "4000", "label": "4,000 sq ft"},
+    {"value": "5000", "label": "5,000 sq ft"},
+    {"value": "7500", "label": "7,500 sq ft"},
     ];
 
+const YEAR_BUILT = [
+    {"value": "1900", "label": "1900"},
+    {"value": "1920", "label": "1920"},
+    {"value": "1940", "label": "1940"},
+    {"value": "1950", "label": "1950"},
+    {"value": "1960", "label": "1960"},
+    {"value": "1970", "label": "1970"},
+    {"value": "1980", "label": "1980"},
+    {"value": "1990", "label": "1990"},
+    {"value": "1995", "label": "1995"},
+    {"value": "2000", "label": "2000"},
+    {"value": "2005", "label": "2005"},
+    {"value": "2014", "label": "2014"},
+    {"value": "2015", "label": "2015"},
+    {"value": "2016", "label": "2016"},
+    {"value": "2017", "label": "2017"},
+    {"value": "2018", "label": "2018"},
+    {"value": "2019", "label": "2019"},
+]
 function buildCountriesList(config) {
     let optionsList = '';
     Object.keys(config).forEach(country => {
@@ -112,38 +131,149 @@ function buildCountriesList(config) {
 
  function addRangeOptionArea() {
      return `<div class="multiple-inputs">
-                ${addOptions(SQUARE_FEET, 'No Min', 'area')}
+                ${addOptions(SQUARE_FEET, 'No Min', 'multi')}
                 <span class="range-label text-up">to</span>
-                ${addOptions(SQUARE_FEET, 'No Max', 'area')}
+                ${addOptions(SQUARE_FEET, 'No Max', 'multi')}
                 </section>
             </div>
             `
  }
 
+ function buildAreaFilter() {
+    return `<div>
+     <label class="section-label text-up" role="presentation">square feet</label>
+     ${addRangeOptionArea()}
+     </div>;`
+ }
+function addRangeYearBuild()  {
+    return `<div class="multiple-inputs">
+                ${addOptions(YEAR_BUILT, 'No Min', 'multi')}
+                <span class="range-label text-up">to</span>
+                ${addOptions(YEAR_BUILT, 'No Max', 'multi')}
+                </section>
+            </div>
+            `
+}
+
+ function buildPriceFilter() {
+     return `<div class="price">
+    <label class="section-label text-up">price</label>
+    ${addRangeOption('price')}
+</div>`
+ }
+
  function addRangeOption(filterName, fromLabel = 'No Min', toLabel = 'No Max', maxLength = 14) {
     const filterLabel = filterName.charAt(0).toLocaleUpperCase() + filterName.slice(1).toLowerCase();
-    return `<div class="multiple-inputs ">
+    return `<div class="multiple-inputs">
                 <div id="Min${filterLabel}" class="input-dropdown">
                 <input type="text" maxLength="${maxLength}" list="listMin${filterLabel}"
                     id="bbh-Min${filterLabel}" aria-describedby="Min${filterLabel}"
                     placeholder="${fromLabel}" aria-label="Minimum ${filterLabel}"
-                    class="form-control value1 price-list">
+                    class="price-range-input min-price">
                 <datalist id="listMinPrice" class="list${filterLabel}"></datalist>
             </div>
         <span class="range-label text-up">to</span>
         <div id="Max{filterLabel}" class="input-dropdown">
             <input type="text" maxLength="${maxLength}" list="listMax${filterLabel}" id="bbh-Max${filterLabel}" aria-describedby="Max${filterLabel}"
                   placeholder="${toLabel}" aria-label="Maximum ${filterLabel}"
-                  class="form-control ${filterLabel}-list">
+                  class="price-range-input max-price">
             <datalist id="listMax${filterLabel}" class="list${filterLabel}"></datalist>
             </div>
         </div>`
  }
+
+ function buildPropertyColumn(buttonNames = []) {
+    let output = '';
+    buttonNames.forEach(buttonName => {
+        output += `<button type="button" >
+                <svg role="presentation">
+                    <use xlink:href="/icons/icons.svg#${buttonName.replace(/[\/\s]/g, "-").toLowerCase()}"></use>
+                </svg>
+                <span>${buttonName}</span>
+            </button>`
+    });
+    return output;
+ }
+ function buildPropertyFilterHtml() {
+    const firstColumnValues  = ['Condo/Townhouse', 'Commercial', 'Lot/Land'];
+    const secondColumnValues = ['Single Family', 'Multi Family', 'Farm/Ranch'];
+    let  output= document.createElement('div');
+    output.classList.add('property-type');
+    output.innerHTML = `
+    <label class="section-label text-up" role="presentation">property type</label>
+    <div class="property-column">${buildPropertyColumn(firstColumnValues)}</div>
+    <div class="property-column">${buildPropertyColumn(secondColumnValues)}</div>
+    <div class="select-all">
+        <label role="presentation">
+            <input type="checkbox" aria-label="Property Type">
+            <div class="checkbox">
+                <svg role="presentation">
+                    <use xlink:href="/icons/icons.svg#checkmark"></use>
+                </svg>
+            </div>
+            <span class="label">Select All</span>
+        </label>
+    </div>
+    `;
+    return output.innerHTML;
+ }
+
+ function buildYearBuildFilter() {
+    return `<div class="year-built">
+        <label class="section-label text-up" role="presentation">year built</label>
+        <div class="error hide">
+        <svg class="icon-msg" role="presentation">
+            <use xlink:href="/icons/icons.svg#error"></use>
+        </svg>
+        <span>Min year must be before or the same as Max year</span>
+    </div>
+    ${addRangeYearBuild()}
+    </div>`
+ }
+
+ function buildKeywordSearch() {
+     return `<div class="keyword-search">
+    <label class="section-label" role="presentation">keyword search</label>
+    <section class="cmp-search-tags">
+        <div class="cmp-container-inputs d-flex flex-row align-items-center">
+            <input type="text" placeholder="Pool, Offices, Fireplace..." aria-label="Pool, Offices, Fireplace...">
+            <button type="submit" class="add">
+                <span class="text-upp">add</span>
+            </button>
+        </div>
+        <div id="container-tags"></div>
+        <br>
+<!--        <span class="cmp-container-tags__tag"> cord-->
+<!--            <span class="close"></span>-->
+<!--        </span>-->
+<!--        <span class="cmp-container-tags__tag"> cors-->
+<!--            <span class="close"></span>-->
+<!--        </span>-->
+        <div class="keyword-buttons">
+            <label class="text-up" role="presentation">match</label>
+            <div class="filter-radiobutton">
+                <label role="presentation">
+                    <input type="radio" name="matchTagsAny" value="false">
+                    <div class="radio-btn"></div>
+                    <span class="">Any</span>
+                </label>
+            </div>
+            <div class="filter-radiobutton">
+                <label role="presentation">
+                    <input type="radio" name="matchTagsAll" value="true">
+                    <div class="radio-btn"></div>
+                    <span class="">All</span>
+                </label>
+            </div>
+        </div>
+    </section>
+</div>`
+ }
  function addOptions(config, defaultValue, mode = '') {
     let selectedHtml = '';
-    if (mode === 'area') {
+    if (mode === 'multi') {
         selectedHtml = `
-            <div class="select-selected" data-ol-has-click-handler="" role="button" aria-haspopup="listbox">${defaultValue}</div>
+            <div class="select-selected" role="button" aria-haspopup="listbox">${defaultValue}</div>
             `;
     }
     return `<section>
@@ -196,6 +326,53 @@ function buildCountriesList(config) {
      return output
  }
 
+ function buildFilterOpenHouses() {
+     return `<div class="filter-open-houses">
+    <label class="section-label" role="presentation">Open Houses Only</label>
+    <div>
+        <div class="checkbox">
+            <label role="presentation">
+                <input type="checkbox" aria-label="Open Houses Only" value="">
+            <div class="checkbox">
+                <svg class="empty" role="presentation">
+                    <use xlink:href="/icons/icons.svg#checkmark"></use>
+                </svg>
+            </div>
+            <span class="label"></span>
+            </label>
+        </div>
+        <div>
+            <label role="presentation">
+                <input type="radio" name="openHousesOnly" value="true">
+            <div class="radio-btn"></div>
+            <span class="">This Weekend</span>
+            </label>
+        </div>
+        <div>
+            <label role="presentation"><input type="radio" name="openHousesOnly" value="false">
+            <div class="radio-btn"></div>
+            <span class="">Anytime</span>
+            </label>
+        </div>
+    </div>
+</div>`;
+ }
+
+ function buildSectionFilter(config, defaultValue, name) {
+     let output = `<div class="${name.toLowerCase()}">
+    <label class="section-label text-up" role="presentation">${name}</label>`;
+     //add element on top of array
+     config.unshift({value: '', label: defaultValue});
+     config.forEach(el => {
+         output += `<li>
+            <input aria-describedby="bathrooms${el.value}" type="radio" id="bathrooms${el.value}" value=${el.value}>
+            <label for="bathrooms${el.value}">${el.label}</label>
+        </li>`
+     });
+     output += `</ul></div>`;
+     return output;
+
+ }
  function getPlaceholder(country) {
      return country === 'US' ? 'Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#' : 'Enter City'
  }
@@ -206,26 +383,60 @@ function buildCountriesList(config) {
      element.querySelector('.search-results-dropdown').classList.add('hide');
  }
 
- function createPriceList(d) {
-     var h = []
-         , k = [10, 100, 1E3, 1E4, 1E5, 1E6];
-     if (d)
-         for (var m = 1; 6 >= m; m++)
-             h.push(d * k[m - 1]);
-     return h
- }
-
  function openSelect(element) {
      element.classList.add('opened');
-     // element.querySelectorAll('.hide').forEach((el) => {
-     //     el.classList.remove('hide');
-     //     }
-     // );
      element.querySelector('.search-results-dropdown').classList.remove('hide');
  }
-function getInternationalSearchOptions() {
-    return `https://www.commonmoves.com/bin/bhhs/cregPropertySearchOptionsServlet`
-}
+
+ function abbrNum(d, h) {
+     h = Math.pow(10, h);
+     let k = ["k", "m", "b", "t"], m;
+     for (m = k.length - 1; 0 <= m; m--) {
+         var n = Math.pow(10, 3 * (m + 1));
+         if (n <= d) {
+             d = Math.round(d * h / n) / h;
+             1E3 == d && m < k.length - 1 && (d = 1,
+                 m++);
+             d += k[m];
+             break
+         }
+     }
+     return d
+ }
+
+ function createPriceList(d) {
+     let optionlist = '';
+     let k = [10, 100, 1E3, 1E4, 1E5, 1E6];
+     if (d)
+         for (let m = 1; 6 >= m; m++)
+             optionlist += `<option> ${d * k[m - 1]} </option>`;
+     return optionlist
+ }
+
+ function formatPriceLabel(minPrice, maxPrice) {
+     let d = minPrice.replace(/[^0-9]/g, "");
+     let h = maxPrice.replace(/[^0-9]/g, "");
+     return "" !== d && "" !== h ?
+         "$" + abbrNum(d, 2) + " - $" + abbrNum(h, 2) :
+         "" !== d ? "$" + abbrNum(d, 2) :
+             "" == d && "" !== h ? "$0 - $" + abbrNum(h, 2) :
+                 "Price"
+ }
+
+ function buildFilterToggle(label) {
+     return `<div class="filter-${label.toLocaleLowerCase().replace(/ /g, '-')} toggle">
+    <label class="section-label text-up" role="presentation">${label}</label>
+    <div>
+        <section class="filter-toggle">
+            <div>
+                <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="true">
+                <div class="checkbox"></div>
+            </div>
+        </section>
+    </div>
+</div>`
+ }
+
 export default function decorate(block) {
     const countrySelect = buildDropdownElement('Select Country', 'country', 'US');
     countrySelect.querySelector('.search-results-dropdown').innerHTML = addOptions(COUNTRIES, 'US', 'country');
@@ -279,18 +490,50 @@ export default function decorate(block) {
             <span>save search</span>
         </a>
     </div>
-</div>`;
+</div>
+<div class="filter-block hide"> 
+${buildPriceFilter()}
+${buildPropertyFilterHtml()}
+${buildSectionFilter(BEDROOMS, 'Any', 'bedrooms')}
+${buildSectionFilter(BATHROOMS, 'Any', 'bathrooms')}
+${buildAreaFilter()}
+${buildKeywordSearch()}
+${buildYearBuildFilter()}
+${buildFilterToggle('New listings')}
+${buildFilterToggle('Recent Price Changes')}
+${buildFilterOpenHouses()}
+${buildFilterToggle('luxury')}
+${buildFilterToggle('Berkshire Hathaway HomeServices Listings only')}
+</div>`
 
     //add logic for select on click
-    const selectCountryElement = block.querySelector('.container.select-country');
-    const selectedCountryButton = block.querySelector('.container.select-country .selected-country');
     const countriesListItems = block.querySelectorAll('.container.select-country .select-item .tooltip-container');
-    const countriesListItemsButtons = block.querySelectorAll('.container.select-country .select-item .tooltip-container > a');
     const filterOptions = block.querySelectorAll('.container .select-item .tooltip-container');
-    const selectElement = selectCountryElement.querySelector('.search-results-dropdown > section > div > ul');
     const inputContainer = block.querySelector('.input-container input');
     const filters = block.querySelectorAll('.container .header');
     const multipleSelectInputs = block.querySelectorAll('.select-selected');
+    const priceRangeInputs = block.querySelector('.price .multiple-inputs');
+    //add logic on price range change
+    priceRangeInputs.addEventListener('keyup', (e) => {
+            const minPrice =  priceRangeInputs.querySelector('.price-range-input.min-price').value;
+            const maxPrice = priceRangeInputs.querySelector('.price-range-input.max-price').value;
+            //display datalist
+            const activeElement = e.target.closest('.price-range-input');
+            activeElement.list.innerHTML = createPriceList(activeElement.value);
+            //update label
+            block.querySelector('.price .title').innerText = formatPriceLabel(minPrice, maxPrice);
+        });
+    //close filters on click outside
+    document.addEventListener('click', (e) => {
+        if(!block.contains(e.target)) {
+            filters.forEach((elem) => {
+                if (elem.parentElement.classList.contains('opened')) {
+                    closeSelect(elem.parentElement);
+                }
+            });
+        }
+    });
+
     filters.forEach((selectedFilter) => {
         selectedFilter.addEventListener('click', () => {
             //close all other elements
@@ -332,7 +575,7 @@ export default function decorate(block) {
                 } else {
                     selectedElValue = fromSelectedValue + '-' + toSelectedValue;
                 }
-                container = element.closest('.select-item');
+                element.closest('.select-item').classList.add('hide');
             }
             else if (headerTitle.childElementCount > 0) {
                 const selectedCountry = e.target.closest('.tooltip-container').getAttribute('data-value');
@@ -342,10 +585,13 @@ export default function decorate(block) {
                 //update input placeholder
                 inputContainer.ariaLabel = getPlaceholder(selectedCountry);
                 inputContainer.placeholder = getPlaceholder(selectedCountry);
+                closeSelect(container);
+            } else {
+                closeSelect(container);
             }
             headerTitle.innerHTML = selectedElValue;
             //todo update logic for multiple select
-            closeSelect(container);
+
 
         });
     });

@@ -68,7 +68,7 @@ main .section.property-search-bar-container {
     letter-spacing: normal;
 }
 
-.input-container input:focus {
+.property-search-bar input:focus {
     background: var(--white);
     outline: none;
 }
@@ -176,11 +176,30 @@ main .section.property-search-bar-container {
     white-space: nowrap;
     left: -15px;
 }
-
 .select-country .select-item {
-    top: calc(100% + 25px);
-    width: 100px;
-    left: -20px;
+    top: 25px;
+}
+.search-results-dropdown .select-item::-webkit-scrollbar {
+    width: 14px;
+}
+
+.search-results-dropdown .select-item::-webkit-scrollbar-thumb {
+    /*@todo move to variable*/
+    background: #c1c1c1;
+    border-radius: 14px;
+    border: 3px solid #e7e7e7
+}
+
+.search-results-dropdown .select-item::-webkit-scrollbar-track {
+    border-radius: 0;
+    background: #e7e7e7;
+}
+.search-results-dropdown .multiple-inputs .select-item {
+    width: 125px;
+    left: 0;
+    border: 1px solid var(--list-border-grey);
+    max-height: 185px;
+    overflow-y: scroll;
 }
 
 .search-results-dropdown .select-item li{
@@ -210,6 +229,9 @@ main .section.property-search-bar-container {
     border-bottom: 1px solid var(--list-border-grey);
 }
 
+.search-results-dropdown .multiple-inputs .select-item li {
+    border: none;
+}
 .search-results-dropdown .tooltip-container {
     position: relative;
     display: none;
@@ -301,8 +323,14 @@ main .section.property-search-bar-container {
     right: 15px;
     background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIxMnB4IiBoZWlnaHQ9IjdweCIgdmlld0JveD0iMCAwIDEyIDciIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+ICAgICAgICA8dGl0bGU+VUkvQ2Fycm90L0NvbGxhcHNlL0RhcmtHcmF5IENvcHkgMzwvdGl0bGU+ICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPiAgICA8ZGVmcz48L2RlZnM+ICAgIDxnIGlkPSItLS0t4pe877iOLVVJLUVsZW1lbnRzIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4gICAgICAgIDxnIGlkPSJVSS1FbGVtZW50cy9JY29ucyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTM5NC4wMDAwMDAsIC0yODguMDAwMDAwKSIgZmlsbD0iI0FBQUFBQSI+ICAgICAgICAgICAgPGcgaWQ9IlVJL0NhcnJvdC9FeHBhbmQvR3JheSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMzk0LjAwMDAwMCwgMjg4LjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8cG9seWdvbiBpZD0iUGF0aC0yIiBwb2ludHM9IjAuNzM0NTU4NTc2IDAuNjcxMzk5NzczIDExLjI5MzM0NTkgMC42NzEzOTk3NzMgNi4wMTM5NTIyNSA2LjY2MDUzMjIiPjwvcG9seWdvbj4gICAgICAgICAgICA8L2c+ICAgICAgICA8L2c+ICAgIDwvZz48L3N2Zz4=);
 }
+.price, .square-feet, .any-beds, .any-baths, .save-search {
+    display: none;
+}
 
 @media (min-width: 992px) {
+    .price, .square-feet, .any-beds, .any-baths, .save-search {
+        display: initial;
+    }
     .filter-container {
         order: 3;
     }
