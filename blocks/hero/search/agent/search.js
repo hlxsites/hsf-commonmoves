@@ -1,6 +1,6 @@
-import { getMetadata } from '../../scripts/lib-franklin.js';
-import { BREAKPOINTS } from '../../scripts/scripts.js';
-import { getSuggestions } from '../../scripts/apis/suggestion/suggestion.js';
+import { getMetadata } from '../../../../scripts/lib-franklin.js';
+import { BREAKPOINTS } from '../../../../scripts/scripts.js';
+import { getSuggestions } from '../../../../scripts/apis/suggestion/suggestion.js';
 
 const SEARCH_TYPE = 'agent';
 const getPlaceholder = () => (BREAKPOINTS.small.matches ? 'Search by Agent Name, Team Name, Location, Language or Designations' : 'Search by Name, Location and More...');

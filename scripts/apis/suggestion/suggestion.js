@@ -11,7 +11,7 @@ let suggestionFetchController;
  * @param {String} office the id of office for the site performing the search.
  * @param {String} keyword the partial for suggestion search
  *
- * @return {Promise<Object>}
+ * @return {Promise<Object>|undefined} Promise with results or undefined if fetch was aborted.
  */
 export async function getSuggestions(type, office, keyword) {
   if (suggestionFetchController) {
@@ -33,7 +33,7 @@ export async function getSuggestions(type, office, keyword) {
     }).catch((err) => {
       if (err.name === 'AbortError') {
         // User abort, do nothing;
-        return [];
+        return undefined;
       }
       throw err;
     });

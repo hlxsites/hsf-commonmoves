@@ -2,7 +2,7 @@ import {
   preloadHeroImage,
 } from '../../scripts/scripts.js';
 
-import buildSearch from './search.js';
+import buildSearch from './search/search.js';
 
 async function getPictures(block) {
   let pictures = block.querySelectorAll('picture');

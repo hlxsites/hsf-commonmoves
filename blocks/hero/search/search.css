@@ -1,5 +1,5 @@
-@import url('./home-search.css');
-@import url('./agent-search.css');
+@import url('./home/search.css');
+@import url('./agent/search.css');
 
 .hero.block > div .content .search .options {
   display: flex;
@@ -41,7 +41,7 @@
   height: 36px;
 }
 
-.hero.block .content .search-bar input {
+.hero.block .content .search-bar input[type="text"] {
   height: 100%;
   width: 100%;
   text-overflow: ellipsis;
@@ -64,7 +64,7 @@
   line-height: 1.5;
 }
 
-.hero.block .content .search-bar.has-input .suggester-results {
+.hero.block .content .search-bar.show-suggestions .suggester-results {
   display: block;
 }
 
