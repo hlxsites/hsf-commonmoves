@@ -8,7 +8,7 @@ footer {
   padding-bottom: 15px;
   font-family: var(--font-family-proxima);
   color: var(--body-color);
-  line-height: var(--line-height-xl);
+  line-height: var(--line-height-reg);
 }
 
 .footer-container-flex {
@@ -58,7 +58,7 @@ footer {
 
 .link-menu-col li {
   padding: 6px 0;
-  letter-spacing:var(--letter-spacing-2);
+  letter-spacing:var(--letter-spacing-xs);
   font-size: var(--body-font-size-s);
 }
 
@@ -115,8 +115,8 @@ footer {
 
 .footer-container-flex > div:last-child p {
   font-size: 12px;
-  letter-spacing:var(--letter-spacing-4);
-  line-height: var(--line-height-2xs);
+  letter-spacing:var(--letter-spacing-xs);
+  line-height: var(--line-height-s);
 }
 
 .footer-container-flex > div:last-child p a {

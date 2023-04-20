@@ -56,34 +56,22 @@
   --body-font-size-xxs: 10px;
 
   /* Line heights */
-  --line-height-2xs: 17px;
-  --line-height-xs: 1.15em; /* 18.4px */
-  --line-height-s: 1.2em;   /* 19.2px */
-  --line-height-n: 1.25em;  /* 20px */
-  --line-height-m: 1.3em;   /* 20.8px */
-  --line-height-l: 1.4em;   /* 22.4px */
-  --line-height-xl: 23px;
-  --line-height-2xl: 24px;  /* 1.5em */
-  --line-height-3xl: 30px;
-  --line-height-4xl: 32px;
-  --line-height-45xl: 35px;
-  --line-height-5xl: 2.5em; /* 40px */
-  --line-height-6xl: 50px;
+  --line-height-3xs: 1.15em; /* 18.4px */
+  --line-height-2xs: 1.25em;  /* 20px */
+  --line-height-xs: 1.3em;   /* 20.8px */
+  --line-height-s: 1.4em;   /* 22.4px */
+  --line-height-reg: 23px;
+  --line-height-m: 24px;  /* 1.5em */
+  --line-height-l: 35px;
+  --line-height-xl: 2.5em; /* 40px */
+  --line-height-2xl: 50px;
 
   /* Common spacing values */
-  --letter-spacing-0: 0px;	
-  --letter-spacing-1: 0.25px;
-  --letter-spacing-2: 0.4px;
-  --letter-spacing-3: 0.5px;
-  --letter-spacing-4: 0.6px;
-  --letter-spacing-5: 0.7px;
-  --letter-spacing-6: 0.8px;
-  --letter-spacing-7: 0.93px;
-  --letter-spacing-8: 1px;
-  --letter-spacing-9: 1.3px;
-  --letter-spacing-10: 0.13em; /* ~2.08px */
-  --letter-spacing-11: 0.2em; /* ~3.2px */
-  --letter-spacing-12: 3.6px;
+  --letter-spacing-xs: 0.5px;
+  --letter-spacing-s: 0.7px;
+  --letter-spacing-reg: 0.8px;
+  --letter-spacing-m: 1.3px;
+  --letter-spacing-l: 0.13em; /* ~2.08px */
 
   /* Common dimensions */
   --max-page-width: 1350px;
@@ -115,14 +103,14 @@ h2 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-xl);
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-6xl);
+  line-height: var(--line-height-2xl);
 }
 
 h3 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-m);
   font-weight: var(--font-weight-heavier);
-  line-height: var(--line-height-s);
+  line-height: var(--line-height-reg);
   padding-top: 0.8em;
 }
 
@@ -136,8 +124,8 @@ p {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-m);
   font-weight: var(--font-weight-normal);
-  letter-spacing: var(--letter-spacing-6);
-  line-height: var(--line-height-xl);
+  letter-spacing: var(--letter-spacing-reg);
+  line-height: var(--line-height-reg);
 }
 
 header {
@@ -168,8 +156,8 @@ main .section.center p {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-s);
   font-weight: var(--font-weight-normal);
-  letter-spacing:var(--letter-spacing-5);
-  line-height: var(--line-height-2xl);
+  letter-spacing:var(--letter-spacing-s);
+  line-height: var(--line-height-m);
   text-transform: uppercase;
   text-decoration: none;
   color: var(--body-color);
@@ -190,8 +178,8 @@ main .section.center p {
   text-transform: uppercase;
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--letter-spacing-10);
-  line-height: var(--line-height-l);
+  letter-spacing: var(--letter-spacing-l);
+  line-height: var(--line-height-s);
   text-align: center;
 }
 

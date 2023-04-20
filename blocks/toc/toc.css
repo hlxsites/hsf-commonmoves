@@ -10,7 +10,7 @@
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-normal);
   font-size: var(--body-font-size-s);
-  letter-spacing: var(--letter-spacing-9);
+  letter-spacing: var(--letter-spacing-m);
   text-align: center;
   text-transform: uppercase;
   text-decoration: none;
@@ -37,7 +37,7 @@
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-normal);
   font-size: var(--body-font-size-s);
-  letter-spacing: var(--letter-spacing-9);
+  letter-spacing: var(--letter-spacing-m);
   color: var(--body-color);
   text-align: center;
   text-transform: uppercase;

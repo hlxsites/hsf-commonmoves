@@ -15,7 +15,7 @@
 .liveby-demographics.block > div .census-item > * {
   width: 100%;
   text-align: center;
-  line-height: var(--line-height-xl);
+  line-height: var(--line-height-reg);
 }
 
 .liveby-demographics.block > div .census-item span.census-value {

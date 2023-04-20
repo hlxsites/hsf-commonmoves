@@ -90,7 +90,7 @@ body.light-nav {
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-normal);
   font-size: var(--body-font-size-s);
-  letter-spacing:var(--letter-spacing-7);
+  letter-spacing:var(--letter-spacing-reg);
   line-height: var(--body-font-size-s);
   text-decoration: none;
   cursor: pointer;
@@ -147,7 +147,7 @@ body.light-nav {
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-normal);
   font-size: var(--body-font-size-xl);
-  line-height: var(--line-height-4xl);
+  line-height: var(--line-height-l);
   text-decoration: none;
   text-transform: uppercase;
   color: var(--white);
@@ -172,7 +172,7 @@ body.light-nav {
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-normal);
   font-size: var(--body-font-size-m);
-  line-height: var(--line-height-4xl);
+  line-height: var(--line-height-l);
   text-decoration: none;
   text-transform: capitalize;
   color: var(--white);
@@ -279,7 +279,7 @@ body.light-nav {
     width: unset;
     padding: 0 10px;
     font-size: var(--body-font-size-xs);
-    letter-spacing: var(--letter-spacing-8);
+    letter-spacing: var(--letter-spacing-reg);
     line-height: unset;
   }
 
@@ -337,8 +337,8 @@ body.light-nav {
     padding: 0 15px;
     font-size: var(--body-font-size-s);
     text-align: center;
-    letter-spacing: var(--letter-spacing-9);
-    line-height: var(--line-height-2xl);
+    letter-spacing: var(--letter-spacing-m);
+    line-height: var(--line-height-m);
     color: var(--nav-color);
     column-gap: 2px;
   }
@@ -399,7 +399,6 @@ body.light-nav {
     padding: 10px 15px;
     font-size: var(--body-font-size-s);
     line-height: var(--body-font-size-s);
-    letter-spacing:var(--letter-spacing-1);
     text-transform: capitalize;
   }
 
@@ -411,6 +410,5 @@ body.light-nav {
 @media screen and (min-width: 1200px) {
   .header.block nav .nav-sections > ul > li > a {
     font-size: var(--body-font-size-m);
-    line-height: var(--line-height-3xl);
   }
 }
