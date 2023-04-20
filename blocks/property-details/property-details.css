@@ -1,14 +1,21 @@
-.property-details-top-container {
+.property-details-container {
+  padding: 0!important;
+  margin: 0!important;
+  max-width: none!important;
+}
+
+.property-container, .image-gallery-nav {
   max-width: 1350px;
   margin: 0 auto;
   width: 100%;
+  padding: 0 15px;
 }
 
 .property-details-summary {
   padding: 15px 0 20px 0;
 }
 
-.property-details-summary-row {
+.property-row {
   display: flex;
   flex-wrap: wrap;
   margin: 0 -15px;
@@ -25,12 +32,6 @@
   flex: 0 0 100%;
   max-width: 100%;
   order: 2;
-}
-
-.property-details-info-row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -15px;
 }
 
 .property-details-info-col-1 {
@@ -94,8 +95,9 @@
   text-align: left;
   letter-spacing: 1px;
   text-transform: uppercase;
-  vertical-align: middle;
   margin-right: 0.5rem;
+  margin-bottom: 10px;
+  display: block;
 }
 
 .btn-property svg {
@@ -116,23 +118,364 @@
 }
 
 .image-gallery-container {
-  max-width: 1350px;
+  max-width: 1800px;
   margin: 0 auto;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: -33.33333%;
+  transform: translateX(33.33333%);
+}
+
+.carousel.is-reversing {
+  transform: translateX(-33.333%);
+}
+
+.carousel.is-set {
+  transform: none;
+  transition: transform 0.5s ease;
+}
+
+.carousel-seat {
+  flex: 1 0 33.333%;
+  order: 2;
+}
+
+.carousel-seat .img-wrapper {
+  padding: 0 8px;
+}
+
+.img-wrapper img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.carousel-seat.is-ref {
+  order: 1;
+}
+
+.nav-row-offset {
+  flex: 0 0 66.667%;
+  max-width: 66.667%;
+  position: relative;
+  min-height: 1px;
+  padding: 0 15px;
   width: 100%;
 }
 
-@media (min-width: 576px) {
-  .property-details-top-container {
-    max-width: 540px;
-  }
+.nav-row-icons {
+  justify-content: space-between;
+  display: flex;
+  margin-top: 1rem;
+}
 
-  .image-gallery-container {
+.photos-map {
+  display: flex;
+}
+
+.button-prop {
+  cursor: pointer;
+  background: var(--white-background);
+  border: 1px solid var(--body-color);
+  line-height: 35px;
+  height: 35px;
+  padding: 0 10px;
+  position: relative;
+  font-family: var(--font-family-proxima);
+  font-weight: 400px;
+  font-size: 12px;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-right: 15px;
+  display: block;
+}
+
+.button-prop.photos {
+  padding-left: 40px;
+}
+
+.button-prop.map {
+  padding-left: 35px;
+}
+
+.button-toggle.disabled {
+  opacity: .5;
+  pointer-events: none;
+}
+
+.icon-photos svg {
+  width: 19px;
+  height: 16px;
+  position: absolute;
+  left: 10px;
+  top: calc(50% - 9px);
+  display: block;
+}
+
+.icon-map svg {
+  width: 15px;
+  height: 22px;
+  position: absolute;
+  left: 10px;
+  top: calc(50% - 11px);
+  display: block;
+}
+
+.pagination-row {
+  font-size: 14px;
+  text-align: center;
+  line-height: 1;
+  text-transform: uppercase;
+  align-items: center;
+  display: flex;
+  padding-left: 0;
+}
+
+.num-image {
+  margin-right: 0.5rem;
+}
+
+button.toggle {
+  margin-right: 0.5rem;
+  cursor: pointer;
+  background-color: var(--white);
+  border: none;
+  outline: none;
+}
+
+button.toggle:focus, button.toggle:active {
+  border: none;
+  outline: none;
+}
+
+.controls svg {
+  height: 19px;
+  width: 11px;
+  outline: none;
+}
+
+.first-carrot svg {
+  transform: scaleX(-1);
+}
+
+.property-accordion-two {
+  background: var(--white-background);
+  padding-top: 4rem;
+}
+
+.accordion-title {
+  position: relative;
+}
+
+.accordion-item:not(.collapse) .accordion-body{
+  transition: 0.5s;
+}
+.accordion-item.collapse .accordion-body {
+  position: relative;
+  overflow: hidden;
+  transition: 0.5s;
+  height: 0;
+}
+
+.accordion-title-col {
+  flex: 0 0 100%;
+  max-width: 100%;
+  position: relative;
+  min-height: 1px;
+  padding: 0 15px;
+}
+
+.accordion-header {
+  border-top: 1px solid #aaa;
+  cursor: pointer;
+  padding: 16px 30px 16px 0;
+  position: relative;
+  display: block;
+}
+
+.accordion-header-title {
+  display: inline-block;
+  font-family: var(--font-family-georgia);
+  font-weight: 600;
+  line-height: 26px;
+  margin: 0 5px 0 0;
+  font-size: 22px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip svg {
+  height: 19px;
+  width: 19px;
+}
+
+.tooltip .icon-info_circle_dark {
+  display: none;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 290px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  padding: 14px 18px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  margin: 12px 0 0 -10px;
+  font-family: var(--font-family-proxima);
+  font-size: 14px;
+  letter-spacing: .44px;
+  line-height: 22px;
+}
+
+.tooltip:hover .icon-info_circle {
+  display: none;
+}
+
+.tooltip:hover .icon-info_circle_dark {
+  display: block;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 8px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
+.accordion-item .accordion-header::after {
+  border-color: #3a3a3a transparent transparent transparent;
+  border-style: solid;
+  border-width: 6px 5px 0 5px;
+  content: '';
+  display: block;
+  height: 0;
+  margin-top: -5px;
+  position: absolute;
+  right: 2px;
+  top: 50%;
+  transition: transform .3s linear;
+  transform: rotate(0);
+  width: 0;
+}
+
+.accordion-item.collapse .accordion-header::after {
+  transform: rotate(90deg);
+  transition: transform .3s linear;
+}
+
+.schools-col-1 {
+  flex: 0 0 100%;
+  max-width: 100%;
+  position: relative;
+  min-height: 1px;
+  padding: 0 15px;
+}
+
+.schools-table .property-row:first-child .schools-col-1 .schools-cell {
+  display: block;
+}
+
+.schools-table .schools-col-1 .schools-cell {
+  display: none;
+}
+
+.schools-cell {
+  border-bottom: 1px solid #e2e2e2;
+  height: 100%;
+  line-height: 25px;
+  padding-top: 15px;
+  padding-bottom: 8px;
+}
+
+.schools-type {
+  font-size: 13px;
+  letter-spacing: .93px;
+  opacity: .6;
+  padding-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.schools-col-2 {
+  flex: 0 0 75%;
+  max-width: 75%;
+  position: relative;
+  min-height: 1px;
+  padding: 0 15px;
+}
+
+.schools-col-2 .schools-cell, .schools-col-3 .schools-cell {
+  margin-right: -30px;
+  padding-right: 30px;
+}
+
+.school-name {
+  cursor: pointer;
+  display: block;
+  font-size: 18px;
+  text-decoration: underline;
+}
+
+.school-grades {
+  font-size: 16px;
+  opacity: .6;
+}
+
+.schools-col-3 {
+  display: none;
+}
+
+.school-qty {
+  text-transform: lowercase;
+}
+
+.schools-col-4 {
+  flex: 0 0 25%;
+  max-width: 25%;
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.school-dist {
+  font-size: 16px;
+  letter-spacing: .5px;
+  opacity: .6;
+  text-align: right;
+}
+
+@media (min-width: 576px) {
+  .property-container, .image-gallery-nav {
     max-width: 540px;
   }
 }
 
 @media (min-width: 600px) {
-  .property-details-top-container {
+  .property-container, .image-gallery-nav {
     max-width: 720px;
   }
 
@@ -146,13 +489,32 @@
     max-width: 33.333%;
   }
 
-  .image-gallery-container {
-    max-width: 720px;
+  .accordion-title-col {
+    margin-left: 8.333%;
+    flex: 0 0 83.333%;
+    max-width: 83.333%;
+  }
+
+  .schools-col-1 {
+    margin-left: 8.333%;
+    flex: 0 0 83.333%;
+    max-width: 83.333%;
+  }
+
+  .schools-col-2 {
+    margin-left: 8.333%;
+    flex: 0 0 66.667%;
+    max-width: 66.667%;
+  }
+
+  .schools-col-4 {
+    flex: 0 0 16.667%;
+    max-width: 16.667%;
   }
 }
 
 @media (min-width: 992px) {
-  .property-details-top-container {
+  .property-container, .image-gallery-nav {
     max-width: 960px;
   }
 
@@ -190,19 +552,87 @@
     line-height: 40px;
   }
 
-  .image-gallery-container {
-    max-width: 960px;
+  .nav-row-offset {
+    margin-left: 8.333%;
+  }
+
+  .pagination-row {
+    font-size: 12px;
+  }
+
+  .button-prop {
+    height: 40px;
+    line-height: 40px;
+  }
+
+  .accordion-header {
+    padding: 27px 30px 30px 0;
+  }
+
+  .accordion-header-title {
+    font-size: 26px;
+    letter-spacing: -0.43px;
+  }
+
+  .accordion-item .accordion-header::after {
+    border-width: 9px 7px 0 7px;
+  }
+
+  .schools-col-1 {
+    flex: 0 0 16.667%;
+    max-width: 16.667%;
+  }
+
+  .schools-table .schools-col-1 .schools-cell {
+    border: 0;
+  }
+
+  .schools-cell {
+    border-bottom: 1px solid #e2e2e2;
+    padding: 16px 0;
+  }
+
+  .schools-type {
+    font-size: 15px;
+    letter-spacing: 1.07px;
+    opacity: 1;
+    padding-left: 30px;
+  }
+
+  .schools-col-2 {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+    margin-left: 0;
+  }
+
+  .school-name {
+    font-size: 19px;
+  }
+
+  .schools-col-3 {
+    display: block;
+    flex: 0 0 16.667%;
+    max-width: 16.667%;
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
   }
 }
 
 @media (min-width: 1200px) {
-  .property-details-top-container {
+  .property-container, .image-gallery-nav {
     max-width: 1400px;
-    padding: 0 15px;
   }
 
-  .image-gallery-container {
-    max-width: 1400px;
-    padding: 0 15px;
+  .schools-col-2 {
+    flex: 0 0 41.667%;
+    max-width: 41.667%;
+  }
+
+  .schools-col-4 {
+    flex: 0 0 8.333%;
+    max-width: 8.333%;
   }
 }

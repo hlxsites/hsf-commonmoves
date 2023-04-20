@@ -1,0 +1,41 @@
+{
+  "data": [{
+    "level": "zipcode",
+    "label": "01944",
+    "geoid": "86000US01944",
+    "ownerOccupiedPercent": "76",
+    "renterOccupiedPercent": "24",
+    "vacancyPercent": "9",
+    "medianIncome": "$193,279",
+    "unemploymentPercent": "3.2",
+    "medianHomeAge": "78",
+    "homeValueAppreciationPercent": "4",
+    "costOfLivingIndex": "86.00"
+  }, {
+    "level": "county",
+    "label": "Essex County, MA",
+    "geoid": "05000US25009",
+    "ownerOccupiedPercent": "64",
+    "renterOccupiedPercent": "36",
+    "vacancyPercent": "5",
+    "medianIncome": "$86,684",
+    "unemploymentPercent": "3.7",
+    "medianHomeAge": "64",
+    "homeValueAppreciationPercent": "8",
+    "costOfLivingIndex": "115.09"
+  }, {
+    "level": "country",
+    "label": "United States",
+    "geoid": "01000US",
+    "ownerOccupiedPercent": "65",
+    "renterOccupiedPercent": "35",
+    "vacancyPercent": "11",
+    "medianIncome": "$69,021",
+    "unemploymentPercent": "3.5",
+    "medianHomeAge": "44",
+    "homeValueAppreciationPercent": "6",
+    "costOfLivingIndex": "100.00"
+  }],
+  "citation": "Based on Census Bureau Data 2021",
+  "labels": null
+}
