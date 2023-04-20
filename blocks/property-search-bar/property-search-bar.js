@@ -87,6 +87,42 @@ function buildCountriesList(config) {
     return optionsList;
 }
 
+ function buildFilterButtons(buttons) {
+     let output = `<div class="filter-buttons">`;
+     buttons.forEach(button => {
+         output += `<a rel="noopener" href="" target="_blank" tabindex="" class="btn btn-primary" role="button">
+            <span class="text-up">${button}</span>
+        </a>`
+     });
+     output += `</div>`;
+     return output;
+ }
+
+function buildFilterSearchTypesElement() {
+    const  defaultInput = 'for sale';
+    const columns = [['for sale', 'for rent'], ['pending', 'sold']];
+    let output = '';
+    output += `<div class="filter-search-types">
+    <label class="section-label text up">Search Type</label>`
+    columns.forEach(column => {
+        output += `<div class="column">`;
+        column.forEach(type => {
+            output += `<section class="${formatInput(type)}">
+            <div class="d-flex align-items-end">
+                <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${type.toLowerCase() === defaultInput}">
+                <div class="checkbox ${type.toLowerCase() === defaultInput ? 'checked' : ''}"></div>
+                <label class="text-up" role="presentation">${type}</label>
+            </div>
+        </section>`
+        });
+        output += `</div>`
+    });
+    return output
+}
+
+function formatInput(string) {
+    return string.replace(/ /g, '-').toLowerCase();
+}
  function buildTooltipByCountry(config) {
      let optionsList = '';
      Object.keys(config).forEach(country => {
@@ -194,6 +230,7 @@ function addRangeYearBuild()  {
     });
     return output;
  }
+
  function buildPropertyFilterHtml() {
     const firstColumnValues  = ['Condo/Townhouse', 'Commercial', 'Lot/Land'];
     const secondColumnValues = ['Single Family', 'Multi Family', 'Farm/Ranch'];
@@ -491,7 +528,8 @@ export default function decorate(block) {
         </a>
     </div>
 </div>
-<div class="filter-block hide"> 
+<div class="filter-block"> 
+${buildFilterSearchTypesElement()}
 ${buildPriceFilter()}
 ${buildPropertyFilterHtml()}
 ${buildSectionFilter(BEDROOMS, 'Any', 'bedrooms')}
@@ -504,7 +542,9 @@ ${buildFilterToggle('Recent Price Changes')}
 ${buildFilterOpenHouses()}
 ${buildFilterToggle('luxury')}
 ${buildFilterToggle('Berkshire Hathaway HomeServices Listings only')}
-</div>`
+</div>
+${buildFilterButtons(['apply', 'cancel', 'reset'])}
+`
 
     //add logic for select on click
     const countriesListItems = block.querySelectorAll('.container.select-country .select-item .tooltip-container');
