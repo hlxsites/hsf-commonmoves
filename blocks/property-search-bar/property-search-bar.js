@@ -102,21 +102,21 @@ function buildFilterSearchTypesElement() {
     const  defaultInput = 'for sale';
     const columns = [['for sale', 'for rent'], ['pending', 'sold']];
     let output = '';
-    output += `<div class="filter-search-types">
-    <label class="section-label text up">Search Type</label>`
+    output += `<div class="flex-column filter toggle hide-desktop">
+    <label class="section-label text-up mb-1">Search Type</label><div class="column-2 flex-row">`
     columns.forEach(column => {
         output += `<div class="column">`;
         column.forEach(type => {
-            output += `<section class="${formatInput(type)}">
-            <div class="d-flex align-items-end">
+            output += `
+            <div class="${formatInput(type)} flex-row mb-1">
                 <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${type.toLowerCase() === defaultInput}">
                 <div class="checkbox ${type.toLowerCase() === defaultInput ? 'checked' : ''}"></div>
-                <label class="text-up" role="presentation">${type}</label>
-            </div>
-        </section>`
+                <label class="text-up ml-1" role="presentation">${type}</label>
+            </div>`
         });
-        output += `</div>`
+        output+= `</div>`
     });
+    output += `</div></div>`
     return output
 }
 
@@ -176,7 +176,7 @@ function formatInput(string) {
  }
 
  function buildAreaFilter() {
-    return `<div>
+    return `<div class="area-filter filter">
      <label class="section-label text-up" role="presentation">square feet</label>
      ${addRangeOptionArea()}
      </div>;`
@@ -192,7 +192,7 @@ function addRangeYearBuild()  {
 }
 
  function buildPriceFilter() {
-     return `<div class="price">
+     return `<div class="flex-column filter mb-1 hide-desktop">
     <label class="section-label text-up">price</label>
     ${addRangeOption('price')}
 </div>`
@@ -221,11 +221,11 @@ function addRangeYearBuild()  {
  function buildPropertyColumn(buttonNames = []) {
     let output = '';
     buttonNames.forEach(buttonName => {
-        output += `<button type="button" >
+        output += `<button type="button" class="flex-row">
                 <svg role="presentation">
                     <use xlink:href="/icons/icons.svg#${buttonName.replace(/[\/\s]/g, "-").toLowerCase()}"></use>
                 </svg>
-                <span>${buttonName}</span>
+                <span class="ml-1">${buttonName}</span>
             </button>`
     });
     return output;
@@ -234,14 +234,16 @@ function addRangeYearBuild()  {
  function buildPropertyFilterHtml() {
     const firstColumnValues  = ['Condo/Townhouse', 'Commercial', 'Lot/Land'];
     const secondColumnValues = ['Single Family', 'Multi Family', 'Farm/Ranch'];
-    let  output= document.createElement('div');
-    output.classList.add('property-type');
-    output.innerHTML = `
+    let  output= `<div class="flex-column property-type filter">`;
+    //select all button might be separate method
+    output += `
     <label class="section-label text-up" role="presentation">property type</label>
-    <div class="property-column">${buildPropertyColumn(firstColumnValues)}</div>
-    <div class="property-column">${buildPropertyColumn(secondColumnValues)}</div>
-    <div class="select-all">
-        <label role="presentation">
+    <div class="column-2 flex-row">
+    <div class="column">${buildPropertyColumn(firstColumnValues)}</div>
+    <div class="column">${buildPropertyColumn(secondColumnValues)}</div>
+    </div>
+    <div class=" filter-checkbox mt-1">
+        <label role="presentation" class="flex-row mb-1">
             <input type="checkbox" aria-label="Property Type">
             <div class="checkbox">
                 <svg role="presentation">
@@ -251,12 +253,13 @@ function addRangeYearBuild()  {
             <span class="label">Select All</span>
         </label>
     </div>
+    </div>
     `;
-    return output.innerHTML;
+    return output;
  }
 
  function buildYearBuildFilter() {
-    return `<div class="year-built">
+    return `<div class="year-built filter">
         <label class="section-label text-up" role="presentation">year built</label>
         <div class="error hide">
         <svg class="icon-msg" role="presentation">
@@ -269,16 +272,15 @@ function addRangeYearBuild()  {
  }
 
  function buildKeywordSearch() {
-     return `<div class="keyword-search">
-    <label class="section-label" role="presentation">keyword search</label>
-    <section class="cmp-search-tags">
-        <div class="cmp-container-inputs d-flex flex-row align-items-center">
+     return `<div class="keyword-search filter mb-1 mt-1">
+    <label class="section-label text-up" role="presentation">keyword search</label>
+    <div class="flex-row vertical-center container-input">
             <input type="text" placeholder="Pool, Offices, Fireplace..." aria-label="Pool, Offices, Fireplace...">
-            <button type="submit" class="add">
-                <span class="text-upp">add</span>
+            <button type="submit" class="button secondary">
+                <span class="text-up">add</span>
             </button>
-        </div>
-        <div id="container-tags"></div>
+    </div>
+    <div id="container-tags"></div>
         <br>
 <!--        <span class="cmp-container-tags__tag"> cord-->
 <!--            <span class="close"></span>-->
@@ -286,24 +288,23 @@ function addRangeYearBuild()  {
 <!--        <span class="cmp-container-tags__tag"> cors-->
 <!--            <span class="close"></span>-->
 <!--        </span>-->
-        <div class="keyword-buttons">
-            <label class="text-up" role="presentation">match</label>
+        <div class="flex-row vertical-center">
+            <label class="text-up vertical-center" role="presentation">match</label>
             <div class="filter-radiobutton">
-                <label role="presentation">
+                <label role="presentation" class="flex-row vertical-center ml-1 mr-1">
                     <input type="radio" name="matchTagsAny" value="false">
                     <div class="radio-btn"></div>
-                    <span class="">Any</span>
+                    <span class="fs-1">Any</span>
                 </label>
             </div>
             <div class="filter-radiobutton">
-                <label role="presentation">
+                <label role="presentation" class="flex-row vertical-center">
                     <input type="radio" name="matchTagsAll" value="true">
                     <div class="radio-btn"></div>
-                    <span class="">All</span>
+                    <span class="fs-1">All</span>
                 </label>
             </div>
         </div>
-    </section>
 </div>`
  }
  function addOptions(config, defaultValue, mode = '') {
@@ -317,7 +318,7 @@ function addRangeYearBuild()  {
         <div>
             <select class="hide" aria-label="${defaultValue}">${buildSelectOptions(config, defaultValue, mode)}</select>
             ${selectedHtml}
-            <ul class="select-item" role="listbox">${buildListBoxOptions(config, defaultValue, mode)}</ul>
+            <ul class="select-item select-hide" role="listbox">${buildListBoxOptions(config, defaultValue, mode)}</ul>
         </div>
     </section>`
  }
@@ -364,14 +365,14 @@ function addRangeYearBuild()  {
  }
 
  function buildFilterOpenHouses() {
-     return `<div class="filter-open-houses">
-    <label class="section-label" role="presentation">Open Houses Only</label>
-    <div>
-        <div class="checkbox">
-            <label role="presentation">
+     return `<div class="filter">
+    <label class="section-label text-up" role="presentation">Open Houses Only</label>
+    <div class="flex-row vertical-center">
+        <div class="filter-checkbox mt-1">
+            <label role="presentation" class="flex-row mb-1">
                 <input type="checkbox" aria-label="Open Houses Only" value="">
             <div class="checkbox">
-                <svg class="empty" role="presentation">
+                <svg  role="presentation">
                     <use xlink:href="/icons/icons.svg#checkmark"></use>
                 </svg>
             </div>
@@ -379,14 +380,14 @@ function addRangeYearBuild()  {
             </label>
         </div>
         <div>
-            <label role="presentation">
+            <label role="presentation" class="flex-row center">
                 <input type="radio" name="openHousesOnly" value="true">
             <div class="radio-btn"></div>
             <span class="">This Weekend</span>
             </label>
         </div>
         <div>
-            <label role="presentation"><input type="radio" name="openHousesOnly" value="false">
+            <label role="presentation" class="flex-row vertical-center"><input type="radio" name="openHousesOnly" value="false">
             <div class="radio-btn"></div>
             <span class="">Anytime</span>
             </label>
@@ -396,14 +397,15 @@ function addRangeYearBuild()  {
  }
 
  function buildSectionFilter(config, defaultValue, name) {
-     let output = `<div class="${name.toLowerCase()}">
-    <label class="section-label text-up" role="presentation">${name}</label>`;
+     let output = `<div class="${name.toLowerCase()} filter tile hide-desktop">
+    <label class="section-label text-up" role="presentation">${name}</label><ul class="flex-row">`;
      //add element on top of array
      config.unshift({value: '', label: defaultValue});
+
      config.forEach(el => {
          output += `<li>
-            <input aria-describedby="bathrooms${el.value}" type="radio" id="bathrooms${el.value}" value=${el.value}>
-            <label for="bathrooms${el.value}">${el.label}</label>
+            <input aria-describedby="${name.toLowerCase()}${el.value}" type="radio" id="${name.toLowerCase()}${el.value}" value=${el.value}>
+            <label for="${name.toLowerCase()}${el.value}">${el.label === 'Any'? 'Any': el.value + "+"}</label>
         </li>`
      });
      output += `</ul></div>`;
@@ -461,7 +463,7 @@ function addRangeYearBuild()  {
  }
 
  function buildFilterToggle(label) {
-     return `<div class="filter-${label.toLocaleLowerCase().replace(/ /g, '-')} toggle">
+     return `<div class="filter toggle flex-row space-between">
     <label class="section-label text-up" role="presentation">${label}</label>
     <div>
         <section class="filter-toggle">
@@ -531,11 +533,11 @@ export default function decorate(block) {
 <div class="filter-block"> 
 ${buildFilterSearchTypesElement()}
 ${buildPriceFilter()}
-${buildPropertyFilterHtml()}
 ${buildSectionFilter(BEDROOMS, 'Any', 'bedrooms')}
 ${buildSectionFilter(BATHROOMS, 'Any', 'bathrooms')}
 ${buildAreaFilter()}
-${buildKeywordSearch()}
+${buildPropertyFilterHtml()}
+ ${buildKeywordSearch()}
 ${buildYearBuildFilter()}
 ${buildFilterToggle('New listings')}
 ${buildFilterToggle('Recent Price Changes')}
