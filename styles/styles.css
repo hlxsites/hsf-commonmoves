@@ -56,22 +56,22 @@
   --body-font-size-xxs: 10px;
 
   /* Line heights */
-  --line-height-3xs: 1.15em; /* 18.4px */
-  --line-height-2xs: 1.25em;  /* 20px */
-  --line-height-xs: 1.3em;   /* 20.8px */
-  --line-height-s: 1.4em;   /* 22.4px */
-  --line-height-reg: 23px;
-  --line-height-m: 24px;  /* 1.5em */
-  --line-height-l: 35px;
-  --line-height-xl: 2.5em; /* 40px */
-  --line-height-2xl: 50px;
+  --line-height-3xs: 1.15em;
+  --line-height-2xs: 1.25em;
+  --line-height-xs : 1.3em;
+  --line-height-s  : 1.4em;
+  --line-height-reg: 1.4em; /* TODO: Merge with small */
+  --line-height-m  : 1.4em;  /* 1.5em merge with xl?? */
+  --line-height-l  : 2em;
+  --line-height-xl : 2.5em;
+  --line-height-2xl: 2em;
 
   /* Common spacing values */
-  --letter-spacing-xs: 0.5px;
-  --letter-spacing-s: 0.7px;
-  --letter-spacing-reg: 0.8px;
-  --letter-spacing-m: 1.3px;
-  --letter-spacing-l: 0.13em; /* ~2.08px */
+  --letter-spacing-xs : 0.04em;
+  --letter-spacing-s  : 0.06em;
+  --letter-spacing-reg: 0.07em;
+  --letter-spacing-m  : 0.09em;
+  --letter-spacing-l  : 0.13em;
 
   /* Common dimensions */
   --max-page-width: 1350px;
