@@ -122,6 +122,7 @@ main.liveby-community h2 {
 @media screen and (min-width: 1200px) {
   main.liveby-community h2 {
     font-size: var(--heading-font-size-l);
+  }
 
   main.liveby-community h1 {
     font-size: var(--heading-font-size-xxl);
