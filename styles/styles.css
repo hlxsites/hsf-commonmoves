@@ -130,6 +130,18 @@ main .section.center p {
   background: var(--white);
 }
 
+.btn.btn-secondary {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.btn.btn-primary {
+  background: var(--primary-color);
+  color: var(--white);
+  border: 1px solid var(--primary-color);
+}
+
 .button-container a {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-s);

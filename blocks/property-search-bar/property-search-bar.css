@@ -28,10 +28,36 @@ main .section.property-search-bar-container {
 .fs-1 {
     font-size: var(--body-font-size-s)
 }
+
+.center {
+    text-align: center;
+}
+
 .filter {
     padding: 20px;
 }
+.button-container {
+    margin: 0 15px 0 8px;
+}
 
+.filter-buttons {
+    padding: 15px;
+    justify-content: center;
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.5);
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: var(--white);
+    height: 64px;
+    margin: 0;
+}
+
+.filter-buttons .btn {
+    padding: 7px 25px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
 /*.filter .multiple-inputs {*/
 /*    justify-content: center;*/
 /*    align-items: center;*/
@@ -231,9 +257,6 @@ main .section.property-search-bar-container {
     font-weight: 400;
 }
 
-.button-container {
-    margin: 0 15px 0 8px;
-}
 .button-container a {
     color: var(--white);
     border: 1px solid #aaa;
@@ -242,6 +265,11 @@ main .section.property-search-bar-container {
     font-size: var(--body-font-size-xs);
     white-space: nowrap;
 }
+.filter-buttons.button-container a {
+
+}
+
+
 
 .search-results-dropdown .select-item {
     padding: 10px;
@@ -671,9 +699,17 @@ input[type="radio"]:checked+.radio-btn:after {
 }
 
 @media (min-width: 992px) {
+    /*.filter-block {*/
+    /*    width: 600px;*/
+    /*}*/
+    .filter-buttons {
+        justify-content: flex-start;
+        padding: 15px 15px 15px 20px;
+    }
     .price, .square-feet, .any-beds, .any-baths, .save-search {
         display: initial;
     }
+
     .filter-container {
         order: 3;
     }

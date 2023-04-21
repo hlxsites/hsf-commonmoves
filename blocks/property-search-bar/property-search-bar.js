@@ -87,10 +87,10 @@ function buildCountriesList(config) {
     return optionsList;
 }
 
- function buildFilterButtons(buttons) {
-     let output = `<div class="filter-buttons">`;
+ function buildFilterButtons(buttons, primary) {
+     let output = `<div class="filter-buttons button-container flex-row vertical-center">`;
      buttons.forEach(button => {
-         output += `<a rel="noopener" href="" target="_blank" tabindex="" class="btn btn-primary" role="button">
+         output += `<a rel="noopener" href="" target="_blank" tabindex="" class="btn ${primary.includes(button) ? 'btn-primary' : 'btn-secondary'} center" role="button">
             <span class="text-up">${button}</span>
         </a>`
      });
@@ -522,15 +522,18 @@ export default function decorate(block) {
                 <svg role="presentation">
                     <use xlink:href="/icons/icons.svg#filter-white"></use>
                 </svg>
+                <svg role="presentation" class="hide">
+                <use xlink:href="/icons/icons.svg#close-x-white"></use></svg>
             </a>
         </div>
+        
         <div class="button-container container-item save-search">
         <a target="_blank" tabindex="" class="btn btn-search" role="button">
             <span>save search</span>
         </a>
     </div>
 </div>
-<div class="filter-block"> 
+<div class="filter-block hide"> 
 ${buildFilterSearchTypesElement()}
 ${buildPriceFilter()}
 ${buildSectionFilter(BEDROOMS, 'Any', 'bedrooms')}
@@ -544,9 +547,9 @@ ${buildFilterToggle('Recent Price Changes')}
 ${buildFilterOpenHouses()}
 ${buildFilterToggle('luxury')}
 ${buildFilterToggle('Berkshire Hathaway HomeServices Listings only')}
+${buildFilterButtons(['apply', 'cancel', 'reset'], ['apply'])}
 </div>
-${buildFilterButtons(['apply', 'cancel', 'reset'])}
-`
+ `
 
     //add logic for select on click
     const countriesListItems = block.querySelectorAll('.container.select-country .select-item .tooltip-container');
@@ -555,6 +558,24 @@ ${buildFilterButtons(['apply', 'cancel', 'reset'])}
     const filters = block.querySelectorAll('.container .header');
     const multipleSelectInputs = block.querySelectorAll('.select-selected');
     const priceRangeInputs = block.querySelector('.price .multiple-inputs');
+    const filterContainer = block.querySelector('.filter-container');
+    const filterBlock = block.querySelector('.filter-block');
+    const filterButtons = block.querySelector('.filter-buttons');
+    filterContainer.addEventListener('click', (e) => {
+        if (filterBlock.classList.contains('hide')) {
+            filterBlock.classList.remove('hide');
+        } else {
+            filterBlock.classList.add('hide');
+        }
+        //change icon for filter
+        filterContainer.querySelectorAll('svg').forEach((el) => {
+            if(el.classList.contains('hide')) {
+                el.classList.remove('hide');
+            } else {
+                el.classList.add('hide');
+            }
+        });
+    });
     //add logic on price range change
     priceRangeInputs.addEventListener('keyup', (e) => {
             const minPrice =  priceRangeInputs.querySelector('.price-range-input.min-price').value;
