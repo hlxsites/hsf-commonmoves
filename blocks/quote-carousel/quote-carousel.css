@@ -41,7 +41,7 @@
     font-family: var(--font-family-proxima);
     font-size: var(--body-font-size-xl);
     font-weight: var(--font-weight-light);
-    line-height: var(--line-height-reg);
+    line-height: var(--line-height-m);
     padding: 30px 30px 0;
 }
 
