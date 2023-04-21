@@ -91,7 +91,7 @@ function buildCountriesList(config) {
      let output = `<div class="filter-buttons button-container flex-row vertical-center">`;
      buttons.forEach(button => {
          output += `<a rel="noopener" href="" target="_blank" tabindex="" class="btn ${primary.includes(button) ? 'btn-primary' : 'btn-secondary'} center" role="button">
-            <span class="text-up">${button}</span>
+            <span class="text-up ${primary.includes(button) && 'c-w'}">${button}</span>
         </a>`
      });
      output += `</div>`;
@@ -143,7 +143,7 @@ function formatInput(string) {
  function buildDropdownElement(title, mode = '', defaultValue = '') {
      const dropdownContainer = document.createElement('div');
      const identifier =  title.toLocaleLowerCase().replace(/ /g, '-');
-     let selectedOptionHtml = `<div class="title text-up">${title}</div>`;
+     let selectedOptionHtml = `<div class="title text-up"><span>${title}</span></div>`;
      if (mode === 'country') {
          selectedOptionHtml =`
             <div role="button" aria-label="Select Country" class="title selected-country">
@@ -179,7 +179,7 @@ function formatInput(string) {
     return `<div class="area-filter filter">
      <label class="section-label text-up" role="presentation">square feet</label>
      ${addRangeOptionArea()}
-     </div>;`
+     </div>`
  }
 function addRangeYearBuild()  {
     return `<div class="multiple-inputs">
@@ -540,7 +540,7 @@ ${buildSectionFilter(BEDROOMS, 'Any', 'bedrooms')}
 ${buildSectionFilter(BATHROOMS, 'Any', 'bathrooms')}
 ${buildAreaFilter()}
 ${buildPropertyFilterHtml()}
- ${buildKeywordSearch()}
+${buildKeywordSearch()}
 ${buildYearBuildFilter()}
 ${buildFilterToggle('New listings')}
 ${buildFilterToggle('Recent Price Changes')}
