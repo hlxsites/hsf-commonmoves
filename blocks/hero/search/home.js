@@ -4,20 +4,15 @@ import {
 } from '../../shared/search-countries/search-countries.js';
 
 function observeForm() {
-  const block = document.querySelector('.hero.block');
-  const callback = (mutations, observer) => {
-    if (block.getAttribute('data-block-status') === 'loaded') {
-      // Delay the loading of the event listeners - it doesn't need to happen immediately.
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = `${window.hlx.codeBasePath}/blocks/hero/search/home-delayed.js`;
-      document.head.append(script);
-      observer.disconnect();
-    }
-  };
-
-  const observer = new MutationObserver(callback);
-  observer.observe(block, { attributes: true, attributeFilter: ['data-block-status'] });
+  const script = document.createElement('script');
+  script.type = 'text/partytown';
+  script.innerHTML = `
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = '${window.hlx.codeBasePath}/blocks/hero/search/home-delayed.js';
+    document.head.append(script);
+  `;
+  document.head.append(script);
 }
 
 /**
