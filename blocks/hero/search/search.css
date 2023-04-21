@@ -1,5 +1,5 @@
-@import url('./home/search.css');
-@import url('./agent/search.css');
+@import url('./home.css');
+@import url('./agent.css');
 
 .hero.block > div .content .search .options {
   display: flex;

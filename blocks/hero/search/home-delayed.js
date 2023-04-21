@@ -1,24 +1,23 @@
-import { getMetadata } from '../../../../scripts/lib-franklin.js';
-import { BREAKPOINTS } from '../../../../scripts/scripts.js';
+import { getMetadata } from '../../../scripts/lib-franklin.js';
+import { BREAKPOINTS } from '../../../scripts/scripts.js';
 import {
   close as closeCountrySelect,
   getSelected as getSelectedCountry,
-} from '../../../shared/search-countries/search-countries.js';
+} from '../../shared/search-countries/search-countries.js';
 import {
   abortSuggestions,
   getSuggestions,
   propertySearch,
   SearchParameters,
   DEFAULT_DOMAIN,
-} from '../../../../scripts/apis/creg/creg.js';
-import { getSpinner } from '../../../../scripts/util.js';
+} from '../../../scripts/apis/creg/creg.js';
+import { getSpinner } from '../../../scripts/util.js';
 
 const noOverlayAt = BREAKPOINTS.medium;
 
 const MORE_INPUT_NEEDED = 'Please enter at least 3 characters.';
 const NO_SUGGESTIONS = 'No suggestions found. Please modify your search.';
 const SEARCHING_SUGGESTIONS = 'Looking up suggestions...';
-
 
 const fixOverlay = () => {
   if (noOverlayAt.matches) {
@@ -216,8 +215,7 @@ function addEventListeners() {
   });
 
   const suggestionsTarget = form.querySelector('.suggester-input .suggester-results');
-  const formInput = form.querySelector('.suggester-input input');
-  formInput.addEventListener('input', (e) => {
+  form.querySelector('.suggester-input input').addEventListener('input', (e) => {
     inputChanged(e, suggestionsTarget);
   });
   suggestionsTarget.addEventListener('click', (e) => {

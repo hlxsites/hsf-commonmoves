@@ -1,5 +1,5 @@
-import homes from './home/search.js';
-import agents from './agent/search.js';
+import homes from './home.js';
+import agents from './agent.js';
 
 /**
  * Builds the search forms for the Hero.

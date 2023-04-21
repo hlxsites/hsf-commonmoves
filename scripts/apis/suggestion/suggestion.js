@@ -14,14 +14,11 @@ let suggestionFetchController;
  * @return {Promise<Object>|undefined} Promise with results or undefined if fetch was aborted.
  */
 export async function getSuggestions(type, office, keyword) {
-  if (suggestionFetchController) {
-    suggestionFetchController.abort();
-  }
-
+  suggestionFetchController?.abort();
   suggestionFetchController = new AbortController();
-  const { signal } = suggestionFetchController.signal;
-  const endpoint = `${API_URL}/suggesterServlet?search_type=${type}&keyword=${keyword}&office_id=${office}&_=${Date.now()}`;
+  const { signal } = suggestionFetchController;
 
+  const endpoint = `${API_URL}/suggesterServlet?search_type=${type}&keyword=${keyword}&office_id=${office}&_=${Date.now()}`;
   return fetch(endpoint, { signal })
     .then((resp) => {
       if (resp.ok) {
@@ -40,7 +37,5 @@ export async function getSuggestions(type, office, keyword) {
 }
 
 export function abortSuggestions() {
-  if (suggestionFetchController) {
-    suggestionFetchController.abort();
-  }
+  suggestionFetchController?.abort();
 }

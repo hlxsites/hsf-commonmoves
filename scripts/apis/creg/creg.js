@@ -113,13 +113,13 @@ const mapSuggestions = (json) => {
  * @param {String} keyword the partial for suggestion search
  * @param {String} [country=undefined] optional country for narrowing search
  *
- * @return {Promise<Object[]>|undefined} Any available suggestions, or undefined if the search was aborted.
+ * @return {Promise<Object[]>|undefined}
+ *    Any available suggestions, or undefined if the search was aborted.
  */
 export async function getSuggestions(keyword, country = undefined) {
-  if (suggestionFetchController) {
-    suggestionFetchController.abort();
-  }
+  suggestionFetchController?.abort();
   suggestionFetchController = new AbortController();
+
   const { signal } = suggestionFetchController;
 
   let endpoint = `${CREG_API_URL}/cregSearchSuggesterServlet?Keyword=${keyword}&_=${Date.now()}`;
@@ -129,7 +129,6 @@ export async function getSuggestions(keyword, country = undefined) {
 
   return fetch(endpoint, { signal })
     .then((resp) => {
-      suggestionFetchController = undefined;
       if (resp.ok) {
         return resp.json().then(mapSuggestions);
       }
@@ -145,9 +144,7 @@ export async function getSuggestions(keyword, country = undefined) {
 }
 
 export function abortSuggestions() {
-  if (suggestionFetchController) {
-    suggestionFetchController.abort();
-  }
+  suggestionFetchController?.abort();
 }
 
 /**
@@ -155,9 +152,8 @@ export function abortSuggestions() {
  *
  * @param {SearchParameters} params the parameters
  */
-export async function propertySearch(params){
+export async function propertySearch(params) {
   const queryParams = params.asQueryString();
-
   const url = `${CREG_API_URL}/CregPropertySearchServlet?${queryParams}&_=${Date.now()}`;
   const resp = await fetch(url);
   if (resp.ok) {

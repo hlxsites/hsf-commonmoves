@@ -9,3 +9,9 @@ export function getSpinner() {
   div.innerHTML = '<span></span>';
   return div;
 }
+
+const Util = {
+  getSpinner,
+};
+
+export default Util;
