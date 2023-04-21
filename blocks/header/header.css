@@ -147,7 +147,7 @@ body.light-nav {
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-normal);
   font-size: var(--body-font-size-xl);
-  line-height: var(--line-height-2xs);
+  line-height: var(--line-height-xs);
   text-decoration: none;
   text-transform: uppercase;
   color: var(--white);
@@ -172,7 +172,7 @@ body.light-nav {
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-normal);
   font-size: var(--body-font-size-m);
-  line-height: var(--line-height-l);
+  line-height: var(--line-height-m);
   text-decoration: none;
   text-transform: capitalize;
   color: var(--white);
@@ -338,7 +338,7 @@ body.light-nav {
     font-size: var(--body-font-size-s);
     text-align: center;
     letter-spacing: var(--letter-spacing-reg);
-    line-height: var(--line-height-m);
+    line-height: var(--line-height-reg);
     color: var(--nav-color);
     column-gap: 2px;
   }

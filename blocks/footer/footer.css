@@ -116,7 +116,7 @@ footer {
 .footer-container-flex > div:last-child p {
   font-size: 12px;
   letter-spacing:var(--letter-spacing-xs);
-  line-height: var(--line-height-s);
+  line-height: var(--line-height-reg);
 }
 
 .footer-container-flex > div:last-child p a {

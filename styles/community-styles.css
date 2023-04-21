@@ -97,7 +97,7 @@ main.liveby-community h2 {
   font-size: var(--heading-font-size-m);
   font-weight: var(--font-weight-semibold);
   text-align: center;
-  line-height: var(--line-height-3xs);
+  line-height: var(--line-height-2xs);
   color: var(--body-color);
 }
 

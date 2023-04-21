@@ -16,7 +16,7 @@
   padding: .5em .75em;
   font-size: var(--body-font-size-s);
   letter-spacing: normal;
-  line-height: var(--line-height-3xs);
+  line-height: var(--line-height-2xs);
   color: var(--primary-color);
   background-color: var(--white-background);
   border: 1px solid var(--primary-color);

@@ -56,15 +56,12 @@
   --body-font-size-xxs: 10px;
 
   /* Line heights */
-  --line-height-3xs: 1.15em;
-  --line-height-2xs: 1.25em;
-  --line-height-xs : 1.3em;
-  --line-height-s  : 1.4em;
-  --line-height-reg: 1.4em; /* TODO: Merge with small */
-  --line-height-m  : 1.4em;  /* 1.5em merge with xl?? */
-  --line-height-l  : 2em;
-  --line-height-xl : 2.5em;
-  --line-height-2xl: 2em;
+  --line-height-2xs : 1.15em;
+  --line-height-xs  : 1.25em;
+  --line-height-s   : 1.3em;
+  --line-height-reg : 1.4em;  /* 1.5em merge with xl?? */
+  --line-height-m   : 2em;
+  --line-height-l   : 2.5em;
 
   /* Common spacing values */
   --letter-spacing-xs : 0.04em;
@@ -103,7 +100,7 @@ h2 {
   font-family: var(--font-family-georgia);
   font-size: var(--heading-font-size-xl);
   font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-2xl);
+  line-height: var(--line-height-m);
 }
 
 h3 {
@@ -179,7 +176,7 @@ main .section.center p {
   font-family: var(--font-family-proxima);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--letter-spacing-l);
-  line-height: var(--line-height-s);
+  line-height: var(--line-height-reg);
   text-align: center;
 }
 
