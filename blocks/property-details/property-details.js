@@ -35,19 +35,7 @@ function getIndex(block) {
 function openAccordion(e) {
   var parent = this.closest('.accordion-item');
   var accordionBody = parent.querySelector('.accordion-body');
-  /*
-  if(parent.classList.contains('collapse')) {
-    parent.classList.remove('collapse');
-    accordionBody.style.maxHeight = accordionBody.scrollHeight + 'px';
-  } else {
-    parent.classList.add('collapse');
-    accordionBody.style.height = '0px';
-  }
-  */
   parent.classList.toggle('collapse');
-  if(!parent.classList.contains('collapse')) {
-    accordionBody.style.maxHeight = accordionBody.scrollHeight + 'px';
-  }
 }
 
 function createAccordionHeader(heading, tooltipText) {
@@ -120,7 +108,7 @@ function createSchoolsAccordionItem() {
   var schoolData = getSchoolData();
   console.log(schoolData);
   const accordionItem = document.createElement('div');
-  accordionItem.className = 'accordion-item schools collapse';
+  accordionItem.className = 'accordion-item schools';
   const accordionTitle = createAccordionHeader('Your Schools', schoolData.citation);
   const accordionBody = document.createElement('div');
   accordionBody.className = 'accordion-body';

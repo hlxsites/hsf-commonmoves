@@ -276,14 +276,14 @@ button.toggle:focus, button.toggle:active {
   position: relative;
 }
 
-.accordion-item:not(.collapse) .accordion-body{
-  transition: 0.5s;
-}
-.accordion-item.collapse .accordion-body {
-  position: relative;
+.accordion-item .accordion-body {
+  max-height: 999em;
   overflow: hidden;
-  transition: 0.5s;
-  height: 0;
+  transition: max-height .6s;
+}
+
+.accordion-item.collapse .accordion-body {
+  max-height: 0;
 }
 
 .accordion-title-col {

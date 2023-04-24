@@ -1,3 +1,4 @@
+var data = `
 {
   "data": [{
     "level": "zipcode",
@@ -38,4 +39,9 @@
   }],
   "citation": "Based on Census Bureau Data 2021",
   "labels": null
+}
+`;
+
+export function getEconData() {
+  return JSON.parse(data);
 }
