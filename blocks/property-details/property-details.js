@@ -1,5 +1,6 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 import { getSchoolData } from './schools.js';
+import { getEconData } from './occupancy.js';
 const API = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
 
 const propID = '343140756';
@@ -130,6 +131,234 @@ function createSchoolsAccordionItem() {
     </div>
   `;
   accordionBody.innerHTML = schoolsHTML;
+  accordionItem.append(accordionTitle);
+  accordionItem.append(accordionBody);
+  return accordionItem;
+}
+function createOccupancyAccordionItem() {
+  var econData = getEconData();
+  console.log(econData);
+  var levelData = econData.data.find((elem) => elem.level == 'zipcode');
+  var countyData = econData.data.find((elem) => elem.level == 'county');
+  var countryData = econData.data.find((elem) => elem.level == 'country');
+  const accordionItem = document.createElement('div');
+  accordionItem.className = 'accordion-item occupancy';
+  const citation = 'Market data provided by U.S. Census Bureau';
+  const accordionTitle = createAccordionHeader('Occupancy', citation);
+  const accordionBody = document.createElement('div');
+  accordionBody.className = 'accordion-body';
+  var occupancyTableHTML = `
+    <div class="property-container">
+      <div class="property-row">
+        <div class="col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
+        <table class="cmp-socio-economic-data--table">
+          <thead slot="head">
+            <th aria-label="No value"></th>
+            <th>Owned</th>
+            <th>Rented</th>
+            <th aria-label="No value">Vacant</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <h6>Zip Code: ${levelData.label}</h6>
+              </td>
+              <td class="cmp-socio-economic-data__stat">
+                ${levelData.ownerOccupiedPercent}
+                <span class="percentage">%</span>
+                <div class="progress-bar"><span class="progress-owner" style="width: ${levelData.ownerOccupiedPercent}%;"></span> <span class="progress-renter"
+                    style="width: ${levelData.renterOccupiedPercent}%;"></span></div>
+              </td>
+              <td class="cmp-socio-economic-data__stat percentage">
+                ${levelData.renterOccupiedPercent}
+                <span class="percentage">%</span></td>
+              <td class="cmp-socio-economic-data__stat percentage">
+                ${levelData.vacancyPercent}
+                <span class="percentage">%</span></td>
+            </tr>
+            <tr>
+              <td>
+                <h6>${countyData.label}</h6>
+              </td>
+              <td class="cmp-socio-economic-data__stat">
+                ${countyData.ownerOccupiedPercent}
+                <span class="percentage">%</span>
+                <div class="progress-bar"><span class="progress-owner" style="width: ${countyData.ownerOccupiedPercent}%;"></span> <span class="progress-renter"
+                    style="width: ${countyData.renterOccupiedPercent}%;"></span></div>
+              </td>
+              <td class="cmp-socio-economic-data__stat percentage">
+                ${countyData.renterOccupiedPercent}
+                <span class="percentage">%</span></td>
+              <td class="cmp-socio-economic-data__stat percentage">
+                ${countyData.vacancyPercent}
+                <span class="percentage">%</span></td>
+            </tr>
+            <tr>
+              <td>
+                <h6>${countryData.label}</h6>
+              </td>
+              <td class="cmp-socio-economic-data__stat">
+                ${countryData.ownerOccupiedPercent}
+                <span class="percentage">%</span>
+                <div class="progress-bar"><span class="progress-owner" style="width: ${countryData.ownerOccupiedPercent}%;"></span> <span class="progress-renter"
+                    style="width: ${countryData.renterOccupiedPercent}%;"></span></div>
+              </td>
+              <td class="cmp-socio-economic-data__stat percentage">
+                ${countryData.renterOccupiedPercent}
+                <span class="percentage">%</span></td>
+              <td class="cmp-socio-economic-data__stat percentage">
+                ${countryData.vacancyPercent}
+                <span class="percentage">%</span></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  `;
+  accordionBody.innerHTML = occupancyTableHTML;
+  accordionItem.append(accordionTitle);
+  accordionItem.append(accordionBody);
+  return accordionItem;
+}
+function createHousingTrendsAccordionItem() {
+  var econData = getEconData();
+  console.log(econData);
+  var levelData = econData.data.find((elem) => elem.level == 'zipcode');
+  var countyData = econData.data.find((elem) => elem.level == 'county');
+  var countryData = econData.data.find((elem) => elem.level == 'country');
+  const accordionItem = document.createElement('div');
+  accordionItem.className = 'accordion-item housing-trends';
+  const citation = 'Market data provided by U.S. Census Bureau';
+  const accordionTitle = createAccordionHeader('Housing Trends', citation);
+  const accordionBody = document.createElement('div');
+  accordionBody.className = 'accordion-body';
+  var housingTableHTML = `
+    <div class="property-container">
+      <div class="property-row">
+        <div class="col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
+          <table class="cmp-socio-economic-data--table">
+            <thead slot="head">
+              <th aria-label="No value"></th>
+              <th>Home Appreciation</th>
+              <th>Median Age</th>
+              <th aria-label="No value"></th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <h6>Zip Code: ${levelData.label}</h6>
+                </td>
+                <td class="cmp-socio-economic-data__stat percentage">
+                  ${levelData.homeValueAppreciationPercent}
+                  <span class="percentage">%</span></td>
+                <td class="cmp-socio-economic-data__stat year">${levelData.medianHomeAge}y</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>${countyData.label}</h6>
+                </td>
+                <td class="cmp-socio-economic-data__stat percentage">
+                  ${countyData.homeValueAppreciationPercent}
+                  <span class="percentage">%</span></td>
+                <td class="cmp-socio-economic-data__stat year">${countyData.medianHomeAge}y</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>${countryData.label}</h6>
+                </td>
+                <td class="cmp-socio-economic-data__stat percentage">
+                  ${countryData.homeValueAppreciationPercent}
+                  <span class="percentage">%</span></td>
+                <td class="cmp-socio-economic-data__stat year">${countryData.medianHomeAge}y</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+  accordionBody.innerHTML = housingTableHTML;
+  accordionItem.append(accordionTitle);
+  accordionItem.append(accordionBody);
+  return accordionItem;
+}
+function createEconomicDataAccordionItem() {
+  var econData = getEconData();
+  console.log(econData);
+  var levelData = econData.data.find((elem) => elem.level == 'zipcode');
+  var countyData = econData.data.find((elem) => elem.level == 'county');
+  var countryData = econData.data.find((elem) => elem.level == 'country');
+  const accordionItem = document.createElement('div');
+  accordionItem.className = 'accordion-item economic-data';
+  const citation = 'Data provided by U.S. Census Bureau';
+  const accordionTitle = createAccordionHeader('Economic Data', citation);
+  const accordionBody = document.createElement('div');
+  accordionBody.className = 'accordion-body';
+  var econTableHTML = `
+    <div class="property-container">
+      <div class="property-row">
+        <div class="col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
+          <table class="cmp-socio-economic-data--table">
+            <thead slot="head">
+              <th aria-label="No value"></th>
+              <th>Median House. Income</th>
+              <th>Unemployment</th>
+              <th>Cost of Living Index</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <h6>Zip Code: ${levelData.label}</h6>
+                </td>
+                <td class="cmp-socio-economic-data__stat usd">
+                  <div class="currency">${levelData.medianIncome}</div>
+                </td>
+                <td class="cmp-socio-economic-data__stat percentage">
+                  ${levelData.unemploymentPercent}
+                  <span class="percentage">%</span></td>
+                <td class="cmp-socio-economic-data__stat">
+                  ${levelData.costOfLivingIndex}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>${countyData.label}</h6>
+                </td>
+                <td class="cmp-socio-economic-data__stat usd">
+                  <div class="currency">${countyData.medianIncome}</div>
+                </td>
+                <td class="cmp-socio-economic-data__stat percentage">
+                  ${countyData.unemploymentPercent}
+                  <span class="percentage">%</span></td>
+                <td class="cmp-socio-economic-data__stat">
+                  ${countyData.costOfLivingIndex}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h6>${countryData.label}</h6>
+                </td>
+                <td class="cmp-socio-economic-data__stat usd">
+                  <div class="currency">${countryData.medianIncome}</div>
+                </td>
+                <td class="cmp-socio-economic-data__stat percentage">
+                  ${countryData.unemploymentPercent}
+                  <span class="percentage">%</span></td>
+                <td class="cmp-socio-economic-data__stat">
+                  ${countryData.costOfLivingIndex}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+  accordionBody.innerHTML = econTableHTML;
   accordionItem.append(accordionTitle);
   accordionItem.append(accordionBody);
   return accordionItem;
@@ -287,6 +516,12 @@ export default async function decorate(block) {
     accordionTwo.className = 'property-accordion-two property-container';
     var schoolsAccordionItem = createSchoolsAccordionItem();
     accordionTwo.append(schoolsAccordionItem);
+    var occupancyAccordionItem = createOccupancyAccordionItem();
+    accordionTwo.append(occupancyAccordionItem);
+    var housingAccordionItem = createHousingTrendsAccordionItem();
+    accordionTwo.append(housingAccordionItem);
+    var econItem = createEconomicDataAccordionItem();
+    accordionTwo.append(econItem);
     block.append(accordionTwo);
     var accordionHeaders = block.querySelectorAll('.accordion-header');
     for(var i = 0; i < accordionHeaders.length; i++) {

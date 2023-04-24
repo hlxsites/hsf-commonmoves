@@ -1,0 +1,61 @@
+<table class="cmp-socio-economic-data--table">
+  <thead slot="head">
+    <th aria-label="No value"></th>
+    <th>Owned</th>
+    <th>Rented</th>
+    <th aria-label="No value">Vacant</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <h6>Zip Code: ${levelData.label}</h6>
+      </td>
+      <td class="cmp-socio-economic-data__stat">
+        ${levelData.ownerOccupiedPercent}
+        <span class="percentage">%</span>
+        <div class="progress-bar"><span class="progress-owner" style="width: 76%;"></span> <span class="progress-renter"
+            style="width: 24%;"></span></div>
+      </td>
+      <td class="cmp-socio-economic-data__stat percentage">
+        ${levelData.renterOccupiedPercent}
+        <span class="percentage">%</span></td>
+      <td class="cmp-socio-economic-data__stat percentage">
+        ${levelData.vacancyPercent}
+        <span class="percentage">%</span></td>
+    </tr>
+    <tr>
+      <td>
+        <h6>${countyData.label}</h6>
+      </td>
+      <td class="cmp-socio-economic-data__stat">
+        ${countyData.ownerOccupiedPercent}
+        <span class="percentage">%</span>
+        <div class="progress-bar"><span class="progress-owner" style="width: 64%;"></span> <span class="progress-renter"
+            style="width: 36%;"></span></div>
+      </td>
+      <td class="cmp-socio-economic-data__stat percentage">
+        ${countyData.renterOccupiedPercent}
+        <span class="percentage">%</span></td>
+      <td class="cmp-socio-economic-data__stat percentage">
+        ${countyData.vacancyPercent}
+        <span class="percentage">%</span></td>
+    </tr>
+    <tr>
+      <td>
+        <h6>${countryData.label}</h6>
+      </td>
+      <td class="cmp-socio-economic-data__stat">
+        ${countryData.ownerOccupiedPercent}
+        <span class="percentage">%</span>
+        <div class="progress-bar"><span class="progress-owner" style="width: 65%;"></span> <span class="progress-renter"
+            style="width: 35%;"></span></div>
+      </td>
+      <td class="cmp-socio-economic-data__stat percentage">
+        ${countryData.renterOccupiedPercent}
+        <span class="percentage">%</span></td>
+      <td class="cmp-socio-economic-data__stat percentage">
+        ${countryData.vacancyPercent}
+        <span class="percentage">%</span></td>
+    </tr>
+  </tbody>
+</table>
