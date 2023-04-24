@@ -26,7 +26,7 @@ main .section.liveby-schools-container p {
   color: var(--body-color);
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-m);
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   border-color: var(--grey);
   border-radius: 2px;
   background: url("https://pages.liveby.com/static/media/triangle.f2d6139e.svg") 93% center no-repeat rgb(255 255 255);

@@ -166,7 +166,7 @@ main .section.center p {
 }
 
 /* common styles */
-.background-lightgray {
+.background-lightgrey {
   background: var(--lightgrey);
 }
 
