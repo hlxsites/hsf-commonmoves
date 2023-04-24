@@ -35,7 +35,7 @@
     font-family: var(--font-family-proxima);
     font-size: var(--body-font-size-m);
     line-height: 1.5em;
-    color: inherit;
+    color: var(--white);
     text-decoration-style: solid;
     font-weight: 400;
 }
@@ -75,12 +75,15 @@
     letter-spacing: 0.1em;
     padding: 16px 0;
     border-top: solid 1px var(--border-color);
-}
-
-.blog-nav .blog-nav-selected {
     text-align: center;
 }
 
+.blog-nav .blog-nav-selected{
+    text-align: center;
+}
+.blog-nav .blog-nav-selected span {
+    color: var(--white);
+}
 .blog-nav .category-dropdown-icon {
     width: auto;
     vertical-align: middle;

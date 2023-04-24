@@ -15,7 +15,7 @@ export default async function decorate(block) {
           categoryName = category.textContent;
         }
       });
-      selectedCategoryEl.innerHTML = ` ${categoryName} <img src="/icons/dropdown-icon.svg" alt="dropdown-icon" class="category-dropdown-icon">`;
+      selectedCategoryEl.innerHTML = ` <span>${categoryName}</span> <img src="/icons/dropdown-icon.svg" alt="dropdown-icon" class="category-dropdown-icon">`;
       blogNav.appendChild(selectedCategoryEl);
     }
     blogNav.appendChild(child);
