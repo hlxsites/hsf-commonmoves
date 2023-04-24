@@ -1,30 +1,7 @@
- const COUNTRIES = {
-    'US': [],
-     'CA': [
-         {'url': 'https://www.bhhs.com/quebec-ca802', 'label': 'Québec'},
-         {'url': 'https://www.bhhs.com/toronto-realty-ca801', 'label': 'Toronto Realty / West Realty'}
-     ],
-     'MX': [
-         {'url': 'https://www.bhhs.com/applegate-realtors-mx804', 'label': 'Puerto Vallarta - Applegate Realtors'},
-         {'url': 'https://www.bhhs.com/los-cabos-properties-mx803', 'label': 'Baja Real Estate'},
-         {'url': 'https://www.bhhs.com/cancunproperties-mx802', 'label': 'Cancun'},
-         {'url': 'https://www.bhhscolonialhomes.com/', 'label': 'San Miguel de Allende'}
-     ],
-     'KY': [{'url': 'https://www.berkshirehathawayhomeservicescaymanislands.com', 'label': 'Cayman Islands'}],
-     'AW': [{'url': 'https://www.bhhs.com/aruba-realty-aw801', 'label': 'Aruba Realty'}],
-     'AE': [{'url': 'https://www.bhhs.com', 'label': 'Gulf Properties'}],
-     'BS': [{'url': 'https://www.bhhs.com"', 'label': 'Bahamas Real Estate'}],
-     'GB': [{'url': 'https://www.bhhs.com', 'label': 'London Kay &amp; Co'}],
-     'GR': [{'url': 'https://www.bhhs.com', 'label': 'Athens Properties'}],
-     'ES': [{'url': 'https://www.bhhs.com/spain-es801', 'label': 'Spain'}],
-     'IT': [{'url': 'https://www.bhhs.com', 'label': 'Maggi Properties'}],
-     'PT': [
-         {'url': 'https://www.bhhs.com', 'label': 'Atlantic Portugal'},
-         {'url': 'https://www.bhhs.com', 'label': 'Portugal Property'}
-     ],
-     'IN': [{'url': 'https://www.bhhs.com', 'label': 'Orenda India'}],
-};
-
+import { build as buildCountrySelect } from '../shared/search-countries/search-countries.js';
+import { formatInput, getPlaceholder } from './common-function.js';
+import { buildFilterSearchTypesElement, buildFilterPlaceholder } from './additional-filters.js';
+import { build as buildTopMenu } from './top-menu.js';
  const BEDROOMS = [
      {"value": "1", "label": "1+ Beds"},
      {"value": "2", "label": "2+ Beds"},
@@ -77,15 +54,6 @@ const YEAR_BUILT = [
     {"value": "2018", "label": "2018"},
     {"value": "2019", "label": "2019"},
 ]
-function buildCountriesList(config) {
-    let optionsList = '';
-    Object.keys(config).forEach(country => {
-       optionsList+= `<option value=${country}><img src="/icons/property-search/${country}.png" alt="${country}"
-                                role="presentation" aria-hidden="true" tabIndex="-1">
-                                ${country}</option>`
-    });
-    return optionsList;
-}
 
  function buildFilterButtons(buttons, primary) {
      let output = `<div class="filter-buttons button-container flex-row vertical-center">`;
@@ -98,74 +66,25 @@ function buildCountriesList(config) {
      return output;
  }
 
-function buildFilterSearchTypesElement() {
-    const  defaultInput = 'for sale';
-    const columns = [['for sale', 'for rent'], ['pending', 'sold']];
-    let output = '';
-    output += `<div class="flex-column filter toggle hide-desktop">
-    <label class="section-label text-up mb-1">Search Type</label><div class="column-2 flex-row">`
-    columns.forEach(column => {
-        output += `<div class="column">`;
-        column.forEach(type => {
-            output += `
-            <div class="${formatInput(type)} flex-row mb-1">
-                <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${type.toLowerCase() === defaultInput}">
-                <div class="checkbox ${type.toLowerCase() === defaultInput ? 'checked' : ''}"></div>
-                <label class="text-up ml-1" role="presentation">${type}</label>
-            </div>`
-        });
-        output+= `</div>`
-    });
-    output += `</div></div>`
-    return output
-}
-
-function formatInput(string) {
-    return string.replace(/ /g, '-').toLowerCase();
-}
- function buildTooltipByCountry(config) {
-     let optionsList = '';
-     Object.keys(config).forEach(country => {
-         optionsList += `<li data-value="${country}" class="tooltip-container">
-        <a role="button"> 
-        <img src="/icons/property-search/${country}.png" target="_blank" class="label-image" role="presentation" aria-hidden="true" tabindex="-1">${country}</a>
-                                                        <ul class="custom-tooltip hide">`;
-         if (config[country].length > 0) {
-             config[country].forEach(config => {
-                 optionsList += `<li><a href="${config.url}" target="_self" tabIndex="-1">${config.label}</a></li>`
-             })
-         }
-         optionsList += `</ul></li>`
-     });
-     return optionsList;
-}
-
- function buildDropdownElement(title, mode = '', defaultValue = '') {
+ function buildTopFilterPlaceholder(title, classes, callback = false) {
      const dropdownContainer = document.createElement('div');
-     const identifier =  title.toLocaleLowerCase().replace(/ /g, '-');
-     let selectedOptionHtml = `<div class="title text-up"><span>${title}</span></div>`;
-     if (mode === 'country') {
-         selectedOptionHtml =`
-            <div role="button" aria-label="Select Country" class="title selected-country">
-                <img src="/icons/property-search/${defaultValue}.png" alt="${defaultValue}Country Flag" class="label-image">
-                <span>${defaultValue}</span>
-            </div>`;
-     }
-     dropdownContainer.classList.add('container', identifier);
+     const identifier =  formatInput(title);
+     const options = callback ? callback(title) : '';
+     classes.push(identifier);
+     [...classes].forEach(className => dropdownContainer.classList.add(className));
      dropdownContainer.setAttribute('id', identifier);
+
      dropdownContainer.innerHTML =
          `<div class="header">
-             ${selectedOptionHtml}
-             <svg role="presentation" class="arrow">
-                <use xlink:href="/icons/icons.svg#arrow-down-white"></use>
-             </svg>
+             <div class="title text-up"><span>${title}</span></div>
              </div>
-       <div class="search-results-dropdown hide shadow"/>`;
+       <div class="search-results-dropdown hide shadow">${options}</div>`;
 
      return dropdownContainer
  }
 
  function addRangeOptionArea() {
+
      return `<div class="multiple-inputs">
                 ${addOptions(SQUARE_FEET, 'No Min', 'multi')}
                 <span class="range-label text-up">to</span>
@@ -175,12 +94,6 @@ function formatInput(string) {
             `
  }
 
- function buildAreaFilter() {
-    return `<div class="area-filter filter">
-     <label class="section-label text-up" role="presentation">square feet</label>
-     ${addRangeOptionArea()}
-     </div>`
- }
 function addRangeYearBuild()  {
     return `<div class="multiple-inputs">
                 ${addOptions(YEAR_BUILT, 'No Min', 'multi')}
@@ -199,8 +112,10 @@ function addRangeYearBuild()  {
  }
 
  function addRangeOption(filterName, fromLabel = 'No Min', toLabel = 'No Max', maxLength = 14) {
-    const filterLabel = filterName.charAt(0).toLocaleUpperCase() + filterName.slice(1).toLowerCase();
-    return `<div class="multiple-inputs">
+     const filterLabel = filterName.charAt(0).toLocaleUpperCase() + filterName.slice(1).toLowerCase();
+    if (filterName === 'price') {
+
+        return `<div class="multiple-inputs">
                 <div id="Min${filterLabel}" class="input-dropdown">
                 <input type="text" maxLength="${maxLength}" list="listMin${filterLabel}"
                     id="bbh-Min${filterLabel}" aria-describedby="Min${filterLabel}"
@@ -216,6 +131,11 @@ function addRangeYearBuild()  {
             <datalist id="listMax${filterLabel}" class="list${filterLabel}"></datalist>
             </div>
         </div>`
+    } else if (filterName === 'square feet') {
+        return addRangeOptionArea();
+    } else if (filterName === 'year built') {
+        return addRangeYearBuild();
+    }
  }
 
  function buildPropertyColumn(buttonNames = []) {
@@ -223,7 +143,7 @@ function addRangeYearBuild()  {
     buttonNames.forEach(buttonName => {
         output += `<button type="button" class="flex-row">
                 <svg role="presentation">
-                    <use xlink:href="/icons/icons.svg#${buttonName.replace(/[\/\s]/g, "-").toLowerCase()}"></use>
+                    <use xlink:href="/icons/icons.svg#${formatInput(buttonName)}"></use>
                 </svg>
                 <span class="ml-1">${buttonName}</span>
             </button>`
@@ -327,40 +247,30 @@ function addRangeYearBuild()  {
   *
   * @param {array} config
   * @param {string} defaultValue
-  * @param {string} mode
   * @returns {string}
   */
- function buildSelectOptions(config, defaultValue, mode) {
-     let output = '';
-     if (mode === 'country') {
-         output = buildCountriesList(config);
-     } else {
-         output = `<option value="">${defaultValue}</option>`
+ function buildSelectOptions(config, defaultValue) {
+     let output = `<option value="">${defaultValue}</option>`
          config.forEach(el => {
              output += `<option value="${el.value}">${el.label}</option>`
          });
-     }
-     return output
+
+     return output;
  }
 
  /**
   *
   * @param {array} config
   * @param {string} defaultValue
-  * @param {string} mode
   * @returns {string}
   */
- function buildListBoxOptions(config, defaultValue, mode) {
-     let output = '';
-     if (mode === 'country') {
-         output += buildTooltipByCountry(config);
-     } else {
-         output += `<li data-value="" class="tooltip-container">${defaultValue}</li>`
+ function buildListBoxOptions(config, defaultValue) {
+     let output = `<li data-value="" class="tooltip-container">${defaultValue}</li>`
          config.forEach(config => {
 
              output += `<li data-value="${config.value}" class="tooltip-container">${config.label}</li>`
          });
-     }
+
      return output
  }
 
@@ -412,18 +322,15 @@ function addRangeYearBuild()  {
      return output;
 
  }
- function getPlaceholder(country) {
-     return country === 'US' ? 'Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#' : 'Enter City'
- }
 
  function closeSelect(element) {
 
-     element.classList.remove('opened');
+     element.classList.remove('open');
      element.querySelector('.search-results-dropdown').classList.add('hide');
  }
 
  function openSelect(element) {
-     element.classList.add('opened');
+     element.classList.add('open');
      element.querySelector('.search-results-dropdown').classList.remove('hide');
  }
 
@@ -476,28 +383,24 @@ function addRangeYearBuild()  {
 </div>`
  }
 
-export default function decorate(block) {
-    const countrySelect = buildDropdownElement('Select Country', 'country', 'US');
-    countrySelect.querySelector('.search-results-dropdown').innerHTML = addOptions(COUNTRIES, 'US', 'country');
+export default async function decorate(block) {
     const defaultSuggestionMessage = 'Please enter at least 3 characters.';
-    const priceSelect = buildDropdownElement('price');
-    priceSelect.querySelector('.search-results-dropdown').innerHTML = addRangeOption('price');
-    priceSelect.classList.add('container-item', 'left-border');
-    const bedroomsSelect = buildDropdownElement('any beds');
-    bedroomsSelect.classList.add('container-item', 'left-border');
+    const priceSelect = buildTopFilterPlaceholder('price', ['container-item', 'left-border'], addRangeOption);
+    const bedroomsSelect = buildTopFilterPlaceholder('any beds', ['container-item', 'left-border']);
+    //addOptions(qty, label);
     bedroomsSelect.querySelector('.search-results-dropdown').innerHTML = addOptions(BEDROOMS, 'Any Beds');
-    const bathroomsSelect = buildDropdownElement('any baths');
-    bathroomsSelect.classList.add('container-item', 'left-border');
+    const bathroomsSelect = buildTopFilterPlaceholder('any baths', ['container-item', 'left-border']);
     bathroomsSelect.querySelector('.search-results-dropdown').innerHTML = addOptions(BATHROOMS, 'Any Baths');
-    const areaSelect = buildDropdownElement('square feet');
-    areaSelect.classList.add('container-item', 'left-border');
+    const areaSelect = buildTopFilterPlaceholder('square feet', ['container-item', 'left-border']);
     areaSelect.querySelector('.search-results-dropdown').innerHTML = addRangeOptionArea();
     areaSelect.querySelectorAll('.select-item').forEach((el) => {
         el.classList.add('hide');
     });
+
+
+
     block.innerHTML = `<div class="search-listing-block">
-    <div class="primary-search container-item">
-        ${countrySelect.outerHTML}
+    <div class="primary-search flex-row container-item">
         <div class="input-container">
                 <input type="text" placeholder="${getPlaceholder('US')}" aria-label="${getPlaceholder('US')}" class="search-suggester">
                 <div tabindex="0" class="search-suggester-results" style="display: none;">
@@ -538,10 +441,10 @@ ${buildFilterSearchTypesElement()}
 ${buildPriceFilter()}
 ${buildSectionFilter(BEDROOMS, 'Any', 'bedrooms')}
 ${buildSectionFilter(BATHROOMS, 'Any', 'bathrooms')}
-${buildAreaFilter()}
+${buildFilterPlaceholder('square feet', addRangeOption)}
 ${buildPropertyFilterHtml()}
 ${buildKeywordSearch()}
-${buildYearBuildFilter()}
+${buildFilterPlaceholder('year built', addRangeOption)}
 ${buildFilterToggle('New listings')}
 ${buildFilterToggle('Recent Price Changes')}
 ${buildFilterOpenHouses()}
@@ -550,17 +453,24 @@ ${buildFilterToggle('Berkshire Hathaway HomeServices Listings only')}
 ${buildFilterButtons(['apply', 'cancel', 'reset'], ['apply'])}
 </div>
  `
+    const changeCountry = (country) => {
+        const placeholder = getPlaceholder(country);
+        const input = form.querySelector('.suggester-input input');
+        input.setAttribute('placeholder', placeholder);
+        input.setAttribute('aria-label', placeholder);
+    };
 
+    const countrySelect = await buildCountrySelect(changeCountry);
+    countrySelect.setAttribute('id', 'country-select');
+block.querySelector('.primary-search').prepend(countrySelect);
     //add logic for select on click
-    const countriesListItems = block.querySelectorAll('.container.select-country .select-item .tooltip-container');
-    const filterOptions = block.querySelectorAll('.container .select-item .tooltip-container');
+    const filterOptions = block.querySelectorAll('.select-item .tooltip-container');
     const inputContainer = block.querySelector('.input-container input');
-    const filters = block.querySelectorAll('.container .header');
+    const filters = block.querySelectorAll('.header');
     const multipleSelectInputs = block.querySelectorAll('.select-selected');
     const priceRangeInputs = block.querySelector('.price .multiple-inputs');
     const filterContainer = block.querySelector('.filter-container');
     const filterBlock = block.querySelector('.filter-block');
-    const filterButtons = block.querySelector('.filter-buttons');
     filterContainer.addEventListener('click', (e) => {
         if (filterBlock.classList.contains('hide')) {
             filterBlock.classList.remove('hide');
@@ -590,7 +500,7 @@ ${buildFilterButtons(['apply', 'cancel', 'reset'], ['apply'])}
     document.addEventListener('click', (e) => {
         if(!block.contains(e.target)) {
             filters.forEach((elem) => {
-                if (elem.parentElement.classList.contains('opened')) {
+                if (elem.parentElement.classList.contains('open')) {
                     closeSelect(elem.parentElement);
                 }
             });
@@ -603,12 +513,12 @@ ${buildFilterButtons(['apply', 'cancel', 'reset'], ['apply'])}
             filters.forEach((elem) => {
                 if (elem.parentElement.hasAttribute('id')
                     && elem.parentElement.getAttribute('id') !== selectedFilter.parentElement.getAttribute('id')
-                    && elem.parentElement.classList.contains('opened')
+                    && elem.parentElement.classList.contains('open')
                 ) {
                     closeSelect(elem.parentElement);
                 }
             });
-            if (selectedFilter.parentElement.classList.contains('opened')) {
+            if (selectedFilter.parentElement.classList.contains('open')) {
                 closeSelect(selectedFilter.parentElement);
             } else {
                 openSelect(selectedFilter.parentElement);
@@ -625,7 +535,7 @@ ${buildFilterButtons(['apply', 'cancel', 'reset'], ['apply'])}
     filterOptions.forEach((element) => {
         element.addEventListener('click', (e) => {
             let selectedElValue = element.innerText;
-            let container = element.closest('.container');
+            let container = element.closest('.container-item');
             const headerTitle = container.querySelector('.header .title');
             if (container.querySelector('.multiple-inputs')) {
                 //logic
@@ -657,20 +567,9 @@ ${buildFilterButtons(['apply', 'cancel', 'reset'], ['apply'])}
 
 
         });
-    });
-    //display country tooltip on hover
-    countriesListItems.forEach((element) => {
-        element.addEventListener('pointerover', (e) => {
-            if (e.target.querySelector('.custom-tooltip')) {
-                e.target.querySelector('.custom-tooltip').classList.remove('hide');
-            }
-        });
-        element.addEventListener('pointerleave', (e) => {
-            if (e.target.querySelector('.custom-tooltip')) {
-                e.target.querySelector('.custom-tooltip').classList.add('hide');
-            }
-        });
     })
 }
-
+///
+// buildSearchBar
+//buildFilters
   //ul tooltip.
