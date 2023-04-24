@@ -231,6 +231,7 @@ body.light-nav {
   .header.block nav[aria-expanded="true"] {
     height: var(--nav-height);
     background: transparent;
+    z-index: 50;
   }
   
   body.light-nav .header.block nav[aria-expanded="true"] {
