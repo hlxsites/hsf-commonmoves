@@ -1,4 +1,4 @@
-import {formatInput, getPlaceholder} from './common-function.js';
+import {formatInput, getPlaceholder, addRangeOption, addOptions} from './common-function.js';
 
 function addListeners() {
 
@@ -14,48 +14,35 @@ function buildButton(label, primary = false) {
     return button;
 }
 
-function buildTopFilterPlaceholder(title, classes, callback = false) {
+function buildFilterToggle() {
+    const wrapper = document.createElement('div')
+    wrapper.classList.add('filter-container', 'container-item', 'flex-row', 'center');
+    wrapper.innerHTML = `
+            <a role="button" aria-label="Filter">
+                <svg role="presentation">
+                    <use xlink:href="/icons/icons.svg#filter-white"></use>
+                </svg>
+            </a>`
+    return wrapper;
+}
+
+export function buildTopFilterPlaceholder(filterName, callback = false) {
     const dropdownContainer = document.createElement('div');
-    const identifier =  formatInput(title);
-    const options = callback ? callback(title) : '';
-    classes.push(identifier);
+    const identifier =  formatInput(filterName);
+    const options = callback ? callback(filterName) : '';
+    let label = ['beds', 'baths'].includes(filterName) ? `Any ${filterName}` : filterName
+
+    let classes = [identifier, 'bl'];
     [...classes].forEach(className => dropdownContainer.classList.add(className));
     dropdownContainer.setAttribute('id', identifier);
 
     dropdownContainer.innerHTML =
         `<div class="header">
-             <div class="title text-up"><span>${title}</span></div>
+             <div class="title text-up"><span>${label}</span></div>
              </div>
        <div class="search-results-dropdown hide shadow">${options}</div>`;
 
     return dropdownContainer
-}
-
-function addRangeOption(filterName, fromLabel = 'No Min', toLabel = 'No Max', maxLength = 14) {
-    const filterLabel = filterName.charAt(0).toLocaleUpperCase() + filterName.slice(1).toLowerCase();
-    if (filterName === 'price') {
-
-        return `<div class="multiple-inputs">
-                <div id="Min${filterLabel}" class="input-dropdown">
-                <input type="text" maxLength="${maxLength}" list="listMin${filterLabel}"
-                    id="bbh-Min${filterLabel}" aria-describedby="Min${filterLabel}"
-                    placeholder="${fromLabel}" aria-label="Minimum ${filterLabel}"
-                    class="price-range-input min-price">
-                <datalist id="listMinPrice" class="list${filterLabel}"></datalist>
-            </div>
-        <span class="range-label text-up">to</span>
-        <div id="Max${filterLabel}" class="input-dropdown">
-            <input type="text" maxLength="${maxLength}" list="listMax${filterLabel}" id="bbh-Max${filterLabel}" aria-describedby="Max${filterLabel}"
-                  placeholder="${toLabel}" aria-label="Maximum ${filterLabel}"
-                  class="price-range-input max-price">
-            <datalist id="listMax${filterLabel}" class="list${filterLabel}"></datalist>
-            </div>
-        </div>`
-    } else if (filterName === 'square feet') {
-        return addRangeOptionArea();
-    } else if (filterName === 'year built') {
-        return addRangeYearBuild();
-    }
 }
 
 export function build() {
@@ -63,7 +50,10 @@ export function build() {
     const wrapper = document.createElement('div');
     wrapper.classList.add('search-listing-block');
     const primaryFilters = document.createElement('div');
-    const priceFilter = buildTopFilterPlaceholder('price', ['container-item', 'left-border'], addRangeOption);
+    const priceSelect = buildTopFilterPlaceholder('price', addRangeOption);
+    const areaSelect = buildTopFilterPlaceholder('square feet', addRangeOption);
+    const bedroomsSelect = buildTopFilterPlaceholder('beds', addOptions);
+    const bathroomsSelect = buildTopFilterPlaceholder('baths', addOptions);
 
     primaryFilters.classList.add('primary-search', 'flex-row', 'container-item');
     primaryFilters.innerHTML = ` <div class="input-container">
@@ -75,7 +65,7 @@ export function build() {
                     </ul>
                 </div>
             </div>`;
-
-    wrapper.append(primaryFilters, buildButton('Search', true));
+    wrapper.prepend(primaryFilters, buildButton('Search', true), priceSelect, bedroomsSelect, bathroomsSelect, areaSelect, buildFilterToggle(), buildButton('save search', true));
+    [...wrapper.children].map(child => child.classList.add('container-item'));
     return wrapper;
 }
