@@ -109,6 +109,7 @@ async function getContent(block) {
 export default async function decorate(block) {
   const blockId = crypto.randomUUID();
   const content = await getContent(block);
+  const title = block.querySelector('div > div > div > div > div').textContent;
   // generate carousel content from loaded data
   const slidesContainer = document.createElement('div');
   slidesContainer.classList.add('carousel-content');
@@ -118,9 +119,16 @@ export default async function decorate(block) {
   if (content.data.length > 0) {
     [...content.data].forEach((row) => {
       const rowContent = document.createElement('div');
+      if (!row.quote.startsWith('"')) {
+        row.quote = '"' + row.quote;
+      }
+      if (!row.quote.endsWith('"')) {
+        row.quote = row.quote + '"';
+      }
       rowContent.classList.add('item');
       rowContent.innerHTML = `
-                <p class="quote">"${row.quote}"</p>
+                <p class="title">${title}</p>
+                <p class="quote">${row.quote}</p>
                 <p class="author">${row.author}</p>
                 <p class="position">${row.position}</p>
                 `;

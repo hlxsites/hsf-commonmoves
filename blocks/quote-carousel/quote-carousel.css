@@ -37,6 +37,12 @@
     letter-spacing: normal;
 }
 
+.carousel-content .item .title {
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-reg);
+    margin-bottom: 2em;
+}
+
 .carousel-content .item .quote {
     font-family: var(--font-family-proxima);
     font-size: var(--body-font-size-xl);
