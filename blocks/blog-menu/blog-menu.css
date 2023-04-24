@@ -85,7 +85,8 @@
     color: var(--white);
 }
 .blog-nav .category-dropdown-icon {
-    width: auto;
+    width: 10px;
+    height: 8px;
     vertical-align: middle;
     filter: brightness(100);
     padding: 0 0 2px;
