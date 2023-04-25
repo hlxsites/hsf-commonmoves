@@ -1,90 +1,3 @@
-const DEFAULT_SCROLL_INTERVAL_MS = 6000;
-const numChildren = {};
-const scrollInterval = {};
-const event = new Event('startAutoScroll');
-
-/**
- * Get key to retrieve data for carousel block
- *
- * @param {Element} block
- * @returns {string}
- */
-function getBlockId(block) {
-  return block.id;
-}
-
-/**
- * Stop auto-scroll animation
- *
- * @param {Element} block
- */
-function stopAutoScroll(block) {
-  const key = getBlockId(block);
-  const interval = scrollInterval[key];
-  clearInterval(interval);
-  scrollInterval[key] = undefined;
-}
-
-/**
- * Return index for active slide
- *
- * @param {Element} block
- * @returns {number}
- */
-function getCurrentSlideIndex(block) {
-  return [...block.querySelectorAll('.carousel-content .item')].findIndex(
-    (child) => child.getAttribute('active') === 'true',
-  );
-}
-
-/**
- * Switch between slides
- *
- * @param {number} nextIndex
- * @param {Element} block
- */
-function switchSlide(nextIndex, block) {
-  const key = getBlockId(block);
-  const slidesContainer = block.querySelector('.carousel-content');
-  const currentIndex = getCurrentSlideIndex(slidesContainer);
-  const prevButton = block.querySelector('.controls-container button[name="prev"]');
-  const nextButton = block.querySelector('.controls-container button[name="next"]');
-  const indexElement = block.querySelector('.controls-container .index');
-  indexElement.textContent = nextIndex + 1;
-  if (currentIndex === 0) {
-    // enable previous button
-    prevButton.removeAttribute('disabled');
-  } else if (nextIndex === 0) {
-    indexElement.dispatchEvent(event);
-    // disable previous button
-    prevButton.setAttribute('disabled', true);
-  } else if (nextIndex === (numChildren[key] - 1)) {
-    // disable next button
-    nextButton.setAttribute('disabled', true);
-    stopAutoScroll(block);
-  } else if (currentIndex === (numChildren[key] - 1)) {
-    // disable next button
-    nextButton.removeAttribute('disabled');
-  }
-  slidesContainer.children[currentIndex].removeAttribute('active');
-  slidesContainer.children[nextIndex].setAttribute('active', true);
-  slidesContainer.style.transform = `translateX(-${nextIndex * 100}%)`;
-}
-
-/**
- * Start auto scroll
- *
- * @param {Element} block
- * @param {number} interval
- */
-function startAutoScroll(block, interval = DEFAULT_SCROLL_INTERVAL_MS) {
-  const key = getBlockId(block);
-  scrollInterval[key] = setInterval(() => {
-    const currentIndex = getCurrentSlideIndex(block);
-    switchSlide((currentIndex + 1) % numChildren[key], block);
-  }, interval);
-}
-
 /**
  * Returns block content from the spreadsheet
  *
@@ -120,7 +33,6 @@ export default async function decorate(block) {
   const slidesContainer = document.createElement('div');
   slidesContainer.classList.add('carousel-content');
   block.setAttribute('id', blockId);
-  numChildren[blockId] = content.total;
   block.innerHTML = '';
   if (content.data.length > 0) {
     [...content.data].forEach((row) => {
@@ -147,34 +59,33 @@ export default async function decorate(block) {
     const controlsContainer = document.createElement('div');
     controlsContainer.classList.add('controls-container');
     controlsContainer.innerHTML = `
-    <div class="pagination">
-        <span class="index">1</span>
-        &nbsp;of&nbsp;
-        <span class="total">${numChildren[blockId]}</span>
-    </div>
-    <button name="prev" aria-label="Previous" class="control-button" disabled><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
-    <button name="next" aria-label="Next" class="control-button"><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
-  `;
+      <div class="pagination">
+          <span class="index">1</span>
+          &nbsp;of&nbsp;
+          <span class="total">${content.total}</span>
+      </div>
+      <button name="prev" aria-label="Previous" class="control-button" disabled><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
+      <button name="next" aria-label="Next" class="control-button"><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
+    `;
     block.replaceChildren(slidesContainer, controlsContainer);
-
-    const nextButton = block.querySelector('button[name="next"]');
-    const prevButton = block.querySelector('button[name="prev"]');
-    const indexElement = block.querySelector('.index');
-    nextButton.addEventListener('click', () => {
-      const currentIndex = getCurrentSlideIndex(slidesContainer);
-
-      switchSlide((currentIndex + 1) % numChildren[blockId], block);
-    });
-    prevButton.addEventListener('click', () => {
-      const currentIndex = getCurrentSlideIndex(slidesContainer);
-      switchSlide(
-        (((currentIndex - 1) % numChildren[blockId]) + numChildren[blockId]) % numChildren[blockId],
-        block,
-      );
-    });
-    indexElement.addEventListener('startAutoScroll', () => {
-      startAutoScroll(block);
-    });
-    indexElement.dispatchEvent(event);
+    observeCarousel();
   }
+}
+
+let alreadyDeferred = false;
+function observeCarousel() {
+  if (alreadyDeferred) {
+    return;
+  } else {
+    alreadyDeferred = true;
+  }
+  const script = document.createElement('script');
+  script.type = 'text/partytown';
+  script.innerHTML = `
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = '${window.hlx.codeBasePath}/blocks/quote-carousel/quote-carousel-delayed.js';
+    document.head.append(script);
+  `;
+  document.head.append(script);
 }
