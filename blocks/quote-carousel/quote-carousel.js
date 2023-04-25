@@ -120,10 +120,10 @@ export default async function decorate(block) {
     [...content.data].forEach((row) => {
       const rowContent = document.createElement('div');
       if (!row.quote.startsWith('"')) {
-        row.quote = '"' + row.quote;
+        row.quote = `"${row.quote}`;
       }
       if (!row.quote.endsWith('"')) {
-        row.quote = row.quote + '"';
+        row.quote = `${row.quote}"`;
       }
       rowContent.classList.add('item');
       rowContent.innerHTML = `
