@@ -1,11 +1,10 @@
 /**
  * Returns block content from the spreadsheet
  *
- * @param {Element} block
+ * @param {String} Data url
  * @returns {Promise<any>}
  */
-async function getContent(block) {
-  const url = block.querySelector('div > div > div:nth-child(2) > a').href;
+async function getContent(url) {
   let data = { data: [] };
   try {
     const resp = await fetch(url);
@@ -45,13 +44,29 @@ function observeCarousel() {
 
 export default async function decorate(block) {
   const blockId = crypto.randomUUID();
-  const content = await getContent(block);
+  const dataUrl = block.querySelector('div > div > div:nth-child(2) > a').href;
   const title = getTitle(block);
   // generate carousel content from loaded data
-  const slidesContainer = document.createElement('div');
-  slidesContainer.classList.add('carousel-content');
   block.setAttribute('id', blockId);
   block.innerHTML = '';
+  const controlsContainer = document.createElement('div');
+  controlsContainer.classList.add('controls-container');
+  const slidesContainer = document.createElement('div');
+  slidesContainer.classList.add('carousel-content');
+  block.replaceChildren(slidesContainer, controlsContainer);
+
+  const dummyRow = document.createElement('div');
+  dummyRow.innerHTML = `
+    <p class="title"></p>
+    <p class="quote"></p>
+    <p class="author"></p>
+    <p class="position"></p>
+  `;
+  slidesContainer.appendChild(dummyRow);
+
+  const content = await getContent(dataUrl);
+
+  dummyRow.remove();
   if (content.data.length > 0) {
     [...content.data].forEach((row) => {
       const rowContent = document.createElement('div');
@@ -74,8 +89,6 @@ export default async function decorate(block) {
     slidesContainer.children[0].setAttribute('active', true);
 
     // generate container for carousel controls
-    const controlsContainer = document.createElement('div');
-    controlsContainer.classList.add('controls-container');
     controlsContainer.innerHTML = `
       <div class="pagination">
           <span class="index">1</span>
@@ -85,7 +98,6 @@ export default async function decorate(block) {
       <button name="prev" aria-label="Previous" class="control-button" disabled><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
       <button name="next" aria-label="Next" class="control-button"><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
     `;
-    block.replaceChildren(slidesContainer, controlsContainer);
     observeCarousel();
   }
 }
