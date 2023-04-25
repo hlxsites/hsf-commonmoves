@@ -1,6 +1,6 @@
 import { build as buildCountrySelect } from '../shared/search-countries/search-countries.js';
 import {getPlaceholder} from './common-function.js';
-import { build as buildAdditionFilters} from './additional-filters.js';
+import { build as buildAdditionFilters, buildFilterButtons} from './additional-filters.js';
 import { build as buildTopMenu} from './top-menu.js';
 let selectedParameters = {
 
@@ -53,7 +53,7 @@ let selectedParameters = {
  }
 
 export default async function decorate(block) {
-    block.append(buildTopMenu(), buildAdditionFilters());
+    block.append(buildTopMenu(), buildAdditionFilters(), buildFilterButtons());
     const changeCountry = (country) => {
         const placeholder = getPlaceholder(country);
         const input = block.querySelector('.suggester-input input');

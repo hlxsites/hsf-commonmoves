@@ -36,15 +36,19 @@ function buildFilterSearchTypesElement() {
     return output
 }
 
-function buildFilterButtons(buttons, primary) {
-    let output = `<div class="filter-buttons button-container flex-row vertical-center">`;
+export function buildFilterButtons() {
+    const buttons = ['apply', 'cancel', 'reset'];
+    const primary = ['apply'];
+    const wrapper = document.createElement('div');
+    wrapper.classList.add('filter-buttons', 'button-container', 'flex-row', 'vertical-center');
+    let output = '';
     buttons.forEach(button => {
         output += `<a rel="noopener" href="" target="_blank" tabindex="" class="btn ${primary.includes(button) ? 'btn-primary' : 'btn-secondary'} center" role="button">
             <span class="text-up ${primary.includes(button) && 'c-w'}">${button}</span>
         </a>`
     });
-    output += `</div>`;
-    return output;
+    wrapper.innerHTML = output;
+    return wrapper;
 }
 
 function buildPropertyColumn(labels = []) {
@@ -195,12 +199,14 @@ export function build() {
     let output = '';
     filters.forEach(filter =>
         output+= buildPlaceholder(filter.name, filter.callback));
-    wrapper.classList.add('filter-block');
+    wrapper.classList.add('filter-block', 'overlay');
     wrapper.innerHTML = ` 
-    ${output}
-    ${buildFilterButtons(['apply', 'cancel', 'reset'], ['apply'])}`
+    ${output}`;
     return wrapper;
 }
+// export function buildFilterButtons() {
+//
+// }
 
 
 // ${buildPlaceholder('search types', ['flex-column', 'hide-desktop'], buildFilterSearchTypesElement)}
