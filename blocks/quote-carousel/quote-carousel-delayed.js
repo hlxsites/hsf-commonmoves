@@ -1,7 +1,7 @@
 const DEFAULT_SCROLL_INTERVAL_MS = 6000;
 const numChildren = {};
 const scrollInterval = {};
-const event = new Event('startAutoScroll');
+const event = new Event("startAutoScroll");
 
 /**
  * Get key to retrieve data for carousel block
@@ -10,7 +10,7 @@ const event = new Event('startAutoScroll');
  * @returns {string}
  */
 function getBlockId(block) {
-  return block.id;
+    return block.id;
 }
 
 /**
@@ -19,10 +19,10 @@ function getBlockId(block) {
  * @param {Element} block
  */
 function stopAutoScroll(block) {
-  const key = getBlockId(block);
-  const interval = scrollInterval[key];
-  clearInterval(interval);
-  scrollInterval[key] = undefined;
+    const key = getBlockId(block);
+    const interval = scrollInterval[key];
+    clearInterval(interval);
+    scrollInterval[key] = undefined;
 }
 
 /**
@@ -32,9 +32,9 @@ function stopAutoScroll(block) {
  * @returns {number}
  */
 function getCurrentSlideIndex(block) {
-  return [...block.querySelectorAll('.carousel-content .item')].findIndex(
-    (child) => child.getAttribute('active') === 'true',
-  );
+    return [...block.querySelectorAll(".carousel-content .item")].findIndex(
+        (child) => child.getAttribute("active") === "true"
+    );
 }
 
 /**
@@ -44,31 +44,35 @@ function getCurrentSlideIndex(block) {
  * @param {Element} block
  */
 function switchSlide(nextIndex, block) {
-  const key = getBlockId(block);
-  const slidesContainer = block.querySelector('.carousel-content');
-  const currentIndex = getCurrentSlideIndex(slidesContainer);
-  const prevButton = block.querySelector('.controls-container button[name="prev"]');
-  const nextButton = block.querySelector('.controls-container button[name="next"]');
-  const indexElement = block.querySelector('.controls-container .index');
-  indexElement.textContent = nextIndex + 1;
-  if (currentIndex === 0) {
-    // enable previous button
-    prevButton.removeAttribute('disabled');
-  } else if (nextIndex === 0) {
-    indexElement.dispatchEvent(event);
-    // disable previous button
-    prevButton.setAttribute('disabled', true);
-  } else if (nextIndex === (numChildren[key] - 1)) {
-    // disable next button
-    nextButton.setAttribute('disabled', true);
-    stopAutoScroll(block);
-  } else if (currentIndex === (numChildren[key] - 1)) {
-    // disable next button
-    nextButton.removeAttribute('disabled');
-  }
-  slidesContainer.children[currentIndex].removeAttribute('active');
-  slidesContainer.children[nextIndex].setAttribute('active', true);
-  slidesContainer.style.transform = `translateX(-${nextIndex * 100}%)`;
+    const key = getBlockId(block);
+    const slidesContainer = block.querySelector(".carousel-content");
+    const currentIndex = getCurrentSlideIndex(slidesContainer);
+    const prevButton = block.querySelector(
+        '.controls-container button[name="prev"]'
+    );
+    const nextButton = block.querySelector(
+        '.controls-container button[name="next"]'
+    );
+    const indexElement = block.querySelector(".controls-container .index");
+    indexElement.textContent = nextIndex + 1;
+    if (currentIndex === 0) {
+        // enable previous button
+        prevButton.removeAttribute("disabled");
+    } else if (nextIndex === 0) {
+        indexElement.dispatchEvent(event);
+        // disable previous button
+        prevButton.setAttribute("disabled", true);
+    } else if (nextIndex === numChildren[key] - 1) {
+        // disable next button
+        nextButton.setAttribute("disabled", true);
+        stopAutoScroll(block);
+    } else if (currentIndex === numChildren[key] - 1) {
+        // disable next button
+        nextButton.removeAttribute("disabled");
+    }
+    slidesContainer.children[currentIndex].removeAttribute("active");
+    slidesContainer.children[nextIndex].setAttribute("active", true);
+    slidesContainer.style.transform = `translateX(-${nextIndex * 100}%)`;
 }
 
 /**
@@ -80,8 +84,8 @@ function switchSlide(nextIndex, block) {
 function startAutoScroll(block, interval = DEFAULT_SCROLL_INTERVAL_MS) {
     const key = getBlockId(block);
     scrollInterval[key] = setInterval(() => {
-      const currentIndex = getCurrentSlideIndex(block);
-      switchSlide((currentIndex + 1) % numChildren[key], block);
+        const currentIndex = getCurrentSlideIndex(block);
+        switchSlide((currentIndex + 1) % numChildren[key], block);
     }, interval);
 }
 
@@ -98,21 +102,21 @@ function initCarousel(block) {
     const prevButton = block.querySelector('button[name="prev"]');
     const indexElement = block.querySelector('.index');
     nextButton.addEventListener('click', () => {
-      const currentIndex = getCurrentSlideIndex(slidesContainer);
-
-      switchSlide((currentIndex + 1) % numChildren[blockId], block);
+        const currentIndex = getCurrentSlideIndex(slidesContainer);
+        switchSlide((currentIndex + 1) % numChildren[blockId], block);
     });
     prevButton.addEventListener('click', () => {
-      const currentIndex = getCurrentSlideIndex(slidesContainer);
-      switchSlide(
-        (((currentIndex - 1) % numChildren[blockId]) + numChildren[blockId]) % numChildren[blockId],
-        block,
-      );
+        const currentIndex = getCurrentSlideIndex(slidesContainer);
+        switchSlide(
+            (((currentIndex - 1) % numChildren[blockId]) +
+                numChildren[blockId]) % numChildren[blockId],
+            block
+        );
     });
     indexElement.addEventListener('startAutoScroll', () => {
-      startAutoScroll(block);
+        startAutoScroll(block);
     });
-    indexElement.dispatchEvent(event);    
+    indexElement.dispatchEvent(event);
 }
 
 /**
@@ -120,7 +124,7 @@ function initCarousel(block) {
  *
  */
 function init() {
-    [...document.querySelectorAll(".block.quote-carousel")].forEach(initCarousel)
+    [...document.querySelectorAll('.block.quote-carousel')].forEach(initCarousel);
 }
 
 init();
