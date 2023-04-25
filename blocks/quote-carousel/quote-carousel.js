@@ -39,7 +39,7 @@ function observeCarousel() {
     script.src = '${window.hlx.codeBasePath}/blocks/quote-carousel/quote-carousel-delayed.js';
     document.head.append(script);
   `;
-  document.head.append(script);
+  window.setTimeout(()=>document.head.append(script), 250);
 }
 
 export default async function decorate(block) {
