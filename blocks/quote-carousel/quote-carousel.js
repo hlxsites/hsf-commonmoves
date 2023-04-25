@@ -108,7 +108,7 @@ async function getContent(block) {
 
 function getTitle(block) {
   const titleElem = [...block.querySelectorAll('div')]
-    .filter(e => e.innerText.toLowerCase() === 'title');
+    .filter((e) => e.innerText.toLowerCase() === 'title');
   return titleElem.length > 0 ? titleElem[0].nextElementSibling.innerText : '';
 }
 
