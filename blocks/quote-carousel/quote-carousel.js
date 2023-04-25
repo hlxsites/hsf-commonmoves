@@ -106,10 +106,15 @@ async function getContent(block) {
   return data;
 }
 
+function getTitle(block) {
+  const titleElem = [...block.querySelectorAll("div")].filter(e=>e.innerText.toLowerCase()==="title");
+  return titleElem.length > 0 ? titleElem[0].nextElementSibling.innerText : "";
+}
+
 export default async function decorate(block) {
   const blockId = crypto.randomUUID();
-  const content = await getContent(block);
-  const title = block.querySelector('div > div > div > div > div').textContent;
+  const content = await getContent(block);  
+  const title = getTitle(block);
   // generate carousel content from loaded data
   const slidesContainer = document.createElement('div');
   slidesContainer.classList.add('carousel-content');
