@@ -1,8 +1,9 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
 import { getSchoolData } from './schools.js';
 import { getEconData } from './occupancy.js';
-const API = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
-
+const propertyAPI = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
+const socioEconomicAPI = 'https://www.bhhs.com/bin/bhhs/pdp/socioEconomicDataServlet?latitude=42.56574249267578&longitude=-70.76632690429688';
+const marketTrendsAPI = 'https://www.bhhs.com/bin/bhhs/CregMarketTrends?PropertyId=343140756&Latitude=42.56574249267578&Longitude=-70.76632690429688&zipCode=01944';
 const propID = '343140756';
 
 function next(item, carousel) {
@@ -35,7 +36,6 @@ function getIndex(block) {
 
 function openAccordion(e) {
   var parent = this.closest('.accordion-item');
-  var accordionBody = parent.querySelector('.accordion-body');
   parent.classList.toggle('collapse');
 }
 
@@ -150,7 +150,7 @@ function createOccupancyAccordionItem() {
   var occupancyTableHTML = `
     <div class="property-container">
       <div class="property-row">
-        <div class="col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
+        <div class="col col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
         <table class="cmp-socio-economic-data--table">
           <thead slot="head">
             <th aria-label="No value"></th>
@@ -236,7 +236,7 @@ function createHousingTrendsAccordionItem() {
   var housingTableHTML = `
     <div class="property-container">
       <div class="property-row">
-        <div class="col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
+        <div class="col col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
           <table class="cmp-socio-economic-data--table">
             <thead slot="head">
               <th aria-label="No value"></th>
@@ -301,7 +301,7 @@ function createEconomicDataAccordionItem() {
   var econTableHTML = `
     <div class="property-container">
       <div class="property-row">
-        <div class="col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
+        <div class="col col-12 col-lg-10 offset-lg-1 col-md-10 offset-md-1">
           <table class="cmp-socio-economic-data--table">
             <thead slot="head">
               <th aria-label="No value"></th>
@@ -364,7 +364,7 @@ function createEconomicDataAccordionItem() {
   return accordionItem;
 }
 export default async function decorate(block) {
-  const resp = await fetch(API);
+  const resp = await fetch(propertyAPI);
   if (resp.ok) {
     const data = await resp.json();
     const listing = data.properties.find((item) => item.PropId == propID);
