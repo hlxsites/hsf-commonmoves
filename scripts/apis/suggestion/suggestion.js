@@ -1,6 +1,8 @@
 /* Wrapper for Suggestion API */
 
-const API_URL = 'https://ignite-staging.bhhs.com/bin/bhhs';
+const urlParams = new URLSearchParams(window.location.search);
+export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.com' : 'www.bhhs.com';
+const API_URL = `https://${DOMAIN}/bin/bhhs`;
 
 let suggestionFetchController;
 

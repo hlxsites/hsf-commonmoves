@@ -1,8 +1,8 @@
 /* Wrapper for all Creg API endpoints */
 
-export const DEFAULT_DOMAIN = 'https://ignite-staging.bhhs.com';
-
-const CREG_API_URL = 'https://ignite-staging.bhhs.com/bin/bhhs';
+const urlParams = new URLSearchParams(window.location.search);
+export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.com' : 'www.bhhs.com';
+const CREG_API_URL = `https://${DOMAIN}/bin/bhhs`;
 
 let suggestionFetchController;
 

@@ -9,7 +9,7 @@ import {
   getSuggestions,
   propertySearch,
   SearchParameters,
-  DEFAULT_DOMAIN,
+  DOMAIN,
 } from '../../../scripts/apis/creg/creg.js';
 import { getSpinner } from '../../../scripts/util.js';
 
@@ -182,7 +182,7 @@ const formSubmitted = async (e) => {
       return;
     }
 
-    const domain = results.vanityDomain || DEFAULT_DOMAIN;
+    const domain = results.vanityDomain || `https://${DOMAIN}`;
     const searchPath = '/search';
     params.PageSize = SearchParameters.DEFAULT_PAGE_SIZE;
     params.ApplicationType = results.ApplicationType || params.ApplicationType;
