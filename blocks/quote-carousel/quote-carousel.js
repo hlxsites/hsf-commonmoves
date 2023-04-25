@@ -25,6 +25,24 @@ function getTitle(block) {
   return titleElem.length > 0 ? titleElem[0].nextElementSibling.innerText : '';
 }
 
+let alreadyDeferred = false;
+function observeCarousel() {
+  if (alreadyDeferred) {
+    return;
+  }
+
+  alreadyDeferred = true;
+  const script = document.createElement('script');
+  script.type = 'text/partytown';
+  script.innerHTML = `
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = '${window.hlx.codeBasePath}/blocks/quote-carousel/quote-carousel-delayed.js';
+    document.head.append(script);
+  `;
+  document.head.append(script);
+}
+
 export default async function decorate(block) {
   const blockId = crypto.randomUUID();
   const content = await getContent(block);
@@ -70,22 +88,4 @@ export default async function decorate(block) {
     block.replaceChildren(slidesContainer, controlsContainer);
     observeCarousel();
   }
-}
-
-let alreadyDeferred = false;
-function observeCarousel() {
-  if (alreadyDeferred) {
-    return;
-  } else {
-    alreadyDeferred = true;
-  }
-  const script = document.createElement('script');
-  script.type = 'text/partytown';
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/quote-carousel/quote-carousel-delayed.js';
-    document.head.append(script);
-  `;
-  document.head.append(script);
 }
