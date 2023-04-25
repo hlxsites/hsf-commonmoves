@@ -39,7 +39,7 @@ function observeCarousel() {
     script.src = '${window.hlx.codeBasePath}/blocks/quote-carousel/quote-carousel-delayed.js';
     document.head.append(script);
   `;
-  window.setTimeout(()=>document.head.append(script), 250);
+  document.head.append(script);
 }
 
 export default async function decorate(block) {
@@ -55,18 +55,8 @@ export default async function decorate(block) {
   slidesContainer.classList.add('carousel-content');
   block.replaceChildren(slidesContainer, controlsContainer);
 
-  const dummyRow = document.createElement('div');
-  dummyRow.innerHTML = `
-    <p class="title"></p>
-    <p class="quote"></p>
-    <p class="author"></p>
-    <p class="position"></p>
-  `;
-  slidesContainer.appendChild(dummyRow);
-
   const content = await getContent(dataUrl);
 
-  dummyRow.remove();
   if (content.data.length > 0) {
     [...content.data].forEach((row) => {
       const rowContent = document.createElement('div');
