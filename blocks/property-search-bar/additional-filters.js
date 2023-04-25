@@ -199,7 +199,7 @@ export function build() {
     let output = '';
     filters.forEach(filter =>
         output+= buildPlaceholder(filter.name, filter.callback));
-    wrapper.classList.add('filter-block', 'overlay');
+    wrapper.classList.add('filter-block');
     wrapper.innerHTML = ` 
     ${output}`;
     return wrapper;

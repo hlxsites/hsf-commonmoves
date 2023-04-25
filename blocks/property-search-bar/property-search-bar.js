@@ -53,7 +53,9 @@ let selectedParameters = {
  }
 
 export default async function decorate(block) {
-    block.append(buildTopMenu(), buildAdditionFilters(), buildFilterButtons());
+     const overlay = document.createElement('div');
+     overlay.classList.add('overlay');
+    block.append(buildTopMenu(), buildAdditionFilters(), overlay, buildFilterButtons());
     const changeCountry = (country) => {
         const placeholder = getPlaceholder(country);
         const input = block.querySelector('.suggester-input input');
