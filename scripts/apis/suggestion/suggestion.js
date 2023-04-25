@@ -1,6 +1,6 @@
 /* Wrapper for Suggestion API */
 
-const API_URL = 'https://www.bhhs.com/bin/bhhs';
+const API_URL = 'https://ignite-staging.bhhs.com/bin/bhhs';
 
 let suggestionFetchController;
 
