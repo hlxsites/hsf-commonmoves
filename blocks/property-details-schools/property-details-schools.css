@@ -11,54 +11,6 @@
   margin: 0 -15px;
 }
 
-.col {
-  position: relative;
-  width: 100%;
-  min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-.col-12 {
-  flex: 0 0 100%;
-  max-width: 100%;
-}
-
-.accordion-item .accordion-body {
-  max-height: 999em;
-  overflow: hidden;
-  transition: max-height .6s;
-}
-
-.accordion-item.collapse .accordion-body {
-  max-height: 0;
-}
-
-.accordion-title-col {
-  flex: 0 0 100%;
-  max-width: 100%;
-  position: relative;
-  min-height: 1px;
-  padding: 0 15px;
-}
-
-.accordion-header {
-  border-top: 1px solid #aaa;
-  cursor: pointer;
-  padding: 16px 30px 16px 0;
-  position: relative;
-  display: block;
-}
-
-.accordion-header-title {
-  display: inline-block;
-  font-family: var(--font-family-georgia);
-  font-weight: 600;
-  line-height: 26px;
-  margin: 0 5px 0 0;
-  font-size: 22px;
-}
-
 .tooltip {
   position: relative;
   display: inline-block;
@@ -113,33 +65,8 @@
   border-color: transparent transparent black transparent;
 }
 
-.accordion-item .accordion-header::after {
-  border-color: #3a3a3a transparent transparent transparent;
-  border-style: solid;
-  border-width: 6px 5px 0 5px;
-  content: '';
-  display: block;
-  height: 0;
-  margin-top: -5px;
-  position: absolute;
-  right: 2px;
-  top: 50%;
-  transition: transform .3s linear;
-  transform: rotate(0);
-  width: 0;
-}
-
-.accordion-item.collapse .accordion-header::after {
-  transform: rotate(90deg);
-  transition: transform .3s linear;
-}
-
-.schools-col-1 {
-  flex: 0 0 100%;
-  max-width: 100%;
-  position: relative;
-  min-height: 1px;
-  padding: 0 15px;
+.schools-wrap {
+  padding-bottom: 57px;
 }
 
 .schools-table .property-row:first-child .schools-col-1 .schools-cell {
@@ -166,14 +93,6 @@
   text-transform: uppercase;
 }
 
-.schools-col-2 {
-  flex: 0 0 75%;
-  max-width: 75%;
-  position: relative;
-  min-height: 1px;
-  padding: 0 15px;
-}
-
 .schools-col-2 .schools-cell, .schools-col-3 .schools-cell {
   margin-right: -30px;
   padding-right: 30px;
@@ -191,22 +110,8 @@
   opacity: .6;
 }
 
-.schools-col-3 {
-  display: none;
-}
-
 .school-qty {
   text-transform: lowercase;
-}
-
-.schools-col-4 {
-  flex: 0 0 25%;
-  max-width: 25%;
-  position: relative;
-  width: 100%;
-  min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
 }
 
 .school-dist {
@@ -217,127 +122,24 @@
 }
 
 @media (min-width: 576px) {
-  .property-container, .image-gallery-nav {
+  .property-container {
     max-width: 540px;
   }
 }
 
 @media (min-width: 600px) {
-  .property-container, .image-gallery-nav {
+  .property-container {
     max-width: 720px;
   }
 
-  .property-details-info {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
-
-  .property-details-price {
-    flex: 0 0 33.333%;
-    max-width: 33.333%;
-  }
-
-  .accordion-title-col {
-    margin-left: 8.333%;
-    flex: 0 0 83.333%;
-    max-width: 83.333%;
-  }
-
-  .schools-col-1 {
-    margin-left: 8.333%;
-    flex: 0 0 83.333%;
-    max-width: 83.333%;
-  }
-
-  .schools-col-2 {
-    margin-left: 8.333%;
-    flex: 0 0 66.667%;
-    max-width: 66.667%;
-  }
-
-  .schools-col-4 {
-    flex: 0 0 16.667%;
-    max-width: 16.667%;
-  }
-
-  .offset-md-1 {
-    margin-left: 8.333%;
-  }
-
-  .col-md-10 {
-    flex: 0 0 83.333%;
-    max-width: 83.333%;
+  .schools-wrap {
+    padding-bottom: 80px;
   }
 }
 
 @media (min-width: 992px) {
-  .property-container, .image-gallery-nav {
+  .property-container {
     max-width: 960px;
-  }
-
-  .none {
-    flex: 0 0 8.333%;
-    max-width: 8.333%;
-  }
-
-  .property-details-summary {
-    padding: 20px 0 40px 0;
-  }
-
-  .property-details-price {
-    flex: 0 0 25%;
-    max-width: 25%;
-    font-size: 25px;
-    letter-spacing: -0.5px;
-    line-height: 32px;
-  }
-  
-  .property-details-top-buttons-wrapper {
-    flex: 0 0 16.667%;
-    max-width: 16.667%;
-    order: 4;
-    display: block;
-  }
-
-  .property-details-top-buttons-row {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .btn-property {
-    height: 40px;
-    line-height: 40px;
-  }
-
-  .nav-row-offset {
-    margin-left: 8.333%;
-  }
-
-  .pagination-row {
-    font-size: 12px;
-  }
-
-  .button-prop {
-    height: 40px;
-    line-height: 40px;
-  }
-
-  .accordion-header {
-    padding: 27px 30px 30px 0;
-  }
-
-  .accordion-header-title {
-    font-size: 26px;
-    letter-spacing: -0.43px;
-  }
-
-  .accordion-item .accordion-header::after {
-    border-width: 9px 7px 0 7px;
-  }
-
-  .schools-col-1 {
-    flex: 0 0 16.667%;
-    max-width: 16.667%;
   }
 
   .schools-table .schools-col-1 .schools-cell {
@@ -356,49 +158,17 @@
     padding-left: 30px;
   }
 
-  .schools-col-2 {
-    flex: 0 0 33.333%;
-    max-width: 33.333%;
-    margin-left: 0;
-  }
-
   .school-name {
     font-size: 19px;
-  }
-
-  .schools-col-3 {
-    display: block;
-    flex: 0 0 16.667%;
-    max-width: 16.667%;
-    position: relative;
-    width: 100%;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-  }
-
-  .offset-lg-1 {
-    margin-left: 8.333%
-  }
-
-  .col-lg-10 {
-    flex: 0 0 83.333%;
-    max-width: 83.333%;
   }
 }
 
 @media (min-width: 1200px) {
-  .property-container, .image-gallery-nav {
+  .property-container {
     max-width: 1400px;
   }
 
-  .schools-col-2 {
-    flex: 0 0 41.667%;
-    max-width: 41.667%;
-  }
-
-  .schools-col-4 {
-    flex: 0 0 8.333%;
-    max-width: 8.333%;
+  .schools-wrap {
+    padding-bottom: 100px;
   }
 }

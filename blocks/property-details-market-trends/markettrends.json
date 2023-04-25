@@ -10,7 +10,8 @@
     "medianSalesPrice": "$555,000 USD",
     "medianListPrice": "$3,047,499 USD"
   },
-  "detailTrends": [{
+  "detailTrends": [
+  {
     "startDate": "2022-04-01",
     "endDate": "2022-04-30",
     "homesSold": 5,
@@ -118,7 +119,8 @@
     "avgPriceArea": "$546 USD",
     "medianSalesPrice": "$555,000 USD",
     "medianListPrice": "$3,047,499 USD"
-  }],
+  }
+  ],
   "listingInfo": {
     "listPrice": null,
     "listPricePercentage": 0.0,

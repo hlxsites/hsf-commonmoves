@@ -1,5 +1,6 @@
 import { createAccordionItem } from '../../scripts/accordion.js';
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
+
 const schoolAPI = 'https://www.bhhs.com/bin/bhhs/cregSchoolServlet?latitude=42.56574249267578&longitude=-70.76632690429688';
 
 function createSchoolTableHTML(type, schools) {
@@ -9,12 +10,12 @@ function createSchoolTableHTML(type, schools) {
   schools.forEach((school) => {
     schoolHTML += `
       <div class="property-row">
-        <div class="schools-col-1">
+        <div class="col col-12 col-lg-2 offset-md-1 col-md-10 schools-col-1">
           <div class="schools-cell">
             <div class="schools-type">${type}</div>
           </div>
         </div>
-        <div class="schools-col-2">
+        <div class="col col-9 col-xl-5 offset-lg-0 col-lg-4 offset-md-1 col-md-8 schools-col-2">
           <div class="schools-cell">
             <span class="school-name">
               ${school.schoolName}
@@ -24,14 +25,14 @@ function createSchoolTableHTML(type, schools) {
             </span>
           </div>
         </div>
-        <div class="schools-col-3">
+        <div class="col d-none d-lg-block col-lg-2 schools-col-3">
           <div class="schools-cell">
             <div class="school-qty">
               ${school.schoolYearlyDetails[0].numberOfStudents} students
             </div>
           </div>
         </div>
-        <div class="schools-col-4">
+        <div class="col col-3 col-xl-1 col-md-2 schools-col-4">
           <div class="schools-cell">
             <div class="school-dist">
               ${school.distanceStr}
@@ -69,8 +70,10 @@ export default async function decorate(block) {
         <div class="schools-detail"></div>
       </div>
     `;
-    var schoolAccordionItem = createAccordionItem('schools', 'Your Schools', schoolData.citation, schoolsHTML);
+    var schoolAccordionItem = createAccordionItem('schools', 'Your Schools', schoolsHTML, schoolData.citation);
     block.append(schoolAccordionItem);
     decorateIcons(block);
+    loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
+    loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
   }
 }
