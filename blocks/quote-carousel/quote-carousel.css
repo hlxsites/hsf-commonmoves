@@ -113,8 +113,8 @@
     }
 
     .carousel-content .item .quote {
-        padding: 0;
-        max-width:100%;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
     .quote-carousel .controls-container {
