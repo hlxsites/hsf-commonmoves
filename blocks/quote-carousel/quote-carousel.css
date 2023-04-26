@@ -21,7 +21,6 @@
 .carousel-content {
     display: flex;
     transition: transform 200ms;
-    width: calc(100vw - 2*var(--section-padding));
     flex-wrap: nowrap;
 }
 
@@ -122,7 +121,7 @@
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 900px) {
     .quote-carousel-container {
         padding-bottom: 100px;
     }
