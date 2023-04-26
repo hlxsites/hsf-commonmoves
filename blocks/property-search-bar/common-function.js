@@ -54,13 +54,13 @@ export function addRangeOption(filterName) {
         return `<div class="multiple-inputs">
                 <div id="Min${filterLabel}" class="input-dropdown">
                 <input type="text" maxLength="${maxLength}" list="listMin${filterLabel}"
-                    id="bbh-Min${filterLabel}" aria-describedby="Min${filterLabel}"
+                    name="Min${filterLabel}" aria-describedby="Min${filterLabel}"
                     placeholder="${fromLabel}" aria-label="Minimum ${filterLabel}"
                     class="price-range-input min-price">
                 <datalist id="listMinPrice" class="list${filterLabel}"></datalist>
             </div>
         <span class="range-label text-up">to</span>
-        <div id="Max${filterLabel}" class="input-dropdown">
+        <div name="Max${filterLabel}" class="input-dropdown">
             <input type="text" maxLength="${maxLength}" list="listMax${filterLabel}" id="bbh-Max${filterLabel}" aria-describedby="Max${filterLabel}"
                   placeholder="${toLabel}" aria-label="Maximum ${filterLabel}"
                   class="price-range-input max-price">
@@ -68,10 +68,12 @@ export function addRangeOption(filterName) {
             </div>
         </div>`
     } else if (filterName === 'square feet' || filterName === 'year built') {
+        const fromName = filterName === 'square feet' ? 'MinLivingArea': '';
+        const toName = filterName === 'square feet' ? 'MaxLivingArea' : '';
         return `<div class="multiple-inputs">
-                ${addOptions(filterName, fromLabel, 'multi')}
+                ${addOptions(filterName, fromLabel, 'multi', fromName)}
                 <span class="range-label text-up">to</span>
-                ${addOptions(filterName, toLabel, 'multi')}
+                ${addOptions(filterName, toLabel, 'multi', toName)}
                 </section>
             </div>
             `
@@ -161,13 +163,13 @@ export function sanitizeString(str) {
     return str;
 }
 
-export function addOptions(filterName, defaultValue = '', mode = '') {
+export function addOptions(filterName, defaultValue = '', mode = '', name = '') {
 
     if (['beds', 'baths'].includes(filterName)) {
         defaultValue = `Any ${capitalize(filterName)}`
     }
     let selectedHtml = mode === 'multi'
-        ? `<div class="select-selected" role="button" aria-haspopup="listbox">${defaultValue}</div>
+        ? `<div class="select-selected" role="button" aria-haspopup="listbox" name=${name}>${defaultValue}</div>
             `
         : '';
 
@@ -178,4 +180,37 @@ export function addOptions(filterName, defaultValue = '', mode = '') {
             <ul class="select-item" role="listbox">${buildListBoxOptions(filterName, defaultValue, mode)}</ul>
         </div>
     </section>`
+}
+
+function toCamelCase(str) {
+    return str.split(' ').map(capitalize).join('');
+}
+
+
+/**
+ * @param {string} filterName
+ * @returns {string}
+ */
+export function getName(filterName) {
+    let name = toCamelCase(filterName);
+    switch (filterName) {
+        case 'search types':
+        case 'new listings':
+        case 'recent price changes':
+            name = toCamelCase(filterName).slice(0, -1)
+            break;
+        case 'beds':
+            name = 'MinBedroomsTotal';
+            break;
+        case 'baths':
+            name = 'MinBathroomsTotal';
+            break;
+        case 'keyword search':
+            name = 'Features';
+            break;
+        case 'berkshire hathaway homeServices listings only':
+            name = 'BHHS';
+            break;
+    }
+    return name;
 }

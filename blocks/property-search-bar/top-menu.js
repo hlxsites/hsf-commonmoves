@@ -1,4 +1,4 @@
-import {formatInput, getPlaceholder, addRangeOption, addOptions} from './common-function.js';
+import {formatInput, getPlaceholder, addRangeOption, addOptions, getName} from './common-function.js';
 
 function addListeners() {
 
@@ -30,6 +30,7 @@ function buildFilterToggle() {
 
 export function buildTopFilterPlaceholder(filterName, callback = false) {
     const dropdownContainer = document.createElement('div');
+    dropdownContainer.setAttribute('name', getName(filterName));
     const identifier =  formatInput(filterName);
     const options = callback ? callback(filterName) : '';
     let label = ['beds', 'baths'].includes(filterName) ? `Any ${filterName}` : filterName

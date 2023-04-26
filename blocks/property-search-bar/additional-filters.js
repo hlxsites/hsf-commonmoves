@@ -1,4 +1,4 @@
-import {addRangeOption, formatInput} from './common-function.js';
+import {addRangeOption, formatInput, getName} from './common-function.js';
 
 const filters = [
     {name: 'search types', callback: buildFilterSearchTypesElement},
@@ -154,6 +154,7 @@ function buildFilterToggle() {
 
 function buildPlaceholder(filterName, callback ){
     const placeholder = document.createElement('div');
+    placeholder.setAttribute('name', getName(filterName))
     const classNames = ['filter', formatInput(filterName)];
     [...classNames].forEach(className => placeholder.classList.add(className));
 
