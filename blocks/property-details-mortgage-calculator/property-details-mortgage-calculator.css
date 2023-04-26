@@ -1,0 +1,221 @@
+.cmp-mtg-calc__intro {
+  font-size: 13px;
+  letter-spacing: .41px;
+}
+
+.cmp-mtg-calc__summary {
+  font-size: 19px;
+  letter-spacing: .59px;
+}
+
+.cmp-mtg-calc__chart {
+  margin: 20px 0;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.chartjs-size-monitor, .chartjs-size-monitor-expand, .chartjs-size-monitor-shrink {
+  position: absolute;
+  direction: ltr;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  z-index: -1;
+}
+
+.chartjs-render-monitor {
+  animation: chartjs-render-animation 0.001s;
+}
+
+.chartjs-size-monitor-expand > div {
+  position: absolute;
+  width: 1000000px;
+  height: 1000000px;
+  left: 0;
+  top: 0;
+}
+
+.chartjs-size-monitor-shrink > div {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  left: 0;
+  top: 0;
+}
+
+.cmp-mtg-calc__chart ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cmp-mtg-calc__chart li {
+  margin: 0 0 25px;
+  padding: 0 0 0 35px;
+  position: relative;
+}
+
+.cmp-mtg-calc__chart li .swatch {
+  content: '';
+  display: block;
+  height: 22px;
+  left: 0;
+  margin-top: -11px;
+  position: absolute;
+  top: 50%;
+  width: 22px;
+}
+
+.bg-cabernet {
+  background-color: #552448;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+
+.cmp-mtg-calc__chart li:last-child {
+  margin: 0;
+}
+
+.bg-cabernet-50 {
+  background-color: rgba(85,36,72,0.5);
+}
+
+.cmp-mtg-calc__input {
+  margin: 0 0 24px;
+}
+
+.cmp-mtg-calc__input__label {
+  display: block;
+  font-size: 14px;
+  letter-spacing: .5px;
+  line-height: 18px;
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.cmp-mtg-calc__input__label label {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.cmp-mtg-calc__input__slider .input-standard.has-input-formatted, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted {
+  position: relative;
+}
+
+.input-currency {
+  position: relative;
+}
+
+.cmp-mtg-calc__input__slider .input-standard.has-input-formatted input, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted input, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted input {
+  opacity: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.cmp-mtg-calc__input__slider .input-standard.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted .input-formatted {
+  border-color: #aaa;
+  height: 31px;
+  line-height: 29px;
+}
+
+.cmp-mtg-calc__input__slider .input-standard.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted .input-formatted {
+  border: 1px solid #e7e7e7;
+  letter-spacing: .26px;
+  height: 46px;
+  left: 0;
+  line-height: 44px;
+  margin: 0;
+  padding: 0 10px;
+  position: absolute;
+  text-align: right;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.cmp-mtg-calc__input__slider input {
+  appearance: none;
+  background: 0;
+  border: 1px solid #e7e7e7;
+  color: #3a3a3a;
+  letter-spacing: .26px;
+  height: 46px;
+  margin: 0;
+  padding: 0 10px;
+  text-align: right;
+  width: 100%;
+}
+
+.input-currency input {
+  padding-left: 30px !important;
+}
+
+input {
+  overflow: visible;
+}
+
+.input-currency:after {
+  content: attr(data-content);
+  display: block;
+  left: 10px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@media (min-width: 992px) {
+  .cmp-mtg-calc__intro {
+    font-size: 14px;
+    letter-spacing: .44px;
+    margin: 0 0 2px;
+  }
+
+  .cmp-mtg-calc__summary {
+    font-size: 23px;
+    letter-spacing: .72px;
+  }
+
+  .cmp-mtg-calc__input {
+    margin: 0 0 16px;
+  }
+
+  .cmp-mtg-calc__input__label--primary {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .cmp-mtg-calc__input__label {
+    font-family: var(--font-family-proxima);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .8px;
+  }
+
+  .cmp-mtg-calc__input__slider input {
+    border-color: #aaa;
+    height: 31px;
+  }
+
+  .cmp-mtg-calc__input__slider .input-standard.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted .input-formatted {
+    border-color: #aaa;
+    height: 31px;
+    line-height: 29px;
+  }
+
+}

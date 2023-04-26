@@ -1,8 +1,5 @@
 import { decorateIcons } from '../../scripts/lib-franklin.js';
-import { getSchoolData } from '../property-details-schools/schools.js';
-import { getEconData } from './occupancy.js';
 const propertyAPI = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
-const socioEconomicAPI = 'https://www.bhhs.com/bin/bhhs/pdp/socioEconomicDataServlet?latitude=42.56574249267578&longitude=-70.76632690429688';
 const propID = '343140756';
 
 function next(item, carousel) {
