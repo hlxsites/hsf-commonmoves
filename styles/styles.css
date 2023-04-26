@@ -194,6 +194,11 @@ main .section.center p {
 
 /* common styles */
 
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+
 .text-up {
   text-transform: uppercase;
 }

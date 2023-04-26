@@ -1,11 +1,18 @@
 import { build as buildCountrySelect } from '../shared/search-countries/search-countries.js';
-import {getPlaceholder} from './common-function.js';
+import {getPlaceholder, sanitizeString} from './common-function.js';
 import { build as buildAdditionFilters, buildFilterButtons} from './additional-filters.js';
 import { build as buildTopMenu} from './top-menu.js';
 let selectedParameters = {
 
 };
 
+function setToStorage(key, value) {
+    selectedParameters[key] = value;
+}
+
+function getFromStorage(key) {
+    return selectedParameters[key];
+}
  function closeSelect(element) {
 
      element.classList.remove('open');
@@ -52,9 +59,39 @@ let selectedParameters = {
                  "Price"
  }
 
+function toggleFilter(el) {
+    const div = el.querySelector('.checkbox');
+    div.classList.toggle('checked');
+    el.querySelector('input').value = div.classList.contains('checked');
+}
+
+function updateFilters() {
+    const forRentEl = document.querySelector('.for-rent');
+    const pendingEl = document.querySelector('.pending');
+    const isForRentChecked = document.querySelector('.for-rent .checkbox').classList.contains('checked');
+    const isPendingChecked = document.querySelector('.pending .checkbox').classList.contains('checked');
+
+    forRentEl.classList.toggle('disabled', isPendingChecked);
+    pendingEl.classList.toggle('disabled', isForRentChecked);
+}
+
+function addChangeHandler(filter) {
+    filter.forEach((el) => {
+        el.addEventListener('change', () => {
+            if (el.checked) {
+                filter.forEach((input) => {
+                    if (input.id !== el.id)
+                        input.checked = false;
+                })
+            }
+        })
+    });
+}
+
+
 export default async function decorate(block) {
      const overlay = document.createElement('div');
-     overlay.classList.add('overlay');
+     overlay.classList.add('overlay', 'hide');
     block.append(buildTopMenu(), buildAdditionFilters(), overlay, buildFilterButtons());
     const changeCountry = (country) => {
         const placeholder = getPlaceholder(country);
@@ -66,29 +103,111 @@ export default async function decorate(block) {
     const countrySelect = await buildCountrySelect(changeCountry);
     countrySelect.setAttribute('id', 'country-select');
     block.querySelector('.primary-search').prepend(countrySelect);
-    //add logic for select on click
-    const filterOptions = block.querySelectorAll('.select-item .tooltip-container');
-    const inputContainer = block.querySelector('.input-container input');
-    const filters = block.querySelectorAll('.header');
+    const propertyFilterButtons = block.querySelector('.filter-buttons');
+    const filterOptions = block.querySelectorAll('.container-item .select-item .tooltip-container');
+    const propertyFilterOptions = block.querySelectorAll('.filter .select-item .tooltip-container');
+    const topLevelFilters = block.querySelectorAll('.container-item .header');
     const multipleSelectInputs = block.querySelectorAll('.select-selected');
     const priceRangeInputs = block.querySelector('.price .multiple-inputs');
     const filterContainer = block.querySelector('.filter-container');
     const filterBlock = block.querySelector('.filter-block');
-    filterContainer.addEventListener('click', (e) => {
-        if (filterBlock.classList.contains('hide')) {
-            filterBlock.classList.remove('hide');
-        } else {
-            filterBlock.classList.add('hide');
+    const toggleFilters = block.querySelectorAll('.filter-toggle');
+    const svgIcons = filterContainer.querySelectorAll(' svg');
+    const selectAllPropertyFilters = block.querySelector('.property-type input[type="checkbox"]');
+    const propertyButtons = block.querySelectorAll('.property-type button');
+    const openHousesFilter = block.querySelector('.open-houses');
+    const openHousesCheckbox = openHousesFilter.querySelector('input[type="checkbox"]');
+    const keyWordSearchAny = block.querySelector('.keyword-search .filter-radiobutton input[name="matchTagsAny"]');
+    const keyWordSearchAll = block.querySelector('.keyword-search .filter-radiobutton input[name="matchTagsAll"]');
+    const bedsFilter = block.querySelectorAll('.beds input');
+    const bathsFilter = block.querySelectorAll('.baths input');
+    const addKeywordButton = block.querySelector('.keyword-search .button');
+    const keywordInput = block.querySelector('.keyword-search input[type="text"]');
+    const keywordContainer = block.querySelector('#container-tags');
+
+    function togglePropertyForm() {
+        filterBlock.classList.toggle('hide');
+        overlay.classList.toggle('hide');
+        propertyFilterButtons.classList.toggle('hide');
+        svgIcons.forEach((el) => el.classList.toggle('hide'));
+    }
+
+    //close form on click cancel button
+    block.querySelector('.filter-buttons a[title="cancel"]').addEventListener('click', togglePropertyForm);
+    //reset form on click reset button
+    block.querySelector('.filter-buttons a[title="reset"]').addEventListener('click', () => {
+        //@todo set up initial values
+        togglePropertyForm()
+    });
+    //apply filters on click apply button
+    block.querySelector('.filter-buttons a[title="apply"]').addEventListener('click', () => {
+        //@todo set up initial values
+        togglePropertyForm()
+
+    });
+    //add logic for select on click
+    filterContainer.addEventListener('click', togglePropertyForm);
+    //@todo add logic on add keyword search
+    addKeywordButton.addEventListener('click', () => {
+        const keyword = keywordInput.value;
+        if (keyword) {
+            const item = document.createElement('span');
+            item.classList.add('tag');
+            item.textContent = sanitizeString(keyword);
+            const closeBtn = document.createElement('span');
+            closeBtn.classList.add('close');
+            item.appendChild(closeBtn);
+            keywordContainer.append(item);
+            closeBtn.addEventListener('click', () => item.remove());
+            keywordInput.value = '';
         }
-        //change icon for filter
-        filterContainer.querySelectorAll('svg').forEach((el) => {
-            if (el.classList.contains('hide')) {
-                el.classList.remove('hide');
-            } else {
-                el.classList.add('hide');
+    });
+
+    //@todo add logic to remove keyword
+    block.querySelectorAll('#container-tags .close').forEach((el) => {el.addEventListener('click', (e) => { e.target.parentNode.remove() })});
+
+    addChangeHandler(bathsFilter);
+
+    addChangeHandler(bedsFilter);
+//@todo add logic
+    keyWordSearchAny.addEventListener('change', (e) => {
+        if(keyWordSearchAny.checked) {
+            keyWordSearchAll.checked = false;
+        }
+
+    });
+    keyWordSearchAll.addEventListener('change', (e) => {
+        if (keyWordSearchAll.checked) {
+            keyWordSearchAny.checked = false;
+        }
+    });
+    openHousesCheckbox.addEventListener('change', () => {
+        openHousesFilter.classList.toggle('selected');
+    });
+
+    //select all property filters on select all
+    selectAllPropertyFilters.addEventListener('change', () => {
+        const isChecked = selectAllPropertyFilters.checked;
+        propertyButtons.forEach((el) => {
+            el.classList.toggle('selected', isChecked);
+        });
+    })
+    //add logic for select property type on click
+    propertyButtons.forEach((el) => {
+        el.addEventListener('click', () => {
+            el.classList.toggle('selected');
+        });
+    });
+    //logic to trigger events for additional property filters
+    toggleFilters.forEach((el) => {
+        el.addEventListener('click', () => {
+            toggleFilter(el);
+            if (el.classList.contains('for-rent') || el.classList.contains('pending')) {
+                updateFilters();
             }
         });
     });
+
     //add logic on price range change
     priceRangeInputs.addEventListener('keyup', (e) => {
         const minPrice = priceRangeInputs.querySelector('.price-range-input.min-price').value;
@@ -102,7 +221,7 @@ export default async function decorate(block) {
     //close filters on click outside
     document.addEventListener('click', (e) => {
         if (!block.contains(e.target)) {
-            filters.forEach((elem) => {
+            topLevelFilters.forEach((elem) => {
                 if (elem.parentElement.classList.contains('open')) {
                     closeSelect(elem.parentElement);
                 }
@@ -110,35 +229,42 @@ export default async function decorate(block) {
         }
     });
 
-    filters.forEach((selectedFilter) => {
+    topLevelFilters.forEach((selectedFilter) => {
         selectedFilter.addEventListener('click', () => {
             //close all other elements
-            filters.forEach((elem) => {
+            topLevelFilters.forEach((elem) => {
                 if (elem.parentElement.hasAttribute('id')
                     && elem.parentElement.getAttribute('id') !== selectedFilter.parentElement.getAttribute('id')
                     && elem.parentElement.classList.contains('open')
                 ) {
                     closeSelect(elem.parentElement);
+                    // selectedFilter.parentElement.querySelector('.select-item').classList.add('hide')
+
                 }
             });
             if (selectedFilter.parentElement.classList.contains('open')) {
                 closeSelect(selectedFilter.parentElement);
+                // selectedFilter.parentElement.querySelector('.select-item').classList.add('hide')
             } else {
                 openSelect(selectedFilter.parentElement);
+                // selectedFilter.parentElement.querySelector('.select-item').classList.remove('hide');
             }
         })
     });
 
     multipleSelectInputs.forEach((el) => {
         el.addEventListener('click', () => {
-            el.closest('section > div').querySelector('.select-item').classList.remove('hide');
+            el.closest('section > div').querySelector('.select-item').classList.add('show');
         })
     })
-    //update country name, flag, input placeholder on click
+
+    //update input placeholder on click
     filterOptions.forEach((element) => {
         element.addEventListener('click', (e) => {
             let selectedElValue = element.innerText;
             let container = element.closest('.container-item');
+            container.querySelector('.highlighted').classList.remove('highlighted');
+            element.classList.toggle('highlighted');
             const headerTitle = container.querySelector('.header .title');
             if (container.querySelector('.multiple-inputs')) {
                 //logic
@@ -151,20 +277,28 @@ export default async function decorate(block) {
                 } else {
                     selectedElValue = fromSelectedValue + '-' + toSelectedValue;
                 }
-                element.closest('.select-item').classList.add('hide');
-            } else if (headerTitle.childElementCount > 0) {
-                const selectedCountry = e.target.closest('.tooltip-container').getAttribute('data-value');
-                selectedElValue = `
-                <img src="/icons/property-search/${selectedCountry}.png" alt="${selectedCountry}Country Flag" class="label-image">
-                    <span>${selectedCountry}</span>`;
-                //update input placeholder
-                inputContainer.ariaLabel = getPlaceholder(selectedCountry);
-                inputContainer.placeholder = getPlaceholder(selectedCountry);
-                closeSelect(container);
-            } else {
+                element.closest('.select-item').classList.remove('show');
+            }  else {
                 closeSelect(container);
             }
-            headerTitle.innerHTML = selectedElValue;
+            headerTitle.innerHTML = `<span>${selectedElValue}</span>`;
+            //todo update logic for multiple select
+
+        });
+    })
+
+    propertyFilterOptions.forEach((element) => {
+        element.addEventListener('click', (e) => {
+            let selectedElValue = element.innerText;
+            let container = element.closest('section');
+            container.querySelector('.highlighted').classList.remove('highlighted');
+            element.classList.toggle('highlighted');
+            const headerTitle = container.querySelector('.select-selected');
+            //closeSelect(container);
+            headerTitle.innerHTML = `<span>${selectedElValue}</span>`;
+            if (element.closest('.filter').querySelector('.multiple-inputs')) {
+                element.closest('.select-item').classList.remove('show');
+            }
             //todo update logic for multiple select
 
         });
@@ -174,3 +308,7 @@ export default async function decorate(block) {
 // buildSearchBar
 //buildFilters
   //ul tooltip.
+
+
+//@todo finish close all logic
+//add logic for filter buttons

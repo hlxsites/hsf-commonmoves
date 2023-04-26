@@ -86,7 +86,7 @@ export function addRangeOption(filterName) {
  */
 function buildListBoxOptions(filterName, defaultValue) {
     const config = getConfig(filterName);
-    let output = `<li data-value="" class="tooltip-container">${defaultValue}</li>`
+    let output = `<li data-value="" class="tooltip-container highlighted">${defaultValue}</li>`
     if (Array.isArray(config)) {
         config.forEach(config => {
             output += `<li data-value="${config.value}" class="tooltip-container">${config.label}</li>`
@@ -96,7 +96,7 @@ function buildListBoxOptions(filterName, defaultValue) {
         const labelSuf = '+ ' + defaultValue.split(" ")[1];
         for (let i = 1; i <= config; i += 1) {
             let label = `${i} ${labelSuf}`;
-            output += `<li  data-value="${i}" tooltip-container">${label}</li>`
+            output += `<li  data-value="${i}" class="tooltip-container">${label}</li>`
         }
     }
 
@@ -147,6 +147,20 @@ function capitalize(string) {
     return string.charAt(0).toLocaleUpperCase() + string.slice(1).toLowerCase();
 }
 
+
+export function sanitizeString(str) {
+    // replace all HTML tags with their entity-encoded equivalents
+    str = str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    // replace all script tags with an empty string
+    str = str.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    // replace all on* event attributes with an empty string
+    str = str.replace(/\bon\w+\s*=\s*"[^"]*"/gi, '');
+    // replace all style attributes with an empty string
+    str = str.replace(/\bstyle\s*=\s*"[^"]*"/gi, '');
+    // return the sanitized string
+    return str;
+}
+
 export function addOptions(filterName, defaultValue = '', mode = '') {
 
     if (['beds', 'baths'].includes(filterName)) {
@@ -161,7 +175,7 @@ export function addOptions(filterName, defaultValue = '', mode = '') {
         <div>
             <select class="hide" aria-label="${defaultValue}">${buildSelectOptions(filterName, defaultValue, mode)}</select>
             ${selectedHtml}
-            <ul class="select-item select-hide" role="listbox">${buildListBoxOptions(filterName, defaultValue, mode)}</ul>
+            <ul class="select-item" role="listbox">${buildListBoxOptions(filterName, defaultValue, mode)}</ul>
         </div>
     </section>`
 }

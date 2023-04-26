@@ -22,6 +22,8 @@ function buildFilterToggle() {
                 <svg role="presentation">
                     <use xlink:href="/icons/icons.svg#filter-white"></use>
                 </svg>
+                <svg role="presentation" class="hide">
+                <use xlink:href="/icons/icons.svg#close-x-white"></use></svg>
             </a>`
     return wrapper;
 }
@@ -55,7 +57,7 @@ export function build() {
     const bedroomsSelect = buildTopFilterPlaceholder('beds', addOptions);
     const bathroomsSelect = buildTopFilterPlaceholder('baths', addOptions);
 
-    primaryFilters.classList.add('primary-search', 'flex-row', 'container-item');
+    primaryFilters.classList.add('primary-search', 'flex-row');
     primaryFilters.innerHTML = ` <div class="input-container">
                 <input type="text" placeholder="${getPlaceholder('US')}" aria-label="${getPlaceholder('US')}" class="search-suggester">
                 <div tabindex="0" class="search-suggester-results hide">
@@ -66,6 +68,10 @@ export function build() {
                 </div>
             </div>`;
     wrapper.prepend(primaryFilters, buildButton('Search', true), priceSelect, bedroomsSelect, bathroomsSelect, areaSelect, buildFilterToggle(), buildButton('save search', true));
-    [...wrapper.children].map(child => child.classList.add('container-item'));
+    [...wrapper.children].map(child => {
+        if (child.classList.contains('price') || child.classList.contains('beds') || child.classList.contains('baths') || child.classList.contains('square-feet')) {
+            child.classList.add('container-item');
+        }
+    });
     return wrapper;
 }

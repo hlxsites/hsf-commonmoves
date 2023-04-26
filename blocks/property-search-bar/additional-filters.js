@@ -40,10 +40,10 @@ export function buildFilterButtons() {
     const buttons = ['apply', 'cancel', 'reset'];
     const primary = ['apply'];
     const wrapper = document.createElement('div');
-    wrapper.classList.add('filter-buttons', 'button-container', 'flex-row', 'vertical-center');
+    wrapper.classList.add('filter-buttons', 'button-container', 'flex-row', 'vertical-center', 'hide');
     let output = '';
     buttons.forEach(button => {
-        output += `<a rel="noopener" href="" target="_blank" tabindex="" class="btn ${primary.includes(button) ? 'btn-primary' : 'btn-secondary'} center" role="button">
+        output += `<a title="${button}" rel="noopener" target="_blank" tabindex="" class="btn ${primary.includes(button) ? 'btn-primary' : 'btn-secondary'} center" role="button">
             <span class="text-up ${primary.includes(button) && 'c-w'}">${button}</span>
         </a>`
     });
@@ -120,14 +120,8 @@ function buildKeywordSearch() {
                 <span class="text-up">add</span>
             </button>
     </div>
-    <div id="container-tags"></div>
-        <br>
-<!--        <span class="cmp-container-tags__tag"> cord-->
-<!--            <span class="close"></span>-->
-<!--        </span>-->
-<!--        <span class="cmp-container-tags__tag"> cors-->
-<!--            <span class="close"></span>-->
-<!--        </span>-->
+    <div id="container-tags" class="mt-1"></div>
+       <br>
         <div class="flex-row vertical-center">
             <label class="text-up vertical-center" role="presentation">match</label>
             <div class="filter-radiobutton">
@@ -148,15 +142,13 @@ function buildKeywordSearch() {
 </div>`
 }
 
- function buildFilterToggle() {
+function buildFilterToggle() {
     return `
     <div>
-        <section class="filter-toggle">
-            <div>
-                <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="true">
-                <div class="checkbox"></div>
-            </div>
-        </section>
+       <div class="filter-toggle">
+           <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="true">
+           <div class="checkbox"></div>
+       </div>
     </div>`
 }
 
@@ -199,26 +191,8 @@ export function build() {
     let output = '';
     filters.forEach(filter =>
         output+= buildPlaceholder(filter.name, filter.callback));
-    wrapper.classList.add('filter-block');
+    wrapper.classList.add('filter-block', 'hide');
     wrapper.innerHTML = ` 
     ${output}`;
     return wrapper;
 }
-// export function buildFilterButtons() {
-//
-// }
-
-
-// ${buildPlaceholder('search types', ['flex-column', 'hide-desktop'], buildFilterSearchTypesElement)}
-// ${buildPlaceholder('price', addRangeOption, ['hide-desktop', 'mb-1', 'flex-column'])}
-// ${buildPlaceholder('beds', buildSectionFilter, ['hide-desktop', 'beds'], buildSectionFilter)}
-// ${buildPlaceholder('baths', buildSectionFilter, ['hide-desktop', 'beds'])}
-//${buildPlaceholder('square feet', addRangeOption)}
-//${buildPlaceholder('property type', buildPropertyFilterHtml, ['flex-column', 'property-type'])}
-//${buildPlaceholder('keyword search', buildKeywordSearch, ['keyword-search'], buildKeywordSearch)}
-//${buildPlaceholder('year built',  addRangeOption)}
-//${buildPlaceholder('new listings', buildFilterToggle, ['space-between'])}
-//${buildPlaceholder('recent price changes', buildFilterToggle['space-between'])}
-// ${buildPlaceholder('open houses only', buildFilterOpenHouses)}
-// ${buildPlaceholder('luxury', buildFilterToggle, ['space-between'])}
-// ${buildPlaceholder('berkshire hathaway homeServices listings only', buildFilterToggle['space-between'])}
