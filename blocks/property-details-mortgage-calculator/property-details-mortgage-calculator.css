@@ -122,6 +122,9 @@
   position: relative;
 }
 
+.input-percent {
+  position: relative;
+}
 .cmp-mtg-calc__input__slider .input-standard.has-input-formatted input, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted input, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted input {
   opacity: 0;
   position: relative;
@@ -132,6 +135,10 @@
   border-color: #aaa;
   height: 31px;
   line-height: 29px;
+}
+
+.input-percent .input-formatted {
+  padding-right: 21px!important;
 }
 
 .cmp-mtg-calc__input__slider .input-standard.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted .input-formatted {
@@ -149,7 +156,7 @@
   z-index: 1;
 }
 
-.cmp-mtg-calc__input__slider input {
+.input input {
   appearance: none;
   background: 0;
   border: 1px solid #e7e7e7;
@@ -177,6 +184,181 @@ input {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.input-percent input {
+  padding-right: 21px !important;
+}
+
+.input-percent:after {
+  content: attr(data-content);
+  display: block;
+  left: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-20px,-50%);
+}
+
+.vue-slider-component {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.vue-slider-component .vue-slider {
+  background-color: #e7e7e7;
+}
+
+.vue-slider-component .vue-slider {
+  position: relative;
+  display: block;
+  border-radius: 15px;
+  background-color: #ccc;
+}
+
+.vue-slider-component.vue-slider-horizontal .vue-slider-dot {
+  left: 0;
+}
+
+.vue-slider-component .vue-slider-dot {
+  position: absolute;
+  transition: all 0s;
+  will-change: transform;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.vue-slider-component .vue-slider-dot .vue-slider-dot-handle {
+  background-color: #552448;
+  box-shadow: none;
+}
+
+.vue-slider-component .vue-slider-dot .vue-slider-dot-handle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
+}
+
+.vue-slider-component .vue-slider-tooltip-wrap.vue-slider-tooltip-top {
+  top: -9px;
+  left: 50%;
+  transform: translate(-50%,-100%);
+}
+
+.vue-slider-component .vue-slider-tooltip-wrap {
+  display: none;
+  position: absolute;
+  z-index: 9;
+}
+
+.vue-slider-component .vue-slider-tooltip {
+  display: block;
+  font-size: 14px;
+  white-space: nowrap;
+  padding: 2px 5px;
+  min-width: 20px;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  border: 1px solid #3498db;
+  background-color: #3498db;
+}
+
+.vue-slider-component .vue-slider-piecewise {
+  position: absolute;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  left: 0;
+  top: 0;
+  height: 100%;
+  list-style: none;
+}
+
+.vue-slider-component.vue-slider-horizontal .vue-slider-process {
+  width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  will-change: width;
+}
+
+.vue-slider-component .vue-slider-process {
+  background-color: #aaa;
+}
+
+
+.vue-slider-component .vue-slider-process {
+  position: absolute;
+  border-radius: 15px;
+  transition: all 0s;
+  z-index: 1;
+}
+
+.vue-slider-component .vue-slider-tooltip-wrap.vue-merged-tooltip {
+  display: block;
+  visibility: hidden;
+}
+
+.vue-slider-component .vue-slider-tooltip-wrap {
+  display: none;
+  position: absolute;
+  z-index: 9;
+}
+
+.vue-slider-component .vue-slider-sr-only {
+  clip: rect(1px,1px,1px,1px);
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  position: absolute!important;
+}
+
+.vue-slider-component .vue-slider:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.slider-wrapper {
+  width: auto;
+  padding: 1px 8px;
+}
+.custom-slider {
+  height: 6px;
+  width: 100%;
+  outline: none;
+  -webkit-appearance: none;
+  border-radius: 15px;
+}
+.custom-slider::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  -webkit-appearance: none;
+  border-radius: 50%;
+  background: #552448;
+}
+
+.text-disclaimer {
+  color: #979797;
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
+  font-size: 10px;
+  letter-spacing: 0;
+  line-height: 13px;
+}
+.text-right {
+  text-align: right !important;
+}
+
+.cmp-mtg-calc__input__label .extra {
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
 }
 
 @media (min-width: 992px) {
@@ -207,7 +389,7 @@ input {
     letter-spacing: .8px;
   }
 
-  .cmp-mtg-calc__input__slider input {
+  .input input {
     border-color: #aaa;
     height: 31px;
   }

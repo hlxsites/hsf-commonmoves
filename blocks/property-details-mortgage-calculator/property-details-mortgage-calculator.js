@@ -3,6 +3,28 @@ import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 const propertyAPI = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
 const propID = '343140756';
 
+
+function inputSlider() {
+  const min = this.min;
+  const max = this.max;
+  const value = this.value;
+  this.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(value-min)/(max-min)*100}%, #e7e7e7 ${(value-min)/(max-min)*100}%, #e7e7e7 100%)`;
+  var parent = this.closest('.cmp-mtg-calc__input__slider');
+  var fieldValue = parent.querySelector('.input-formatted');
+  if(fieldValue.classList.contains('purchase-price')) {
+    fieldValue.innerHTML = formatCurrency(Number(value));
+  } else {
+    fieldValue.innerHTML = value;
+  }
+  var container = this.closest('.property-row');
+  var purchasePrice = Number(container.querySelector('.purchase-price-slider').value);
+  var downPayment = Number(container.querySelector('.down-payment-slider').value);
+  var interestRate = Number(container.querySelector('.interest-rate-slider').value);
+  var loanTerm = Number(container.querySelector('.interest-rate-slider').value);
+  var monthlyPayment = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm).totalPayment;
+  container.querySelector('.mortgage-payment').innerHTML = formatCurrency(monthlyPayment);
+}
+
 function computeMortgage(purchasePrice, interestRate, downpaymentPercent, loanTerm) {
   const downpaymentAmount = (downpaymentPercent / 100) * purchasePrice;
   const principalAmount = purchasePrice - downpaymentAmount;
@@ -30,6 +52,7 @@ export default async function decorate(block) {
     const listing = data.properties.find((item) => item.PropId == propID);
     const listPriceUSD = listing.ListPriceUS;
     const listPrice = Number(listPriceUSD.replace(/[^\d.]+/g, ''));
+    const maxPurchasePrice = 2 * listPrice + 1000;
     const defaultInterestRate = 5;
     const defaultDownpaymentPercent = 20;
     const defaultTerm = 30;
@@ -44,7 +67,7 @@ export default async function decorate(block) {
             </div>
             <div class="cmp-mtg-calc__summary">
               Your total payment will be
-              $${formatCurrency(initialMortgageCalc.totalPayment)}
+              $<span class="mortgage-payment">${formatCurrency(initialMortgageCalc.totalPayment)}</span>
             </div>
             <figure class="cmp-mtg-calc__chart">
               <div class="property-row align-items-center">
@@ -77,28 +100,13 @@ export default async function decorate(block) {
               <div class="cmp-mtg-calc__input__label cmp-mtg-calc__input__label--primary"><label
                   for="purchase_price">Purchase Price</label></div>
               <div class="cmp-mtg-calc__input__slider">
-                <div data-content="$" class="input-currency has-input-formatted"><input name="purchase_price_input"
+                <div data-content="$" class="input input-currency has-input-formatted"><input name="purchase_price_input"
                     type="number" aria-label="Enter Purchase Price in Dollars">
-                  <div class="input-formatted">${listPriceUSD}</div>
+                  <div class="input-formatted purchase-price-field">${formatCurrency(listPrice)}</div>
                 </div>
                 <div>
-                  <div class="vue-slider-component vue-slider-horizontal" style="width: auto; padding: 8px;">
-                    <div aria-hidden="true" class="vue-slider" style="height: 6px;">
-                      <!---->
-                      <div class="vue-slider-none vue-slider-dot"
-                        style="width: 16px; height: 16px; top: -5px; transition-duration: 0s; transform: translateX(76px);">
-                        <div class="vue-slider-dot-handle"></div>
-                        <div class="vue-slider-tooltip-top vue-slider-tooltip-wrap"><span
-                            class="vue-slider-tooltip">${listPrice}</span></div>
-                      </div>
-                      <ul class="vue-slider-piecewise"></ul>
-                      <div class="vue-slider-process" style="transition-duration: 0s; width: 83.9944px; left: 0px;">
-                        <div class="vue-merged-tooltip vue-slider-tooltip-t vue-slider-tooltip-wrap"><span
-                            class="vue-slider-tooltip">
-
-                          </span></div>
-                      </div> <input type="range" min="1000" max="29991000" class="vue-slider-sr-only">
-                    </div>
+                  <div class="slider-wrapper">
+                    <input type="range" value="${listPrice}" min="1000" max="${maxPurchasePrice}" step="10000" class="custom-slider purchase-price-slider">
                   </div>
                 </div>
               </div>
@@ -107,25 +115,13 @@ export default async function decorate(block) {
               <div class="cmp-mtg-calc__input__label"><label for="down_payment">Down Payment</label> <span
                   class="extra">($3M)</span></div>
               <div class="cmp-mtg-calc__input__slider">
-                <div data-content="%" class="input-percent"><input name="down_payment_input" type="number"
-                    aria-label="Enter Down Payment in Percentage"></div>
+                <div data-content="%" class="input input-percent has-input-formatted"><input name="down_payment_input" type="number"
+                    aria-label="Enter Down Payment in Percentage">
+                    <div class="input-formatted down-payment-field">20</div>
+                </div>
                 <div>
-                  <div class="vue-slider-component vue-slider-horizontal" style="width: auto; padding: 8px;">
-                    <div aria-hidden="true" class="vue-slider" style="height: 6px;">
-                      <!---->
-                      <div class="vue-slider-none vue-slider-dot"
-                        style="width: 16px; height: 16px; top: -5px; transition-duration: 0s; transform: translateX(59px);">
-                        <div class="vue-slider-dot-handle"></div>
-                        <div class="vue-slider-tooltip-top vue-slider-tooltip-wrap"><span
-                            class="vue-slider-tooltip">20</span></div>
-                      </div>
-                      <ul class="vue-slider-piecewise"></ul>
-                      <div class="vue-slider-process" style="transition-duration: 0s; width: 67.2px; left: 0px;">
-                        <div class="vue-merged-tooltip vue-slider-tooltip-t vue-slider-tooltip-wrap"><span
-                            class="vue-slider-tooltip">
-                          </span></div>
-                      </div> <input type="range" min="0" max="50" class="vue-slider-sr-only">
-                    </div>
+                  <div class="slider-wrapper">
+                    <input type="range" value="20" min="0" max="50" step="1" class="custom-slider down-payment-slider">
                   </div>
                 </div>
               </div>
@@ -136,27 +132,13 @@ export default async function decorate(block) {
               <div class="cmp-mtg-calc__input__label cmp-mtg-calc__input__label--primary"><label
                   for="interest_rate">Interest Rate</label></div>
               <div class="cmp-mtg-calc__input__slider">
-                <div data-content="%" class="input-percent has-input-formatted"><input name="interest_rate_input"
+                <div data-content="%" class="input input-percent has-input-formatted"><input name="interest_rate_input"
                     type="number" aria-label="Enter Interest Rate in Percentage">
-                  <div class="input-formatted">5.000</div>
+                  <div class="input-formatted interest-rate-field">5.000</div>
                 </div>
                 <div>
-                  <div class="vue-slider-component vue-slider-horizontal" style="width: auto; padding: 8px;">
-                    <div aria-hidden="true" class="vue-slider" style="height: 6px;">
-                      <!---->
-                      <div class="vue-slider-none vue-slider-dot"
-                        style="width: 16px; height: 16px; top: -5px; transition-duration: 0s; transform: translateX(76px);">
-                        <div class="vue-slider-dot-handle"></div>
-                        <div class="vue-slider-tooltip-top vue-slider-tooltip-wrap"><span
-                            class="vue-slider-tooltip">5</span></div>
-                      </div>
-                      <ul class="vue-slider-piecewise"></ul>
-                      <div class="vue-slider-process" style="transition-duration: 0s; width: 84px; left: 0px;">
-                        <div class="vue-merged-tooltip vue-slider-tooltip-t vue-slider-tooltip-wrap"><span
-                            class="vue-slider-tooltip">
-                          </span></div>
-                      </div> <input type="range" min="0" max="10" class="vue-slider-sr-only">
-                    </div>
+                  <div class="slider-wrapper">
+                    <input type="range" value="5" min="0" max="10" step=".001" class="custom-slider interest-rate-slider">
                   </div>
                 </div>
               </div>
@@ -165,33 +147,19 @@ export default async function decorate(block) {
               <div class="cmp-mtg-calc__input__label"><label for="loan_term">Term</label> <span class="extra">(Years)</span>
               </div>
               <div class="cmp-mtg-calc__input__slider">
-                <div class="input-standard has-input-formatted"><input name="loan_term_input" type="number"
+                <div class="input input-standard has-input-formatted"><input name="loan_term_input" type="number"
                     aria-label="Enter Loan Term in Years">
-                  <div class="input-formatted">30</div>
+                  <div class="input-formatted loan-term-field">30</div>
                 </div>
                 <div>
-                  <div class="vue-slider-component vue-slider-horizontal" style="width: auto; padding: 8px;">
-                    <div aria-hidden="true" class="vue-slider" style="height: 6px;">
-                      <!---->
-                      <div class="vue-slider-none vue-slider-dot"
-                        style="width: 16px; height: 16px; top: -5px; transition-duration: 0s; transform: translateX(160px);">
-                        <div class="vue-slider-dot-handle"></div>
-                        <div class="vue-slider-tooltip-top vue-slider-tooltip-wrap"><span
-                            class="vue-slider-tooltip">30</span></div>
-                      </div>
-                      <ul class="vue-slider-piecewise"></ul>
-                      <div class="vue-slider-process" style="transition-duration: 0s; width: 168px; left: 0px;">
-                        <div class="vue-merged-tooltip vue-slider-tooltip-t vue-slider-tooltip-wrap"><span
-                            class="vue-slider-tooltip">
-                          </span></div>
-                      </div> <input type="range" min="5" max="30" class="vue-slider-sr-only">
-                    </div>
+                  <div class="slider-wrapper">
+                    <input type="range" value="30" min="5" max="30" step="1" class="custom-slider loan-term-slider">
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-12 col-md-10 offset-md-1 col-xl-4 offset-xl-6">
+          <div class="col col-12 col-md-10 offset-md-1 col-xl-4 offset-xl-6">
             <div class="text-disclaimer text-right">
               Estimate does not reflect Property Tax, PMI or Homeowner Insurance. Mortgage Calculator provided by Berkshire
               Hathaway HomeServices.
@@ -203,8 +171,25 @@ export default async function decorate(block) {
     var accordionItem = createAccordionItem('mortgage-calculator', 'Mortgage Calculator', calcHTML);
     block.append(accordionItem);
     decorateIcons(block);
+    
     loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
     loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
+
+    const sliders = block.querySelectorAll('input.custom-slider');
+    sliders.forEach((slider) => {
+      const min = slider.min;
+      const max = slider.max;
+      const value = slider.value;
+      slider.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(value-min)/(max-min)*100}%, #e7e7e7 ${(value-min)/(max-min)*100}%, #e7e7e7 100%)`;
+      slider.addEventListener('input', inputSlider);
+    });
+    /*
+    sliders.forEach((slider) => {
+      slider.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(value-min)/(max-min)*100}%, #e7e7e7 ${(value-min)/(max-min)*100}%, #e7e7e7 100%)`;
+      slider.addEventListener('input', inputSlider);
+    });
+    */
+    
   }
   
 }
