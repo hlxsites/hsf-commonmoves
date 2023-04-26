@@ -48,7 +48,7 @@
     font-size: var(--body-font-size-xl);
     font-weight: var(--font-weight-light);
     line-height: var(--line-height-m);
-    padding: 30px 30px 0;
+    padding: 30px 35px 0 15px;
 }
 
 .carousel-content .item .author {
@@ -114,6 +114,7 @@
 
     .carousel-content .item .quote {
         padding: 0;
+        max-width:100%;
     }
 
     .quote-carousel .controls-container {
