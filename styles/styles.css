@@ -272,6 +272,7 @@ main .section .block.hide-on-mobile {
   z-index: 101;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .modal .modal-content p {
   font-size: var(--body-font-size-l);
   text-align: center;
