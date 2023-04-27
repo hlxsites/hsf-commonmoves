@@ -1,3 +1,11 @@
+import { setParam, getParam, removeParam } from '../../scripts/search.js';
+
+function getTopMenuValues(filterName) {
+  const selector = `div[name="${filterName}"] .title span`;
+  const value = document.querySelector(selector).innerText;
+
+  return value;
+}
 /**
  * Build filter HTML
  *
@@ -17,6 +25,9 @@ export function buildFilterHTML(name, params) {
  */
 export function getFilterValue(filterName) {
   const value = '';
+  switch (filterName) {
+    case 'price':
+  }
 }
 
 /**
@@ -25,5 +36,16 @@ export function getFilterValue(filterName) {
  * @param {string|obj} value
  */
 export function setFilterValue(name, value) {
-
+  switch (name) {
+    case 'BBHS':
+      value ? setParam('FeaturedCompany', name) : removeParam('FeaturedCompany');
+      break;
+    case 'Luxury':
+    case 'RecentPriceChange':
+      value ? setParam(name, 'true') : removeParam(name);
+      break;
+    case 'NewListing':
+      value ? setParam(name, 'true') : setParam('false');
+      break;
+  }
 }

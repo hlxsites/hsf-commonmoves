@@ -7,7 +7,7 @@
  * @returns {string}
  */
 function getSearchObject() {
-  const search = localStorage.get('search') ?? '{}';
+  const search = sessionStorage.getItem('search') ?? '{}';
   return JSON.parse(search);
 }
 
@@ -28,10 +28,16 @@ export function buildQuery() {
 export function setParam(key, value) {
   const parameters = getSearchObject();
   parameters[key] = value;
-  localStorage.set('search', parameters);
+  sessionStorage.setItem('search', JSON.stringify(parameters));
 }
 
 export function getParam(key) {
   const parameters = getSearchObject();
-  return parameters[key] ?? false;
+  return parameters[key];
+}
+
+export function removeParam(key) {
+  const parameters = getSearchObject();
+  delete parameters[key];
+  sessionStorage.setItem('search', JSON.stringify(parameters));
 }

@@ -51,14 +51,14 @@ export function buildFilterButtons() {
   return wrapper;
 }
 
-function buildPropertyColumn(labels = []) {
+function buildPropertyColumn(labels = {}) {
   let output = '';
-  labels.forEach((buttonName) => {
-    output += `<button type="button" class="flex-row">
+  Object.keys(labels).forEach((name) => {
+    output += `<button type="button" class="flex-row" value=${name}>
                 <svg role="presentation">
-                    <use xlink:href="/icons/icons.svg#${formatInput(buttonName)}"></use>
+                    <use xlink:href="/icons/icons.svg#${formatInput(labels[name])}"></use>
                 </svg>
-                <span class="ml-1">${buttonName}</span>
+                <span class="ml-1">${labels[name]}</span>
             </button>`;
   });
   return output;
@@ -79,8 +79,8 @@ function buildCheckBox(ariaLabel, label = '') {
 }
 
 export function buildPropertyFilterHtml() {
-  const firstColumnValues = ['Condo/Townhouse', 'Commercial', 'Lot/Land'];
-  const secondColumnValues = ['Single Family', 'Multi Family', 'Farm/Ranch'];
+  const firstColumnValues = { 1: 'Condo/Townhouse', 3: 'Commercial', 5: 'Lot/Land' };
+  const secondColumnValues = { 2: 'Single Family', 4: 'Multi Family', 6: 'Farm/Ranch' };
   return `
     <div class="column-2 flex-row">
     <div class="column">${buildPropertyColumn(firstColumnValues)}</div>

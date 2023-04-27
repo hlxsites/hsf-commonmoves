@@ -59,8 +59,8 @@ export function addRangeOption(filterName) {
                 <datalist id="listMinPrice" class="list${filterLabel}"></datalist>
             </div>
         <span class="range-label text-up">to</span>
-        <div name="Max${filterLabel}" class="input-dropdown">
-            <input type="text" maxLength="${maxLength}" list="listMax${filterLabel}" id="bbh-Max${filterLabel}" aria-describedby="Max${filterLabel}"
+        <div id="Max${filterLabel}" class="input-dropdown">
+            <input type="text" maxLength="${maxLength}" list="listMax${filterLabel}" name="Max${filterLabel}" aria-describedby="Max${filterLabel}"
                   placeholder="${toLabel}" aria-label="Maximum ${filterLabel}"
                   class="price-range-input max-price">
             <datalist id="listMax${filterLabel}" class="list${filterLabel}"></datalist>
@@ -208,4 +208,28 @@ export function getName(filterName) {
       break;
   }
   return name;
+}
+
+export function getFilterName(name) {
+  let filterName = name.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+  switch (name) {
+    case 'search types':
+    case 'new listings':
+    case 'recent price changes':
+      filterName += 's';
+      break;
+    case 'MinBedroomsTotal':
+      filterName = 'beds';
+      break;
+    case 'MinBathroomsTotal':
+      filterName = 'baths';
+      break;
+    case 'Features':
+      filterName = 'keyword search';
+      break;
+    case 'BHHS':
+      filterName = 'berkshire hathaway homeServices listings only';
+      break;
+  }
+  return filterName;
 }

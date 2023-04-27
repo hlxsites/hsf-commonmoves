@@ -1,7 +1,9 @@
+import { setParam, getParam, removeParam } from '../../scripts/search.js';
 import { build as buildCountrySelect } from '../shared/search-countries/search-countries.js';
 import { getPlaceholder, sanitizeString } from './common-function.js';
 import { build as buildAdditionFilters, buildFilterButtons } from './additional-filters.js';
 import { build as buildTopMenu } from './top-menu.js';
+import { setFilterValue } from './filter-processor.js';
 
 function closeSelect(element) {
   element.classList.remove('open');
@@ -30,13 +32,6 @@ function abbrNum(d, h) {
   return d;
 }
 
-function createPriceList(d) {
-  let optionlist = '';
-  const k = [10, 100, 1E3, 1E4, 1E5, 1E6];
-  if (d) for (let m = 1; m <= 6; m++) optionlist += `<option> ${d * k[m - 1]} </option>`;
-  return optionlist;
-}
-
 function formatPriceLabel(minPrice, maxPrice) {
   const d = minPrice.replace(/[^0-9]/g, '');
   const h = maxPrice.replace(/[^0-9]/g, '');
@@ -47,10 +42,37 @@ function formatPriceLabel(minPrice, maxPrice) {
         : 'Price';
 }
 
+function extractPrices(priceString) {
+  const regex = /\$([\d,]+(?:\.\d{2})?)/g;
+  const prices = [];
+  let match;
+
+  while ((match = regex.exec(priceString))) {
+    prices.push(parseFloat(match[1].replace(/,/g, '')));
+  }
+
+  if (prices.length === 2) {
+    return { minPrice: prices[0], maxPrice: prices[1] };
+  } if (prices.length === 1) {
+    return { minPrice: prices[0], maxPrice: prices[0] };
+  }
+  return { minPrice: null, maxPrice: null };
+}
+
+function createPriceList(d) {
+  let optionlist = '';
+  const k = [10, 100, 1E3, 1E4, 1E5, 1E6];
+  if (d) for (let m = 1; m <= 6; m++) optionlist += `<option> ${d * k[m - 1]} </option>`;
+  return optionlist;
+}
+
 function toggleFilter(el) {
   const div = el.querySelector('.checkbox');
+  const name = el.closest('.filter').getAttribute('name');
+  const value = div.classList.contains('checked');
   div.classList.toggle('checked');
   el.querySelector('input').value = div.classList.contains('checked');
+  setFilterValue(name, value);
 }
 
 function updateFilters() {
@@ -70,6 +92,11 @@ function addChangeHandler(filter) {
         filter.forEach((input) => {
           if (input.id !== el.id) input.checked = false;
         });
+        if (el.value === 'Any') {
+          removeParam(el.closest('.filter').getAttribute('name'));
+        } else {
+          setParam(el.closest('.filter').getAttribute('name'), el.value);
+        }
       }
     });
   });
@@ -111,11 +138,32 @@ export default async function decorate(block) {
   const keywordInput = block.querySelector('.keyword-search input[type="text"]');
   const keywordContainer = block.querySelector('#container-tags');
 
+  function processPrice(name) {
+    const { value } = block.querySelector(`.filter [name="${name}"]`);
+    if (value.length > 0) {
+      setParam(name, value);
+    } else {
+      removeParam(name);
+    }
+  }
+
+  function process(open) {
+    if (open) {
+
+    } else {
+      processPrice('MinPrice');
+      processPrice('MaxPrice');
+    }
+  }
+
   function togglePropertyForm() {
     filterBlock.classList.toggle('hide');
     overlay.classList.toggle('hide');
     propertyFilterButtons.classList.toggle('hide');
     svgIcons.forEach((el) => el.classList.toggle('hide'));
+    // todo add logic to set default value for price, beds, baths, sqFt and set Price value on close form
+    const open = svgIcons[0].classList.contains('hide');
+    process(open);
   }
 
   // close form on click cancel button
@@ -137,13 +185,26 @@ export default async function decorate(block) {
     const keyword = keywordInput.value;
     if (keyword) {
       const item = document.createElement('span');
+
       item.classList.add('tag');
       item.textContent = `${keyword} `;
       const closeBtn = document.createElement('span');
       closeBtn.classList.add('close');
       item.appendChild(closeBtn);
       keywordContainer.append(item);
-      closeBtn.addEventListener('click', () => item.remove());
+      const params = getParam('Features') ?? [];
+      params.push(item.textContent.trim());
+      setParam('Features', params);
+      closeBtn.addEventListener(
+        'click',
+        () => {
+          let params = getParam('Features') ?? [];
+          params = params.filter((i) => i !== item.textContent.trim());
+          item.remove();
+          setParam('Features', params);
+        // update keywords in storage
+        },
+      );
       keywordInput.value = '';
     }
   });
@@ -151,18 +212,22 @@ export default async function decorate(block) {
   // @todo add logic to remove keyword
   block.querySelectorAll('#container-tags .close').forEach((el) => { el.addEventListener('click', (e) => { e.target.parentNode.remove(); }); });
 
+  // bathes
   addChangeHandler(bathsFilter);
-
+  // beds
   addChangeHandler(bedsFilter);
   // @todo add logic
   keyWordSearchAny.addEventListener('change', (e) => {
     if (keyWordSearchAny.checked) {
       keyWordSearchAll.checked = false;
+      setParam('MatchAnyFeatures', true);
     }
   });
+
   keyWordSearchAll.addEventListener('change', (e) => {
     if (keyWordSearchAll.checked) {
       keyWordSearchAny.checked = false;
+      removeParam('MatchAnyFeatures');
     }
   });
   openHousesCheckbox.addEventListener('change', () => {
@@ -175,11 +240,20 @@ export default async function decorate(block) {
     propertyButtons.forEach((el) => {
       el.classList.toggle('selected', isChecked);
     });
+    if (isChecked) {
+      setParam('PropertyType', [1, 2, 3, 5, 4, 6]);
+    } else {
+      removeParam('PropertyType');
+    }
   });
   // add logic for select property type on click
   propertyButtons.forEach((el) => {
     el.addEventListener('click', () => {
       el.classList.toggle('selected');
+      const value = el.getAttribute('value');
+      let params = getParam('PropertyType') ?? [];
+      el.classList.contains('selected') ? params.push(value) : params = params.filter((i) => i !== value);
+      setParam('PropertyType', params);
     });
   });
   // logic to trigger events for additional property filters
@@ -192,16 +266,6 @@ export default async function decorate(block) {
     });
   });
 
-  // add logic on price range change
-  priceRangeInputs.addEventListener('keyup', (e) => {
-    const minPrice = priceRangeInputs.querySelector('.price-range-input.min-price').value;
-    const maxPrice = priceRangeInputs.querySelector('.price-range-input.max-price').value;
-    // display datalist
-    const activeElement = e.target.closest('.price-range-input');
-    activeElement.list.innerHTML = createPriceList(activeElement.value);
-    // update label
-    block.querySelector('.price .title > span').innerText = formatPriceLabel(minPrice, maxPrice);
-  });
   // close filters on click outside
   document.addEventListener('click', (e) => {
     if (!block.contains(e.target)) {
@@ -213,6 +277,21 @@ export default async function decorate(block) {
     }
   });
 
+  // add logic on price range change
+  priceRangeInputs.addEventListener('keyup', (e) => {
+    const minPrice = priceRangeInputs.querySelector('.price-range-input.min-price').value;
+    const maxPrice = priceRangeInputs.querySelector('.price-range-input.max-price').value;
+    // display datalist
+    const activeElement = e.target.closest('.price-range-input');
+    const name = activeElement.getAttribute('name');
+    const { value } = activeElement;
+    activeElement.list.innerHTML = createPriceList(activeElement.value);
+
+    // update label
+    block.querySelector('.price .title > span').innerText = formatPriceLabel(minPrice, maxPrice);
+    setParam(name, value);
+  });
+
   topLevelFilters.forEach((selectedFilter) => {
     selectedFilter.addEventListener('click', () => {
       // close all other elements
@@ -222,15 +301,12 @@ export default async function decorate(block) {
                     && elem.parentElement.classList.contains('open')
         ) {
           closeSelect(elem.parentElement);
-          // selectedFilter.parentElement.querySelector('.select-item').classList.add('hide')
         }
       });
       if (selectedFilter.parentElement.classList.contains('open')) {
         closeSelect(selectedFilter.parentElement);
-        // selectedFilter.parentElement.querySelector('.select-item').classList.add('hide')
       } else {
         openSelect(selectedFilter.parentElement);
-        // selectedFilter.parentElement.querySelector('.select-item').classList.remove('hide');
       }
     });
   });
@@ -245,13 +321,16 @@ export default async function decorate(block) {
   filterOptions.forEach((element) => {
     element.addEventListener('click', (e) => {
       let selectedElValue = element.innerText;
+      const value = element.getAttribute('data-value');
       const container = element.closest('.container-item');
+      let name = container.getAttribute('name');
       container.querySelector('.highlighted').classList.remove('highlighted');
       element.classList.toggle('highlighted');
       const headerTitle = container.querySelector('.header .title');
       if (container.querySelector('.multiple-inputs')) {
         // logic
         element.closest('section > div').querySelector('.select-selected').innerHTML = selectedElValue;
+        name = element.closest('section > div').querySelector('.select-selected').getAttribute('name');
         const headerItems = container.querySelectorAll('.multiple-inputs .select-selected');
         const fromSelectedValue = headerItems[0].innerText;
         const toSelectedValue = headerItems[1].innerText;
@@ -264,31 +343,44 @@ export default async function decorate(block) {
       } else {
         closeSelect(container);
       }
+      setParam(name, value);
       headerTitle.innerHTML = `<span>${selectedElValue}</span>`;
-      // todo update logic for multiple select
     });
   });
-
+  // year and square feet input logic on additional filters
   propertyFilterOptions.forEach((element) => {
     element.addEventListener('click', (e) => {
       const selectedElValue = element.innerText;
       const container = element.closest('section');
+      const filter = element.closest('.filter');
+      let name = filter.getAttribute('name');
+      let value = element.getAttribute('data-value');
       container.querySelector('.highlighted').classList.remove('highlighted');
       element.classList.toggle('highlighted');
       const headerTitle = container.querySelector('.select-selected');
-      // closeSelect(container);
+
       headerTitle.innerHTML = `<span>${selectedElValue}</span>`;
-      if (element.closest('.filter').querySelector('.multiple-inputs')) {
+      if (filter.querySelector('.multiple-inputs')) {
+        if (name !== 'YearBuilt') {
+          name = element.closest('section > div').querySelector('.select-selected').getAttribute('name');
+        }
+        if (name === 'YearBuilt') {
+          const values = element.closest('.multiple-inputs').querySelectorAll('.select-selected');
+          if (values[0].innerText === 'No Min' && values[1].innerText === 'No Max') {
+            removeParam('YearBuilt');
+            return;
+          }
+          const minYear = values[0].innerText === 'No Min' ? 1899 : values[0].innerText;
+          const maxYear = values[1].innerText === 'No Max' ? 2100 : values[1].innerText;
+          value = `${minYear}-${maxYear}`;
+        }
         element.closest('.select-item').classList.remove('show');
       }
-      // todo update logic for multiple select
+      setParam(name, value);
+      element.closest('.select-item').classList.remove('show');
     });
   });
 }
-///
-// buildSearchBar
-// buildFilters
-// ul tooltip.
 
-// @todo finish close all logic
-// add logic for filter buttons
+//todo add logic for open houses filter
+//todo add logic to set value from the url/storage
