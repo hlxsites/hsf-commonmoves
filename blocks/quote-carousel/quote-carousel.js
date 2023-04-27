@@ -51,7 +51,7 @@ export default async function decorate(block) {
   block.innerHTML = '';
 
   const titleElement = document.createElement('p');
-  titleElement.innerText=title;
+  titleElement.innerText = title;
   titleElement.classList.add('title');
 
   const controlsContainer = document.createElement('div');
