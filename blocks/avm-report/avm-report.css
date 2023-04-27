@@ -31,7 +31,7 @@
   padding-left: 10px;
   margin-right: 16px;
   height: 50px;
-  border: 1px solid var(--border-medium-gray);
+  border: 1px solid var(--border-medium-grey);
 }
 
 .avm-report.block form .avm-input input[name="avmaddress"] {
@@ -44,19 +44,6 @@
   width: 67px;
 }
 
-.avm-report.block form button[type="submit"] {
-  display: inline-block;
-  padding: 13px 16px;
-  margin: 16px 0;
-  height: 50px;
-  flex: 1;
-  text-align: center;
-  white-space: nowrap;
-  line-height: var(--line-height-m);
-  color: var(--white);
-  background-color: var(--primary-color);
-  border: 1px solid var(--border-medium-gray);
-}
 
 @media screen and (min-width: 600px) {
   .avm-report.block {

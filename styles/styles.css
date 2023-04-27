@@ -287,6 +287,24 @@ main .section .block.hide-on-mobile {
   background-color: var(--primary-color);
 }
 
+form button[type="submit"] {
+  display: inline-block;
+  padding: 13px 16px;
+  margin: 16px 0;
+  height: 50px;
+  flex: 1;
+  text-align: center;
+  white-space: nowrap;
+  line-height: var(--line-height-m);
+  color: var(--white);
+  background-color: var(--primary-color);
+  border: 1px solid var(--border-medium-grey);
+}
+
+form button[type="submit"]:hover {
+  background-color: var(--white);
+  color: var(--body-color);
+}
 
 @media screen and (min-width: 600px) {
   h2 {
