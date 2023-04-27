@@ -7,33 +7,31 @@
  * @returns {string}
  */
 function getSearchObject() {
-    const search = localStorage.get('search') ?? '{}';
-    return JSON.parse(search);
+  const search = localStorage.get('search') ?? '{}';
+  return JSON.parse(search);
 }
 
 function buildQueryParameters() {
-    const search = getSearchObject();
-    return Object.keys(search).map(key => `${encodeURIComponent(key)}=${encodeURIComponent(search[key])}`).join('&');
+  const search = getSearchObject();
+  return Object.keys(search).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(search[key])}`).join('&');
 }
 
 /**
  * Build the query string for the search API
  * @returns {string}
  */
-export function buildQuery()
-{
-    const host ="";
-    return `${host}/search?${buildQueryParameters()}`;
+export function buildQuery() {
+  const host = '';
+  return `${host}/search?${buildQueryParameters()}`;
 }
 
 export function setParam(key, value) {
-    let parameters = getSearchObject();
-    parameters[key] = value;
-    localStorage.set('search', parameters);
+  const parameters = getSearchObject();
+  parameters[key] = value;
+  localStorage.set('search', parameters);
 }
 
 export function getParam(key) {
-    let parameters = getSearchObject();
-    return parameters[key] ?? false;
+  const parameters = getSearchObject();
+  return parameters[key] ?? false;
 }
-

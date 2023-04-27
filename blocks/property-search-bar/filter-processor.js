@@ -6,7 +6,7 @@
  * @returns {void}
  */
 export function buildFilterHTML(name, params) {
-    //@todo move logic
+  // @todo move logic
 }
 
 /**
@@ -16,10 +16,7 @@ export function buildFilterHTML(name, params) {
  *
  */
 export function getFilterValue(filterName) {
-    let value = '';
-
-
-
+  const value = '';
 }
 
 /**

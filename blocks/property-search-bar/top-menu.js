@@ -1,65 +1,66 @@
-import {formatInput, getPlaceholder, addRangeOption, addOptions, getName} from './common-function.js';
+import {
+  formatInput, getPlaceholder, addRangeOption, addOptions, getName,
+} from './common-function.js';
 
 function addListeners() {
 
 }
 
 function buildButton(label, primary = false) {
-    const button = document.createElement('div');
-    button.classList.add('button-container');
-    button.innerHTML = `
+  const button = document.createElement('div');
+  button.classList.add('button-container');
+  button.innerHTML = `
     <a target="_blank" tabindex="" class="btn center ${primary ? 'btn-primary' : 'btn-secondary'}" role="button">
             <span>${label}</span>
     </a>`;
-    return button;
+  return button;
 }
 
 function buildFilterToggle() {
-    const wrapper = document.createElement('div')
-    wrapper.classList.add('filter-container', 'container-item', 'flex-row', 'center');
-    wrapper.innerHTML = `
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('filter-container', 'container-item', 'flex-row', 'center');
+  wrapper.innerHTML = `
             <a role="button" aria-label="Filter">
                 <svg role="presentation">
                     <use xlink:href="/icons/icons.svg#filter-white"></use>
                 </svg>
                 <svg role="presentation" class="hide">
                 <use xlink:href="/icons/icons.svg#close-x-white"></use></svg>
-            </a>`
-    return wrapper;
+            </a>`;
+  return wrapper;
 }
 
 export function buildTopFilterPlaceholder(filterName, callback = false) {
-    const dropdownContainer = document.createElement('div');
-    dropdownContainer.setAttribute('name', getName(filterName));
-    const identifier =  formatInput(filterName);
-    const options = callback ? callback(filterName) : '';
-    let label = ['beds', 'baths'].includes(filterName) ? `Any ${filterName}` : filterName
+  const dropdownContainer = document.createElement('div');
+  dropdownContainer.setAttribute('name', getName(filterName));
+  const identifier = formatInput(filterName);
+  const options = callback ? callback(filterName) : '';
+  const label = ['beds', 'baths'].includes(filterName) ? `Any ${filterName}` : filterName;
 
-    let classes = [identifier, 'bl'];
-    [...classes].forEach(className => dropdownContainer.classList.add(className));
-    dropdownContainer.setAttribute('id', identifier);
+  const classes = [identifier, 'bl'];
+  [...classes].forEach((className) => dropdownContainer.classList.add(className));
+  dropdownContainer.setAttribute('id', identifier);
 
-    dropdownContainer.innerHTML =
-        `<div class="header">
+  dropdownContainer.innerHTML = `<div class="header">
              <div class="title text-up"><span>${label}</span></div>
              </div>
        <div class="search-results-dropdown hide shadow">${options}</div>`;
 
-    return dropdownContainer
+  return dropdownContainer;
 }
 
 export function build() {
-    const defaultSuggestionMessage = 'Please enter at least 3 characters.';
-    const wrapper = document.createElement('div');
-    wrapper.classList.add('search-listing-block');
-    const primaryFilters = document.createElement('div');
-    const priceSelect = buildTopFilterPlaceholder('price', addRangeOption);
-    const areaSelect = buildTopFilterPlaceholder('square feet', addRangeOption);
-    const bedroomsSelect = buildTopFilterPlaceholder('beds', addOptions);
-    const bathroomsSelect = buildTopFilterPlaceholder('baths', addOptions);
+  const defaultSuggestionMessage = 'Please enter at least 3 characters.';
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('search-listing-block');
+  const primaryFilters = document.createElement('div');
+  const priceSelect = buildTopFilterPlaceholder('price', addRangeOption);
+  const areaSelect = buildTopFilterPlaceholder('square feet', addRangeOption);
+  const bedroomsSelect = buildTopFilterPlaceholder('beds', addOptions);
+  const bathroomsSelect = buildTopFilterPlaceholder('baths', addOptions);
 
-    primaryFilters.classList.add('primary-search', 'flex-row');
-    primaryFilters.innerHTML = ` <div class="input-container">
+  primaryFilters.classList.add('primary-search', 'flex-row');
+  primaryFilters.innerHTML = ` <div class="input-container">
                 <input type="text" placeholder="${getPlaceholder('US')}" aria-label="${getPlaceholder('US')}" class="search-suggester">
                 <div tabindex="0" class="search-suggester-results hide">
                     //@todo move to method???
@@ -68,11 +69,11 @@ export function build() {
                     </ul>
                 </div>
             </div>`;
-    wrapper.prepend(primaryFilters, buildButton('Search', true), priceSelect, bedroomsSelect, bathroomsSelect, areaSelect, buildFilterToggle(), buildButton('save search', true));
-    [...wrapper.children].map(child => {
-        if (child.classList.contains('price') || child.classList.contains('beds') || child.classList.contains('baths') || child.classList.contains('square-feet')) {
-            child.classList.add('container-item');
-        }
-    });
-    return wrapper;
+  wrapper.prepend(primaryFilters, buildButton('Search', true), priceSelect, bedroomsSelect, bathroomsSelect, areaSelect, buildFilterToggle(), buildButton('save search', true));
+  [...wrapper.children].map((child) => {
+    if (child.classList.contains('price') || child.classList.contains('beds') || child.classList.contains('baths') || child.classList.contains('square-feet')) {
+      child.classList.add('container-item');
+    }
+  });
+  return wrapper;
 }
