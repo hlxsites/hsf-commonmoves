@@ -139,7 +139,7 @@ p, span {
 }
 
 b, strong {
-  font-weight: bolder;
+  font-weight: var(--font-weight-bold);
 }
 
 i {
