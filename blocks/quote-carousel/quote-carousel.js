@@ -49,11 +49,18 @@ export default async function decorate(block) {
   // generate carousel content from loaded data
   block.setAttribute('id', blockId);
   block.innerHTML = '';
+
+  const titleElement = document.createElement('p');
+  titleElement.innerText=title;
+  titleElement.classList.add('title');
+
   const controlsContainer = document.createElement('div');
   controlsContainer.classList.add('controls-container');
+
   const slidesContainer = document.createElement('div');
   slidesContainer.classList.add('carousel-content');
-  block.replaceChildren(slidesContainer, controlsContainer);
+
+  block.replaceChildren(titleElement, slidesContainer, controlsContainer);
 
   const content = await getContent(dataUrl);
 
@@ -68,7 +75,6 @@ export default async function decorate(block) {
       }
       rowContent.classList.add('item');
       rowContent.innerHTML = `
-                <p class="title">${title}</p>
                 <p class="quote">${row.quote}</p>
                 <p class="author">${row.author}</p>
                 <p class="position">${row.position}</p>
@@ -82,7 +88,7 @@ export default async function decorate(block) {
     controlsContainer.innerHTML = `
       <div class="pagination">
           <span class="index">1</span>
-          &nbsp;of&nbsp;
+          <span class="of">&nbsp;of&nbsp;</span>
           <span class="total">${content.total}</span>
       </div>
       <button name="prev" aria-label="Previous" class="control-button" disabled><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>

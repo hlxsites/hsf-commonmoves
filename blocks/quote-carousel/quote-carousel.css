@@ -18,6 +18,16 @@
     padding-bottom: 50px;
 }
 
+.quote-carousel .title {
+    align-self: center;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: var(--line-height-xs);
+    letter-spacing: var(--letter-spacing-reg);
+    margin-bottom: 2em;
+    display: none;
+}
+ 
 .carousel-content {
     display: flex;
     transition: transform 200ms;
@@ -36,18 +46,12 @@
     letter-spacing: normal;
 }
 
-.carousel-content .item .title {
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-reg);
-    margin-bottom: 2em;
-}
-
 .carousel-content .item .quote {
     font-family: var(--font-family-proxima);
     font-size: var(--body-font-size-xl);
     font-weight: var(--font-weight-light);
     line-height: var(--line-height-m);
-    padding: 30px 35px 0 15px;
+    padding: 30px 25px 0;
 }
 
 .carousel-content .item .author {
@@ -109,6 +113,10 @@
         border-top: none;
         border-left: none;
         border-right: none;
+    }
+
+    .quote-carousel .title {
+        display: initial;
     }
 
     .carousel-content .item .quote {
