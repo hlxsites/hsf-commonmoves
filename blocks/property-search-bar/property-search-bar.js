@@ -2,17 +2,7 @@ import { build as buildCountrySelect } from '../shared/search-countries/search-c
 import {getPlaceholder, sanitizeString} from './common-function.js';
 import { build as buildAdditionFilters, buildFilterButtons} from './additional-filters.js';
 import { build as buildTopMenu} from './top-menu.js';
-let selectedParameters = {
 
-};
-
-function setToStorage(key, value) {
-    selectedParameters[key] = value;
-}
-
-function getFromStorage(key) {
-    return selectedParameters[key];
-}
  function closeSelect(element) {
 
      element.classList.remove('open');
@@ -153,7 +143,7 @@ export default async function decorate(block) {
         if (keyword) {
             const item = document.createElement('span');
             item.classList.add('tag');
-            item.textContent = sanitizeString(keyword);
+            item.textContent = `${keyword} `;
             const closeBtn = document.createElement('span');
             closeBtn.classList.add('close');
             item.appendChild(closeBtn);
