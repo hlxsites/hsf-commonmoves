@@ -507,8 +507,14 @@ main .section.property-search-bar-container {
     background-color:  var(--white);
     z-index: 999;
 }
+
+.container-item *,
 .filter-block * {
     font-size: var(--body-font-size-s);
+}
+
+.search-listing-block .button-container * {
+    font-size: var(--body-font-size-xs);
 }
 .filter-block .hide,
 .multiple-inputs .hide{
