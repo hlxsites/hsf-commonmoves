@@ -131,6 +131,17 @@
   z-index: 2;
 }
 
+.has-input-formatted input::-webkit-outer-spin-button,
+.has-input-formatted input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.has-input-formatted input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .cmp-mtg-calc__input__slider .input-standard.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted .input-formatted {
   border-color: #aaa;
   height: 31px;
@@ -155,9 +166,10 @@
   width: 100%;
   z-index: 1;
 }
-
+.has-input-formatted input {
+  text-align: right;
+}
 .input input {
-  appearance: none;
   background: 0;
   border: 1px solid #e7e7e7;
   color: #3a3a3a;
@@ -343,7 +355,12 @@ input {
   border-radius: 50%;
   background: #552448;
 }
-
+.custom-slider::-moz-slider-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #552448;
+}
 .text-disclaimer {
   color: #979797;
   font-family: var(--font-family-proxima);

@@ -3,35 +3,97 @@ import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 const propertyAPI = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
 const propID = '343140756';
 
-
-function inputSlider() {
+function adjustSlider() {
   const min = this.min;
   const max = this.max;
   const value = this.value;
   this.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(value-min)/(max-min)*100}%, #e7e7e7 ${(value-min)/(max-min)*100}%, #e7e7e7 100%)`;
   var parent = this.closest('.cmp-mtg-calc__input__slider');
   var fieldValue = parent.querySelector('.input-formatted');
-  if(fieldValue.classList.contains('purchase-price')) {
-    fieldValue.innerHTML = formatCurrency(Number(value));
-  } else {
+  if(fieldValue.classList.contains('purchase-price-field')) {
+    fieldValue.innerHTML = addCommaSeparators(value);
+  } else if(fieldValue.classList.contains('interest-rate-field')) {
+    fieldValue.innerHTML = Number(value).toFixed(3);
+  }
+  else {
     fieldValue.innerHTML = value;
   }
-  var container = this.closest('.property-row');
-  var purchasePrice = Number(container.querySelector('.purchase-price-slider').value);
-  var downPayment = Number(container.querySelector('.down-payment-slider').value);
-  var interestRate = Number(container.querySelector('.interest-rate-slider').value);
-  var loanTerm = Number(container.querySelector('.interest-rate-slider').value);
-  var monthlyPayment = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm).totalPayment;
-  container.querySelector('.mortgage-payment').innerHTML = formatCurrency(monthlyPayment);
+  var block = this.closest('.mortage-calc-body');
+  var purchasePrice = removeCommas(block.querySelector('.purchase-price-field').innerHTML);
+  var downPayment = block.querySelector('.down-payment-field').innerHTML;
+  var interestRate = block.querySelector('.interest-rate-field').innerHTML;
+  var loanTerm = block.querySelector('.loan-term-field').innerHTML;
+  var monthlyPayment = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm).totalPayment.toFixed(0);
+  block.querySelector('.mortgage-payment').innerHTML = addCommaSeparators(monthlyPayment);
 }
 
+
+function focusOnInput() {
+  this.style.opacity = 1;
+  var num = Number(this.nextElementSibling.innerHTML.replace(/,/g,''));
+  this.nextElementSibling.innerHTML = '';
+  this.value = num;
+}
+
+function focusOutInput() {
+  this.style.opacity = 0;
+  var parent = this.closest('.cmp-mtg-calc__input__slider');
+  var slider = parent.querySelector('.custom-slider');
+  var min = slider.min;
+  var max = slider.max;
+  if(this.value) {
+    var value = Number(this.value);
+    if(value < min) {
+      this.value = min;
+    }
+    if(value > max) {
+      this.value = max;
+    }
+  } else {
+    this.value = slider.min;
+  }
+  if(this.nextElementSibling.classList.contains('down-payment-field')) {
+    this.nextElementSibling.innerHTML = addCommaSeparators(this.value);
+  } else {
+    this.nextElementSibling.innerHTML = this.value;
+  }
+  slider.value = this.value;
+  slider.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(slider.value-slider.min)/(slider.max-slider.min)*100}%, #e7e7e7 ${(slider.value-slider.min)/(slider.max-slider.min)*100}%, #e7e7e7 100%)`; 
+  var block = this.closest('.mortage-calc-body');
+  var purchasePrice = block.querySelector('.purchase-price-field').innerHTML ? removeCommas(block.querySelector('.purchase-price-field').innerHTML) : this.value;
+  var downPayment = block.querySelector('.down-payment-field').innerHTML ? block.querySelector('.down-payment-field').innerHTML : this.value;
+  var interestRate = block.querySelector('.interest-rate-field').innerHTML ? block.querySelector('.interest-rate-field').innerHTML : this.value;
+  var loanTerm = block.querySelector('.loan-term-field').innerHTML ? block.querySelector('.loan-term-field').innerHTML : this.value;
+  var monthlyPayment = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm).totalPayment.toFixed(0);
+  block.querySelector('.mortgage-payment').innerHTML = addCommaSeparators(monthlyPayment);
+  
+}
+
+function adjustField() {
+  var parent = this.closest('.cmp-mtg-calc__input__slider');
+  var slider = parent.querySelector('.custom-slider');
+  if(this.value) {
+    slider.value = this.value;
+    slider.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(slider.value-slider.min)/(slider.max-slider.min)*100}%, #e7e7e7 ${(slider.value-slider.min)/(slider.max-slider.min)*100}%, #e7e7e7 100%)`; 
+    var block = this.closest('.mortage-calc-body');
+    var purchasePrice = block.querySelector('.purchase-price-field').innerHTML ? removeCommas(block.querySelector('.purchase-price-field').innerHTML) : this.value;
+    var downPayment = block.querySelector('.down-payment-field').innerHTML ? block.querySelector('.down-payment-field').innerHTML : this.value;
+    var interestRate = block.querySelector('.interest-rate-field').innerHTML ? block.querySelector('.interest-rate-field').innerHTML : this.value;
+    var loanTerm = block.querySelector('.loan-term-field').innerHTML ? block.querySelector('.loan-term-field').innerHTML : this.value;
+    var monthlyPayment = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm).totalPayment.toFixed(0);
+    block.querySelector('.mortgage-payment').innerHTML = addCommaSeparators(monthlyPayment);
+    
+  }
+}
+
+
 function computeMortgage(purchasePrice, interestRate, downpaymentPercent, loanTerm) {
-  const downpaymentAmount = (downpaymentPercent / 100) * purchasePrice;
+  const downpaymentAmount = downpaymentPercent / 100.0 * purchasePrice;
   const principalAmount = purchasePrice - downpaymentAmount;
-  const interestPayment = ((interestRate / 100) * principalAmount) / 12;
-  const k = (interestRate / 100) / 12;
-  const m = Math.pow(1 + k, 12 * loanTerm);
-  const monthlyMortgage = principalAmount * k * (m / (m - 1));
+  const interestPayment = interestRate / 100 * principalAmount / 12;
+  var k = interestRate / 100 / 12;
+  var m = Math.pow(1 + k, 12 * loanTerm);
+  var monthlyMortgage = k * m / (m - 1) * principalAmount;
   const principalPayment = monthlyMortgage - interestPayment;
   return {
     downpayment: downpaymentAmount,
@@ -41,8 +103,12 @@ function computeMortgage(purchasePrice, interestRate, downpaymentPercent, loanTe
   }
 }
 
-function formatCurrency(num) {
-  return num.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+function addCommaSeparators(price) {
+  return price.toString().replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,');
+}
+
+function removeCommas(price) {
+  return price.toString().replace(/,/g,'',);
 }
 
 export default async function decorate(block) {
@@ -51,23 +117,22 @@ export default async function decorate(block) {
     const data = await resp.json();
     const listing = data.properties.find((item) => item.PropId == propID);
     const listPriceUSD = listing.ListPriceUS;
-    const listPrice = Number(listPriceUSD.replace(/[^\d.]+/g, ''));
+    const listPrice = listPriceUSD.replace(/[^\d.]+/g, '');
     const maxPurchasePrice = 2 * listPrice + 1000;
     const defaultInterestRate = 5;
     const defaultDownpaymentPercent = 20;
     const defaultTerm = 30;
     const initialMortgageCalc = computeMortgage(listPrice, defaultInterestRate, defaultDownpaymentPercent, defaultTerm);
-    console.log(initialMortgageCalc);
     var calcHTML = `
       <div class="property-container">
-        <div class="property-row">
+        <div class="property-row mortage-calc-body">
           <div class="col col-12 col-md-10 offset-md-1 col-xl-4">
             <div class="cmp-mtg-calc__intro">
               Estimated Mortgage Payment
             </div>
             <div class="cmp-mtg-calc__summary">
               Your total payment will be
-              $<span class="mortgage-payment">${formatCurrency(initialMortgageCalc.totalPayment)}</span>
+              $<span class="mortgage-payment">${addCommaSeparators(initialMortgageCalc.totalPayment.toFixed(0))}</span>
             </div>
             <figure class="cmp-mtg-calc__chart">
               <div class="property-row align-items-center">
@@ -87,9 +152,9 @@ export default async function decorate(block) {
                 <div class="col col-5 col-lg-7">
                   <ol>
                     <li><span class="swatch bg-cabernet "></span> <span class="label">Principal</span> <span
-                        class="sr-only">${formatCurrency(initialMortgageCalc.principal)}</span></li>
+                        class="sr-only">${addCommaSeparators(initialMortgageCalc.principal)}</span></li>
                     <li><span class="swatch bg-cabernet-50 "></span> <span class="label">Interest</span> <span
-                        class="sr-only">${formatCurrency(initialMortgageCalc.interest)}</span></li>
+                        class="sr-only">${addCommaSeparators(initialMortgageCalc.interest)}</span></li>
                   </ol>
                 </div>
               </div>
@@ -97,27 +162,29 @@ export default async function decorate(block) {
           </div>
           <div class="col col-12 col-md-5 offset-md-1 col-xl-2">
             <div class="cmp-mtg-calc__input">
-              <div class="cmp-mtg-calc__input__label cmp-mtg-calc__input__label--primary"><label
-                  for="purchase_price">Purchase Price</label></div>
+              <div class="cmp-mtg-calc__input__label cmp-mtg-calc__input__label--primary">
+                <label for="purchase_price_input">Purchase Price</label>
+              </div>
               <div class="cmp-mtg-calc__input__slider">
-                <div data-content="$" class="input input-currency has-input-formatted"><input name="purchase_price_input"
-                    type="number" aria-label="Enter Purchase Price in Dollars">
-                  <div class="input-formatted purchase-price-field">${formatCurrency(listPrice)}</div>
+                <div data-content="$" class="input input-currency has-input-formatted">
+                  <input name="purchase_price_input" type="number" min="1000" max="${maxPurchasePrice}" aria-label="Enter Purchase Price in Dollars">
+                  <div class="input-formatted purchase-price-field">${addCommaSeparators(listPrice)}</div>
                 </div>
                 <div>
                   <div class="slider-wrapper">
-                    <input type="range" value="${listPrice}" min="1000" max="${maxPurchasePrice}" step="10000" class="custom-slider purchase-price-slider">
+                    <input name="purchase_price_slider" type="range" value="${listPrice}" min="1000" max="${maxPurchasePrice}" step="10000" class="custom-slider purchase-price-slider">
                   </div>
                 </div>
               </div>
             </div>
             <div class="cmp-mtg-calc__input">
               <div class="cmp-mtg-calc__input__label"><label for="down_payment">Down Payment</label> <span
-                  class="extra">($3M)</span></div>
+                  class="extra">($3M)</span>
+              </div>
               <div class="cmp-mtg-calc__input__slider">
-                <div data-content="%" class="input input-percent has-input-formatted"><input name="down_payment_input" type="number"
-                    aria-label="Enter Down Payment in Percentage">
-                    <div class="input-formatted down-payment-field">20</div>
+                <div data-content="%" class="input input-percent has-input-formatted">
+                  <input name="down_payment_input" type="number" aria-label="Enter Down Payment in Percentage">
+                  <div class="input-formatted down-payment-field">20</div>
                 </div>
                 <div>
                   <div class="slider-wrapper">
@@ -129,8 +196,8 @@ export default async function decorate(block) {
           </div>
           <div class="col-12 col-md-5 col-xl-2">
             <div class="cmp-mtg-calc__input">
-              <div class="cmp-mtg-calc__input__label cmp-mtg-calc__input__label--primary"><label
-                  for="interest_rate">Interest Rate</label></div>
+              <div class="cmp-mtg-calc__input__label cmp-mtg-calc__input__label--primary"><label for="interest_rate">Interest
+                  Rate</label></div>
               <div class="cmp-mtg-calc__input__slider">
                 <div data-content="%" class="input input-percent has-input-formatted"><input name="interest_rate_input"
                     type="number" aria-label="Enter Interest Rate in Percentage">
@@ -170,26 +237,28 @@ export default async function decorate(block) {
     `;
     var accordionItem = createAccordionItem('mortgage-calculator', 'Mortgage Calculator', calcHTML);
     block.append(accordionItem);
+    
+    var sliders = block.querySelectorAll('input.custom-slider');
+    sliders.forEach((slider) => {
+      const min = slider.min;
+      const max = slider.max;
+      var textValue = slider.closest('.cmp-mtg-calc__input__slider').querySelector('.input-formatted').innerHTML;
+      var value = removeCommas(textValue);
+      slider.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(value-min)/(max-min)*100}%, #e7e7e7 ${(value-min)/(max-min)*100}%, #e7e7e7 100%)`;
+      slider.addEventListener('input', adjustSlider);
+    });
+
+    const inputFields = block.querySelectorAll('.has-input-formatted input');
+    inputFields.forEach((elem) => {
+      elem.addEventListener('focus', focusOnInput);
+      elem.addEventListener('input', adjustField);
+      elem.addEventListener('focusout', focusOutInput);
+    });
+    
     decorateIcons(block);
     
     loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
     loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
-
-    const sliders = block.querySelectorAll('input.custom-slider');
-    sliders.forEach((slider) => {
-      const min = slider.min;
-      const max = slider.max;
-      const value = slider.value;
-      slider.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(value-min)/(max-min)*100}%, #e7e7e7 ${(value-min)/(max-min)*100}%, #e7e7e7 100%)`;
-      slider.addEventListener('input', inputSlider);
-    });
-    /*
-    sliders.forEach((slider) => {
-      slider.style.background = `linear-gradient(to right, #aaa 0%, #aaa ${(value-min)/(max-min)*100}%, #e7e7e7 ${(value-min)/(max-min)*100}%, #e7e7e7 100%)`;
-      slider.addEventListener('input', inputSlider);
-    });
-    */
-    
   }
   
 }
