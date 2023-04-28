@@ -111,6 +111,7 @@
     margin: 0 auto;
     max-width: 83.333%;
   }
+
   .cards.block .cards-list .cards-item .card-body h3 {
     font-size: var(--heading-font-size-m);
   }
