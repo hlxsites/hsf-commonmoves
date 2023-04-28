@@ -51,7 +51,7 @@ export default async function decorate(block) {
   block.innerHTML = '';
 
   const titleElement = document.createElement('p');
-  titleElement.innerText = title;
+  titleElement.innerText = title.trim();
   titleElement.classList.add('title');
 
   const controlsContainer = document.createElement('div');
@@ -86,12 +86,12 @@ export default async function decorate(block) {
 
     // generate container for carousel controls
     controlsContainer.innerHTML = `
+      <button name="prev" aria-label="Previous" class="control-button" disabled><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
       <div class="pagination">
           <span class="index">1</span>
-          <span class="of">&nbsp;of&nbsp;</span>
+          <span class="of">of</span>
           <span class="total">${content.total}</span>
       </div>
-      <button name="prev" aria-label="Previous" class="control-button" disabled><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
       <button name="next" aria-label="Next" class="control-button"><svg><use xlink:href="/icons/icons.svg#carrot"/></svg></button>
     `;
     observeCarousel();
