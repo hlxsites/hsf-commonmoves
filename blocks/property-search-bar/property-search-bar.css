@@ -18,7 +18,7 @@ html, body {
 }
 
 .highlighted {
-    background: var(--lightgray);
+    background: var(--lightgrey);
 }
 
 main .section.property-search-bar-container {
@@ -381,7 +381,7 @@ main .section.property-search-bar-container {
 
 .select-item li:hover
 {
-    background: var(--lightgray);
+    background: var(--lightgrey);
 }
 
 .search-results-dropdown .select-item li:first-child {
@@ -534,7 +534,7 @@ main .section.property-search-bar-container {
 }
 
 .filter-block .keyword-search {
-    background: var(--lightgray);
+    background: var(--lightgrey);
     padding: 27px 20px;
 }
 .container-input {

@@ -96,14 +96,14 @@ function buildFilterOpenHouses() {
     ${buildCheckBox('Open Houses Only')}
         <div class="ml-1 mr-1">
             <label role="presentation" class="flex-row center">
-                <input type="radio" name="openHousesOnly" value="true">
+                <input type="radio" name="openHousesOnlyWeekend" value="true">
             <div class="radio-btn"></div>
             <span class="">This Weekend</span>
             </label>
         </div>
         <div>
             <label role="presentation" class="flex-row vertical-center">
-            <input type="radio" name="openHousesOnly" value="false">
+            <input type="radio" name="openHousesOnlyAnytime" value="false">
             <div class="radio-btn"></div>
             <span class="">Anytime</span>
             </label>

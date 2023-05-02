@@ -233,3 +233,50 @@ export function getFilterName(name) {
   }
   return filterName;
 }
+
+function abbrNum(d, h) {
+  h = 10 ** h;
+  const k = ['k', 'm', 'b', 't']; let
+      m;
+  for (m = k.length - 1; m >= 0; m--) {
+    const n = 10 ** (3 * (m + 1));
+    if (n <= d) {
+      d = Math.round(d * h / n) / h;
+      d == 1E3 && m < k.length - 1 && (d = 1,
+          m++);
+      d += k[m];
+      break;
+    }
+  }
+  return d;
+}
+
+export function formatPriceLabel(minPrice, maxPrice) {
+  const d = minPrice.replace(/[^0-9]/g, '');
+  const h = maxPrice.replace(/[^0-9]/g, '');
+  return d !== '' && h !== ''
+      ? `$${abbrNum(d, 2)} - $${abbrNum(h, 2)}`
+      : d !== '' ? `$${abbrNum(d, 2)}`
+          : d == '' && h !== '' ? `$0 - $${abbrNum(h, 2)}`
+              : 'Price';
+}
+
+export function buildKeywordEl(keyword, removeItemCallback) {
+    const item = document.createElement('span');
+    const keywordInput = document.querySelector('.keyword-search input[type="text"]');
+    const keywordContainer = document.querySelector('#container-tags');
+    item.classList.add('tag');
+    item.textContent = `${keyword} `;
+    const closeBtn = document.createElement('span');
+    closeBtn.classList.add('close');
+    item.appendChild(closeBtn);
+    keywordContainer.append(item);
+    closeBtn.addEventListener(
+        'click',
+        () => {
+          removeItemCallback('Features', item.textContent.trim());
+          item.remove();
+        },
+    );
+    keywordInput.value = '';
+}
