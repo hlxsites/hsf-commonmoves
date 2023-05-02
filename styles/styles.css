@@ -40,7 +40,7 @@
   --transparent: #FFFFFFE6;
 
   /* Fonts */
-  --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Arial', sans-serif;
+  --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Times New Roman', serif;
   --font-family-proxima: 'ProximaNova', 'ProximaNova Fallback', 'Arial', sans-serif;
   --font-family-gotham: 'Gotham', 'Gotham Fallback', 'Arial', sans-serif;
   --font-family-fontawesome: 'FontAwesome';
@@ -347,22 +347,22 @@ form button[type="submit"]:hover {
   font-family: 'GeorgiaPro Fallback';
   font-style: normal;
   font-weight: 600;
-  src: local('Arial Bold');
-  ascent-override: 92.25%;
-  descent-override: 22.06%;
+  src: local('Times New Roman Bold');
+  ascent-override: 82.81%;
+  descent-override: 19.80%;
   line-gap-override: 0.00%;
-  size-adjust: 99.40%;
+  size-adjust: 110.73%;
 }
 
 @font-face {
   font-family: 'GeorgiaPro Fallback';
   font-style: normal;
   font-weight: 700;
-  src: local('Arial Bold');
-  ascent-override: 85.62%;
-  descent-override: 20.47%;
+  src: local('Times New Roman Bold');
+  ascent-override: 76.85%;
+  descent-override: 18.37%;
   line-gap-override: 0.00%;
-  size-adjust: 107.10%;
+  size-adjust: 119.32%;
 }
 
 @font-face {
