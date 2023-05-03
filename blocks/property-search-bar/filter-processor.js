@@ -79,18 +79,18 @@ export function populatePreSelectedFilters(topMenu = true) {
           }
           break;
         case 'YearBuilt':
+          const [min, max] = [value.min !== '' ? value.min : 'No Min', value.max !== '' ? value.max : 'No Max'];
           document.querySelectorAll('[name="YearBuilt"] .select-selected').forEach((el, i) => {
-            el.textInner = i === 0 ? value.min : value.max;
+            el.innerText = i === 0 ? min : max;
           });
           break;
         case 'OpenHouses':
           const openHousesFilter = document.querySelector('[name="OpenHouses"]');
-          openHousesFilter.querySelector('input[type="checkbox"]').checked = value.length > 0;
-          if (value.length > 0) {
+          openHousesFilter.classList.toggle('selected', !!value);
+          openHousesFilter.querySelector('input[type="checkbox"]').checked = !!value;
             const el = value === 7 ? openHousesFilter.querySelector('[name="openHousesOnlyWeekend"]')
                 : openHousesFilter.querySelector('[name="openHousesOnlyAnytime"]');
             el.checked = true;
-          }
           break;
         case 'MatchAnyFeatures':
           //@todo
@@ -128,10 +128,6 @@ function formatValue(filterName, value) {
         formattedValue = `square feet`;
       }
       break;
-    case 'MinLivingArea':
-    case 'MaxLivingArea':
-      formattedValue = `${value} Sq Ft`;
-      break;
     default:
       formattedValue = value;
   }
@@ -150,12 +146,12 @@ export function getValueFromStorage(filterName) {
     case 'Price':
       const minPrice = getParam('MinPrice') ?? '';
       const maxPrice = getParam('MaxPrice') ?? '';
-      value = {'min':minPrice, 'max':maxPrice};
+      value = {min:minPrice, max:maxPrice};
       break;
     case 'SquareFeet':
       const minLivingArea = getParam('MinLivingArea') ?? '';
       const maxLivingArea = getParam('MaxLivingArea') ?? '';
-      value = {'min':minLivingArea, 'max':maxLivingArea};
+      value = {min:minLivingArea, max:maxLivingArea};
       break;
     case 'PropertyType':
     value = getParam('PropertyType') ? getParam('PropertyType') : [];
@@ -165,13 +161,16 @@ export function getValueFromStorage(filterName) {
       value = getParam('Features') ? getParam('Features').split(',') : [];
     break;
     case 'YearBuilt':
-      value = (getParam('YearBuilt') || '').split('-').map(val => {
+      const [min, max] = (getParam('YearBuilt') || '-').split('-').map(val => {
         if (val === '1899') return 'No Min';
         if (val === '2100') return 'No Max';
         return val;
       });
+      value = {min: min, max: max};
       break;
-
+    case 'BHHS':
+        value = getParam('FeaturedCompany') === 'BHHS';
+        break;
     default:
     value = getParam(filterName) ?? false;
   }
@@ -203,10 +202,7 @@ export function setFilterValue(name, value) {
       break;
     case 'Luxury':
     case 'RecentPriceChange':
-      value ? setParam(name, 'true') : removeParam(name);
-      break;
-    case 'NewListing':
-      value ? setParam(name, 'true') : setParam('false');
+      value ? setParam(name, true) : removeParam(name);
       break;
     case 'Features':
       let params = getParam('Features') ?? '';

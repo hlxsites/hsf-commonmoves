@@ -32,7 +32,7 @@ function toggleFilter(el) {
   div.classList.toggle('checked');
   const value = div.classList.contains('checked');
   el.querySelector('input').value = value;
-  setFilterValue(name, !value);
+  setFilterValue(name, value);
 }
 
 function updateFilters() {
@@ -156,14 +156,23 @@ export default async function decorate(block) {
       removeFilterValue('MatchAnyFeatures');
     }
   });
+
+  block.querySelectorAll('[name="OpenHouses"] input[type="radio"]').forEach(el => {
+    el.addEventListener('change', () => {
+      const name = el.getAttribute('name');
+      if (name === 'openHousesOnlyWeekend' && el.checked) {
+        setFilterValue('OpenHouses', 7);
+        block.querySelector('[name="openHousesOnlyAnytime"]').checked = false;
+        } else {
+          setFilterValue('OpenHouses', 365);
+        block.querySelector('[name="openHousesOnlyWeekend"]').checked = false;
+        }
+      })
+    })
+
   openHousesCheckbox.addEventListener('change', () => {
     openHousesFilter.classList.toggle('selected');
-    if (openHousesCheckbox.checked) {
-      const value = document.querySelector('input[type="radio"]:checked ~span').innerText === 'This Weekend'
-          ? 7
-          : 365;
-    setFilterValue('OpenHouses', value);
-    } else {
+    if (!openHousesCheckbox.checked) {
       removeFilterValue('OpenHouses')
     }
   });
