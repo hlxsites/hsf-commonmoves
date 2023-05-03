@@ -62,13 +62,9 @@
   font-size: 15px;
   letter-spacing: 0;
   line-height: 25px;
-  margin-top: 1rem;
 }
 
 .property-details-price {
-  flex: 0 0 100%;
-  max-width: 100%;
-  order: 3;
   font-family: var(--font-family-georgia);
   font-weight: 600;
   font-size: 18px;
@@ -76,9 +72,13 @@
   line-height: 31px;
 }
 
-.property-details-top-buttons-wrapper {
-  padding: 0 15px;
-  position: relative;
+.courtesyOf {
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
+  opacity: 1;
+  letter-spacing: 0;
+  text-align: left;
+  font-size: 15px;
 }
 
 .btn-property {
@@ -95,8 +95,6 @@
   text-align: left;
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-right: 0.5rem;
-  margin-bottom: 10px;
   display: block;
 }
 
@@ -295,20 +293,6 @@ button.toggle:focus, button.toggle:active {
     flex: 0 0 50%;
     max-width: 50%;
   }
-
-  .property-details-price {
-    flex: 0 0 33.333%;
-    max-width: 33.333%;
-  }
-
-  .offset-md-1 {
-    margin-left: 8.333%;
-  }
-
-  .col-md-10 {
-    flex: 0 0 83.333%;
-    max-width: 83.333%;
-  }
 }
 
 @media (min-width: 992px) {
@@ -316,33 +300,14 @@ button.toggle:focus, button.toggle:active {
     max-width: 960px;
   }
 
-  .none {
-    flex: 0 0 8.333%;
-    max-width: 8.333%;
-  }
-
   .property-details-summary {
     padding: 20px 0 40px 0;
   }
 
   .property-details-price {
-    flex: 0 0 25%;
-    max-width: 25%;
     font-size: 25px;
     letter-spacing: -0.5px;
     line-height: 32px;
-  }
-  
-  .property-details-top-buttons-wrapper {
-    flex: 0 0 16.667%;
-    max-width: 16.667%;
-    order: 4;
-    display: block;
-  }
-
-  .property-details-top-buttons-row {
-    display: flex;
-    justify-content: flex-end;
   }
 
   .btn-property {

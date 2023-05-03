@@ -9,8 +9,6 @@
   width: 100%;
 }
 
-
-
 .cmp-property-details-notes__note-count {
   font-size: 16px;
   font-family: var(--font-family-proxima);
@@ -34,40 +32,6 @@
 
 .cmp-background {
   position: relative;
-}
-.pb-4, .py-4 {
-  padding-bottom: 1.5rem !important;
-}
-
-.pb-3, .py-3 {
-  padding-bottom: 1rem !important;
-}
-
-.pt-3, .py-3 {
-  padding-top: 1rem !important;
-}
-
-.pl-1, .px-1 {
-  padding-left: 0.25rem !important;
-}
-
-.pb-1, .py-1 {
-  padding-bottom: 0.25rem !important;
-}
-
-.pr-1, .px-1 {
-  padding-right: 0.25rem !important;
-}
-.pt-1, .py-1 {
-  padding-top: 0.25rem !important;
-}
-
-
-.pl-2, .px-2 {
-  padding-left: 0.5rem !important;
-}
-.pr-2, .px-2 {
-  padding-right: 0.5rem !important;
 }
 
 .bg-transparent {
@@ -123,28 +87,15 @@
   padding: 0;
 }
 
-.m-auto {
-  margin: auto !important;
-}
-.p-0 {
-  padding: 0 !important;
-}
-
 .cmp-contact-card .data-fields {
   flex-direction: column;
   margin-bottom: 14px;
 }
 
-.w-100 {
-  width: 100% !important;
-}
+
 
 .align-items-start {
   align-items: flex-start !important;
-}
-
-.mr-3, .mx-3 {
-  margin-right: 1rem !important;
 }
 
 .cmp-contact-card__title {
@@ -177,10 +128,6 @@
 
 .cmp-contact-card__btn-group {
   margin: 10px auto;
-}
-
-.p-0 {
-  padding: 0 !important;
 }
 
 .cmp-cta .cmp-cta-btn:first-child {
@@ -232,12 +179,6 @@
 .cmp-contact-card__btn-group .sticky .cmp-cta {
   width: 107px;
   margin: 0 auto;
-}
-
-@media (min-width: 576px) {
-  .m-sm-0 {
-    margin: 0 !important;
-  }
 }
 
 @media (min-width: 600px) {
@@ -371,22 +312,6 @@
 
   .cmp-property-details-description .property-details-description__more {
     font-size: 19px;
-  }
-
-  .pt-lg-0, .py-lg-0 {
-    padding-top: 0 !important;
-  }
-
-  .pl-lg-0, .px-lg-0 {
-    padding-left: 0 !important;
-  }
-
-  .pb-lg-1, .py-lg-1 {
-    padding-bottom: 0.25rem !important;
-  }
-
-  .pt-lg-1, .py-lg-1 {
-    padding-top: 0.25rem !important;
   }
 
   .cmp-contact-card .data-fields {

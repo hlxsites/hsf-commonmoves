@@ -1,4 +1,4 @@
-import { decorateIcons } from '../../scripts/lib-franklin.js';
+import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 const propertyAPI = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
 const propID = '343140756';
 
@@ -41,44 +41,61 @@ export default async function decorate(block) {
     photos.unshift(photos.pop());
     const div = document.createElement('div');
     div.className = 'property-container';
-    div.innerHTML = `
+    var infoHTML = `
       <div class="property-details-summary">
         <div class="property-row">
-          <div class="none"></div>
-          <div class="property-details-info">
+          <div class="col d-none d-lg-block col-lg-1 order-1"></div>
+          <div class="col col-12 col-md-6 order-2">
             <div class="property-row">
-              <div class="property-details-info-col-1">
+              <div class="col col-12">
                 <div class="property-details-address">
                   ${listing.StreetName}
                   <br>
                   ${listing.City}, ${listing.StateOrProvince} ${listing.PostalCode}
                 </div>
               </div>
-              <div class="property-details-info-col-2">
-                <div class="property-details-specs">
+              <div class="col col-10">
+                <div class="property-details-specs mt-2 mt-lg-3">
                   ${listing.SpecsLabel} ${listing.LivingAreaUnits} / ${listing.LotSizeSquareFeet} Sq. Ft., ${listing.LotSizeAcres} acres lot size / Single Family
                 </div>
               </div>
+    `;
+    if(listing.CourtesyOf) {
+      infoHTML += `
+              <div class="col col-12"></div>
+              <div class="col col-12">
+                <div class="courtesyOf">
+                  Listing Courtesy of: ${listing.CourtesyOf}
+                </div>
+              </div>
+      `;
+    }
+    infoHTML += `   
             </div>
           </div>
-          <div class="property-details-price">
-            ${listing.ListPriceUS}
+          <div class="col col-12 col-md-4 col-lg-3 order-3">
+            <div class="mt-3 mt-md-0">
+              <div class="property-details-price">
+                ${listing.ListPriceUS}
+              </div>
+            </div>
           </div>
-          <div class="property-details-top-buttons-wrapper">
-            <div class="property-details-top-buttons-row">
-              <a class="btn-property">
+          <div class="d-block col col-lg-2 order-0 order-lg-4 mb-3 mb-md-0">
+            <div class="d-flex d-lg-flex">
+              <a class="btn-property mr-2 mb-lg-2">
                 <span class="icon icon-heartempty"></span>
                 save
               </a>
               <a class="btn-property">
                 <span class="icon icon-shareempty"></span>
                 share
-              </a>
+              </a> 
             </div>
           </div>
         </div>
       </div>
     `;
+    div.innerHTML = infoHTML;
     //decorateIcons(div);
     block.append(div);
     const imageGalleryDiv = document.createElement('div');
@@ -180,6 +197,8 @@ export default async function decorate(block) {
         return carousel.classList.add('is-set');
       }, 50);
     });
-    decorateIcons(block);
+    
   }
+  decorateIcons(block);
+  loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
 }
