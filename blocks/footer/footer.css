@@ -1,6 +1,7 @@
 /* Empty file for now */
 footer {
   background-color: #f6f6f6;
+  border-top: 1px solid var(--platinum);
 }
 
 .footer {

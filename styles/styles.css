@@ -164,6 +164,10 @@ main .section {
   padding-right: var(--section-padding);
 }
 
+main .section.no-margin {
+  margin: 0;
+}
+
 main .section.wide {
   max-width: var(--wide-page-width);
 }
@@ -188,6 +192,15 @@ main .section.white-background {
 main .section.padding {
   padding-top: 3em;
   padding-bottom: 3em;
+}
+
+main .section .default-content-wrapper h2 {
+  margin-bottom: .5em;
+}
+
+
+main .section .default-content-wrapper h4 {
+  margin-bottom: 1.25em;
 }
 
 /* Center rules for a section, but don't apply it to blocks! */
@@ -248,6 +261,7 @@ main .section.center .default-content-wrapper p {
   text-align: center;
   color: var(--body-color);
   border: 1px solid var(--body-color);
+  background-color: var(--white);
   cursor: pointer;
 }
 
