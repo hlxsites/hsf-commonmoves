@@ -194,15 +194,6 @@ main .section.padding {
   padding-bottom: 3em;
 }
 
-main .section .default-content-wrapper h2 {
-  margin-bottom: .5em;
-}
-
-
-main .section .default-content-wrapper h4 {
-  margin-bottom: 1.25em;
-}
-
 /* Center rules for a section, but don't apply it to blocks! */
 main div[data-align="center"] h1,
 main div[data-align="center"] h2,
@@ -219,6 +210,16 @@ main .section.center .default-content-wrapper h5,
 main .section.center .default-content-wrapper h6,
 main .section.center .default-content-wrapper p {
   text-align: center;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+main .section .default-content-wrapper h2 {
+  margin-bottom: .5em;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+main .section .default-content-wrapper h4 {
+  margin-bottom: 1.25em;
 }
 
 /* common styles */
