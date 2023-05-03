@@ -72,10 +72,6 @@ export function populatePreSelectedFilters(topMenu = true) {
             value.forEach((key) => {
               buildKeywordEl(key, removeFilterValue);
             });
-
-            if (value.length > 0) {
-              getValueFromStorage('matchTagsAll').length > 0 ? keyWordSearchAll.checked = true : keyWordSearchAny.checked = true;
-            }
           }
           break;
         case 'YearBuilt':
@@ -93,12 +89,12 @@ export function populatePreSelectedFilters(topMenu = true) {
             el.checked = true;
           break;
         case 'MatchAnyFeatures':
-          //@todo
+          document.querySelector(`[name="matchTagsAll"]`).checked =  !value;
+          document.querySelector(`[name="matchTagsAny"]`).checked =  value;
           break;
         default:
-          value = getValueFromStorage(name);
-          const div = document.querySelector(`.filter[name="${name}"] .checkbox`).classList.toggle('checked', value);
-          const input = document.querySelector(`.filter[name="${name}"] input`).value = value;
+          document.querySelector(`.filter[name="${name}"] .checkbox`).classList.toggle('checked', value);
+          document.querySelector(`.filter[name="${name}"] input`).value = value;
       }
     })
   }
