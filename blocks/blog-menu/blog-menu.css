@@ -40,12 +40,6 @@
     font-weight: 400;
 }
 
-.blog-nav a:hover {
-    border-bottom: 1.5px solid var(--white);
-    color: var(--white);
-    opacity: 60%;
-}
-
 .blog-nav h1 a {
     font-size: var(--heading-font-size-xl);
     font-family: var(--font-family-proxima);
@@ -57,6 +51,12 @@
     width: 100%;
     text-transform: none;
     letter-spacing: initial;
+}
+
+.blog-nav a:hover {
+    border-bottom: 1.5px solid var(--white);
+    color: var(--white);
+    opacity: 0.6;
 }
 
 .blog-nav div {
