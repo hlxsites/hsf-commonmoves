@@ -1,10 +1,6 @@
 import {
-  formatInput, getPlaceholder, addRangeOption, addOptions, getName,
+  getPlaceholder, addRangeOption, addOptions, TOP_LEVEL_FILTERS,
 } from './common-function.js';
-
-function addListeners() {
-
-}
 
 function buildButton(label, primary = false) {
   const button = document.createElement('div');
@@ -18,7 +14,7 @@ function buildButton(label, primary = false) {
 
 function buildFilterToggle() {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('filter-container', 'container-item', 'flex-row', 'center');
+  wrapper.classList.add('filter-container', 'flex-row', 'center');
   wrapper.innerHTML = `
             <a role="button" aria-label="Filter">
                 <svg role="presentation">
@@ -30,17 +26,17 @@ function buildFilterToggle() {
   return wrapper;
 }
 
-export function buildTopFilterPlaceholder(filterName, callback = false) {
+function buildTopFilterPlaceholder(filterName) {
   const dropdownContainer = document.createElement('div');
-  dropdownContainer.setAttribute('name', getName(filterName));
-  const identifier = formatInput(filterName);
-  const options = callback ? callback(filterName) : '';
-  const label = ['beds', 'baths'].includes(filterName) ? `Any ${filterName}` : filterName;
-
-  const classes = [identifier, 'bl'];
-  [...classes].forEach((className) => dropdownContainer.classList.add(className));
-  dropdownContainer.setAttribute('id', identifier);
-
+  const { type } = TOP_LEVEL_FILTERS[filterName];
+  let { label } = TOP_LEVEL_FILTERS[filterName];
+  let options = addRangeOption(label);
+  if (type === 'select') {
+    options = addOptions(label, `Any ${TOP_LEVEL_FILTERS[filterName].label}`);
+    label = `Any ${TOP_LEVEL_FILTERS[filterName].label}`;
+  }
+  dropdownContainer.classList.add('bl', 'container-item');
+  dropdownContainer.setAttribute('name', filterName);
   dropdownContainer.innerHTML = `<div class="header">
              <div class="title text-up"><span>${label}</span></div>
              </div>
@@ -49,31 +45,29 @@ export function buildTopFilterPlaceholder(filterName, callback = false) {
   return dropdownContainer;
 }
 
-export function build() {
+export default function build() {
   const defaultSuggestionMessage = 'Please enter at least 3 characters.';
   const wrapper = document.createElement('div');
+  const container = document.createElement('div');
+  container.classList.add('search-listing-container', 'flex-row');
   wrapper.classList.add('search-listing-block');
-  const primaryFilters = document.createElement('div');
-  const priceSelect = buildTopFilterPlaceholder('price', addRangeOption);
-  const areaSelect = buildTopFilterPlaceholder('square feet', addRangeOption);
-  const bedroomsSelect = buildTopFilterPlaceholder('beds', addOptions);
-  const bathroomsSelect = buildTopFilterPlaceholder('baths', addOptions);
 
+  const primaryFilters = document.createElement('div');
   primaryFilters.classList.add('primary-search', 'flex-row');
   primaryFilters.innerHTML = ` <div class="input-container">
                 <input type="text" placeholder="${getPlaceholder('US')}" aria-label="${getPlaceholder('US')}" class="search-suggester">
                 <div tabindex="0" class="search-suggester-results hide">
-                    //@todo move to method???
                     <ul>
                         <li class="search-suggester-results">${defaultSuggestionMessage}</li>
                     </ul>
                 </div>
             </div>`;
-  wrapper.prepend(primaryFilters, buildButton('Search', true), priceSelect, bedroomsSelect, bathroomsSelect, areaSelect, buildFilterToggle(), buildButton('save search', true));
-  [...wrapper.children].map((child) => {
-    if (child.classList.contains('price') || child.classList.contains('beds') || child.classList.contains('baths') || child.classList.contains('square-feet')) {
-      child.classList.add('container-item');
-    }
+  wrapper.prepend(primaryFilters, buildButton('Search', true));
+  Object.keys(TOP_LEVEL_FILTERS).forEach((filter) => {
+    const filterElement = buildTopFilterPlaceholder(filter);
+    wrapper.append(filterElement);
   });
-  return wrapper;
+  wrapper.append(buildFilterToggle(), buildButton('save search', true));
+  container.append(wrapper);
+  return container;
 }

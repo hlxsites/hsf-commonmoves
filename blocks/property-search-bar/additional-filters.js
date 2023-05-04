@@ -1,20 +1,9 @@
-import { addRangeOption, formatInput, getName } from './common-function.js';
+import {
+  addRangeOption, EXTRA_FILTERS, formatInput, TOP_LEVEL_FILTERS, getConfig,
+} from './common-function.js';
 
-const filters = [
-  { name: 'search types', callback: buildFilterSearchTypesElement },
-  { name: 'price', callback: addRangeOption },
-  { name: 'beds', callback: buildSectionFilter },
-  { name: 'baths', callback: buildSectionFilter },
-  { name: 'square feet', callback: addRangeOption },
-  { name: 'property type', callback: buildPropertyFilterHtml },
-  { name: 'keyword search', callback: buildKeywordSearch },
-  { name: 'year built', callback: addRangeOption },
-  { name: 'new listings', callback: buildFilterToggle },
-  { name: 'recent price changes', callback: buildFilterToggle },
-  { name: 'open houses', callback: buildFilterOpenHouses },
-  { name: 'luxury', callback: buildFilterToggle },
-  { name: 'berkshire hathaway homeServices listings only', callback: buildFilterToggle },
-];
+const SEARCH_TYPES = { SearchTypes: { label: 'Search Types', type: 'search-types' } };
+const FILTERS = { ...SEARCH_TYPES, ...TOP_LEVEL_FILTERS, ...EXTRA_FILTERS };
 
 function buildFilterSearchTypesElement() {
   const defaultInput = 'for sale';
@@ -78,7 +67,7 @@ function buildCheckBox(ariaLabel, label = '') {
     </div>`;
 }
 
-export function buildPropertyFilterHtml() {
+export function buildPropertyFilterHtml(label) {
   const firstColumnValues = { 1: 'Condo/Townhouse', 3: 'Commercial', 5: 'Lot/Land' };
   const secondColumnValues = { 2: 'Single Family', 4: 'Multi Family', 6: 'Farm/Ranch' };
   return `
@@ -86,7 +75,7 @@ export function buildPropertyFilterHtml() {
     <div class="column">${buildPropertyColumn(firstColumnValues)}</div>
     <div class="column">${buildPropertyColumn(secondColumnValues)}</div>
     </div>
-    ${buildCheckBox('Property Type', 'Select All')}
+    ${buildCheckBox(label, 'Select All')}
 `;
 }
 
@@ -151,21 +140,8 @@ function buildFilterToggle() {
     </div>`;
 }
 
-function buildPlaceholder(filterName, callback) {
-  const placeholder = document.createElement('div');
-  placeholder.setAttribute('name', getName(filterName));
-  const classNames = ['filter', formatInput(filterName)];
-  [...classNames].forEach((className) => placeholder.classList.add(className));
-
-  placeholder.innerHTML = ` <label class="section-label text-up">${filterName}</label>
-    ${callback(filterName)}
-    `;
-  return placeholder.outerHTML;
-}
-
 function buildSectionFilter(filterName) {
-  // todo refactor
-  const number = 5;
+  const number = getConfig(filterName);
   const defaultValue = 'Any';
   const name = filterName.toLowerCase();
   let output = `
@@ -186,10 +162,55 @@ function buildSectionFilter(filterName) {
   return output;
 }
 
+function getOptions(name, type) {
+  let options = '';
+  switch (type) {
+    case 'select':
+      options = buildSectionFilter(name);
+      break;
+    case 'range':
+      options = addRangeOption(name);
+      break;
+    case 'toggle':
+      options = buildFilterToggle();
+      break;
+    case 'keywords-search':
+      options = buildKeywordSearch();
+      break;
+    case 'open-houses':
+      options = buildFilterOpenHouses();
+      break;
+    case 'property':
+      options = buildPropertyFilterHtml();
+      break;
+    case 'search-types':
+      options = buildFilterSearchTypesElement();
+      break;
+    default:
+      break;
+  }
+  return options;
+}
+
+function buildPlaceholder(filterName) {
+  const { type } = FILTERS[filterName];
+  if (type === 'child') {
+    return '';
+  }
+  const placeholder = document.createElement('div');
+  const { label } = FILTERS[filterName];
+  const options = getOptions(label, type);
+  placeholder.setAttribute('name', filterName);
+  placeholder.classList.add('filter');
+  placeholder.innerHTML = ` <label class="section-label text-up">${label}</label>
+  ${options}`;
+  return placeholder.outerHTML;
+}
+
 export function build() {
   const wrapper = document.createElement('div');
   let output = '';
-  filters.forEach((filter) => output += buildPlaceholder(filter.name, filter.callback));
+  Object.keys(FILTERS).forEach((filter) => { output += buildPlaceholder(filter); });
   wrapper.classList.add('filter-block', 'hide');
   wrapper.innerHTML = ` 
     ${output}`;

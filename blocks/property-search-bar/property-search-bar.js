@@ -1,20 +1,20 @@
 import { build as buildCountrySelect } from '../shared/search-countries/search-countries.js';
-import { getPlaceholder, sanitizeString, formatPriceLabel, buildKeywordEl} from './common-function.js';
+import buildTopMenu from './top-menu.js';
 import { build as buildAdditionFilters, buildFilterButtons } from './additional-filters.js';
-import { build as buildTopMenu } from './top-menu.js';
+import { getPlaceholder, formatPriceLabel, buildKeywordEl } from './common-function.js';
 import {
   populatePreSelectedFilters,
   setFilterValue,
   removeFilterValue,
-  getValueFromStorage
+  getValueFromStorage,
 } from './filter-processor.js';
 
-function closeSelect(element) {
+function hideFilter(element) {
   element.classList.remove('open');
   element.querySelector('.search-results-dropdown').classList.add('hide');
 }
 
-function openSelect(element) {
+function showFilter(element) {
   element.classList.add('open');
   element.querySelector('.search-results-dropdown').classList.remove('hide');
 }
@@ -22,6 +22,7 @@ function openSelect(element) {
 function createPriceList(d) {
   let optionlist = '';
   const k = [10, 100, 1E3, 1E4, 1E5, 1E6];
+  // eslint-disable-next-line no-plusplus
   if (d) for (let m = 1; m <= 6; m++) optionlist += `<option> ${d * k[m - 1]} </option>`;
   return optionlist;
 }
@@ -53,7 +54,6 @@ function addChangeHandler(filter) {
           if (input.id !== el.id) input.checked = false;
         });
 
-
         if (el.value === 'Any') {
           removeFilterValue(el.closest('.filter').getAttribute('name'));
         } else {
@@ -64,7 +64,39 @@ function addChangeHandler(filter) {
   });
 }
 
+function closeTopLevelFilters() {
+  document.querySelectorAll('.container-item .header').forEach((elem) => {
+    if (elem.parentElement.classList.contains('open')) {
+      hideFilter(elem.parentElement);
+    }
+    if (elem.parentElement.querySelectorAll('.select-item').length > 0) {
+      elem.parentElement.querySelectorAll('.select-item').forEach((el) => {
+        el.classList.remove('show');
+      });
+    }
+  });
+  document.querySelector('[name="country-select"]').classList.remove('open');
+}
+
+function togglePropertyForm() {
+  const svgIcons = document.querySelectorAll('.filter-container svg');
+  const overlay = document.querySelector('.overlay');
+  const hideClass = 'hide';
+  document.querySelector('.filter-block').classList.toggle(hideClass);
+  overlay.classList.toggle(hideClass);
+  document.querySelector('.filter-buttons').classList.toggle(hideClass);
+  svgIcons.forEach((el) => el.classList.toggle(hideClass));
+  const toggledOnClose = svgIcons[0].classList.contains(hideClass);
+  if (!toggledOnClose) {
+    setFilterValue('MinPrice', document.querySelector('.filter [name="MinPrice"]').value);
+    setFilterValue('MaxPrice', document.querySelector('.filter [name="MaxPrice"]').value);
+  }
+  closeTopLevelFilters();
+  populatePreSelectedFilters(!toggledOnClose);
+}
+
 export default async function decorate(block) {
+  /** build top menu html */
   const overlay = document.createElement('div');
   overlay.classList.add('overlay', 'hide');
   block.append(buildTopMenu(), buildAdditionFilters(), overlay, buildFilterButtons());
@@ -76,45 +108,23 @@ export default async function decorate(block) {
   };
 
   const countrySelect = await buildCountrySelect(changeCountry);
-  countrySelect.setAttribute('id', 'country-select');
+  countrySelect.setAttribute('name', 'country-select');
   block.querySelector('.primary-search').prepend(countrySelect);
-  const propertyFilterButtons = block.querySelector('.filter-buttons');
-  const filterOptions = block.querySelectorAll('.container-item .select-item .tooltip-container');
-  const propertyFilterOptions = block.querySelectorAll('.filter .select-item .tooltip-container');
-  const topLevelFilters = block.querySelectorAll('.container-item .header');
-  const multipleSelectInputs = block.querySelectorAll('.select-selected');
-  const priceRangeInputs = block.querySelector('.container-item.price .multiple-inputs');
-  const filterContainer = block.querySelector('.filter-container');
-  const filterBlock = block.querySelector('.filter-block');
-  const toggleFilters = block.querySelectorAll('.filter-toggle');
-  const svgIcons = filterContainer.querySelectorAll(' svg');
-  const selectAllPropertyFilters = block.querySelector('.property-type input[type="checkbox"]');
-  const propertyButtons = block.querySelectorAll('.property-type button');
+
+  /** eventing */
+
+  const priceRangeInputs = block.querySelector('.container-item[name="Price"] .multiple-inputs');
+  const propertyButtons = block.querySelectorAll('[name="PropertyType"] button');
   const openHousesFilter = block.querySelector('[name="OpenHouses"]');
   const openHousesCheckbox = openHousesFilter.querySelector('input[type="checkbox"]');
-  const keyWordSearchAny = block.querySelector('.keyword-search .filter-radiobutton input[name="matchTagsAny"]');
-  const keyWordSearchAll = block.querySelector('.keyword-search .filter-radiobutton input[name="matchTagsAll"]');
-  const bedsFilter = block.querySelectorAll('.beds input');
-  const bathsFilter = block.querySelectorAll('.baths input');
-  const addKeywordButton = block.querySelector('.keyword-search .button');
-  const keywordInput = block.querySelector('.keyword-search input[type="text"]');
+  const keyWordSearchAny = block.querySelector('[name="Features"] .filter-radiobutton input[name="matchTagsAny"]');
+  const keyWordSearchAll = block.querySelector('[name="Features"] .filter-radiobutton input[name="matchTagsAll"]');
 
-  function togglePropertyForm() {
-    const hideClass = 'hide';
-    filterBlock.classList.toggle(hideClass);
-    overlay.classList.toggle(hideClass);
-    propertyFilterButtons.classList.toggle(hideClass);
-    svgIcons.forEach((el) => el.classList.toggle(hideClass));
-    const toggledOnClose = svgIcons[0].classList.contains(hideClass);
-    if (!toggledOnClose) {
-      setFilterValue('MinPrice', block.querySelector(`.filter [name="MinPrice"]`).value);
-      setFilterValue('MaxPrice', block.querySelector(`.filter [name="MaxPrice"]`).value);
-    }
-    populatePreSelectedFilters(!toggledOnClose)
-  }
-
+  populatePreSelectedFilters();
   // close form on click cancel button
-  block.querySelector('.filter-buttons a[title="cancel"]').addEventListener('click', togglePropertyForm);
+  block.querySelector('.filter-buttons a[title="cancel"]').addEventListener('click', () => {
+    togglePropertyForm();
+  });
   // reset form on click reset button
   block.querySelector('.filter-buttons a[title="reset"]').addEventListener('click', () => {
     // @todo set up initial values
@@ -122,64 +132,65 @@ export default async function decorate(block) {
   });
   // apply filters on click apply button
   block.querySelector('.filter-buttons a[title="apply"]').addEventListener('click', () => {
-    // @todo set up initial values
-    togglePropertyForm();
+    togglePropertyForm(overlay);
   });
   // add logic for select on click
-  filterContainer.addEventListener('click', togglePropertyForm);
+  block.querySelector('.filter-container').addEventListener('click', togglePropertyForm);
 
-  addKeywordButton.addEventListener('click', () => {
-    const keyword = keywordInput.value;
+  // add key words to search
+  block.querySelector('[name="Features"] .button').addEventListener('click', () => {
+    const keyword = block.querySelector('[name="Features"] input[type="text"]').value;
     if (keyword) {
-      buildKeywordEl(keyword, removeFilterValue)
-      setFilterValue('Features', keyword.trim())
+      buildKeywordEl(keyword, removeFilterValue);
+      setFilterValue('Features', keyword.trim());
     }
   });
 
-  block.querySelectorAll('#container-tags .close').forEach((el) => { el.addEventListener('click', (e) => { e.target.parentNode.remove(); }); });
-
-  // bathes
-  addChangeHandler(bathsFilter);
-  // beds
-  addChangeHandler(bedsFilter);
-  // @todo add logic
-  keyWordSearchAny.addEventListener('change', (e) => {
+  keyWordSearchAny.addEventListener('change', () => {
     if (keyWordSearchAny.checked) {
       keyWordSearchAll.checked = false;
       setFilterValue('MatchAnyFeatures', true);
     }
   });
 
-  keyWordSearchAll.addEventListener('change', (e) => {
+  keyWordSearchAll.addEventListener('change', () => {
     if (keyWordSearchAll.checked) {
       keyWordSearchAny.checked = false;
       removeFilterValue('MatchAnyFeatures');
     }
   });
+  block.querySelectorAll('#container-tags .close').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.target.parentNode.remove();
+    });
+  });
 
-  block.querySelectorAll('[name="OpenHouses"] input[type="radio"]').forEach(el => {
+  // baths and beds
+  addChangeHandler(block.querySelectorAll('[name="MinBathroomsTotal"] input', '[name="MinBedroomsTotal"] input'));
+
+  block.querySelectorAll('[name="OpenHouses"] input[type="radio"]').forEach((el) => {
     el.addEventListener('change', () => {
       const name = el.getAttribute('name');
       if (name === 'openHousesOnlyWeekend' && el.checked) {
         setFilterValue('OpenHouses', 7);
         block.querySelector('[name="openHousesOnlyAnytime"]').checked = false;
-        } else {
-          setFilterValue('OpenHouses', 365);
+      } else {
+        setFilterValue('OpenHouses', 365);
         block.querySelector('[name="openHousesOnlyWeekend"]').checked = false;
-        }
-      })
-    })
+      }
+    });
+  });
 
   openHousesCheckbox.addEventListener('change', () => {
     openHousesFilter.classList.toggle('selected');
     if (!openHousesCheckbox.checked) {
-      removeFilterValue('OpenHouses')
+      removeFilterValue('OpenHouses');
     }
   });
 
   // select all property filters on select all
-  selectAllPropertyFilters.addEventListener('change', () => {
-    const isChecked = selectAllPropertyFilters.checked;
+  block.querySelector('[name="PropertyType"] input[type="checkbox"]').addEventListener('change', () => {
+    const isChecked = block.querySelector('[name="PropertyType"] input[type="checkbox"]').checked;
     propertyButtons.forEach((el) => {
       el.classList.toggle('selected', isChecked);
     });
@@ -189,18 +200,22 @@ export default async function decorate(block) {
       removeFilterValue('PropertyType');
     }
   });
-  // add logic for select property type on click
+  // add logic to select property type on click
   propertyButtons.forEach((el) => {
+    let value; let
+      params;
     el.addEventListener('click', () => {
       el.classList.toggle('selected');
-      const value = el.getAttribute('value');
-      let params = getValueFromStorage('PropertyType');
+      value = el.getAttribute('value');
+      params = getValueFromStorage('PropertyType');
+      // eslint-disable-next-line no-unused-expressions
       el.classList.contains('selected') ? params.push(value) : params = params.filter((i) => i !== value);
       setFilterValue('PropertyType', params);
     });
   });
-  // logic to trigger events for additional property filters
-  toggleFilters.forEach((el) => {
+
+  // logic to open/close additional property filters
+  block.querySelectorAll('.filter-toggle').forEach((el) => {
     el.addEventListener('click', () => {
       toggleFilter(el);
       if (el.classList.contains('for-rent') || el.classList.contains('pending')) {
@@ -212,18 +227,14 @@ export default async function decorate(block) {
   // close filters on click outside
   document.addEventListener('click', (e) => {
     if (!block.contains(e.target)) {
-      topLevelFilters.forEach((elem) => {
-        if (elem.parentElement.classList.contains('open')) {
-          closeSelect(elem.parentElement);
-        }
-      });
+      closeTopLevelFilters();
     }
   });
 
   // add logic on price range change
   priceRangeInputs.addEventListener('keyup', (e) => {
-    const minPrice = priceRangeInputs.querySelector('.price-range-input.min-price').value;
-    const maxPrice = priceRangeInputs.querySelector('.price-range-input.max-price').value;
+    const minPrice = priceRangeInputs.querySelector('[name="MinPrice"]').value;
+    const maxPrice = priceRangeInputs.querySelector('[name="MaxPrice"]').value;
     // display datalist
     const activeElement = e.target.closest('.price-range-input');
     const name = activeElement.getAttribute('name');
@@ -235,34 +246,25 @@ export default async function decorate(block) {
     setFilterValue(name, value);
   });
 
-  topLevelFilters.forEach((selectedFilter) => {
+  block.querySelectorAll('.container-item .header').forEach((selectedFilter) => {
     selectedFilter.addEventListener('click', () => {
-      // close all other elements
-      topLevelFilters.forEach((elem) => {
-        if (elem.parentElement.hasAttribute('id')
-                    && elem.parentElement.getAttribute('id') !== selectedFilter.parentElement.getAttribute('id')
-                    && elem.parentElement.classList.contains('open')
-        ) {
-          closeSelect(elem.parentElement);
-        }
-      });
-      if (selectedFilter.parentElement.classList.contains('open')) {
-        closeSelect(selectedFilter.parentElement);
-      } else {
-        openSelect(selectedFilter.parentElement);
+      const isOpened = selectedFilter.parentElement.classList.contains('open');
+      closeTopLevelFilters();
+      if (!isOpened) {
+        showFilter(selectedFilter.parentElement);
       }
     });
   });
 
-  multipleSelectInputs.forEach((el) => {
+  block.querySelectorAll('.select-selected').forEach((el) => {
     el.addEventListener('click', () => {
       el.closest('section > div').querySelector('.select-item').classList.add('show');
     });
   });
 
-  // update input placeholder on click
-  filterOptions.forEach((element) => {
-    element.addEventListener('click', (e) => {
+  // update top menu  input placeholder on click
+  block.querySelectorAll('.container-item .select-item .tooltip-container').forEach((element) => {
+    element.addEventListener('click', () => {
       let selectedElValue = element.innerText;
       const value = element.getAttribute('data-value');
       const container = element.closest('.container-item');
@@ -284,15 +286,16 @@ export default async function decorate(block) {
         }
         element.closest('.select-item').classList.remove('show');
       } else {
-        closeSelect(container);
+        hideFilter(container);
       }
       setFilterValue(name, value);
       headerTitle.innerHTML = `<span>${selectedElValue}</span>`;
     });
   });
+
   // year and square feet input logic on additional filters
-  propertyFilterOptions.forEach((element) => {
-    element.addEventListener('click', (e) => {
+  block.querySelectorAll('.filter .select-item .tooltip-container').forEach((element) => {
+    element.addEventListener('click', () => {
       const selectedElValue = element.innerText;
       const container = element.closest('section');
       const filter = element.closest('.filter');
@@ -323,9 +326,4 @@ export default async function decorate(block) {
       element.closest('.select-item').classList.remove('show');
     });
   });
-    populatePreSelectedFilters();
-
 }
-
-//todo add logic for open houses filter
-//todo add logic to set value from the url/storage

@@ -161,6 +161,15 @@ main .section {
   padding-right: var(--section-padding);
 }
 
+.default-content-wrapper h4 {
+  text-transform: uppercase;
+  font-family: var(--font-family-proxima);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--letter-spacing-l);
+  line-height: var(--line-height-m);
+  text-align: center;
+}
+
 main div[data-align="center"] h1,
 main div[data-align="center"] h2,
 main div[data-align="center"] h3,
@@ -255,22 +264,8 @@ main .section .block.hide-on-mobile {
   text-transform: uppercase;
 }
 
-.btn:not(:disabled):not(.disabled) {
+.btn:not(:disabled, .disabled) {
   cursor: pointer;
-}
-
-
-.text-up {
-  text-transform: uppercase;
-}
-
-.default-content-wrapper h4 {
-  text-transform: uppercase;
-  font-family: var(--font-family-proxima);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--letter-spacing-l);
-  line-height: var(--line-height-m);
-  text-align: center;
 }
 
 .modal {
@@ -334,6 +329,61 @@ form button[type="submit"] {
 form button[type="submit"]:hover {
   background-color: var(--white);
   color: var(--body-color);
+}
+
+.mb-1 {
+  margin-bottom: 1em;
+}
+
+.mt-1 {
+  margin-top: 1em;
+}
+
+.ml-1 {
+  margin-left: 1em;
+}
+
+.mr-1 {
+  margin-right: 1em;
+}
+
+.fs-1 {
+  font-size: var(--body-font-size-s)
+}
+
+.c-w {
+  color:var(--white);
+}
+
+.center {
+  text-align: center;
+}
+
+.bl {
+  border-left: 1px solid var(--black);
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-row.center {
+  justify-content: center;
+  align-items: center
+}
+
+.flex-row.vertical-center {
+  align-items: center;
+}
+
+.flex-row.space-between {
+  justify-content: space-between;
 }
 
 @media screen and (max-width: 599px) {

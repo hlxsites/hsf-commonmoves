@@ -1,7 +1,3 @@
-// const urlParams = new URLSearchParams(window.location.search);
-// export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.com' : 'www.bhhs.com';
-// const CREG_API_URL = `https://${DOMAIN}/bin/bhhs`;
-
 /**
  * Build the query string for the search API
  * @returns {string}
@@ -12,6 +8,7 @@ function getSearchObject() {
 }
 
 function buildQueryParameters() {
+  // todo add logic
   const search = getSearchObject();
   return Object.keys(search).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(search[key])}`).join('&');
 }
@@ -25,6 +22,11 @@ export function buildQuery() {
   return `${host}/search?${buildQueryParameters()}`;
 }
 
+/**
+ * public methods for search
+ * @param key
+ * @param value
+ */
 export function setParam(key, value) {
   const parameters = getSearchObject();
   parameters[key] = value;
