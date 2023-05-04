@@ -73,7 +73,6 @@ export default async function decorate(block) {
   let html;
   blogNav.style.backgroundColor = getBackgroundColor(category);
   selectCategoryInMenu(category);
-  blogNav.style.color = 'var(--primary-color)';
   blogNav.style.setProperty('--border-color', 'var(--primary-color)');
   html = `
     <div class="title-section">

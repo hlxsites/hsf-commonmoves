@@ -31,6 +31,9 @@ html {
     flex-direction: column;
 }
 
+.description p {
+    letter-spacing: var(--letter-spacing-xs);
+}
 .left-section {
     display: flex;
     flex-direction: column;
@@ -252,6 +255,7 @@ html {
     background-color: var(--secondary-grey);
     color: var(--black);
     height: 33px;
+    border: 1px solid var(--body-color);
 }
 
 @media screen and (min-width: 992px) {
@@ -292,5 +296,15 @@ html {
 
     .next-article {
         width: 75%;
+    }
+
+    .blog-nav a  {
+        color: var(--primary-color);
+    }
+
+    .blog-nav a:hover {
+        border-bottom: 1.5px solid var(--primary-color);
+        color: var(--primary-color);
+        opacity: 60%;
     }
 }

@@ -69,7 +69,8 @@
 .blog-category {
     margin-bottom: 16px;
     font-size: var(--body-font-size-s);
-    color: var(--darkgrey);
+    color: var(--dark-grey);
+    letter-spacing: var(--letter-spacing-xl);
 }
 
 .carousel-list .blog-category {
@@ -95,7 +96,7 @@
 
 .readmore {
     text-decoration: none;
-    color: var(--greyblue);
+    color: var(--grey-blue);
     letter-spacing: 1.12px;
     padding-left: 10px;
     padding-right: 5px;
@@ -144,8 +145,10 @@
     align-self: center;
     border: 2px solid;
     color: var(--white);
-    text-transform: uppercase;
     margin-bottom: 50px;
+    text-align: center;
+    font-size: var(--body-font-size-s);
+    letter-spacing: var(--letter-spacing-s);
 }
 
 .see-more-content:hover {

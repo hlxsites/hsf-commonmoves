@@ -40,6 +40,12 @@
     font-weight: 400;
 }
 
+.blog-nav a:hover {
+    border-bottom: 1.5px solid var(--white);
+    color: var(--white);
+    opacity: 60%;
+}
+
 .blog-nav h1 a {
     font-size: var(--heading-font-size-xl);
     font-family: var(--font-family-proxima);
@@ -81,9 +87,11 @@
 .blog-nav .blog-nav-selected{
     text-align: center;
 }
+
 .blog-nav .blog-nav-selected span {
     color: var(--white);
 }
+
 .blog-nav .category-dropdown-icon {
     width: 10px;
     height: 8px;

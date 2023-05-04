@@ -102,9 +102,8 @@ function buildSeeMoreContentButton(block, dataKey) {
   const buttonContainer = document.createElement('button');
   const blogsGridContainer = block.querySelector('.blogs-grid-list');
   buttonContainer.classList.add('see-more-content', 'text-up');
-  buttonContainer.innerHTML = `
-  <span class="text">see more content</span>
-  `;
+  buttonContainer.type = 'submit';
+  buttonContainer.innerText = `see more content`;
   buttonContainer.addEventListener('click', async () => {
     buttonContainer.disabled = true;
     const articles = await getData(getBlogCategory(), dataKey, loadOffset, loadMoreCount);
