@@ -23,14 +23,14 @@ export function formatValue(filterName, value) {
       break;
     case 'LivingArea':
       formattedValue = `${value.min}Sq Ft-${value.max} Sq Ft`;
-      if (value.min === '' && value.max === '') {
-        formattedValue = 'square feet';
-      }
       if (value.min === '') {
         formattedValue = `no min- ${value.max} Sq Ft`;
       }
       if (value.max === '') {
         formattedValue = `${value.min} Sq Ft - no max`;
+      }
+      if (value.min === '' && value.max === '') {
+        formattedValue = 'square feet';
       }
       break;
     default:
