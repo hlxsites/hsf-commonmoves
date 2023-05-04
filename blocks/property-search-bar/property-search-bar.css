@@ -751,6 +751,7 @@ main .section.property-search-bar-container {
     .overlay {
         top: calc(var(--nav-height) + 60px);
     }
+
     .search-listing-container {
         justify-content: center;
     }
