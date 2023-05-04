@@ -15,6 +15,11 @@ html, body {
     background: var(--primary-color);
 }
 
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
 .overlay {
     position: fixed;
     overflow-y: auto;
@@ -556,6 +561,11 @@ main .section.property-search-bar-container {
     display: none;
 }
 
+.no-scroll {
+    height: 100%;
+    overflow: hidden;
+}
+
 .filter-block {
     letter-spacing: 0.5px;
     position: fixed;
@@ -756,7 +766,7 @@ main .section.property-search-bar-container {
 
 @media (min-width: 992px) {
     .overlay {
-        top: calc(var(--nav-height) + 60px);
+        top: calc(var(--nav-height) + 50px);
     }
 
     .search-listing-container {

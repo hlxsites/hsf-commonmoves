@@ -138,7 +138,7 @@ function buildPropertySearchBlock(main) {
   if (getMetadata('template') === 'property-search-template') {
     const section = document.createElement('div');
     section.append(buildBlock('property-search-bar', { elems: [] }));
-    main.append(section);
+    main.prepend(section);
   }
 }
 

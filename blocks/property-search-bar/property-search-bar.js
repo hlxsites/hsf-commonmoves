@@ -90,6 +90,9 @@ function togglePropertyForm() {
   if (!toggledOnClose) {
     setFilterValue('MinPrice', document.querySelector('.filter [name="MinPrice"]').value);
     setFilterValue('MaxPrice', document.querySelector('.filter [name="MaxPrice"]').value);
+    document.getElementsByTagName('body')[0].classList.remove('no-scroll');
+  } else {
+    document.getElementsByTagName('body')[0].classList.add('no-scroll');
   }
   closeTopLevelFilters();
   populatePreSelectedFilters(!toggledOnClose);
@@ -99,6 +102,7 @@ export default async function decorate(block) {
   /** build top menu html */
   const overlay = document.createElement('div');
   overlay.classList.add('overlay', 'hide');
+  const topMenu = buildTopMenu();
   block.append(buildTopMenu(), buildAdditionFilters(), overlay, buildFilterButtons());
   const changeCountry = (country) => {
     const placeholder = getPlaceholder(country);
@@ -326,4 +330,14 @@ export default async function decorate(block) {
       element.closest('.select-item').classList.remove('show');
     });
   });
+
+  // add logic to stick blog nav header to top of the page
+  window.onscroll = () => {
+    const sticky = topMenu.offsetTop;
+    if (window.pageYOffset > sticky) {
+      topMenu.classList.add('sticky');
+    } else {
+      topMenu.classList.remove('sticky');
+    }
+  };
 }
