@@ -138,7 +138,7 @@ export default async function decorate(block) {
   block.querySelector('.filter-container').addEventListener('click', togglePropertyForm);
 
   // add key words to search
-  block.querySelector('[name="Features"] .button').addEventListener('click', () => {
+  block.querySelector('[name="Features"] .btn').addEventListener('click', () => {
     const keyword = block.querySelector('[name="Features"] input[type="text"]').value;
     if (keyword) {
       buildKeywordEl(keyword, removeFilterValue);
