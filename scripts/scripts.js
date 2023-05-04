@@ -59,7 +59,10 @@ function buildHeroBlock(main) {
 
   if (block) {
     const section = document.createElement('div');
-    section.append(block);
+    const metadata = document.createElement('div');
+    metadata.classList.add('section-metadata');
+    metadata.innerHTML = '<div><div>Style</div><div>wide</div></div>';
+    section.append(block, metadata);
     main.prepend(section);
   }
 }
@@ -114,6 +117,19 @@ function buildFloatingImages(main) {
   });
 }
 
+function buildSeparator(main) {
+  main.querySelectorAll('.section-metadata').forEach((metadata) => {
+    [...metadata.querySelectorAll(':scope > div')].every((div) => {
+      const match = div.children[1]?.textContent.toLowerCase().trim().match(/separator/);
+      if (div.children[0]?.textContent.toLowerCase().trim() === 'style' && match) {
+        metadata.parentElement.prepend(buildBlock('separator', [[]]));
+        return false;
+      }
+      return true;
+    });
+  });
+}
+
 /**
  * Build Property Search Block top nav menu
  * @param main
@@ -125,6 +141,7 @@ function buildPropertySearchBlock(main) {
     main.append(section);
   }
 }
+
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
@@ -134,6 +151,7 @@ function buildAutoBlocks(main) {
     buildHeroBlock(main);
     buildLiveByMetadata(main);
     buildFloatingImages(main);
+    buildSeparator(main);
     buildPropertySearchBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
