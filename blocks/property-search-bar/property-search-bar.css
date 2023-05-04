@@ -28,7 +28,7 @@ html, body {
 }
 
 .highlighted {
-    background: var(--lightgrey);
+    background: var(--light-grey);
 }
 
 main .section.property-search-bar-container {
@@ -140,17 +140,23 @@ main .section.property-search-bar-container {
 
 .btn.btn-primary  {
     color: var(--white);
-    border: 1px solid var(--border-medium-grey);
+    border: 1px solid var(--grey);
     min-width: 70px;
     padding: 10px;
     font-size: var(--body-font-size-xs);
     white-space: nowrap;
 }
 
-.filter-buttons .btn {
+.filter-buttons .btn,
+[name="Features"] button{
     padding: 7px 25px;
     margin-right: 10px;
     vertical-align: middle;
+}
+
+[name="Features"] button {
+    background: var(--white);
+    border: 1px solid var(--grey);
 }
 
 .filter-buttons .btn-primary:hover,
@@ -161,13 +167,13 @@ main .section.property-search-bar-container {
 
 .btn.btn-secondary:hover {
     color: var(--black);
-    border: 1px solid var(--border-medium-grey);
+    border: 1px solid var(--grey);
     box-shadow: none;
 }
 
 .input-container input {
     padding: 10px;
-    border: 1px solid var(--border-medium-grey);
+    border: 1px solid var(--grey);
     letter-spacing: normal;
     height: 36px;
     background-color: rgb(241 241 241 / 10%);
@@ -178,9 +184,10 @@ main .section.property-search-bar-container {
     width: 100%;
     height: 55px;
     padding: 10px;
-    border: 1px solid var(--border-medium-grey);
+    border: 1px solid var(--grey);
     color: var(--black);
 }
+
 
 .filter-block input,
 .filter-block input::placeholder,
@@ -224,7 +231,7 @@ main .section.property-search-bar-container {
     cursor: pointer;
     height: 24px;
     width: 24px;
-    border: 1px solid var(--border-medium-grey);
+    border: 1px solid var(--grey);
     margin-right: 0.5rem;
     position: relative;
 }
@@ -420,7 +427,7 @@ main .section.property-search-bar-container {
 }
 
 .select-item li:hover {
-    background: var(--lightgrey);
+    background: var(--light-grey);
 }
 
 .filter .multiple-inputs .select-item{
@@ -580,7 +587,7 @@ main .section.property-search-bar-container {
 }
 
 .filter-block [name="Features"] {
-    background: var(--lightgrey);
+    background: var(--light-grey);
     padding: 27px 20px;
 }
 
@@ -593,14 +600,14 @@ main .section.property-search-bar-container {
 
 .container-input {
     height: 50px;
-    border: 1px solid var(--border-medium-grey);
+    border: 1px solid var(--grey);
     padding-right: 7px;
     background: var(--white);
 }
 
 .container-input .button.secondary {
     flex: 0 0 16.6667%;
-    border: 1px solid var(--border-medium-grey);
+    border: 1px solid var(--grey);
 }
 
 .filter li input[type="radio"] {

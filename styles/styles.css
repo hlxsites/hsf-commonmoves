@@ -262,8 +262,8 @@ main .section .default-content-wrapper h4 {
 
 .btn.btn-secondary {
   background: #fff;
-  color: #000;
-  border: 1px solid #000;
+  color: var(--black);
+  border: 1px solid var(--black);
 }
 
 .btn.btn-primary {

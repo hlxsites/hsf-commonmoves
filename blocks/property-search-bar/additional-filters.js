@@ -104,7 +104,7 @@ function buildKeywordSearch() {
   return `
     <div class="flex-row vertical-center container-input">
             <input type="text" placeholder="Pool, Offices, Fireplace..." aria-label="Pool, Offices, Fireplace...">
-            <button type="submit" class="button secondary">
+            <button type="submit" class="btn secondary center">
                 <span class="text-up">add</span>
             </button>
     </div>
