@@ -15,11 +15,6 @@ html, body {
     background: var(--primary-color);
 }
 
-.sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
 .overlay {
     position: fixed;
     overflow-y: auto;
