@@ -17,6 +17,11 @@ export const EXTRA_FILTERS = {
   FeaturedCompany: { label: 'berkshire hathaway homeServices listings only', type: 'toggle' },
 };
 
+export const BOTTOM_LEVEL_FILTERS = {
+  ApplicationType: { label: 'Search Types', type: 'search-types' },
+  Sort: { label: 'Sort By', type: 'select' },
+};
+
 const SQUARE_FEET = [
   { value: '500', label: '500 Sq Ft' },
   { value: '750', label: '750 Sq Ft' },
@@ -62,6 +67,26 @@ const SORT_BY = [
   { value: 'DATE_DESCENDING', label: 'DATE (NEW-OLD)' },
   { value: 'DATE_ASCENDING', label: 'DATE (OLD-NEW)' },
 ];
+
+export function getFilterLabel(filterName) {
+  let config;
+  switch (filterName) {
+    case 'Price':
+    case 'MinBedroomsTotal':
+    case 'MinBathroomsTotal':
+    case 'LivingArea':
+      config = TOP_LEVEL_FILTERS;
+      break;
+    case 'ApplicationType':
+    case 'Sort':
+      config = BOTTOM_LEVEL_FILTERS;
+      break;
+    default:
+      config = EXTRA_FILTERS;
+      break;
+  }
+  return config[filterName].label;
+}
 export function getConfig(filterName) {
   let output = '';
   switch (filterName) {
@@ -223,8 +248,10 @@ export function formatPriceLabel(minPrice, maxPrice) {
 }
 
 export function processSearchType(value, defaultInput = 'for sale') {
+  const name = value.replace(' ', '_').toUpperCase();
   const wrapper = document.createElement('div');
   wrapper.classList.add('filter-toggle', formatInput(value), 'flex-row', 'mb-1');
+  wrapper.setAttribute('name', name);
   wrapper.innerHTML = `
                 <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${value.toLowerCase() === defaultInput}">
                 <div class="checkbox ${value.toLowerCase() === defaultInput ? 'checked' : ''}"></div>

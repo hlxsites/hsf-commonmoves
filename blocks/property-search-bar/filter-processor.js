@@ -1,6 +1,7 @@
 import { setParam, getParam, removeParam } from '../../scripts/search.js';
 import {
-  buildKeywordEl, formatPriceLabel, TOP_LEVEL_FILTERS, EXTRA_FILTERS,
+  buildKeywordEl, formatPriceLabel,
+  TOP_LEVEL_FILTERS, EXTRA_FILTERS, BOTTOM_LEVEL_FILTERS, getConfig,
 } from './common-function.js';
 
 /**
@@ -10,7 +11,8 @@ import {
  * @returns {string|string|*}
  */
 export function formatValue(filterName, value) {
-  let formattedValue = '';
+  let conf; let
+    formattedValue = '';
   switch (filterName) {
     case 'Price':
       formattedValue = formatPriceLabel(value.min, value.max);
@@ -31,6 +33,14 @@ export function formatValue(filterName, value) {
       }
       if (value.min === '' && value.max === '') {
         formattedValue = 'square feet';
+      }
+      break;
+    case 'Sort':
+      conf = getConfig(filterName);
+      for (let i = 0; i < conf.length; i += 1) {
+        if (conf[i].value === value) {
+          formattedValue = conf[i].label;
+        }
       }
       break;
     default:
@@ -58,7 +68,8 @@ export function getValueFromStorage(filterName) {
       value = getParam('PropertyType') ? getParam('PropertyType') : [];
       break;
     case 'Features':
-      value = getParam('Features') ? getParam('Features').split(',') : [];
+    case 'ApplicationType':
+      value = getParam(filterName) ? getParam(filterName).split(',') : [];
       break;
     case 'YearBuilt':
       [minValue, maxValue] = (getParam('YearBuilt') || '-').split('-').map((val) => {
@@ -118,6 +129,7 @@ export function setFilterValue(name, value) {
     case 'MaxPrice':
     case 'MinBedroomsTotal':
     case 'MinBathroomsTotal':
+    case 'ApplicationType':
       // eslint-disable-next-line no-unused-expressions
       value.length > 0 ? setParam(name, value) : removeParam(name);
       break;
@@ -127,19 +139,37 @@ export function setFilterValue(name, value) {
 }
 
 export function populatePreSelectedFilters(topMenu = true) {
+  let filters; let
+    el;
   let value = '';
   if (topMenu) {
-    Object.keys(TOP_LEVEL_FILTERS).forEach((name) => {
-      const selector = topMenu ? `[name="${name}"] .title span` : `[name="${name}"] .select-item`;
+    filters = { ...TOP_LEVEL_FILTERS, ...BOTTOM_LEVEL_FILTERS };
+    Object.keys(filters).forEach((name) => {
+      const selector = `[name="${name}"] .title span`;
       value = getValueFromStorage(name);
-      document.querySelector(selector).innerText = formatValue(name, value);
+      if (Object.keys(BOTTOM_LEVEL_FILTERS).includes(name)) {
+        if (name === 'ApplicationType') {
+          value.forEach((key) => {
+            document.querySelector(`[name="${name}"] > [name="${key}"] .checkbox`).classList.add('checked');
+          });
+        }
+        if (name === 'Sort' && value) {
+          el = document.querySelector('[name="Sort"]');
+          el.querySelector('.select-selected').innerText = formatValue(name, value);
+          el.querySelector('.highlighted').classList.toggle('highlighted');
+          el.querySelector(`[data-value="${value}"]`).classList.toggle('highlighted');
+        }
+      } else {
+        document.querySelector(selector).innerText = formatValue(name, value);
+      }
     });
   } else {
-    const storageKeyToName = { ...TOP_LEVEL_FILTERS, ...EXTRA_FILTERS };
+    const storageKeyToName = { ...TOP_LEVEL_FILTERS, ...EXTRA_FILTERS, ...BOTTOM_LEVEL_FILTERS };
     Object.keys(storageKeyToName).forEach((name) => {
       value = getValueFromStorage(name);
-      let min; let max; let filter; let
-        el;
+      let min;
+      let max;
+      let filter;
       switch (name) {
         case 'Price':
           document.querySelector('.filter [name="MinPrice"]').value = value.min;
@@ -192,6 +222,14 @@ export function populatePreSelectedFilters(topMenu = true) {
         case 'MatchAnyFeatures':
           document.querySelector('[name="matchTagsAll"]').checked = !value;
           document.querySelector('[name="matchTagsAny"]').checked = value;
+          break;
+        case 'ApplicationType':
+          value.forEach((key) => {
+            document.querySelector(`[name="${name}"] .column [name="${key}"] .checkbox`).classList.add('checked');
+          });
+          break;
+        case 'Sort':
+          // do nothing
           break;
         default:
           document.querySelector(`.filter[name="${name}"] .checkbox`).classList.toggle('checked', value);

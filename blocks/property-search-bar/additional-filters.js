@@ -1,5 +1,6 @@
 import {
-  addRangeOption, EXTRA_FILTERS, formatInput, TOP_LEVEL_FILTERS, getConfig, processSearchType,
+  addRangeOption, EXTRA_FILTERS, formatInput, TOP_LEVEL_FILTERS,
+  getConfig, processSearchType, getFilterLabel,
 } from './common-function.js';
 
 const SEARCH_TYPES = { ApplicationType: { label: 'Search Types', type: 'search-types' } };
@@ -198,7 +199,7 @@ function buildPlaceholder(filterName) {
     return '';
   }
   const placeholder = document.createElement('div');
-  const { label } = FILTERS[filterName];
+  const label = getFilterLabel(filterName);
   const options = getOptions(filterName);
   placeholder.setAttribute('name', filterName);
   placeholder.classList.add('filter');

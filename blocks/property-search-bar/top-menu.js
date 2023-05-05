@@ -1,5 +1,11 @@
 import {
-  getPlaceholder, addRangeOption, addOptions, TOP_LEVEL_FILTERS, getConfig, processSearchType,
+  getPlaceholder,
+  addRangeOption,
+  addOptions,
+  TOP_LEVEL_FILTERS,
+  getConfig,
+  processSearchType,
+  getFilterLabel,
 } from './common-function.js';
 
 function buildButton(label, primary = false) {
@@ -26,10 +32,35 @@ function buildFilterToggle() {
   return wrapper;
 }
 
+function buildSortByEl() {
+  const filterName = 'Sort';
+  const label = getFilterLabel(filterName);
+  const defaultValue = 'Price (Hi-Lo)';
+  const options = addOptions(filterName, defaultValue, 'multi', filterName);
+  const dropdownContainer = document.createElement('div');
+  dropdownContainer.classList.add('flex-row', 'multiple-inputs', 'filter');
+  dropdownContainer.setAttribute('name', filterName);
+  dropdownContainer.innerHTML = `<div class="header">
+             <div class="title mr-1"><span>${label}</span></div>
+             </div>
+       <div class="search-results-dropdown">${options}</div>`;
+  dropdownContainer.querySelector('.select-selected').classList.add('text-up');
+  dropdownContainer.querySelectorAll('.select-item li').forEach((el) => {
+    el.classList.add('text-up');
+    if (el.getAttribute('data-value') === '') {
+      el.remove();
+    }
+    if (el.innerText === defaultValue) {
+      el.classList.add('highlighted');
+    }
+  });
+  return dropdownContainer;
+}
+
 function buildTopFilterPlaceholder(filterName) {
   const dropdownContainer = document.createElement('div');
   const { type } = TOP_LEVEL_FILTERS[filterName];
-  let { label } = TOP_LEVEL_FILTERS[filterName];
+  let label = getFilterLabel(filterName);
   let options = addRangeOption(filterName);
   if (type === 'select') {
     options = addOptions(filterName, `Any ${label}`);
@@ -46,9 +77,9 @@ function buildTopFilterPlaceholder(filterName) {
 }
 export function buildFilterSearchTypesElement() {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('filter');
-  wrapper.name = 'ApplicationType';
   let el;
+  wrapper.classList.add('filter', 'flex-row', 'center');
+  wrapper.setAttribute('name', 'ApplicationType');
   getConfig('ApplicationType').forEach((value) => {
     el = processSearchType(value);
     el.classList.add('center', 'ml-1');
@@ -63,6 +94,8 @@ export function build() {
   const wrapper = document.createElement('div');
   const container = document.createElement('div');
   const div = document.createElement('div');
+  const bfContainer = document.createElement('div');
+  bfContainer.classList.add('flex-row', 'space-between');
   container.classList.add('search-listing-container', 'flex-row');
   wrapper.classList.add('search-listing-block');
 
@@ -83,6 +116,7 @@ export function build() {
   });
   wrapper.append(buildFilterToggle(), buildButton('save search', true));
   div.append(wrapper);
-  container.append(div, buildFilterSearchTypesElement());
+  bfContainer.append(buildFilterSearchTypesElement(), buildSortByEl());
+  container.append(div, bfContainer);
   return container;
 }

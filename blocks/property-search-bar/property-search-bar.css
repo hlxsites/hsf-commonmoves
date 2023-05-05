@@ -169,6 +169,12 @@ main .section.property-search-bar-container {
     border: 1px solid var(--grey);
 }
 
+[name="Sort"] .title span {
+    font-size: var(--body-font-size-s);
+    letter-spacing: normal;
+
+}
+
 .filter-buttons .btn-primary:hover,
 .filter-buttons .btn-primary span:hover {
     background-color: var(--white);
@@ -369,25 +375,23 @@ main .section.property-search-bar-container {
     width: 80px;
 }
 
-.search-results-dropdown .select-item::-webkit-scrollbar,
-.filter .select-item::-webkit-scrollbar {
+ .select-item::-webkit-scrollbar {
     width: 14px;
 }
 
-.search-results-dropdown .select-item::-webkit-scrollbar-thumb,
-.filter .select-item::-webkit-scrollbar-thumb{
+ .select-item::-webkit-scrollbar-thumb{
     /* @todo move to variable */
     background: #c1c1c1;
     border-radius: 14px;
     border: 3px solid var(--list-border-grey)
 }
 
-.search-results-dropdown .select-item::-webkit-scrollbar-track,
-.filter .select-item::-webkit-scrollbar-track{
+.select-item::-webkit-scrollbar-track{
     border-radius: 0;
     background: var(--list-border-grey);
 }
 
+[name="Sort"].multiple-inputs .select-item,
 .search-results-dropdown .multiple-inputs .select-item{
     width: 125px;
     left: 0;
@@ -462,6 +466,7 @@ main .section.property-search-bar-container {
     justify-content: flex-start;
 }
 
+[name="Sort"].multiple-inputs .select-item li,
 .filter .multiple-inputs .select-item li {
     border: none;
 }
@@ -473,6 +478,7 @@ main .section.property-search-bar-container {
 .search-results-dropdown .select-item li:last-child {
     border-bottom: 1px solid var(--list-border-grey);
 }
+
 
 .search-results-dropdown .multiple-inputs .select-item li {
     border: none;
@@ -541,6 +547,7 @@ main .section.property-search-bar-container {
     border: 1px solid var(--list-border-grey);
     padding: 0 15px;
     position: relative;
+    letter-spacing: var(--letter-spacing-xxs);
 }
 
 .multiple-inputs .select-selected::after {
@@ -589,6 +596,31 @@ main .section.property-search-bar-container {
 
 [name="OpenHouses"] > div > div:not(.filter-checkbox) {
     display: none;
+}
+
+[name="Sort"].select-selected,
+[name="Sort"] .search-results-dropdown .select-item li {
+    font-size: var(--body-font-size-xs);
+    letter-spacing: var(--letter-spacing-reg);
+    color: var(--body-color);
+    cursor: pointer;
+}
+
+[name="Sort"].multiple-inputs .select-item {
+    left: 0;
+    width: 100%;
+}
+
+[name="Sort"].multiple-inputs section div:first-child {
+    width: 145px;
+}
+
+[name="Sort"] .search-results-dropdown .select-item li:first-child {
+    border-top: none;
+}
+
+[name="Sort"] .search-results-dropdown .select-item li:last-child {
+    border-bottom: none;
 }
 
 .filter-block .multiple-inputs section div:first-child {

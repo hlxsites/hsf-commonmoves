@@ -31,16 +31,24 @@ function toggleFilter(el) {
   const div = el.querySelector('.checkbox');
   const name = el.closest('.filter').getAttribute('name');
   div.classList.toggle('checked');
-  const value = div.classList.contains('checked');
+  let value = div.classList.contains('checked');
   el.querySelector('input').value = value;
+  if (name === 'ApplicationType') {
+    value = [];
+    el.closest('[name="ApplicationType"]').querySelectorAll('.filter-toggle .checked').forEach((elem) => {
+      value.push(elem.parentElement.getAttribute('name'));
+    });
+    value = value.join(',');
+  }
   setFilterValue(name, value);
 }
 
-function updateFilters() {
-  const forRentEl = document.querySelector('.for-rent');
-  const pendingEl = document.querySelector('.pending');
-  const isForRentChecked = document.querySelector('.for-rent .checkbox').classList.contains('checked');
-  const isPendingChecked = document.querySelector('.pending .checkbox').classList.contains('checked');
+function updateFilters(el) {
+  const filter = el.closest('.filter');
+  const forRentEl = filter.querySelector('.for-rent');
+  const pendingEl = filter.querySelector('.pending');
+  const isForRentChecked = filter.querySelector('.for-rent .checkbox').classList.contains('checked');
+  const isPendingChecked = filter.querySelector('.pending .checkbox').classList.contains('checked');
 
   forRentEl.classList.toggle('disabled', isPendingChecked);
   pendingEl.classList.toggle('disabled', isForRentChecked);
@@ -75,6 +83,9 @@ function closeTopLevelFilters() {
       });
     }
   });
+  if (document.querySelector('[name="Sort"] .select-item').classList.contains('show')) {
+    document.querySelector('[name="Sort"] .select-item').classList.remove('show');
+  }
   document.querySelector('[name="country-select"]').classList.remove('open');
 }
 
@@ -224,7 +235,7 @@ export default async function decorate(block) {
     el.addEventListener('click', () => {
       toggleFilter(el);
       if (el.classList.contains('for-rent') || el.classList.contains('pending')) {
-        updateFilters();
+        updateFilters(el);
       }
     });
   });
@@ -262,8 +273,16 @@ export default async function decorate(block) {
   });
 
   block.querySelectorAll('.select-selected').forEach((el) => {
+    let isOpened;
     el.addEventListener('click', () => {
-      el.closest('section > div').querySelector('.select-item').classList.add('show');
+      if (el.closest('.multiple-inputs').getAttribute('name') === 'Sort') {
+        isOpened = document.querySelector('[name="Sort"] .select-item').classList.contains('show');
+        closeTopLevelFilters();
+        if (isOpened) {
+          document.querySelector('[name="Sort"] .select-item').classList.add('show');
+        }
+      }
+      el.closest('section > div').querySelector('.select-item').classList.toggle('show');
     });
   });
 
@@ -298,7 +317,7 @@ export default async function decorate(block) {
     });
   });
 
-  // year and square feet input logic on additional filters
+  // year, square feet, sort input logic on additional filters
   block.querySelectorAll('.filter .select-item .tooltip-container').forEach((element) => {
     element.addEventListener('click', () => {
       const selectedElValue = element.innerText;
@@ -309,8 +328,11 @@ export default async function decorate(block) {
       container.querySelector('.highlighted').classList.remove('highlighted');
       element.classList.toggle('highlighted');
       const headerTitle = container.querySelector('.select-selected');
-
-      headerTitle.innerHTML = `<span>${selectedElValue}</span>`;
+      if (name === 'Sort') {
+        headerTitle.innerText = selectedElValue;
+      } else {
+        headerTitle.innerHTML = `<span>${selectedElValue}</span>`;
+      }
       if (filter.querySelector('.multiple-inputs')) {
         if (name !== 'YearBuilt') {
           name = element.closest('section > div').querySelector('.select-selected').getAttribute('name');
