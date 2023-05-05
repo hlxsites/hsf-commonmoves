@@ -10,6 +10,7 @@ function loadDelayed() {
     document.head.append(script);
   `;
   document.head.append(script);
+  window.dispatchEvent(new Event('ptupdate'));
 }
 
 export default async function decorate(block) {
