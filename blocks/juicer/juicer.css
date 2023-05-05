@@ -12,8 +12,5 @@
 
 .juicer.block .juicer-feed {
   height: 600px;
-}
-
-.juicer.block .juicer-feed > div:first-of-type {
   overflow-y: scroll;
 }
