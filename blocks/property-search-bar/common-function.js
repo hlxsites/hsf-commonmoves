@@ -159,18 +159,16 @@ function buildListBoxOptions(filterName, defaultValue) {
 }
 
 export function addOptions(filterName, defaultValue = '', mode = '', name = '') {
-  const selectedHtml = mode === 'multi'
-    ? `<div class="select-selected" role="button" aria-haspopup="listbox" name=${name}>${defaultValue}</div>
-            `
-    : '';
-
-  return `<section>
+  let output = `<section>
         <div>
-            <select class="hide" aria-label="${defaultValue}">${buildSelectOptions(filterName, defaultValue, mode)}</select>
-            ${selectedHtml}
-            <ul class="select-item" role="listbox">${buildListBoxOptions(filterName, defaultValue, mode)}</ul>
+            <select class="hide" aria-label="${defaultValue}">${buildSelectOptions(filterName, defaultValue, mode)}</select>`;
+  if (mode === 'multi') {
+    output += `<div class="select-selected" role="button" aria-haspopup="listbox" name=${name}>${defaultValue}</div>`;
+  }
+  output += `<ul class="select-item" role="listbox">${buildListBoxOptions(filterName, defaultValue, mode)}</ul>
         </div>
     </section>`;
+  return output;
 }
 
 export function formatInput(string) {

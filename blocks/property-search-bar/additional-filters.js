@@ -26,15 +26,18 @@ function buildFilterSearchTypesElement() {
 }
 
 export function buildFilterButtons() {
-  const buttons = ['apply', 'cancel', 'reset'];
-  const primary = ['apply'];
+  const buttons = ['cancel', 'reset'];
   const wrapper = document.createElement('div');
   wrapper.classList.add('filter-buttons', 'button-container', 'flex-row', 'vertical-center', 'hide');
-  let output = '';
+  let output = `
+    <a title="apply" rel="noopener" target="_blank" tabindex="" class="btn btn-primary center" role="button">
+      <span class="text-up btn-primary c-w">apply</span>
+    </a>`;
   buttons.forEach((button) => {
-    output += `<a title="${button}" rel="noopener" target="_blank" tabindex="" class="btn ${primary.includes(button) ? 'btn-primary' : 'btn-secondary'} center" role="button">
-            <span class="text-up ${primary.includes(button) && 'c-w'}">${button}</span>
-        </a>`;
+    output += `
+      <a title="${button}" rel="noopener" target="_blank" tabindex="" class="btn btn-secondary center" role="button">
+        <span class="text-up">${button}</span>
+      </a>`;
   });
   wrapper.innerHTML = output;
   return wrapper;

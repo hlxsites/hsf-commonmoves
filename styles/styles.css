@@ -38,7 +38,6 @@
   /* Needed? */
   --secondary-grey: #EFEFEF;
   --transparent: #FFFFFFE6;
-  --list-border-grey: #e7e7e7;
 
   /* Fonts */
   --font-family-georgia: 'GeorgiaPro', 'GeorgiaPro Fallback', 'Times New Roman', serif;
@@ -166,15 +165,6 @@ main .section {
   padding-right: var(--section-padding);
 }
 
-.default-content-wrapper h4 {
-  text-transform: uppercase;
-  font-family: var(--font-family-proxima);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--letter-spacing-l);
-  line-height: var(--line-height-m);
-  text-align: center;
-}
-
 main .section.no-margin {
   margin: 0;
 }
@@ -258,18 +248,6 @@ main .section .default-content-wrapper h4 {
   border-top: 8px solid var(--primary-color);
   border-radius: 50%;
   animation: spinner-spin 2s linear infinite;
-}
-
-.btn.btn-secondary {
-  background: #fff;
-  color: var(--black);
-  border: 1px solid var(--black);
-}
-
-.btn.btn-primary {
-  background: var(--primary-color);
-  color: var(--white);
-  border: 1px solid var(--primary-color);
 }
 
 .button-container a {
@@ -358,65 +336,6 @@ form button[type="submit"] {
 form button[type="submit"]:hover {
   background-color: var(--white);
   color: var(--body-color);
-}
-
-.mb-1 {
-  margin-bottom: 1em;
-}
-
-.mt-1 {
-  margin-top: 1em;
-}
-
-.ml-1 {
-  margin-left: 1em;
-}
-
-.mr-1 {
-  margin-right: 1em;
-}
-
-.fs-1 {
-  font-size: var(--body-font-size-s)
-}
-
-.c-w {
-  color:var(--white);
-}
-
-.center {
-  text-align: center;
-}
-
-.bl {
-  border-left: 1px solid var(--black);
-}
-
-.fs-xs {
-  font-size: var(--body-font-size-xs);
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.flex-row.center {
-  justify-content: center;
-  align-items: center
-}
-
-.flex-row.vertical-center {
-  align-items: center;
-}
-
-.flex-row.space-between {
-  justify-content: space-between;
 }
 
 @media screen and (max-width: 599px) {

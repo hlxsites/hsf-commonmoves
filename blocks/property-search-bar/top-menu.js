@@ -20,7 +20,7 @@ function buildButton(label, primary = false) {
 
 function buildFilterToggle() {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('filter-container', 'flex-row', 'center');
+  wrapper.classList.add('filter-container', 'flex-row', 'center', 'bl');
   wrapper.innerHTML = `
             <a role="button" aria-label="Filter">
                 <svg role="presentation">
