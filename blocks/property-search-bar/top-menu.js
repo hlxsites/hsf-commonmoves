@@ -1,5 +1,5 @@
 import {
-  getPlaceholder, addRangeOption, addOptions, TOP_LEVEL_FILTERS,
+  getPlaceholder, addRangeOption, addOptions, TOP_LEVEL_FILTERS, getConfig, processSearchType,
 } from './common-function.js';
 
 function buildButton(label, primary = false) {
@@ -30,10 +30,10 @@ function buildTopFilterPlaceholder(filterName) {
   const dropdownContainer = document.createElement('div');
   const { type } = TOP_LEVEL_FILTERS[filterName];
   let { label } = TOP_LEVEL_FILTERS[filterName];
-  let options = addRangeOption(label);
+  let options = addRangeOption(filterName);
   if (type === 'select') {
-    options = addOptions(label, `Any ${TOP_LEVEL_FILTERS[filterName].label}`);
-    label = `Any ${TOP_LEVEL_FILTERS[filterName].label}`;
+    options = addOptions(filterName, `Any ${label}`);
+    label = `Any ${label}`;
   }
   dropdownContainer.classList.add('bl', 'container-item');
   dropdownContainer.setAttribute('name', filterName);
@@ -44,11 +44,25 @@ function buildTopFilterPlaceholder(filterName) {
 
   return dropdownContainer;
 }
+export function buildFilterSearchTypesElement() {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('filter');
+  wrapper.name = 'ApplicationType';
+  let el;
+  getConfig('ApplicationType').forEach((value) => {
+    el = processSearchType(value);
+    el.classList.add('center', 'ml-1');
+    el.querySelector('label').classList.add('fs-xs');
+    wrapper.append(el);
+  });
+  return wrapper;
+}
 
-export default function build() {
+export function build() {
   const defaultSuggestionMessage = 'Please enter at least 3 characters.';
   const wrapper = document.createElement('div');
   const container = document.createElement('div');
+  const div = document.createElement('div');
   container.classList.add('search-listing-container', 'flex-row');
   wrapper.classList.add('search-listing-block');
 
@@ -68,6 +82,7 @@ export default function build() {
     wrapper.append(filterElement);
   });
   wrapper.append(buildFilterToggle(), buildButton('save search', true));
-  container.append(wrapper);
+  div.append(wrapper);
+  container.append(div, buildFilterSearchTypesElement());
   return container;
 }

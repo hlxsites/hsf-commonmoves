@@ -55,18 +55,31 @@ const YEAR_BUILT = [
   { value: '2019', label: '2019' },
 ];
 
+const SORT_BY = [
+  { value: 'DISTANCE_ASCENDING', label: 'Distance' },
+  { value: 'PRICE_DESCENDING', label: 'Price (Hi-Lo)' },
+  { value: 'PRICE_ASCENDING', label: 'Price (Lo-Hi)' },
+  { value: 'DATE_DESCENDING', label: 'DATE (NEW-OLD)' },
+  { value: 'DATE_ASCENDING', label: 'DATE (OLD-NEW)' },
+];
 export function getConfig(filterName) {
   let output = '';
   switch (filterName) {
-    case 'beds':
-    case 'baths':
+    case 'MinBedroomsTotal':
+    case 'MinBathroomsTotal':
       output = 5;
       break;
-    case 'square feet':
+    case 'LivingArea':
       output = SQUARE_FEET;
       break;
-    case 'year built':
+    case 'YearBuilt':
       output = YEAR_BUILT;
+      break;
+    case 'ApplicationType':
+      output = ['For Sale', 'For Rent', 'Pending', 'Sold'];
+      break;
+    case 'Sort':
+      output = SORT_BY;
       break;
     default:
       break;
@@ -144,12 +157,14 @@ export function getPlaceholder(country) {
 }
 
 export function addRangeOption(filterName) {
-  const filterLabel = filterName.charAt(0).toLocaleUpperCase() + filterName.slice(1).toLowerCase();
+  const config = { ...TOP_LEVEL_FILTERS, ...EXTRA_FILTERS };
+  const { label } = config[filterName];
+  const filterLabel = label.charAt(0).toLocaleUpperCase() + label.slice(1).toLowerCase();
   const fromLabel = 'No Min';
   const toLabel = 'No Max';
   const maxLength = 14;
   let output = '';
-  if (filterName === 'price') {
+  if (filterName === 'Price') {
     output = `<div class="multiple-inputs">
                 <div id="Min${filterLabel}" class="input-dropdown">
                 <input type="text" maxLength="${maxLength}" list="listMin${filterLabel}"
@@ -167,9 +182,9 @@ export function addRangeOption(filterName) {
             </div>
         </div>`;
   }
-  if (filterName === 'square feet' || filterName === 'year built') {
-    const fromName = filterName === 'square feet' ? 'MinLivingArea' : '';
-    const toName = filterName === 'square feet' ? 'MaxLivingArea' : '';
+  if (filterName === 'LivingArea' || filterName === 'YearBuilt') {
+    const fromName = filterName === 'LivingArea' ? 'MinLivingArea' : '';
+    const toName = filterName === 'LivingArea' ? 'MaxLivingArea' : '';
     output = `<div class="multiple-inputs">
                 ${addOptions(filterName, fromLabel, 'multi', fromName)}
                 <span class="range-label text-up">to</span>
@@ -205,6 +220,17 @@ export function formatPriceLabel(minPrice, maxPrice) {
     : d !== '' ? `$${abbrNum(d, 2)}`
       : d == '' && h !== '' ? `$0 - $${abbrNum(h, 2)}`
         : 'Price';
+}
+
+export function processSearchType(value, defaultInput = 'for sale') {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('filter-toggle', formatInput(value), 'flex-row', 'mb-1');
+  wrapper.innerHTML = `
+                <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${value.toLowerCase() === defaultInput}">
+                <div class="checkbox ${value.toLowerCase() === defaultInput ? 'checked' : ''}"></div>
+                <label role="presentation" class="ml-1">${value}</label>
+            </div>`;
+  return wrapper;
 }
 
 export function buildKeywordEl(keyword, removeItemCallback) {

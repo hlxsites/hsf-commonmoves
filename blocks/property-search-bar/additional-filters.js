@@ -1,23 +1,22 @@
 import {
-  addRangeOption, EXTRA_FILTERS, formatInput, TOP_LEVEL_FILTERS, getConfig,
+  addRangeOption, EXTRA_FILTERS, formatInput, TOP_LEVEL_FILTERS, getConfig, processSearchType,
 } from './common-function.js';
 
-const SEARCH_TYPES = { SearchTypes: { label: 'Search Types', type: 'search-types' } };
+const SEARCH_TYPES = { ApplicationType: { label: 'Search Types', type: 'search-types' } };
 const FILTERS = { ...SEARCH_TYPES, ...TOP_LEVEL_FILTERS, ...EXTRA_FILTERS };
 
 function buildFilterSearchTypesElement() {
-  const defaultInput = 'for sale';
-  const columns = [['for sale', 'for rent'], ['pending', 'sold']];
+  const config = getConfig('ApplicationType');
+  const columns = [[config[0], config[1]], [config[2], config[3]]];
+  let el;
   let output = '<div class="column-2 flex-row">';
+
   columns.forEach((column) => {
     output += '<div class="column">';
-    column.forEach((type) => {
-      output += `
-            <div class="${formatInput(type)} filter-toggle flex-row mb-1">
-                <input hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${type.toLowerCase() === defaultInput}">
-                <div class="checkbox ${type.toLowerCase() === defaultInput ? 'checked' : ''}"></div>
-                <label class="text-up ml-1" role="presentation">${type}</label>
-            </div>`;
+    column.forEach((value) => {
+      el = processSearchType(value);
+      el.querySelector('label').classList.add('text-up');
+      output += el.outerHTML;
     });
     output += '</div>';
   });
@@ -162,8 +161,9 @@ function buildSectionFilter(filterName) {
   return output;
 }
 
-function getOptions(name, type) {
+function getOptions(name) {
   let options = '';
+  const { type } = FILTERS[name];
   switch (type) {
     case 'select':
       options = buildSectionFilter(name);
@@ -199,7 +199,7 @@ function buildPlaceholder(filterName) {
   }
   const placeholder = document.createElement('div');
   const { label } = FILTERS[filterName];
-  const options = getOptions(label, type);
+  const options = getOptions(filterName);
   placeholder.setAttribute('name', filterName);
   placeholder.classList.add('filter');
   placeholder.innerHTML = ` <label class="section-label text-up">${label}</label>

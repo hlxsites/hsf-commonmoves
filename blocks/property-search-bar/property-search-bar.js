@@ -1,5 +1,5 @@
 import { build as buildCountrySelect } from '../shared/search-countries/search-countries.js';
-import buildTopMenu from './top-menu.js';
+import { build as buildTopMenu, buildFilterSearchTypesElement } from './top-menu.js';
 import { build as buildAdditionFilters, buildFilterButtons } from './additional-filters.js';
 import { getPlaceholder, formatPriceLabel, buildKeywordEl } from './common-function.js';
 import {
@@ -102,6 +102,8 @@ export default async function decorate(block) {
   /** build top menu html */
   const overlay = document.createElement('div');
   overlay.classList.add('overlay', 'hide');
+  const additionalConfig = document.createElement('div');
+  additionalConfig.append(buildFilterSearchTypesElement());
   block.append(buildTopMenu(), buildAdditionFilters(), overlay, buildFilterButtons());
   const changeCountry = (country) => {
     const placeholder = getPlaceholder(country);
@@ -245,7 +247,7 @@ export default async function decorate(block) {
     activeElement.list.innerHTML = createPriceList(activeElement.value);
 
     // update label
-    block.querySelector('.price .title > span').innerText = formatPriceLabel(minPrice, maxPrice);
+    block.querySelector('[name="Price"] .title > span').innerText = formatPriceLabel(minPrice, maxPrice);
     setFilterValue(name, value);
   });
 

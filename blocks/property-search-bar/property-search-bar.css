@@ -12,7 +12,8 @@ html, body {
 
 .search-listing-container {
     justify-content: flex-start;
-    background: var(--primary-color);
+    flex-wrap: wrap;
+
 }
 
 .overlay {
@@ -77,6 +78,15 @@ main .section.property-search-bar-container {
 .search-country-select-wrapper div,
 .search-country-select-wrapper div.selected::after{
     color: var(--white);
+}
+
+.search-listing-container > div:first-of-type {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.search-listing-container > div:last-of-type {
+    display: none
 }
 
 .filter {
@@ -798,12 +808,24 @@ main .section.property-search-bar-container {
     .filter-block [name="LivingArea"],
     .filter-block [name="MinBedroomsTotal"],
     .filter-block [name="MinBathroomsTotal"],
-    .filter-block [name="SearchType"] {
+    .filter-block [name="ApplicationType"] {
         display: none;
     }
 
     .search-listing-block > div {
         order: 3;
+    }
+
+    .search-listing-container > div:first-of-type {
+        display: flex;
+        width: 100%;
+        justify-content: space-evenly;
+        background: var(--primary-color);
+    }
+
+    .search-listing-container > div:last-of-type {
+        display: flex;
+        width: var(--normal-page-width);
     }
 
     .primary-search {

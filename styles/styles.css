@@ -392,6 +392,10 @@ form button[type="submit"]:hover {
   border-left: 1px solid var(--black);
 }
 
+.fs-xs {
+  font-size: var(--body-font-size-xs);
+}
+
 .flex-column {
   display: flex;
   flex-direction: column;
