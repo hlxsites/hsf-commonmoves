@@ -20,8 +20,8 @@ export default async function decorate(block) {
     <h2>${config.title}</h2>
     <ul class="juicer-feed" 
       data-feed-id="${config['feed-id']}"
-      data-pages="${config.pages || 1}"
-      data-per="${config.per || ''}"
+      data-pages="1"
+      data-per="${config.show || ''}"
       data-columns="${config.columns || 4}"></ul>
   `;
 
