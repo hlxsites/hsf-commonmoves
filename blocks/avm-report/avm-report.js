@@ -31,6 +31,7 @@ export default async function decorate(block) {
   form.setAttribute('action', '/home-value');
   form.innerHTML = `
     <div class="avm-input">
+      <input type="text" autofocus="autofocus" style="display:none" />
       <input type="text" name="avmaddress" placeholder="Enter Address" aria-label="Enter Address" autocomplete="off">
       <input type="text" name="avmunit" placeholder="Unit #" aria-label="Unit #" autocomplete="off">
     </div>
