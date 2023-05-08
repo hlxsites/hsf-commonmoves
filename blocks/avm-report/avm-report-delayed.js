@@ -1,6 +1,10 @@
-function initGooglePlacesAPI() {
+import { fetchPlaceholders } from '/scripts/lib-franklin.js';
+
+async function initGooglePlacesAPI() {
+  const placeholders = await fetchPlaceholders();
   const CALLBACK_FN = 'initAvmPlaces';
-  const API_KEY = 'AIzaSyC-Ii5k8EaPU0ZuYnke7nb1uDnJ7g4O76M';
+  debugger;
+  const { mapsApiKey } = placeholders;
   const script = document.createElement('script');
   script.type = 'text/javascript';
   script.async = true;
@@ -11,7 +15,7 @@ function initGooglePlacesAPI() {
       const autocomplete = new google.maps.places.Autocomplete(input, {fields:['formatted_address'], types: ['establishment']});
     }
     const script = document.createElement('script');
-      script.src = "https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&callback=${CALLBACK_FN}";
+      script.src = "https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=places&callback=${CALLBACK_FN}";
       document.head.append(script);
   `;
   document.head.append(script);
