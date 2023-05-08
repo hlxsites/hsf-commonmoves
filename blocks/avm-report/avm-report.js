@@ -6,7 +6,7 @@ let alreadyDeferred = false;
 function initGooglePlacesAPI() {
   if (alreadyDeferred) {
     return;
-  }    
+  }
   alreadyDeferred = true;
   const script = document.createElement('script');
   script.type = 'text/partytown';
