@@ -4,24 +4,17 @@ import {
 
 let alreadyDeferred = false;
 function initGooglePlacesAPI() {
-  const CALLBACK_FN = 'initAvmPlaces';
-  const API_KEY = 'AIzaSyC-Ii5k8EaPU0ZuYnke7nb1uDnJ7g4O76M';
   if (alreadyDeferred) {
     return;
-  }
+  }    
   alreadyDeferred = true;
   const script = document.createElement('script');
-  script.type = 'text/javascript';
-  script.async = true;
-  script.defer = true;
+  script.type = 'text/partytown';
   script.innerHTML = `
-    window.${CALLBACK_FN} = function(){
-      const input = document.querySelector('form input[name="avmaddress"]');
-      const autocomplete = new google.maps.places.Autocomplete(input, {fields:['formatted_address'], types: ['establishment']});
-    }
     const script = document.createElement('script');
-      script.src = "https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&callback=${CALLBACK_FN}";
-      document.head.append(script);
+    script.type = 'module';
+    script.src = '${window.hlx.codeBasePath}/blocks/avm-report/avm-report-delayed.js';
+    document.head.append(script);
   `;
   document.head.append(script);
 }
@@ -31,7 +24,6 @@ export default async function decorate(block) {
   form.setAttribute('action', '/home-value');
   form.innerHTML = `
     <div class="avm-input">
-      <input type="text" autofocus="autofocus" style="display:none" />
       <input type="text" name="avmaddress" placeholder="Enter Address" aria-label="Enter Address" autocomplete="off">
       <input type="text" name="avmunit" placeholder="Unit #" aria-label="Unit #" autocomplete="off">
     </div>
@@ -39,7 +31,6 @@ export default async function decorate(block) {
   `;
 
   const addressField = form.querySelector('input[name="avmaddress"]');
-  addressField.addEventListener('focus', initGooglePlacesAPI);
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -58,4 +49,5 @@ export default async function decorate(block) {
     window.location = redirect;
   });
   block.append(form);
+  initGooglePlacesAPI();
 }
