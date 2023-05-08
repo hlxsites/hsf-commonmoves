@@ -12,6 +12,8 @@ function initGooglePlacesAPI() {
   alreadyDeferred = true;
   const script = document.createElement('script');
   script.type = 'text/javascript';
+  script.async = true;
+  script.defer = true;  
   script.innerHTML = `
     window.${CALLBACK_FN} = function(){
       const input = document.querySelector('form input[name="avmaddress"]');
