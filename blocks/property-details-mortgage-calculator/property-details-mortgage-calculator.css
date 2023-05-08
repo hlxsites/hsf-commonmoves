@@ -12,8 +12,12 @@
   margin: 20px 0;
 }
 
-.align-items-center {
-  align-items: center;
+.mortgage-payment {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 .chartjs-size-monitor, .chartjs-size-monitor-expand, .chartjs-size-monitor-shrink {
@@ -211,6 +215,19 @@ input {
   transform: translate(-20px,-50%);
 }
 
+#doughnutChartContainer {
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+  flex: 0 0 58.333%;
+  width: 58.333%;
+}
+
+#doughnut-chart {
+  width: 100% !important;
+  height: 100% !important;
+}
 .vue-slider-component {
   position: relative;
   box-sizing: border-box;
@@ -415,6 +432,11 @@ input {
     border-color: #aaa;
     height: 31px;
     line-height: 29px;
+  }
+
+  #doughnutChartContainer {
+    flex: 0 0 41.667%;
+    width: 41.667%;
   }
 
 }

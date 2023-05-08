@@ -136,18 +136,8 @@ export default async function decorate(block) {
             </div>
             <figure class="cmp-mtg-calc__chart">
               <div class="property-row align-items-center">
-                <div id="doughnutChartContainer" class="col col-7 col-lg-5">
-                  <div class="">
-                    <div class="chartjs-size-monitor">
-                      <div class="chartjs-size-monitor-expand">
-                        <div class=""></div>
-                      </div>
-                      <div class="chartjs-size-monitor-shrink">
-                        <div class=""></div>
-                      </div>
-                    </div><canvas id="doughnut-chart" width="296" height="296"
-                      style="display: block; height: 148px; width: 148px;" class="chartjs-render-monitor"></canvas>
-                  </div>
+                <div id="doughnutChartContainer">
+                  <canvas id="doughnut-chart"></canvas>
                 </div>
                 <div class="col col-5 col-lg-7">
                   <ol>
@@ -259,6 +249,61 @@ export default async function decorate(block) {
     
     loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
     loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
+
+    
+    var scriptSrc = document.createElement('script');
+    scriptSrc.type = 'module';
+    scriptSrc.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
+    document.head.append(scriptSrc);
+    
+    const script = document.createElement('script');
+    script.type = 'text/partytown';
+    script.innerHTML = `
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = '${window.hlx.codeBasePath}/blocks/property-details-mortgage-calculator/load-chart.js';
+      document.head.append(script);
+    `;
+    document.body.append(script);
+    /*
+    const script = document.createElement('script');
+
+    script.innerHTML = `
+      var scriptChart = document.createElement('script');
+      scriptChart
+      const ctx = document.getElementById("doughnut-chart");
+      var xValues = ["Principal", "Interest"];
+      var yValues = [12474, 57698];
+      var barColors = [
+        "rgba(85, 36, 72, 1.0)",
+        "rgba(85,36,72,0.5)"
+      ];
+      const dataDoughnut = {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues,
+          borderWidth: 0
+        }]
+      };
+      const config = {
+        type: 'doughnut',
+        data: dataDoughnut,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          cutout: '70%'
+        },
+      };
+      new Chart(ctx, config);
+    `;
+    document.body.append(script);
+    */
+
   }
   
 }

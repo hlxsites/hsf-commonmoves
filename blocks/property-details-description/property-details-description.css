@@ -165,6 +165,14 @@
   color: #fff;
 }
 
+.cmp-cta__btn-text {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
 .btn-see-property, .btn-make-offer {
   background: #fff;
   color: #000;

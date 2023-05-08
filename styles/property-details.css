@@ -153,6 +153,10 @@
   order: 3;
 }
 
+.align-items-center {
+  align-items: center !important;
+}
+
 @media (min-width: 576px) {
   .property-container {
       max-width: 540px;
