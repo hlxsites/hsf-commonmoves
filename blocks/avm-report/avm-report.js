@@ -37,9 +37,12 @@ export default async function decorate(block) {
     <button type="submit" aria-label="Get Report">Get Report</button>
   `;
 
+  const addressField = form.querySelector('input[name="avmaddress"]');
+  addressField.addEventListener('focus', initGooglePlacesAPI);
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const address = form.querySelector('input[name="avmaddress"]').value;
+    const address = addressField.value;
     if (!address) {
       showModal('Please enter valid address.<br/>Example: 1234 Main Street, Apt 123, New Milford, CT 06776');
       return;
@@ -54,5 +57,4 @@ export default async function decorate(block) {
     window.location = redirect;
   });
   block.append(form);
-  initGooglePlacesAPI();
 }
