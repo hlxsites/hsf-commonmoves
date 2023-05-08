@@ -2,13 +2,12 @@
  * Build the query string for the search API
  * @returns {string}
  */
-function getSearchObject() {
+export function getSearchObject() {
   const search = sessionStorage.getItem('search') ?? '{}';
   return JSON.parse(search);
 }
 
 function buildQueryParameters() {
-  // todo add logic
   const search = getSearchObject();
   return Object.keys(search).map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(search[key])}`).join('&');
 }
@@ -17,8 +16,8 @@ function buildQueryParameters() {
  * Build the query string for the search API
  * @returns {string}
  */
-export function buildQuery() {
-  const host = '';
+export function buildUrl() {
+  const host = window.location.origin;
   return `${host}/search?${buildQueryParameters()}`;
 }
 

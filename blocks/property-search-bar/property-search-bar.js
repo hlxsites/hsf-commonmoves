@@ -1,12 +1,14 @@
 import { build as buildCountrySelect } from '../shared/search-countries/search-countries.js';
 import { build as buildTopMenu, buildFilterSearchTypesElement } from './top-menu.js';
 import { build as buildAdditionFilters, buildFilterButtons } from './additional-filters.js';
-import { getPlaceholder, formatPriceLabel, buildKeywordEl } from './common-function.js';
+import {
+  getPlaceholder, formatPriceLabel, buildKeywordEl, toggleOverlay,
+} from './common-function.js';
 import {
   populatePreSelectedFilters,
   setFilterValue,
   removeFilterValue,
-  getValueFromStorage,
+  getValueFromStorage, setInitialValuesFromUrl, searchProperty,
 } from './filter-processor.js';
 
 function hideFilter(element) {
@@ -94,22 +96,20 @@ function togglePropertyForm() {
   const overlay = document.querySelector('.overlay');
   const hideClass = 'hide';
   document.querySelector('.filter-block').classList.toggle(hideClass);
-  overlay.classList.toggle(hideClass);
+  toggleOverlay();
   document.querySelector('.filter-buttons').classList.toggle(hideClass);
   svgIcons.forEach((el) => el.classList.toggle(hideClass));
-  const toggledOnClose = svgIcons[0].classList.contains(hideClass);
-  if (!toggledOnClose) {
+  const toggledOnClose = overlay.classList.contains(hideClass);
+  if (!overlay.classList.contains(hideClass)) {
     setFilterValue('MinPrice', document.querySelector('.filter [name="MinPrice"]').value);
     setFilterValue('MaxPrice', document.querySelector('.filter [name="MaxPrice"]').value);
-    document.getElementsByTagName('body')[0].classList.remove('no-scroll');
-  } else {
-    document.getElementsByTagName('body')[0].classList.add('no-scroll');
   }
   closeTopLevelFilters();
   populatePreSelectedFilters(!toggledOnClose);
 }
 
 export default async function decorate(block) {
+  setInitialValuesFromUrl();
   /** build top menu html */
   const overlay = document.createElement('div');
   overlay.classList.add('overlay', 'hide');
@@ -144,11 +144,14 @@ export default async function decorate(block) {
   // reset form on click reset button
   block.querySelector('.filter-buttons a[title="reset"]').addEventListener('click', () => {
     // @todo set up initial values
-    togglePropertyForm();
+    setInitialValuesFromUrl();
+    // @todo test anf fix
+    populatePreSelectedFilters(false);
   });
   // apply filters on click apply button
   block.querySelector('.filter-buttons a[title="apply"]').addEventListener('click', () => {
-    togglePropertyForm(overlay);
+    togglePropertyForm();
+    searchProperty();
   });
   // add logic for select on click
   block.querySelector('.filter-container').addEventListener('click', togglePropertyForm);
@@ -211,7 +214,7 @@ export default async function decorate(block) {
       el.classList.toggle('selected', isChecked);
     });
     if (isChecked) {
-      setFilterValue('PropertyType', ['1', '2', '3', '5', '4', '6']);
+      setFilterValue('PropertyType', '1,2,3,5,4,6');
     } else {
       removeFilterValue('PropertyType');
     }
@@ -226,11 +229,12 @@ export default async function decorate(block) {
       params = getValueFromStorage('PropertyType');
       // eslint-disable-next-line no-unused-expressions
       el.classList.contains('selected') ? params.push(value) : params = params.filter((i) => i !== value);
+      params = params.join(',');
       setFilterValue('PropertyType', params);
     });
   });
 
-  // logic to open/close additional property filters
+  // events for filters with type toggle
   block.querySelectorAll('.filter-toggle').forEach((el) => {
     el.addEventListener('click', () => {
       toggleFilter(el);
@@ -260,6 +264,7 @@ export default async function decorate(block) {
     // update label
     block.querySelector('[name="Price"] .title > span').innerText = formatPriceLabel(minPrice, maxPrice);
     setFilterValue(name, value);
+    searchProperty();
   });
 
   block.querySelectorAll('.container-item .header').forEach((selectedFilter) => {
@@ -314,6 +319,7 @@ export default async function decorate(block) {
       }
       setFilterValue(name, value);
       headerTitle.innerHTML = `<span>${selectedElValue}</span>`;
+      searchProperty();
     });
   });
 

@@ -1,9 +1,47 @@
-import { setParam, getParam, removeParam } from '../../scripts/search.js';
+import {
+  setParam, getParam, removeParam, getSearchObject, buildUrl,
+} from '../../scripts/search.js';
 import {
   buildKeywordEl, formatPriceLabel,
-  TOP_LEVEL_FILTERS, EXTRA_FILTERS, BOTTOM_LEVEL_FILTERS, getConfig,
+  TOP_LEVEL_FILTERS, EXTRA_FILTERS, BOTTOM_LEVEL_FILTERS, getConfig, toggleOverlay,
 } from './common-function.js';
 
+import {
+  propertySearch,
+  SearchParameters,
+} from '../../scripts/apis/creg/creg.js';
+import { getSpinner } from '../../scripts/util.js';
+
+import { setPropertyDetails as setResults } from '../../scripts/search/results.js';
+
+export function searchProperty() {
+  const spinner = getSpinner();
+  const overlay = document.querySelector('.overlay');
+  toggleOverlay();
+  overlay.prepend(spinner);
+  const type = getParam('SearchType');
+  const input = '';
+  const searchParams = getSearchObject();
+  if (Object.prototype.hasOwnProperty.call(searchParams, 'SearchType')) {
+    delete searchParams.SearchType;
+  }
+  const params = new SearchParameters(type, input, searchParams);
+  propertySearch(params).then((results) => {
+    if (!results?.properties) {
+      results.properties = [];
+    }
+    const output = JSON.stringify(results.properties);
+    setResults(output);
+    spinner.remove();
+    toggleOverlay();
+  });
+
+  // update url
+  const nextUrl = buildUrl();
+  const nextTitle = 'Property Search Results Commonwealth Real Estate | Berkshire Hathaway HomeServices';
+  const nextState = { additionalInformation: 'Updated the URL with JS' };
+  window.history.replaceState(nextState, nextTitle, nextUrl);
+}
 /**
  *
  * @param filterName
@@ -64,11 +102,9 @@ export function getValueFromStorage(filterName) {
     case 'LivingArea':
       value = { min: getParam(`Min${filterName}`) ?? '', max: getParam(`Max${filterName}`) ?? '' };
       break;
-    case 'PropertyType':
-      value = getParam('PropertyType') ? getParam('PropertyType') : [];
-      break;
     case 'Features':
     case 'ApplicationType':
+    case 'PropertyType':
       value = getParam(filterName) ? getParam(filterName).split(',') : [];
       break;
     case 'YearBuilt':
@@ -121,9 +157,9 @@ export function setFilterValue(name, value) {
       value ? setParam(name, true) : removeParam(name);
       break;
     case 'Features':
-      params = getParam('Features') ?? '';
+      params = getParam(name) ?? '';
       params = params.length > 0 ? params.concat(',', value) : value;
-      setParam('Features', params);
+      setParam(name, params);
       break;
     case 'MinPrice':
     case 'MaxPrice':
@@ -135,6 +171,19 @@ export function setFilterValue(name, value) {
       break;
     default:
       setParam(name, value);
+  }
+}
+
+export function setInitialValuesFromUrl() {
+  const url = window.location.href;
+  const queryString = url.split('?')[1];
+  if (queryString) {
+    queryString.split('&').forEach((query) => {
+      // eslint-disable-next-line prefer-const
+      let [key, value] = query.split('=');
+      value = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : '';
+      setFilterValue(key, value);
+    });
   }
 }
 

@@ -112,6 +112,20 @@ export function getConfig(filterName) {
   return output;
 }
 
+export function toggleOverlay() {
+  const hideClass = 'hide';
+  const overlay = document.querySelector('.overlay');
+  overlay.classList.toggle(hideClass);
+  if (overlay.classList.contains(hideClass)) {
+    document.getElementsByTagName('body')[0].classList.remove('no-scroll');
+  } else {
+    document.getElementsByTagName('body')[0].classList.add('no-scroll');
+  }
+}
+
+export function hideOverlay() {
+
+}
 /**
  *
  * @param {string} filterName
