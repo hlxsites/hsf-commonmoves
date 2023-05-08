@@ -9,18 +9,17 @@ function initGooglePlacesAPI() {
   if (alreadyDeferred) {
     return;
   }
-//const autocomplete = new google.maps.places.PlaceAutocompleteElement({ inputElement: input });
   alreadyDeferred = true;
   const script = document.createElement('script');
   script.type = 'text/javascript';
   script.innerHTML = `
-  window.${CALLBACK_FN} = function(){
-    const input = document.querySelector('form input[name="avmaddress"]');
-    const autocomplete = new google.maps.places.Autocomplete(input, {fields:['formatted_address'], types: ['establishment']});
-  }
-  const script = document.createElement('script');
-    script.src = "https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&callback=${CALLBACK_FN}";
-    document.head.append(script);
+    window.${CALLBACK_FN} = function(){
+      const input = document.querySelector('form input[name="avmaddress"]');
+      const autocomplete = new google.maps.places.Autocomplete(input, {fields:['formatted_address'], types: ['establishment']});
+    }
+    const script = document.createElement('script');
+      script.src = "https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&callback=${CALLBACK_FN}";
+      document.head.append(script);
   `;
   document.head.append(script);
 }
