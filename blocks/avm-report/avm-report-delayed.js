@@ -1,9 +1,8 @@
-import { fetchPlaceholders } from '/scripts/lib-franklin.js';
+import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
 
 async function initGooglePlacesAPI() {
   const placeholders = await fetchPlaceholders();
   const CALLBACK_FN = 'initAvmPlaces';
-  debugger;
   const { mapsApiKey } = placeholders;
   const script = document.createElement('script');
   script.type = 'text/javascript';
