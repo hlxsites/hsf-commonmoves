@@ -11,7 +11,7 @@ async function initGooglePlacesAPI() {
   script.innerHTML = `
     window.${CALLBACK_FN} = function(){
       const input = document.querySelector('form input[name="avmaddress"]');
-      const autocomplete = new google.maps.places.Autocomplete(input, {fields:['formatted_address'], types: ['establishment']});
+      const autocomplete = new google.maps.places.Autocomplete(input, {fields:['formatted_address'], types: ['address']});
     }
     const script = document.createElement('script');
       script.src = "https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=places&callback=${CALLBACK_FN}";
