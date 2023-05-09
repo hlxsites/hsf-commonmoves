@@ -1,5 +1,5 @@
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
-const propertyAPI = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
+import { getPropertyListing } from './api.js';
 const propID = '343140756';
 
 function next(item, carousel) {
@@ -30,12 +30,29 @@ function getIndex(block) {
   return refIndex;
 }
 
+function togglePhotosMap() {
+  var parent = this.parentElement;
+  [...parent.children].forEach((button) => {
+    button.classList.toggle('disabled');
+  });
+  var photoGallery = document.querySelector('.image-gallery-container');
+  var photoRow = document.querySelector('.pagination-row');
+  var mapElem = document.querySelector('#cmp-map-canvas');
+  console.log(this.classList);
+  if(this.classList.contains('photos')) {
+    mapElem.classList.add('invisible');
+    photoGallery.classList.remove('invisible');
+    photoRow.classList.remove('invisible');
+  } else if(this.classList.contains('map')) {
+    photoGallery.classList.add('invisible');
+    photoRow.classList.add('invisible');
+    mapElem.classList.remove('invisible');
+  }
+}
 export default async function decorate(block) {
-  const resp = await fetch(propertyAPI);
-  if (resp.ok) {
-    const data = await resp.json();
-    console.log(data);
-    const listing = data.properties.find((item) => item.PropId == propID);
+  var listing = await getPropertyListing(propID);
+  console.log(listing);
+  if(listing) {
     var media = listing['Media'];
     var photos = media.map((item) => item['mediaUrl']);
     photos.unshift(photos.pop());
@@ -116,7 +133,9 @@ export default async function decorate(block) {
     carouselInnerHTML += `
           </ul>
         </div>
-        <div class="map">
+        <div class="cmp-map">
+          <div id="cmp-map-canvas" class="invisible">
+          </div>
         </div>
         <div class="image-gallery-nav">
           <div class="property-row">
@@ -197,7 +216,24 @@ export default async function decorate(block) {
         return carousel.classList.add('is-set');
       }, 50);
     });
-    
+    const buttonToggle = block.querySelectorAll('.button-toggle');
+    buttonToggle.forEach((button) => {
+      button.addEventListener('click', togglePhotosMap);
+    });
+    console.log(buttonToggle);
+    var scriptGoogle = document.createElement("script");
+    scriptGoogle.innerHTML = '(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({ key: "AIzaSyBMKOKRwvyDN-jt1fcplAYTRfOaZKN8VVE" });'
+    document.head.append(scriptGoogle);
+
+    const scriptMap = document.createElement('script');
+    scriptMap.type = 'text/partytown';
+    scriptMap.innerHTML = `
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = '${window.hlx.codeBasePath}/blocks/property-details/map.js';
+      document.head.append(script);
+    `;
+    document.body.append(scriptMap);
   }
   decorateIcons(block);
   loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);

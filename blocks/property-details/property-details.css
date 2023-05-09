@@ -178,6 +178,16 @@
   display: flex;
 }
 
+#cmp-map-canvas {
+  height: 340px;
+  width: 100vw;
+  left: 0;
+}
+
+.invisible {
+  display: none !important;
+}
+
 .button-prop {
   cursor: pointer;
   background: var(--white-background);
@@ -217,6 +227,7 @@
   left: 10px;
   top: calc(50% - 9px);
   display: block;
+  pointer-events: none;
 }
 
 .icon-map svg {
@@ -226,6 +237,7 @@
   left: 10px;
   top: calc(50% - 11px);
   display: block;
+  pointer-events: none;
 }
 
 .pagination-row {
