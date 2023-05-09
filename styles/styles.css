@@ -16,7 +16,7 @@
   /* Colors */
   --primary-color: #552448;
   --primary-color-lighten: rgba(98 98 121 / 12.5%);
-  --primary-color-svg-filter: invert(14%) sepia(47%) saturate(1309%) hue-rotate(272deg) brightness(96%) contrast(89%);
+  --primary-color-svg-filter: invert(18%) sepia(17%) saturate(1944%) hue-rotate(264deg) brightness(93%) contrast(95%);
   --body-color: #3a3a3a;
   --platinum: #e7e7e7;
   --light-grey: #f6f6f6;
@@ -95,7 +95,6 @@
 *, *::before, *::after {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
-  color: var(--body-color);
   font-family: var(--font-family-proxima);
   font-weight: 400;
   font-size: var(--body-font-size-m);
@@ -194,6 +193,17 @@ main .section.padding {
   padding-top: 3em;
   padding-bottom: 3em;
 }
+
+main .section.two-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+main .section.two-columns > div {
+  flex: 0 1 40%;
+}
+
 
 /* Center rules for a section, but don't apply it to blocks! */
 main div[data-align="center"] h1,
