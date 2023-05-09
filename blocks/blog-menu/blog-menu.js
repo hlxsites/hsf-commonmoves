@@ -20,20 +20,10 @@ export default async function decorate(block) {
     }
     blogNav.appendChild(child);
   });
-  block.replaceChild(blogNav, blogNavContent);
+  block.replaceChildren(blogNav);
   const categoriesList = block.querySelector('ul');
 
   selectedCategoryEl.addEventListener('click', () => {
-    categoriesList.style.visibility = window.getComputedStyle(categoriesList).visibility === 'hidden' ? 'visible' : 'hidden';
+    categoriesList.classList.toggle('visible');
   });
-
-  // add logic to stick blog nav header to top of the page
-  window.onscroll = () => {
-    const sticky = blogNav.offsetTop;
-    if (window.pageYOffset > sticky) {
-      blogNav.classList.add('sticky');
-    } else {
-      blogNav.classList.remove('sticky');
-    }
-  };
 }
