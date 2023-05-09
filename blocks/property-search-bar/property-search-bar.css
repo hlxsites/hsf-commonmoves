@@ -1,3 +1,6 @@
+/* todo margin on buttons search-listing-container */
+
+
 :root {
     --filter-buttons-height: 64px;
 }
@@ -10,62 +13,62 @@ html, body {
     position: relative;
 }
 
-.mb-1 {
+main .section .property-search-bar .mb-1 {
     margin-bottom: 1em;
 }
 
-.mt-1 {
+main .section .property-search-bar .mt-1 {
     margin-top: 1em;
 }
 
-.ml-1 {
+main .section .property-search-bar .ml-1 {
     margin-left: 1em;
 }
 
-.mr-1 {
+main .section .property-search-bar .mr-1 {
     margin-right: 1em;
 }
 
-.fs-1 {
+main .section .property-search-bar .fs-1 {
     font-size: var(--body-font-size-s)
 }
 
-.c-w {
+main .section .property-search-bar .c-w {
     color:var(--white);
 }
 
-.center {
+main .section .property-search-bar .center {
     text-align: center;
 }
 
-.bl {
+main .section .property-search-bar .bl {
     border-left: 1px solid var(--black);
 }
 
-.fs-xs {
+main .section .property-search-bar .fs-xs {
     font-size: var(--body-font-size-xs);
 }
 
-.flex-column {
+main .section .property-search-bar .flex-column {
     display: flex;
     flex-direction: column;
 }
 
-.flex-row {
+main .section .property-search-bar .flex-row {
     display: flex;
     flex-direction: row;
 }
 
-.flex-row.center {
+main .section .property-search-bar .flex-row.center {
     justify-content: center;
     align-items: center
 }
 
-.flex-row.vertical-center {
+main .section .property-search-bar .flex-row.vertical-center {
     align-items: center;
 }
 
-.flex-row.space-between {
+main .section .property-search-bar .flex-row.space-between {
     justify-content: space-between;
 }
 
@@ -75,10 +78,9 @@ html, body {
 
 }
 
-.overlay {
+main .section .property-search-bar .overlay {
     position: fixed;
     overflow-y: auto;
-    top: calc(var(--nav-height) + 110px);
     left: 0;
     width: 100vw;
     height: calc(100% - var(--filter-buttons-height) - var(--nav-height));
@@ -87,8 +89,12 @@ html, body {
     z-index: 998;
 }
 
-.highlighted {
+main .section .property-search-bar .highlighted {
     background: var(--light-grey);
+}
+
+main .section .property-search-bar .hide {
+    display: none;
 }
 
 main .section.property-search-bar-container {
@@ -152,10 +158,6 @@ main .section.property-search-bar-container {
     padding: 20px;
 }
 
-.button-container {
-    margin: 0 15px 0 8px;
-}
-
 .container-item .header {
     position: relative;
     display: flex;
@@ -163,20 +165,15 @@ main .section.property-search-bar-container {
 
 }
 
-.title {
+main .section .property-search-bar .title {
     font-size: var(--body-font-size-s);
     white-space: pre;
     line-height: 50px;
     position: relative;
 }
 
-.title span {
-    position: relative;
-    letter-spacing: var(--letter-spacing-s);
-}
-
 /* arrow near dropdown start */
-.title::after {
+main .section .property-search-bar .title::after {
     display: inline;
     position: absolute;
     right: -20px;
@@ -187,7 +184,7 @@ main .section.property-search-bar-container {
     color: var(--white);
 }
 
-.open .title::after {
+main .section .property-search-bar .open .title::after {
     content: '\f0d8';
 }
 
@@ -207,13 +204,13 @@ main .section.property-search-bar-container {
     z-index: 1000;
 }
 
-.btn.btn-secondary {
+main .section .property-search-bar .btn.btn-secondary {
     background: #fff;
     color: var(--black);
     border: 1px solid var(--black);
 }
 
-.btn.btn-primary  {
+main .section .property-search-bar .btn.btn-primary   {
     background: var(--primary-color);
     color: var(--white);
     border: 1px solid var(--grey);
@@ -223,7 +220,7 @@ main .section.property-search-bar-container {
     white-space: nowrap;
 }
 
-.filter-buttons .btn,
+main .section .property-search-bar .filter-buttons .btn,
 [name="Features"] button{
     padding: 7px 25px;
     margin-right: 10px;
@@ -238,7 +235,6 @@ main .section.property-search-bar-container {
 [name="Sort"] .title span {
     font-size: var(--body-font-size-s);
     letter-spacing: normal;
-
 }
 
 .filter-buttons .btn-primary:hover,
@@ -247,7 +243,12 @@ main .section.property-search-bar-container {
     color: var(--body-color);
 }
 
-.btn.btn-secondary:hover {
+main .section .property-search-bar .title span {
+    position: relative;
+    letter-spacing: var(--letter-spacing-s);
+}
+
+main .section .property-search-bar .btn.btn-secondary:hover {
     color: var(--black);
     border: 1px solid var(--grey);
     box-shadow: none;
@@ -581,8 +582,6 @@ main .section.property-search-bar-container {
 
 .input-dropdown input::placeholder {
     color: var(--black);
-
-    /* font-size: var(--body-font-size-s); */
     opacity: 1; /* Firefox */
 }
 
@@ -639,6 +638,14 @@ main .section.property-search-bar-container {
     display: none;
 }
 
+main .section .property-search-bar .button-container {
+    margin: 0 15px 0 8px;
+}
+
+main .section .property-search-bar .button-container a {
+    text-transform: uppercase;
+}
+
 .no-scroll {
     height: 100%;
     overflow: hidden;
@@ -648,7 +655,6 @@ main .section.property-search-bar-container {
     letter-spacing: 0.5px;
     position: fixed;
     overflow-y: auto;
-    top: 165px;
     left: 0;
     width: 100vw;
     height: calc(100% - var(--filter-buttons-height) - var(--nav-height));
@@ -836,6 +842,10 @@ main .section.property-search-bar-container {
     content: "x";
 }
 
+.filter-buttons.button-container.flex-row.vertical-center {
+    margin: 0;
+}
+
 @media (min-width: 600px) {
     .column-2 .column button {
         flex-direction: row;
@@ -860,11 +870,6 @@ main .section.property-search-bar-container {
 
 [name="OpenHouses"].selected > div > div:not(.filter-checkbox) {
     display: block;
-}
-
-/* keep on bottom to apply styles accordingly */
-.hide {
-    display: none;
 }
 
 @media (min-width: 992px) {
