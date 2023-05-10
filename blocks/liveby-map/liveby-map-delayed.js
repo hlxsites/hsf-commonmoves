@@ -154,11 +154,13 @@ const snazzyMapStyle = [
 ];
 
 function getCenter(coords) {
-    // Not fancy, just take the average of all coordinates
-    return coords.reduce(
-        (v, l) => [l[0] / coords.length + v[0], l[1] / coords.length + v[1]],
-        [0, 0]
-    );
+    // Find bounding box
+    const minX = coords.reduce(x1,x2=>Math.min(x1,x2[0]), 10000);
+    const maxX = coords.reduce(x1,x2=>Math.max(x1,x2[0]), -10000);
+    const minY = coords.reduce(y1,y2=>Math.min(y1,y2[1]), 10000);
+    const maxY = coords.reduce(y1,y2=>Math.max(y1,y2[1]), -10000);
+    // Return center of bounding box
+    return [(maxX-minX)/2, (maxY-minY)/2];
 }
 
 function convertCoordinates(coords) {
