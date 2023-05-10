@@ -57,6 +57,7 @@
   font-weight: var(--font-weight-normal);
   line-height: var(--line-height-m);
   text-decoration-style: solid;
+  color: var(--white);
 }
 
 .blog-nav.seller-advice a {

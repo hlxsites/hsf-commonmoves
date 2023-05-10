@@ -1,3 +1,7 @@
+import { BREAKPOINTS } from '../../scripts/scripts.js';
+
+const isDesktop = BREAKPOINTS.medium;
+
 export default async function decorate(block) {
   const selectedCategoryUrl = window.location.href;
   const blogNav = document.createElement('nav');
@@ -26,4 +30,6 @@ export default async function decorate(block) {
   selectedCategoryEl.addEventListener('click', () => {
     categoriesList.classList.toggle('visible');
   });
+
+  isDesktop.addEventListener('change', () => categoriesList.classList.remove('visible'));
 }
