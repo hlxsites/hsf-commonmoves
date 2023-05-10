@@ -19,8 +19,8 @@ function initGoogleMapsAPI() {
 
 
 export default async function decorate(block) {
-  const map = Document.createElement('div');
-  map.innerHTML=`<p>Hello, world!</p>`;
+  const map = document.createElement('div');
+  map.classList.add("liveby-map-main")
   block.append(map);
   initGoogleMapsAPI();
 }
