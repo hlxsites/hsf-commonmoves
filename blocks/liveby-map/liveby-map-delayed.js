@@ -168,7 +168,7 @@ function initLiveByMap() {
     const map = new google.maps.Map(mapDiv, {
         zoom: 15,
         maxZoom: 18,
-        center: new google.maps.LatLng(mapCenter[0], mapCenter[1]),
+        center: new google.maps.LatLng(mapCenter[1], mapCenter[0]),
         mapTypeId: "roadmap",
         clickableIcons: false,
         gestureHandling: "greedy",
