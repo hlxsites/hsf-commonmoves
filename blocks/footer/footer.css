@@ -1,6 +1,7 @@
 /* Empty file for now */
 footer {
   background-color: #f6f6f6;
+  border-top: 1px solid var(--platinum);
 }
 
 .footer {
@@ -8,13 +9,13 @@ footer {
   padding-bottom: 15px;
   font-family: var(--font-family-proxima);
   color: var(--body-color);
-  line-height: 23px;
+  line-height: var(--line-height-m);
 }
 
 .footer-container-flex {
   display: flex;
   flex-wrap: wrap;
-  max-width: 1350px;
+  max-width: var(--normal-page-width);
   margin: 0 auto;
   width: 100%;
   padding: 0 15px;
@@ -58,7 +59,7 @@ footer {
 
 .link-menu-col li {
   padding: 6px 0;
-  letter-spacing: .4px;
+  letter-spacing:var(--letter-spacing-xs);
   font-size: var(--body-font-size-s);
 }
 
@@ -92,7 +93,9 @@ footer {
   opacity: .4;
 }
 
+
 .footer-container-flex > div:nth-child(1) svg {
+  position: relative;
   height: 68px;
   width: 68px;
 }
@@ -113,10 +116,15 @@ footer {
   padding-top: 15px;
 }
 
+.footer-container-flex > div:nth-child(1) p {
+  position: relative;
+  height: 75px;
+}
+
 .footer-container-flex > div:last-child p {
   font-size: 12px;
-  letter-spacing: .6px;
-  line-height: 17px;
+  letter-spacing:var(--letter-spacing-xs);
+  line-height: var(--line-height-m);
 }
 
 .footer-container-flex > div:last-child p a {

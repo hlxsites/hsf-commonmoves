@@ -1,0 +1,87 @@
+/* styles for the floating images auto block */
+
+.block.floating-images {
+  margin-bottom: 5em;
+}
+
+.block.floating-images > div {
+  display: flex;
+  flex-direction: column-reverse;
+  padding-top: 1em;
+  min-height: 530px;
+}
+
+
+.block.floating-images .image {
+  position: relative;
+  padding: 1.5em 0;
+}
+
+.block.floating-images .image img {
+  object-fit: cover;
+  object-position: center;
+  height: 100%;
+  max-width: 100%;
+}
+
+.block.floating-images .content h2 {
+  letter-spacing: normal;
+  margin-bottom: 0.5em;
+  text-align: left;
+}
+
+.block.floating-images .content ul {
+  margin-left: 1em;
+  margin-bottom: 1em;
+  list-style-type: disc;
+}
+
+.block.floating-images .content ul li {
+  margin-bottom: 1.5em;
+  padding-left: 1em;
+  line-height: var(--line-height-m);
+}
+
+.block.floating-images p.button-container {
+  text-align: center;
+}
+
+@media screen and (min-width: 900px) {
+  .block.floating-images > div {
+    flex-direction: row;
+    column-gap: 15px;
+    align-items: center;
+  }
+
+  .block.floating-images > div > div {
+    flex: 1;
+  }
+
+  .block.floating-images.image-left > div {
+    flex-direction: row-reverse;
+  }
+
+  .block.floating-images .image {
+    padding: 0;
+    min-height: 530px;
+  }
+
+  .block.floating-images .image picture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .block.floating-images p.button-container {
+    text-align: left;
+  }
+}
+
+
+@media screen and (min-width: 1200px) {
+  .block.floating-images > div {
+    column-gap: 30px;
+  }
+}

@@ -94,7 +94,7 @@ function buildLogo() {
   logo.classList.add('nav-logo');
   logo.innerHTML = `
       <a href="/" rel="noopener">
-        <img alt= class="logo" src="/styles/images/logo-black.svg" loading="lazy" width="216" height="35"/>
+        <img alt="Logo" class="logo" src="/styles/images/logo-black.svg" loading="lazy" width="216" height="35"/>
       </a>
     `;
   return logo;
@@ -163,6 +163,7 @@ export default async function decorate(block) {
     html.innerHTML = await resp.text();
 
     const nav = document.createElement('nav');
+    nav.id = 'nav';
 
     const primaryWrapper = document.createElement('div');
     primaryWrapper.classList.add('nav-primary-wrapper');
