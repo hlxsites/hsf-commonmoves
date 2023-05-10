@@ -82,7 +82,7 @@ function buildBlogItem(block, data, addClass = false) {
       <p class="title">${title}</p>
       <div class="description"><p>${trimDescription(description)}</p></div> 
       <a href="${prepareBlogArticleUrl(link)}" target="_blank" class="readmore text-up">read more
-      <img src="/icons/arrow-back.svg"  aria-hidden="true" alt="Read More" class="arrowIcon"></a>
+      <img src="/icons/arrow-back.svg"  aria-hidden="true" alt="Read More" class="arrowIcon" width="12" height="12"></a>
     </div>
     `;
   block.append(blogContainer);
