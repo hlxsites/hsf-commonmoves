@@ -19,6 +19,20 @@
   max-width: 1600px;
 }
 
+.blog-nav ul {
+  display: none;
+  position: absolute;
+  top: 120px;
+  text-align: center;
+  width: 100%;
+  padding: 0 10px;
+  background-color: var(--primary-color);
+}
+
+.blog-nav ul.visible {
+  display: block;
+}
+
 .blog-nav.seller-advice,
 .blog-nav.seller-advice ul {
   background-color: var(--seller-advice);
@@ -60,6 +74,17 @@
   color: var(--white);
 }
 
+.blog-nav h1 a {
+  display: block;
+  font-size: var(--heading-font-size-xl);
+  font-family: var(--font-family-proxima);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-m);
+  text-align: center;
+  text-transform: none;
+  letter-spacing: initial;
+}
+
 .blog-nav.seller-advice a {
   color: var(--primary-color);
 }
@@ -89,37 +114,11 @@
   opacity: 0.6;
 }
 
-.blog-nav h1 a {
-  display: block;
-  font-size: var(--heading-font-size-xl);
-  font-family: var(--font-family-proxima);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-m);
-  text-align: center;
-  text-transform: none;
-  letter-spacing: initial;
-}
-
-
 .blog-nav .blog-nav-selected {
   padding: 16px 0;
   letter-spacing: var(--letter-spacing-m);
   line-height: var(--line-height-m);
   text-align: center;
-}
-
-.blog-nav ul {
-  display: none;
-  position: absolute;
-  top: 120px;
-  text-align: center;
-  width: 100%;
-  padding: 0 10px;
-  background-color: var(--primary-color);
-}
-
-.blog-nav ul.visible {
-  display: block;
 }
 
 .blog-nav li {

@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 
 .section.blog-details-container {
   position: relative;
@@ -25,9 +26,6 @@
   flex-direction: column;
 }
 
-.blog-details.block .description p {
-  letter-spacing: var(--letter-spacing-xs);
-}
 
 .blog-details.block .left-section {
   display: flex;
@@ -51,6 +49,10 @@
   list-style-type: disc;
   margin-block-start: 1em;
   margin-block-end: 1em;
+}
+
+.blog-details.block .left-section .description p {
+  letter-spacing: var(--letter-spacing-xs);
 }
 
 .blog-details.block .article-share-page p {
