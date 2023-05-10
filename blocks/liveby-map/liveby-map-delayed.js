@@ -165,10 +165,11 @@ function initLiveByMap() {
     const mapDiv = document.querySelector(".liveby-map-main");
     const coordinates = window.liveby.geometry.coordinates[0];
     const mapCenter = getCenter(coordinates);
+    console.dir(mapCenter);
     const map = new google.maps.Map(mapDiv, {
         zoom: 15,
         maxZoom: 18,
-        center: new google.maps.LatLng(mapCenter[1], mapCenter[0]),
+        center: new google.maps.LatLng(mapCenter[0], mapCenter[1]),
         mapTypeId: "roadmap",
         clickableIcons: false,
         gestureHandling: "greedy",
