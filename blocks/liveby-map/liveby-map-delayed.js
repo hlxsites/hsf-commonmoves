@@ -173,7 +173,7 @@ function initLiveByMap() {
     const mapCenter = getCenter(coordinates);
     console.dir(mapCenter);
     const map = new google.maps.Map(mapDiv, {
-        zoom: 15,
+        zoom: 12,
         maxZoom: 18,
         center: { lng: parseFloat(mapCenter[0]), lat: parseFloat(mapCenter[1]) },
         mapTypeId: "roadmap",
