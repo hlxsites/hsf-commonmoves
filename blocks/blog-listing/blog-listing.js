@@ -50,7 +50,7 @@ function trimDescription(description) {
 }
 
 function buildImageUrl(path) {
-  return `${API_HOST}${path}`;
+  return new URL(`${API_HOST}${path}`).href;
 }
 
 function prepareBlogArticleUrl(link) {
