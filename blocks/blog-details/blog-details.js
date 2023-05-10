@@ -1,15 +1,5 @@
-const apiBasePath = 'https://www.bhhs.com';
-
-/**
- * Returns background color by block category name
- *
- * @param {string} category
- * @returns {string}
- */
-export function getBackgroundColor(category) {
-  const colorString = category ? category.toLocaleLowerCase().replace(/\s+/g, '-') : 'primary-color';
-  return `var(--${colorString})`;
-}
+const urlParams = new URLSearchParams(window.location.search);
+export const API_HOST = urlParams.get('env') === 'stage' ? 'https://ignite-staging.bhhs.com' : 'https://www.bhhs.com';
 
 function getBlogDetailsPath() {
   const url = window.location.pathname;
@@ -18,11 +8,11 @@ function getBlogDetailsPath() {
 }
 
 function buildApiPath() {
-  return `${apiBasePath}/blog/blog-detail/jcr:content/${getBlogDetailsPath()}.json`;
+  return `${API_HOST}/blog/blog-detail/jcr:content/${getBlogDetailsPath()}.json`;
 }
 
 function buildImageUrl(path) {
-  return `${apiBasePath}${path}`;
+  return `${API_HOST}${path}`;
 }
 
 /**
@@ -60,7 +50,7 @@ function prepareLink(path) {
 
 function selectCategoryInMenu(category) {
   const selector = `a[title="${category}"]`;
-  document.querySelector(selector).classList.add('selected-cat');
+  document.querySelector(selector).parentNode.classList.add('selected-cat');
 }
 
 export default async function decorate(block) {
@@ -71,9 +61,8 @@ export default async function decorate(block) {
 
   const blogNav = document.querySelector('.blog-nav');
   let html;
-  blogNav.style.backgroundColor = getBackgroundColor(category);
+  blogNav.classList.add(category.toLowerCase().replace(/\s+/g, '-'));
   selectCategoryInMenu(category);
-  blogNav.style.setProperty('--border-color', 'var(--primary-color)');
   html = `
     <div class="title-section">
         <p id="main-title" role="heading" aria-level="1" class="title">${title}</p>

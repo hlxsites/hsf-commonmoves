@@ -11,7 +11,7 @@ export default async function decorate(block) {
     if (child.querySelector('li')) {
       [...child.children].forEach((category) => {
         if (selectedCategoryUrl.includes(category.querySelector('a').href)) {
-          category.querySelector('a').classList.add('selected-cat');
+          category.classList.add('selected-cat');
           categoryName = category.textContent;
         }
       });
