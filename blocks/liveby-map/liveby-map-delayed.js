@@ -160,7 +160,7 @@ function getCenter(coords) {
     const minY = coords.reduce((y1,y2)=>Math.min(y1,y2[1]), 10000);
     const maxY = coords.reduce((y1,y2)=>Math.max(y1,y2[1]), -10000);
     // Return center of bounding box
-    return [(maxX-minX)/2, (maxY-minY)/2];
+    return [(maxX+minX)/2, (maxY+minY)/2];
 }
 
 function convertCoordinates(coords) {
