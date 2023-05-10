@@ -2,38 +2,31 @@ import {
   readBlockConfig,
 } from '../../scripts/lib-franklin.js';
 
+const urlParams = new URLSearchParams(window.location.search);
+export const API_HOST = urlParams.get('env') === 'stage' ? 'https://ignite-staging.bhhs.com' : 'https://www.bhhs.com';
+
 const DEFAULT_SCROLL_INTERVAL_MS = 6000;
 const DEFAULT_DESCRIPTION_LENGTH = 141;
-let blogCategory = false;
+const category = window.location.pathname.split('/').filter(Boolean)[1] ?? '';
 let numCarouselItems;
 let numBlogItems;
 const loadMoreCount = 6;
 let loadOffset = 0;
-const apiBasePath = 'https://www.bhhs.com';
 const event = new Event('startAutoScroll');
 let scrollInterval;
 
-/**
- * Returns background color by block category name
- *
- * @param {string} category
- * @returns {string}
- */
-export function getBackgroundColor(category) {
-  const colorString = category ? category.toLocaleLowerCase().replace(/\s+/g, '-') : 'primary-color';
-  return `var(--${colorString})`;
-}
-
-function buildApiPath(category, offset, count) {
-  let url = `${apiBasePath}/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${blogCategory}.offset_${offset}.count_${count}.json`;
+function buildApiPath(offset, count) {
+  let url;
   if (category === '') {
-    url = `${apiBasePath}/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
+    url = `${API_HOST}/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
+  } else {
+    url = `${API_HOST}/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${category}.offset_${offset}.count_${count}.json`;
   }
   return url;
 }
 
-async function getData(category, dataKey, offset, count) {
-  const url = buildApiPath(category, offset, count);
+async function getData(dataKey, offset, count) {
+  const url = buildApiPath(offset, count);
   const resp = await fetch(url, {
     headers: {
       accept: '*/*',
@@ -52,50 +45,47 @@ async function getData(category, dataKey, offset, count) {
 }
 
 function trimDescription(description) {
-  const trimedDescription = description.replace(/(<([^>]+)>)/ig, '');
-  return `${trimedDescription.substring(0, DEFAULT_DESCRIPTION_LENGTH)}...`;
+  const trimmedDescription = description.replace(/(<([^>]+)>)/ig, '');
+  return `${trimmedDescription.substring(0, DEFAULT_DESCRIPTION_LENGTH)}...`;
 }
 
 function buildImageUrl(path) {
-  return `${apiBasePath}${path}`;
+  return `${API_HOST}${path}`;
 }
 
 function prepareBlogArticleUrl(link) {
   return link.replace(/\.html$/, '');
 }
 
-function buildBlogList(block, data, setBackgroundColor = false) {
+function buildBlogItem(block, data, addClass = false) {
+  const itemCategory = data.category;
   const {
-    category, description, image, link, mobileImage, tabletImage, title,
+    description, image, link, mobileImage, tabletImage, title,
   } = data;
   const blogContainer = document.createElement('div');
   // @todo can we change variable name(????)
-  blogContainer.style.backgroundColor = setBackgroundColor ? getBackgroundColor(category) : 'inherit';
   blogContainer.classList.add('blog-item');
+  if (addClass) {
+    const clazz = itemCategory.toLocaleLowerCase().replace(/\s+/g, '-');
+    blogContainer.classList.add(clazz);
+  }
   blogContainer.innerHTML = `
     <div class="image-content">
-        <picture>
-            <source media="(max-width:767px)" srcset="${buildImageUrl(mobileImage)}">
-            <source media="(min-width:768px) and (max-width:1279px)" srcset="${buildImageUrl(tabletImage)}">
-            <img data-src="${buildImageUrl(image)}" src="${buildImageUrl(image)}" class="image" aria-label="${title}">
-        </picture>
+      <picture>
+        <source media="(max-width:767px)" srcset="${buildImageUrl(mobileImage)}">
+        <source media="(min-width:768px) and (max-width:1279px)" srcset="${buildImageUrl(tabletImage)}">
+        <img src="${buildImageUrl(image)}" class="image" aria-label="${title}" alt="${title}">
+      </picture>
     </div>
     <div class="blog-content">
-        <p class="blog-category text-up">${category}</p>
-         <p class="title">${title}</p>
-        <div class="description"><p>${trimDescription(description)}</p></div> 
-        <a href="${prepareBlogArticleUrl(link)}" target="_blank" class="readmore text-up">read more
-      <img src="/icons/arrow-back.svg"  aria-hidden="true" alt="read-more-icon #1" class="arrowIcon"></a>
-     </div>
+      <p class="blog-category text-up">${itemCategory}</p>
+      <p class="title">${title}</p>
+      <div class="description"><p>${trimDescription(description)}</p></div> 
+      <a href="${prepareBlogArticleUrl(link)}" target="_blank" class="readmore text-up">read more
+      <img src="/icons/arrow-back.svg"  aria-hidden="true" alt="Read More" class="arrowIcon"></a>
+    </div>
     `;
   block.append(blogContainer);
-}
-
-function getBlogCategory() {
-  if (!blogCategory) {
-    blogCategory = window.location.pathname.split('/').filter(Boolean)[1] ?? '';
-  }
-  return blogCategory;
 }
 
 function buildSeeMoreContentButton(block, dataKey) {
@@ -106,21 +96,15 @@ function buildSeeMoreContentButton(block, dataKey) {
   buttonContainer.innerText = 'see more content';
   buttonContainer.addEventListener('click', async () => {
     buttonContainer.disabled = true;
-    const articles = await getData(getBlogCategory(), dataKey, loadOffset, loadMoreCount);
+    const articles = await getData(dataKey, loadOffset, loadMoreCount);
+    articles.forEach((blog) => {
+      buildBlogItem(blogsGridContainer, blog);
+    });
     if (articles.length > 0 && articles.length === loadMoreCount) {
-      articles.forEach((blog) => {
-        buildBlogList(blogsGridContainer, blog);
-      });
       buttonContainer.disabled = false;
-    } else if (articles.length < loadMoreCount) {
-      articles.forEach((blog) => {
-        buildBlogList(blogsGridContainer, blog);
-      });
-      buttonContainer.remove();
     } else {
       buttonContainer.remove();
     }
-    buttonContainer.disabled = false;
   });
   block.append(buttonContainer);
 }
@@ -184,15 +168,16 @@ export default async function decorate(block) {
   carouselContainer.innerHTML = '<div class="container"></div>';
   blogsGridContainer.classList.add('blogs-grid-list');
   carouselButtons.classList.add('owl-dots');
+
   // get blog items
-  if (getBlogCategory() === '') {
+  if (category === '') {
     dataKey = 'gridList';
   }
-  const articles = await getData(getBlogCategory(), dataKey, loadOffset, numBlogItems);
+  const articles = await getData(dataKey, loadOffset, numBlogItems);
   articles.forEach((blog, index) => {
     if (index < numCarouselItems) {
       const buttonElement = document.createElement('button');
-      buildBlogList(carouselContainer.querySelector('.container'), blog, true);
+      buildBlogItem(carouselContainer.querySelector('.container'), blog, true);
       buttonElement.classList.add('owl-dot');
       buttonElement.ariaLabel = `carousel-slide-${index}`;
       buttonElement.innerHTML = '<span/>';
@@ -203,7 +188,7 @@ export default async function decorate(block) {
       });
       carouselButtons.appendChild(buttonElement);
     }
-    buildBlogList(blogsGridContainer, blog);
+    buildBlogItem(blogsGridContainer, blog);
   });
   carouselButtons.querySelectorAll('.owl-dot')[0].classList.add('active');
   carouselContainer.append(carouselButtons);

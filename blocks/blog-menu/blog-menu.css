@@ -20,7 +20,7 @@
   max-width: 1600px;
 }
 
-.blog-nav a { 
+.blog-nav a {
   text-decoration: none;
   letter-spacing: var(--letter-spacing-m);
   font-family: var(--font-family-proxima);
@@ -52,6 +52,7 @@
   padding: 16px 0;
   letter-spacing: var(--letter-spacing-m);
   line-height: var(--line-height-m);
+  text-align: center;
 }
 
 .blog-nav ul {
@@ -75,10 +76,6 @@
   letter-spacing: var(--letter-spacing-m);
   padding: 16px 0;
   border-top: solid 1px var(--white);
-  text-align: center;
-}
-
-.blog-nav .blog-nav-selected {
   text-align: center;
 }
 
