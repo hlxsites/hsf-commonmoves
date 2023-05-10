@@ -100,6 +100,7 @@
   .quote-carousel.block .carousel-content .item .quote {
     padding-top: 0;
     padding-bottom: 0;
+    font-weight: var(--font-weight-thin);
     line-height: var(--line-height-s);
   }
 }
