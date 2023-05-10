@@ -161,6 +161,12 @@ function getCenter(coords) {
     );
 }
 
+function convertCoordinates(coords) {
+  return coords.map(
+    c => {return {"lng": parseFloat(c[0]), "lat": parseFloat(c[1])};}
+  );
+}
+
 function initLiveByMap() {
     const mapDiv = document.querySelector(".liveby-map-main");
     const coordinates = window.liveby.geometry.coordinates[0];
@@ -184,7 +190,7 @@ function initLiveByMap() {
         strokeWeight: 2,
         clickable: false,
         zIndex: 1,
-        path: coordinates,
+        path: convertCoordinates(coordinates),
         editable: false,
         fillOpacity: 0,
     };
