@@ -82,7 +82,7 @@ export default async function decorate(block) {
         </div>
         <div class="right-section">
             <button type="button" class="share-page">
-                <img src="/icons/ico-share.svg" alt="share-icon">
+                <img src="/icons/ico-share.svg" alt="share-icon" width="23" height="20">
                 <span class="share-this-page text-up">Share This Page</span></button>
             <div>
                 <span>Published:</span>
@@ -131,7 +131,7 @@ export default async function decorate(block) {
   if (nextarticle) {
     html += `<div class="next-article align-evenly">
             <div>
-              <img src="/icons/preview-arrow.svg" alt="previous-article">
+              <img src="/icons/preview-arrow.svg" alt="previous-article" width="17" height="7">
                 <a href=${prepareLink(previousarticlelink)}
                   aria-label="previous-article-${previousarticle}"
                   class="text-up">${previousarticle}</a>
@@ -140,13 +140,13 @@ export default async function decorate(block) {
               <a href=${prepareLink(nextarticlelink)}
                 aria-label="previous-article-${nextarticle}"
                 class="text-up">${nextarticle}</a>
-                <img src="/icons/preview-arrow.svg" alt="previous-article">
+                <img src="/icons/preview-arrow.svg" alt="previous-article" width="17" height="7">
           </div>
     </div>
  `;
   } else {
     html += `<div class="next-article">
-            <img src="/icons/preview-arrow.svg" alt="previous-article">
+            <img src="/icons/preview-arrow.svg" alt="previous-article"  width="17" height="7">
             <a href=${prepareLink(previousarticlelink)}
                aria-label="previous-article-${previousarticle}"
                class="text-up">${previousarticle}</a>
