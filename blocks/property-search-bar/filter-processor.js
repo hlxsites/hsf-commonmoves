@@ -10,9 +10,34 @@ import {
   propertySearch,
   SearchParameters,
 } from '../../scripts/apis/creg/creg.js';
-import { getSpinner } from '../../scripts/util.js';
+import { getSpinner, showModal } from '../../scripts/util.js';
 
-import { setPropertyDetails as setResults } from '../../scripts/search/results.js';
+import { getPropertyDetails, setPropertyDetails as setResults } from '../../scripts/search/results.js';
+
+function prepareParamsForSearch(type) {
+  const params = getSearchObject();
+  const keysToDelete = ['SearchType'];
+  switch (type) {
+    case 'City':
+      keysToDelete.push(
+        'MapSearchType',
+        'SouthWestLongitude',
+        'SouthWestLatitude',
+        'NorthEastLongitude',
+        'NorthEastLatitude',
+        'SearchParameter',
+      );
+      break;
+    default:
+      break;
+  }
+  keysToDelete.forEach((key) => {
+    if (Object.prototype.hasOwnProperty.call(params, key)) {
+      delete params[key];
+    }
+  });
+  return params;
+}
 
 export function searchProperty() {
   const spinner = getSpinner();
@@ -21,10 +46,7 @@ export function searchProperty() {
   overlay.prepend(spinner);
   const type = getParam('SearchType');
   const input = '';
-  const searchParams = getSearchObject();
-  if (Object.prototype.hasOwnProperty.call(searchParams, 'SearchType')) {
-    delete searchParams.SearchType;
-  }
+  const searchParams = prepareParamsForSearch(type);
   const params = new SearchParameters(type, input, searchParams);
   propertySearch(params).then((results) => {
     if (!results?.properties) {
@@ -32,6 +54,9 @@ export function searchProperty() {
     }
     const output = JSON.stringify(results.properties);
     setResults(output);
+  }).catch((e) => {
+    setResults([]);
+  }).finally(() => {
     spinner.remove();
     toggleOverlay();
   });
@@ -93,7 +118,7 @@ export function formatValue(filterName, value) {
  * @returns {string}
  *
  */
-export function getValueFromStorage(filterName) {
+function getValueFromStorage(filterName) {
   let minValue = '';
   let maxValue = '';
   let value = '';
@@ -124,21 +149,6 @@ export function getValueFromStorage(filterName) {
   return value;
 }
 
-export function removeFilterValue(name, value = '') {
-  let params;
-  let paramsToArray;
-  switch (name) {
-    case 'Features':
-      params = getParam('Features') ?? '';
-      paramsToArray = params.split(',');
-      paramsToArray = paramsToArray.filter((i) => i !== value);
-      params = paramsToArray.join(',');
-      setParam('Features', params);
-      break;
-    default:
-      removeParam(name);
-  }
-}
 /**
  *
  * @param {string} name
@@ -146,7 +156,22 @@ export function removeFilterValue(name, value = '') {
  */
 export function setFilterValue(name, value) {
   let params;
+  let values;
   switch (name) {
+    case 'PropertyType':
+      params = getValueFromStorage('PropertyType');
+      if (value.length === 1) {
+        params.push(value);
+        params = params.join(',');
+        setParam('PropertyType', params);
+      } else if (value.length > 1) {
+        values = value.split(',');
+        values = [...params, ...values];
+        values = [...new Set(values)];
+        values = values.join(',');
+        setParam('PropertyType', values);
+      }
+      break;
     case 'FeaturedCompany':
       // eslint-disable-next-line no-unused-expressions
       value ? setParam('FeaturedCompany', 'BHHS') : removeParam('FeaturedCompany');
@@ -171,6 +196,30 @@ export function setFilterValue(name, value) {
       break;
     default:
       setParam(name, value);
+  }
+}
+export function removeFilterValue(name, value = '') {
+  let params;
+  let paramsToArray;
+  switch (name) {
+    case 'Features':
+      params = getParam('Features') ?? '';
+      paramsToArray = params.split(',');
+      paramsToArray = paramsToArray.filter((i) => i !== value);
+      params = paramsToArray.join(',');
+      setParam('Features', params);
+      break;
+    case 'PropertyType':
+      if (value.length > 0) {
+        params = getValueFromStorage('PropertyType');
+        params = params.filter((i) => i !== value);
+        setParam('PropertyType', params.join(','));
+      } else {
+        removeParam('PropertyType');
+      }
+      break;
+    default:
+      removeParam(name);
   }
 }
 
