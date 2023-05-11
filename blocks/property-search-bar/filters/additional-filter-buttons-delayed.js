@@ -5,8 +5,6 @@ const event = new Event('onFilterChange');
 
 function addEventListeners() {
   const block = document.querySelector('.property-search-bar.block');
-  const overlay = block.querySelector('.overlay');
-  const hideClass = 'hide';
   // close form on click cancel button
   block.querySelector('.filter-buttons a[title="cancel"]').addEventListener('click', () => {
     togglePropertyForm();

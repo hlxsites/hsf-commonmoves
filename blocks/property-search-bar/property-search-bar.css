@@ -281,7 +281,13 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     letter-spacing: normal;
 }
 
-.search-bar input:first-of-type {
+.property-search-bar.block input:focus {
+    background: var(--white);
+    color: var(--body-color);
+    outline: none;
+}
+
+.property-search-bar.block .search-bar input:first-of-type {
     padding: 10px;
     border: 1px solid var(--grey);
     letter-spacing: normal;
@@ -289,12 +295,6 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     background-color: rgb(241 241 241 / 10%);
     width: 100%;
     color: var(--white);
-}
-
-.property-search-bar.block input:focus {
-    background: var(--white);
-    color: var(--body-color);
-    outline: none;
 }
 
 .property-search-bar.block .filter .multiple-inputs .input-dropdown,
@@ -538,7 +538,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
 }
 
 /* suggestions */
-.search-bar .suggester-results {
+.property-search-bar.block  .search-bar .suggester-results {
     display: none;
     position: absolute;
     left: 0;
@@ -552,15 +552,15 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     line-height: 1.5;
 }
 
-.search-bar.show-suggestions .suggester-results {
+.property-search-bar.block .search-bar.show-suggestions .suggester-results {
     display: block;
 }
 
-.search-bar .suggester-results > li > ul {
+.property-search-bar.block .search-bar .suggester-results > li > ul {
     padding: 0 15px;
 }
 
-.search-bar .suggester-results > li > ul > li {
+.property-search-bar.block .search-bar .suggester-results > li > ul > li {
     padding: 8px 0;
     font-size: var(--body-font-size-m);
     font-weight: 400;
@@ -568,7 +568,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     letter-spacing: normal;
 }
 
-.search-bar .suggester-results .list-title {
+.property-search-bar.block .search-bar .suggester-results .list-title {
     padding: 15px 15px 5px;
     font-family: var(--font-family-proxima);
     font-size: var(--body-font-size-s);
@@ -715,7 +715,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     cursor: pointer;
 }
 
-.search-bar .suggester-results > li:first-child:not(:only-child){
+.property-search-bar.block .search-bar .suggester-results > li:first-child:not(:only-child){
     display: none;
 }
 

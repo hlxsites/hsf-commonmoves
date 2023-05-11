@@ -10,9 +10,9 @@ import {
   propertySearch,
   SearchParameters,
 } from '../../scripts/apis/creg/creg.js';
-import { getSpinner, showModal } from '../../scripts/util.js';
+import { getSpinner } from '../../scripts/util.js';
 
-import { getPropertyDetails, setPropertyDetails as setResults } from '../../scripts/search/results.js';
+import { setPropertyDetails as setResults } from '../../scripts/search/results.js';
 
 function prepareParamsForSearch(type) {
   const params = getSearchObject();
@@ -54,7 +54,7 @@ export function searchProperty() {
     }
     const output = JSON.stringify(results.properties);
     setResults(output);
-  }).catch((e) => {
+  }).catch(() => {
     setResults([]);
   }).finally(() => {
     spinner.remove();
