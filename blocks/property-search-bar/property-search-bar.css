@@ -132,6 +132,7 @@ main .section .property-search-bar .button-container a {
     text-align: center;
     display: flex;
     height: 50px;
+    width: 100vw;
     background-color: var(--primary-color);
     color: var(--white);
     align-items: center;
@@ -923,7 +924,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     }
 
     .property-search-bar.block .search-listing-block {
-        width: var(--normal-page-width);
+        max-width: var(--normal-page-width);
         justify-content: space-between;
     }
 
