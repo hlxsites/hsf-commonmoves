@@ -1,10 +1,10 @@
 <div class="property-container">
   <div class="property-row">
-    <div class="col col-full offset-1 col-10">
+    <div class="col col-12 col-md-10 offset-md-1">
       <h5 class="cmp-local-school-detail__title">${school.schoolName}</h5>
       <div class="cmp-local-school-detail__profile">
         <div class="property-row">
-          <div class="col col-full col-6">
+          <div class="col col-12 col-xl-6">
             <div class="property-row">
               <div class="col col-4">
                 <h6>Grades</h6>
@@ -24,22 +24,26 @@
             <h6>Contact</h6>
             <p class="adr">${school.addressFull}</p>
             <p class="tel">${school.phone}</p>
-            <p class="url"><a target="_blank"
-                href="${school.url}">${school.url}</a>
+            <p class="url">
+              <a target="_blank" href="${school.url}">${school.url}</a>
             </p>
           </div>
-          <div class="col col-full col-6 cmp-local-school-detail__boundary has-boundary">
+          <div class="col col-12 col-xl-6 cmp-local-school-detail__boundary has-boundary">
             <div class="cmp-local-school-detail__map">
-              <div id="school_gmap_canvas" style="position: relative; overflow: hidden;">
-              </div>
+              <div id="school_gmap_canvas" style="position: relative; overflow: hidden;"></div>
               <div class="custom-controls">
-                <div class="zoom-controls"><a class="map-zoom-in"></a> <a class="map-zoom-out"></a></div>
+                <div class="zoom-controls">
+                  <a class="map-zoom-in"></a> 
+                  <a class="map-zoom-out"></a>
+                </div>
               </div>
             </div>
-            <div class="cmp-local-school-detail__more"><a href="#">
+            <div class="cmp-local-school-detail__more">
+              <a href="#">
                 <span class="icon icon-search"></span>
                 See homes this school serves
-              </a></div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -63,9 +67,10 @@
         <!---->
         <div class="cmp-local-school-detail__ratings">
           <h6>School Ratings</h6>
-          <p>For school ratings and more information, please visit SchoolDigger.</p> <a target="_blank"
-            href="${school.urlCompare}"
-            class="btn btn-secondary--compact"><span class="cmp-cta__btn-text">See Ratings</span></a>
+          <p>For school ratings and more information, please visit SchoolDigger.</p> 
+          <a target="_blank" href="${school.urlCompare}" class="btn btn-secondary--compact">
+            <span class="cmp-cta__btn-text">See Ratings</span>
+          </a>
         </div>
         <div class="close">
           <span class="icon icon-close_x"></span>

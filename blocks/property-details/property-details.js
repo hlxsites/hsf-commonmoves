@@ -44,9 +44,12 @@ function togglePhotosMap() {
     photoGallery.classList.remove('invisible');
     photoRow.classList.remove('invisible');
   } else if(this.classList.contains('map')) {
+    var height = photoGallery.querySelector('img').offsetHeight;
+    console.log(height);
     photoGallery.classList.add('invisible');
     photoRow.classList.add('invisible');
     mapElem.classList.remove('invisible');
+    mapElem.style.height = height + 'px';
   }
 }
 export default async function decorate(block) {

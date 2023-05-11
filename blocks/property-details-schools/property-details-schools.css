@@ -121,6 +121,120 @@
   text-align: right;
 }
 
+.cmp-local-school-detail__boundary {
+  display: none;
+}
+
+.cmp-local-school-detail__title {
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 29px;
+  letter-spacing: 0;
+  margin: 10px 0 0;
+  padding-right: 40px;
+  text-transform: none;
+}
+
+.cmp-local-school-detail__profile {
+  background: #f6f6f6;
+  margin: 18px 0 0;
+  padding: 27px 20px;
+}
+
+.cmp-local-school-detail__profile .property-row .property-row h6 {
+  margin-top: 0;
+}
+
+.cmp-local-school-detail__profile .property-row h6 {
+  font-family: var(--font-family-proxima);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: .87px;
+  margin: 20px 0 6px;
+  text-transform: uppercase;
+}
+
+.cmp-local-school-detail h6 {
+  font-family: var(--font-family-proxima);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0;
+  margin: 32px 0 12px;
+  text-transform: none;
+}
+
+.cmp-local-school-detail__profile .property-row p {
+  font-size: 18px;
+  letter-spacing: .56px;
+  line-height: 22px;
+  margin: 0;
+}
+
+.cmp-local-school-detail__profile .url {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cmp-local-school-detail__stat {
+  border-left: 2px solid transparent;
+  height: 75px;
+  padding: 14px 0;
+}
+
+.cmp-local-school-detail__stat .val {
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 26px;
+  letter-spacing: .65px;
+}
+
+.btn:not(:disabled):not(.disabled) {
+  cursor: pointer;
+}
+
+.btn.btn-primary--compact, .btn.btn-secondary--compact, .btn.btn-tertiary--compact {
+  padding: 6px 25px;
+  font-size: 12px;
+}
+
+.btn.btn-secondary, .btn.btn-secondary--compact {
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.btn {
+  font-family: var(--font-family-proxima);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+  line-height: 1.5;
+  border-radius: 0;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+}
+
+.cmp-local-school-detail .close {
+  cursor: pointer;
+  padding: 10px;
+  position: absolute;
+  right: 5px;
+  top: 2px;
+}
+
+.cmp-local-school-detail .close svg {
+  height: 22px;
+  width: 22px;
+}
+
 @media (min-width: 576px) {
   .property-container {
     max-width: 540px;
@@ -161,6 +275,70 @@
   .school-name {
     font-size: 19px;
   }
+
+  .cmp-local-school-detail__title {
+    font-size: 32px;
+    line-height: 38px;
+  }
+
+  .cmp-local-school-detail__profile {
+    margin: 33px 0 0;
+    padding: 47px;
+  }
+
+  .cmp-local-school-detail__profile .property-row h6 {
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin: 30px 0 7px;
+  }
+
+  .cmp-local-school-detail h6 {
+    font-size: 18px;
+    line-height: 22px;
+    margin: 74px 0 26px;
+  }
+
+  .cmp-local-school-detail__profile .property-row p {
+    font-size: 20px;
+    letter-spacing: .62px;
+    line-height: 31px;
+  }
+
+  .cmp-local-school-detail__stats .col-6:first-child .cmp-local-school-detail__stat {
+    position: relative;
+  }
+
+  .cmp-local-school-detail__stat {
+    border-bottom: 1px solid #d8d8d8;
+    border-top: 1px solid #d8d8d8;
+    height: 150px;
+    padding: 44px 0 0;
+  }
+
+  .cmp-local-school-detail__stats .col-6:first-child .cmp-local-school-detail__stat::before, .cmp-local-school-detail__stats .col-6:first-child .cmp-local-school-detail__stat::after {
+    background: #f6f6f6;
+    content: '';
+    display: block;
+    height: 1px;
+    margin: 0 -5px;
+    position: absolute;
+    right: -30px;
+    top: -1px;
+    width: 40px;
+  }
+
+  .cmp-local-school-detail__stat .val {
+    font-size: 40px;
+    letter-spacing: .89px;
+    line-height: 48px;
+  }
+
+  .cmp-local-school-detail__stats .col-6:first-child .cmp-local-school-detail__stat::after {
+    bottom: -1px;
+    top: auto;
+  }
+
+
 }
 
 @media (min-width: 1200px) {

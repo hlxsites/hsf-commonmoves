@@ -116,7 +116,7 @@
 }
 
 .image-gallery-container {
-  max-width: 1800px;
+  max-width: 1600px;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -127,21 +127,21 @@
   margin: 0;
   padding: 0;
   position: relative;
-  left: -33.33333%;
-  transform: translateX(33.33333%);
+  left: -75%;
+  transform: translateX(50%);
 }
 
 .carousel.is-reversing {
-  transform: translateX(-33.333%);
+  transform: translateX(-50%);
 }
 
 .carousel.is-set {
   transform: none;
-  transition: transform 0.5s ease;
+  transition: transform 0.25s ease 0s;
 }
 
 .carousel-seat {
-  flex: 1 0 33.333%;
+  flex: 1 0 50%;
   order: 2;
 }
 
@@ -151,7 +151,7 @@
 
 .img-wrapper img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
 }
 
@@ -178,10 +178,18 @@
   display: flex;
 }
 
+.cmp-map {
+  max-width: 1600px;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+}
+
 #cmp-map-canvas {
-  height: 340px;
+  flex: 1;
   width: 100vw;
   left: 0;
+  margin-bottom: 3.5px;
 }
 
 .invisible {
@@ -252,6 +260,14 @@
 
 .num-image {
   margin-right: 0.5rem;
+}
+
+.num-index {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 button.toggle {

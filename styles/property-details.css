@@ -24,6 +24,11 @@
   max-width: 25%;
 }
 
+.col-4 {
+  flex: 0 0 33.333%;
+  max-width: 33.333%;
+}
+
 .col-5 {
   flex: 0 0 41.667%;
   max-width: 41.667%;
@@ -350,6 +355,11 @@
   .col-xl-5 {
     flex: 0 0 41.667%;
     max-width: 41.667%;
+  }
+
+  .col-xl-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
   }
 
   .offset-xl-6 {
