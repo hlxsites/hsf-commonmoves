@@ -970,7 +970,8 @@ main .section .property-search-bar .btn.btn-secondary:hover {
 
     .property-search-bar.block .search-listing-container > div:last-of-type {
         display: flex;
-        width: var(--normal-page-width);
+        width: 100vw;
+        max-width: var(--normal-page-width);
     }
 
     .property-search-bar.block .primary-search {
