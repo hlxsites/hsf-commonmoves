@@ -1,6 +1,7 @@
 import { decorateIcons, readBlockConfig } from '../../scripts/lib-franklin.js';
+import { DOMAIN } from '../../scripts/apis/creg/creg.js';
 
-const COMMONMOVES_API_BASE = 'https://www.bhhs.com';
+const API_HOST = `https://${DOMAIN}`;
 
 const defaultParameters = {
   minprice: '800000',
@@ -13,64 +14,66 @@ const defaultParameters = {
   minimumlongitude: '-71.8089129793709',
 };
 
+function createImage(listing) {
+  if (listing.SmallMedia?.length > 0) {
+    return `<img src="${listing.SmallMedia[0].mediaUrl} alt="property-image" loading="lazy" class="property-thumbnail">`;
+  }
+  return '<div class="property-no-available-image"><span>no images available</span></div>';
+}
+
 function createCard(listing) {
-  let html = `
-    <li class="listing-tile"> 
+  const item = document.createElement('div');
+  item.classList.add('listing-tile');
+  if (listing.OpenHouses?.length > 0) {
+    item.classList.add('has-open-houses');
+  }
+
+  if (listing.FeaturedListing) {
+    item.classList.add('is-featured');
+  }
+
+  if (listing.newListing) {
+    item.classList.add('is-new');
+  }
+
+  item.innerHTML = `
+    <a href="${listing.PdpPath}" rel="noopener" aria-label="${listing.StreetName}">
       <div class="listing-image-container"> 
         <div class="property-image"> 
-          <a href="${listing.PdpPath}" rel="noopener" aria-label="${listing.StreetName}">`;
-  if (listing.SmallMedia.length > 0) {
-    html += `<img src="${listing.SmallMedia[0].mediaUrl} alt="property-image" loading="lazy" class="property-thumbnail">`;
-  } else {
-    html += `
-            <div class="property-no-available-image">
-              <span>no images available</span>
-            </div>
-    `;
-  }
-  html += `          
-          </a> 
+          ${createImage(listing)} 
         </div>
-        <div class="image-position-top">`;
-  if (listing.OpenHouses.length > 0) {
-    html += `
+        <div class="image-position-top">
           <div class="property-labels">
-            <span class="property-label open-house">
+            <div class="property-label open-house">
               <span class="icon icon-openhouse"></span>
               Open House
-            </span>
+            </div>
           </div>
-    `;
-  }
-  html += `
         </div>
         <div class="image-position-bottom"> 
-          <div class="property-labels">`;
-  if (listing.FeaturedListing) {
-    html += '<span class="property-label featured-listing">Featured Listing</span>';
-  }
-  if (listing.newListing) {
-    html += '<span class="property-label new-listing">New Listing</span>';
-  }
-  html += `
-        </div> 
-          <div class="property-info-wrapper"> 
-            <div class="property-price">
+          <div class="property-labels">
+            <span class="property-label featured-listing">Featured Listing</span>
+            <span class="property-label new-listing">New Listing</span>
+          </div>
+          <div class="property-price">
               ${listing.ListPriceUS}
-            </div> 
-            <div class="property-info"> 
-              <div class="address"> 
-                ${listing.StreetName}
-                <br> 
-                ${listing.City}, ${listing.StateOrProvince} ${listing.PostalCode} 
-              </div> 
-              <div class="specs"> 
-                ${listing.BedroomsTotal} Bed / ${listing.BathroomsTotal} Bath / ${listing.LivingArea} ${listing.LivingAreaUnits}
-              </div> 
-            </div> 
           </div> 
         </div> 
       </div>
+    </a>
+    <div class="property-details">
+      <div class="property-info-wrapper"> 
+        <div class="property-info"> 
+          <div class="address"> 
+            ${listing.StreetName}
+            <br> 
+            ${listing.City}, ${listing.StateOrProvince} ${listing.PostalCode} 
+          </div> 
+          <div class="specs"> 
+            ${listing.BedroomsTotal} Bed / ${listing.BathroomsTotal} Bath / ${listing.LivingArea} ${listing.LivingAreaUnits}
+          </div> 
+        </div> 
+      </div> 
       <div class="property-buttons"> 
         <div class="buttons-row-flex"> 
           <a aria-label="Contact Form" href="#" class="button-property"> 
@@ -83,30 +86,36 @@ function createCard(listing) {
           </a>
         </div>
       </div>
-      <hr> 
-      <div class="extra-info"> 
-          Listing courtesy of: ${listing.CourtesyOf}
-      </div> 
-      <div class="extra-info extra-info-flex"> 
-        <div>
-          Listing provided by: ${listing.listAor}
-        </div>`;
-  if (listing.listAor === 'RIMLS') {
-    html += `
-      <div>
-        <img class="rimls-image" src="/styles/images/rimls_logo.jpg" alt="Disclaimer Logo Image" loading="lazy">
+    </div>
+    <hr> 
+    <div class="extra-info">
+      <div> 
+        <div class="courtesy-info">Listing courtesy of: ${listing.CourtesyOf}</div>
+        <div class="courtesy-provided">Listing provided by: ${listing.listAor}</div>
       </div>
-    `;
-  }
-  html += `
-      </div> 
-    </li>
+      <div class="listing-aor ${listing.listAor.toLowerCase()}">
+        <img class="rimls-image" src="/styles/images/rimls_logo.jpg" alt="Disclaimer Logo Image" loading="lazy" height="20" width="33">
+      </div>
+    </div>
   `;
-  return html;
+  return item;
 }
 
 export default async function decorate(block) {
   const config = readBlockConfig(block);
+  block.innerHTML = `
+    <div class="header">
+      <div>
+        <span>${config.title}</span>
+      </div>
+      <div>
+        <p class="button-container">
+          <a href="" aria-label="${config['link-text'] || 'See More'}">${config['link-text'] || 'See More'}</a>
+        </p>
+      </div>
+    </div>
+  `;
+
   const apiParameters = {
     minprice: config.minprice || defaultParameters.minprice,
     newlisting: config.newlisting || defaultParameters.newlisting,
@@ -118,17 +127,20 @@ export default async function decorate(block) {
   };
   apiParameters.sort = config['sort-by'] && config['sort-direction'] ? `${config['sort-by']}_${config['sort-direction']}`.toUpperCase() : defaultParameters.sort;
   apiParameters.searchparameter = encodeURIComponent(`{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[${apiParameters.minimumlongitude}, ${apiParameters.maximumlatitude}],[${apiParameters.minimumlongitude}, ${apiParameters.minimumlatitude}],[${apiParameters.maximumlongitude}, ${apiParameters.minimumlatitude}],[${apiParameters.maximumlongitude}, ${apiParameters.maximumlatitude}],[${apiParameters.minimumlongitude}, ${apiParameters.maximumlatitude}]]]}}]}`);
-  const apiUrl = `${COMMONMOVES_API_BASE}/bin/bhhs/CregPropertySearchServlet?SearchType=Map&MinPrice=${apiParameters.minprice}&PropertyType=1,2,4&ApplicationType=FOR_SALE&ListingStatus=1&NewListing=${apiParameters.newlisting}&Sort=${apiParameters.sort}&PageSize=${apiParameters.pagesize}&Page=1&NorthEastLatitude=${apiParameters.maximumlatitude}&NorthEastLongitude=${apiParameters.maximumlongitude}&SouthWestLatitude=${apiParameters.minimumlatitude}&SouthWestLongitude=${apiParameters.minimumlongitude}&SearchParameter=${apiParameters.searchparameter}&MapSearchType=MapBounds&listingAgentId=&ucsid=false`;
+  const apiUrl = `${API_HOST}/bin/bhhs/CregPropertySearchServlet?SearchType=Map&MinPrice=${apiParameters.minprice}&PropertyType=1,2,4&ApplicationType=FOR_SALE&ListingStatus=1&NewListing=${apiParameters.newlisting}&Sort=${apiParameters.sort}&PageSize=${apiParameters.pagesize}&Page=1&NorthEastLatitude=${apiParameters.maximumlatitude}&NorthEastLongitude=${apiParameters.maximumlongitude}&SouthWestLatitude=${apiParameters.minimumlatitude}&SouthWestLongitude=${apiParameters.minimumlongitude}&SearchParameter=${apiParameters.searchparameter}&MapSearchType=MapBounds&listingAgentId=&ucsid=false`;
   const resp = await fetch(apiUrl);
   if (resp.ok) {
     const data = await resp.json();
     const listings = data.properties;
-    const ul = document.createElement('ul');
+    const list = document.createElement('div');
+    list.classList.add('property-list');
     listings.forEach((listing) => {
-      ul.innerHTML += createCard(listing);
+      list.append(createCard(listing));
     });
-    decorateIcons(ul);
-    block.textContent = '';
-    block.append(ul);
+    block.append(list);
+  } else {
+    // eslint-disable-next-line no-console
+    console.log('Unable to retrieve properties from CREG API.');
   }
+  decorateIcons(block);
 }
