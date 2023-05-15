@@ -1,7 +1,7 @@
 import { createAccordionItem } from '../../scripts/accordion.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 
-const marketTrendsAPI = 'https://www.bhhs.com/bin/bhhs/CregMarketTrends?PropertyId=343140756&Latitude=42.56574249267578&Longitude=-70.76632690429688&zipCode=01944';
+const marketTrendsAPI = 'https://www.bhhs.com/bin/bhhs/CregMarketTrends?PropertyId=347543300&Latitude=41.96909713745117&Longitude=-71.22725677490234&zipCode=02766';
 
 
 export default async function decorate(block) {

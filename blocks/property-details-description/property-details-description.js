@@ -41,17 +41,16 @@ export default async function decorate(block) {
             </div>
             <div class="property-details-description__text">
               <p data-text-count class="collapsed">
-                Presenting 38 Masconomo, a stunning Manchester manor that offers the perfect blend of classic and
-                contemporary style. A dramatic entryway welcomes you to a palatial foyer with soaring ceilings, a
-                grand double staircase and a stunning chef's kitchen complete with custom elmwood cabinets, a
-                Sub-Zero fridge and freezer, 2 Thermador dishwashers, additional fridge and freezer drawers, and a
-                six-burner Wolf gas range and oven. The beautiful second level offers 7 bedrooms, 6 of which with a
-                walk-in closet, full en suite bathroom, and stunning ocean views. The second level also boasts a
-                leisure and entertainment complex with a movie theater, billiard room, and sizable home gym. The
-                exterior's salt water infinity pool and spa, outdoor kitchen and gazebo are perfect for entertaining
-                and a fully outfitted cabana with full kitchen, bathroom, steam shower, sauna, and gas fireplace is
-                the perfect place to kick back and relax. Lastly, enjoy your very own private beach with deeded
-                rights.
+                How many properties check the boxes!This outstanding center entrance colonial is in the highly sought after Rosewood
+                Estates.A welcoming foyer offers double closets
+                for guests, & direct access to the spacious kitchen.A wealth of kitchen cabinets surrounds a center island, the dining
+                area enjoys a box - window views to the pretty back yard.The open flr plan continues into the vaulted ceiling family
+                room featuring an elegant fireplace, French doors to the deck, & space
+                for many configurations of your furniture!Also on the first floor is a dining room with wainscotting, a living room /
+                den, half bath & lrg laundry room.Upstairs are four spacious bedrooms, double vanity hall bath, & the main bedroom
+                offers walk in closet, vaulted ceilings along w / double vanity main bath w / luxurious tiled shower.The lwr levels
+                large media rm has a slider to the rear patio & fire pit.A private, level back yard to relax in , along w / storage
+                shed.Generator hookup!Showings begin at OH Sat 12 - 2 
               </p>
               <a href="#" rel="noopener" data-more-btn=""
                 class="property-details-description__more d-lg-none hidden d-block">View More</a>

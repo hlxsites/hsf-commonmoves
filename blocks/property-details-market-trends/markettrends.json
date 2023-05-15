@@ -1,126 +1,124 @@
 {
   "params": null,
   "total": {
-    "startDate": "2023-03-01",
-    "endDate": "2023-03-31",
-    "homesSold": 3,
-    "homesForSale": 10,
-    "avgDaysOnMarket": 147.0,
-    "avgPriceArea": "$546 USD",
-    "medianSalesPrice": "$555,000 USD",
-    "medianListPrice": "$3,047,499 USD"
+    "startDate": "2023-04-01",
+    "endDate": "2023-04-30",
+    "homesSold": 9,
+    "homesForSale": 13,
+    "avgDaysOnMarket": 22.0,
+    "avgPriceArea": "$292 USD",
+    "medianSalesPrice": "$635,000 USD",
+    "medianListPrice": "$565,000 USD"
   },
-  "detailTrends": [
-  {
-    "startDate": "2022-04-01",
-    "endDate": "2022-04-30",
-    "homesSold": 5,
-    "homesForSale": 11,
-    "avgDaysOnMarket": 47.0,
-    "avgPriceArea": "$496 USD",
-    "medianSalesPrice": "$1,200,000 USD",
-    "medianListPrice": "$3,100,000 USD"
-  }, {
+  "detailTrends": [{
     "startDate": "2022-05-01",
     "endDate": "2022-05-31",
-    "homesSold": 9,
-    "homesForSale": 20,
-    "avgDaysOnMarket": 45.0,
-    "avgPriceArea": "$518 USD",
-    "medianSalesPrice": "$1,100,000 USD",
-    "medianListPrice": "$2,200,000 USD"
+    "homesSold": 22,
+    "homesForSale": 32,
+    "avgDaysOnMarket": 22.0,
+    "avgPriceArea": "$284 USD",
+    "medianSalesPrice": "$444,000 USD",
+    "medianListPrice": "$529,950 USD"
   }, {
     "startDate": "2022-06-01",
     "endDate": "2022-06-30",
-    "homesSold": 10,
-    "homesForSale": 17,
-    "avgDaysOnMarket": 65.0,
-    "avgPriceArea": "$541 USD",
-    "medianSalesPrice": "$966,000 USD",
-    "medianListPrice": "$2,395,000 USD"
+    "homesSold": 20,
+    "homesForSale": 28,
+    "avgDaysOnMarket": 24.0,
+    "avgPriceArea": "$274 USD",
+    "medianSalesPrice": "$480,000 USD",
+    "medianListPrice": "$514,900 USD"
   }, {
     "startDate": "2022-07-01",
     "endDate": "2022-07-31",
-    "homesSold": 3,
-    "homesForSale": 15,
-    "avgDaysOnMarket": 93.0,
-    "avgPriceArea": "$420 USD",
-    "medianSalesPrice": "$875,000 USD",
-    "medianListPrice": "$2,498,000 USD"
+    "homesSold": 26,
+    "homesForSale": 29,
+    "avgDaysOnMarket": 27.0,
+    "avgPriceArea": "$263 USD",
+    "medianSalesPrice": "$520,500 USD",
+    "medianListPrice": "$499,900 USD"
   }, {
     "startDate": "2022-08-01",
     "endDate": "2022-08-31",
-    "homesSold": 5,
-    "homesForSale": 14,
-    "avgDaysOnMarket": 119.0,
-    "avgPriceArea": "$417 USD",
-    "medianSalesPrice": "$1,935,000 USD",
-    "medianListPrice": "$2,387,500 USD"
+    "homesSold": 31,
+    "homesForSale": 28,
+    "avgDaysOnMarket": 28.0,
+    "avgPriceArea": "$266 USD",
+    "medianSalesPrice": "$465,000 USD",
+    "medianListPrice": "$522,450 USD"
   }, {
     "startDate": "2022-09-01",
     "endDate": "2022-09-30",
-    "homesSold": 6,
-    "homesForSale": 17,
-    "avgDaysOnMarket": 110.0,
-    "avgPriceArea": "$548 USD",
-    "medianSalesPrice": "$1,230,000 USD",
-    "medianListPrice": "$2,450,000 USD"
+    "homesSold": 16,
+    "homesForSale": 30,
+    "avgDaysOnMarket": 37.0,
+    "avgPriceArea": "$266 USD",
+    "medianSalesPrice": "$503,000 USD",
+    "medianListPrice": "$569,450 USD"
   }, {
     "startDate": "2022-10-01",
     "endDate": "2022-10-31",
-    "homesSold": 5,
-    "homesForSale": 15,
-    "avgDaysOnMarket": 132.0,
-    "avgPriceArea": "$554 USD",
-    "medianSalesPrice": "$700,000 USD",
-    "medianListPrice": "$2,950,000 USD"
+    "homesSold": 20,
+    "homesForSale": 28,
+    "avgDaysOnMarket": 35.0,
+    "avgPriceArea": "$269 USD",
+    "medianSalesPrice": "$486,450 USD",
+    "medianListPrice": "$510,450 USD"
   }, {
     "startDate": "2022-11-01",
     "endDate": "2022-11-30",
-    "homesSold": 3,
-    "homesForSale": 12,
-    "avgDaysOnMarket": 181.0,
-    "avgPriceArea": "$570 USD",
-    "medianSalesPrice": "$1,410,000 USD",
-    "medianListPrice": "$2,700,000 USD"
+    "homesSold": 16,
+    "homesForSale": 18,
+    "avgDaysOnMarket": 38.0,
+    "avgPriceArea": "$282 USD",
+    "medianSalesPrice": "$530,000 USD",
+    "medianListPrice": "$677,400 USD"
   }, {
     "startDate": "2022-12-01",
     "endDate": "2022-12-31",
-    "homesSold": 5,
-    "homesForSale": 11,
-    "avgDaysOnMarket": 226.0,
-    "avgPriceArea": "$557 USD",
-    "medianSalesPrice": "$2,025,000 USD",
-    "medianListPrice": "$2,950,000 USD"
+    "homesSold": 18,
+    "homesForSale": 10,
+    "avgDaysOnMarket": 64.0,
+    "avgPriceArea": "$269 USD",
+    "medianSalesPrice": "$479,775 USD",
+    "medianListPrice": "$714,450 USD"
   }, {
     "startDate": "2023-01-01",
     "endDate": "2023-01-31",
-    "homesSold": 2,
-    "homesForSale": 8,
-    "avgDaysOnMarket": 171.0,
-    "avgPriceArea": "$534 USD",
-    "medianSalesPrice": "$391,250 USD",
-    "medianListPrice": "$2,499,999 USD"
+    "homesSold": 20,
+    "homesForSale": 16,
+    "avgDaysOnMarket": 60.0,
+    "avgPriceArea": "$307 USD",
+    "medianSalesPrice": "$415,000 USD",
+    "medianListPrice": "$566,450 USD"
   }, {
     "startDate": "2023-02-01",
     "endDate": "2023-02-28",
-    "homesSold": 1,
-    "homesForSale": 8,
-    "avgDaysOnMarket": 166.0,
-    "avgPriceArea": "$539 USD",
-    "medianSalesPrice": "$860,000 USD",
-    "medianListPrice": "$2,547,499 USD"
+    "homesSold": 7,
+    "homesForSale": 11,
+    "avgDaysOnMarket": 87.0,
+    "avgPriceArea": "$325 USD",
+    "medianSalesPrice": "$420,000 USD",
+    "medianListPrice": "$679,900 USD"
   }, {
     "startDate": "2023-03-01",
     "endDate": "2023-03-31",
-    "homesSold": 3,
-    "homesForSale": 10,
-    "avgDaysOnMarket": 147.0,
-    "avgPriceArea": "$546 USD",
-    "medianSalesPrice": "$555,000 USD",
-    "medianListPrice": "$3,047,499 USD"
-  }
-  ],
+    "homesSold": 8,
+    "homesForSale": 14,
+    "avgDaysOnMarket": 55.0,
+    "avgPriceArea": "$316 USD",
+    "medianSalesPrice": "$499,500 USD",
+    "medianListPrice": "$599,900 USD"
+  }, {
+    "startDate": "2023-04-01",
+    "endDate": "2023-04-30",
+    "homesSold": 9,
+    "homesForSale": 13,
+    "avgDaysOnMarket": 22.0,
+    "avgPriceArea": "$292 USD",
+    "medianSalesPrice": "$635,000 USD",
+    "medianListPrice": "$565,000 USD"
+  }],
   "listingInfo": {
     "listPrice": null,
     "listPricePercentage": 0.0,
@@ -131,6 +129,6 @@
     "priceAreaPercentage": 0.0,
     "priceAreaTrend": null,
     "market": "zip code",
-    "marketName": "01944"
+    "marketName": "02766"
   }
 }

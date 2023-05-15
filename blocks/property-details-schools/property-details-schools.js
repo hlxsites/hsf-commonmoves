@@ -1,7 +1,8 @@
 import { createAccordionItem } from '../../scripts/accordion.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 
-const schoolAPI = 'https://www.bhhs.com/bin/bhhs/cregSchoolServlet?latitude=42.56574249267578&longitude=-70.76632690429688';
+const schoolAPI = 'https://www.bhhs.com/bin/bhhs/cregSchoolServlet?latitude=41.96909713745117&longitude=-71.22725677490234';
+
 
 async function getSchools() {
   var publicSchools = [];
