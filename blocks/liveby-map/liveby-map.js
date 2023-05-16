@@ -1,5 +1,3 @@
-import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
-
 let alreadyDeferred = false;
 function initGoogleMapsAPI() {
   if (alreadyDeferred) {
@@ -17,10 +15,9 @@ function initGoogleMapsAPI() {
   document.head.append(script);
 }
 
-
 export default async function decorate(block) {
   const map = document.createElement('div');
-  map.classList.add("liveby-map-main")
+  map.classList.add('liveby-map-main');
   block.replaceChildren(map);
   initGoogleMapsAPI();
 }

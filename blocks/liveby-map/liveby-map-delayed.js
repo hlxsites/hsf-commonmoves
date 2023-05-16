@@ -1,4 +1,4 @@
-import { fetchPlaceholders, getMetadata } from '../../scripts/lib-franklin.js';
+import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
 
 const snazzyMapStyle = [
   {
@@ -191,7 +191,7 @@ function initLiveByMap() {
   });
 
   const polyOptions = {
-    map: map,
+    map,
     strokeColor: '#BA9BB2',
     strokeWeight: 2,
     fillColor: '#BA9BB2',
@@ -202,7 +202,7 @@ function initLiveByMap() {
     editable: false,
   };
 
-  const poly = new google.maps.Polygon(polyOptions);
+  new google.maps.Polygon(polyOptions);
 }
 
 function loadJS(src) {
