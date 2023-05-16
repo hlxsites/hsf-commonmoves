@@ -189,7 +189,6 @@ function initLiveByMap() {
         strokeColor: "#BA9BB2",
         strokeWeight: 2,        
         fillColor: "#BA9BB2",
-        fillOpacity: parseFloat(0.3),
         clickable: false,
         zIndex: 1,
         path: convertCoordinates(coordinates),
@@ -198,6 +197,7 @@ function initLiveByMap() {
     };
 
     const poly = new google.maps.Polygon(polyOptions);
+    poly.fillOpacity = 0.3;
 }
 
 function loadJS(src) {
