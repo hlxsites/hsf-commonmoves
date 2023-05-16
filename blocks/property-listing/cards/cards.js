@@ -117,12 +117,14 @@ export default async function render(searchParams, parent) {
   list.classList.add('property-list-cards');
   parent.append(list);
 
-  propertySearch(searchParams).then((results) => {
-    if (results?.properties) {
-      results.properties.forEach((listing) => {
-        list.append(createCard(listing));
-      });
-      decorateIcons(parent);
-    }
-  });
+  window.setTimeout(() => {
+    propertySearch(searchParams).then((results) => {
+      if (results?.properties) {
+        results.properties.forEach((listing) => {
+          list.append(createCard(listing));
+        });
+        decorateIcons(parent);
+      }
+    });
+  }, 3000);
 }
