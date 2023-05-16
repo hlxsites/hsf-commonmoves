@@ -14,7 +14,6 @@ function createCard(listing) {
     const seoName = [listing.StreetName, listing.City, listing.StateOrProvince, listing.PostalCode].map((v) => v.toLowerCase().replaceAll(/[^a-zA-Z0-9-]/g, '-')).join('-');
     detailsPath = `/property/detail/${seoName}/pid-${listing.PropId}?longitude=${listing.Longitude}&latitude=${listing.Latitude}`;
   }
-  console.log(detailsPath);
 
   const specs = [];
   if (listing.BedroomsTotal && listing.BedroomsTotal > 0) {
