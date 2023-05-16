@@ -1,4 +1,6 @@
 .liveby-map-main {
-  min-width:var(--normal-page-width);
-  min-height:30em;
+  overflow: hidden;
+  max-width: var(1150px);
+  min-width: 90vw;
+  min-height: 30em;
 }
