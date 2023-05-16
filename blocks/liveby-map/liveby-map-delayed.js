@@ -1,5 +1,4 @@
 /* global google */
-/*eslint no-unused-vars: ["error", { "argsIgnorePattern": "^_" }]*/
 
 import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
 
@@ -204,6 +203,7 @@ function initLiveByMap() {
     editable: false,
   };
 
+  // eslint-disable-next-line no-unused-vars
   const _poly = new google.maps.Polygon(polyOptions);
 }
 
