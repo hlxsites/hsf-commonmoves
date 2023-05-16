@@ -1,9 +1,9 @@
 import SearchParameters, { SortDirections, SortOptions } from '../../scripts/apis/creg/SearchParameters.js';
 import renderCards from './cards/cards.js';
 
-function addMoreButton() {
-  // TODO: add this logic if there's supposed to be more results;
-}
+// function addMoreButton() {
+// TODO: add this logic if there's supposed to be more results;
+// }
 
 export default class Search {
   #searchParams;
@@ -32,7 +32,8 @@ export default class Search {
 
   sortDirection;
 
-  async render(parent, enableMore) {
+  // eslint-disable-next-line no-unused-vars
+  async render(parent, enableMore = false) {
     this.#searchParams.MinPrice = this.minPrice;
     this.#searchParams.PageSize = this.pageSize || SearchParameters.DEFAULT_PAGE_SIZE;
     this.#searchParams.sortBy = this.sortBy || SortOptions.DATE;
