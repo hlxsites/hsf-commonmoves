@@ -113,14 +113,18 @@ function createCard(listing) {
  * @return {Promise<void>}
  */
 export default async function render(searchParams, parent) {
-  const results = await propertySearch(searchParams);
-  if (results?.properties) {
-    const list = document.createElement('div');
-    list.classList.add('property-list-cards');
-    results.properties.forEach((listing) => {
-      list.append(createCard(listing));
+  const list = document.createElement('div');
+  list.classList.add('property-list-cards');
+  parent.append(list);
+
+  window.setTimeout(() => {
+    propertySearch(searchParams).then((results) => {
+      if (results?.properties) {
+        results.properties.forEach((listing) => {
+          list.append(createCard(listing));
+        });
+        decorateIcons(parent);
+      }
     });
-    parent.append(list);
-    decorateIcons(parent);
-  }
+  }, 3000);
 }
