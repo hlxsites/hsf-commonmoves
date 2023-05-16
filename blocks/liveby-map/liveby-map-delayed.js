@@ -198,21 +198,27 @@ function initLiveByMap() {
     const poly = new google.maps.Polygon(polyOptions);
 }
 
-async function initLiveByAPI() {
-    const liveby_id = getMetadata('liveby-id');
-    const liveby_ref = getMetadata('liveby-ref');
-    const liveby_community = getMetadata('liveby-community').toLowerCase();
+function loadJS(src) {
     const script = document.createElement("script");
     script.type = "text/javascript";
     script.async = true;
     script.defer = true;
     script.innerHTML = `
-        let script = document.createElement('script');
-        script.src = 'https://pages.liveby.com/liveby.js?id=${liveby_id}&ref=%2F${liveby_ref}%2Fcommunities%2F${liveby_community}';
-        document.head.append(script);
+        (()=>{
+            let script = document.createElement('script');
+            script.src = '${src}';
+            document.head.append(script);
+        })();
     `;
     document.head.append(script);
+}
 
+async function initLiveByAPI() {
+    const liveby_id = getMetadata('liveby-id');
+    const liveby_ref = getMetadata('liveby-ref');
+    const liveby_community = getMetadata('liveby-community').toLowerCase();
+    const src=`https://pages.liveby.com/liveby.js?id=${liveby_id}&ref=%2F${liveby_ref}%2Fcommunities%2F${liveby_community}`
+    loadJS(src);
 }
 
 async function initGooglePlacesAPI() {
@@ -220,16 +226,8 @@ async function initGooglePlacesAPI() {
     const CALLBACK_FN = "initLiveByMap";
     window[CALLBACK_FN] = initLiveByMap;
     const { mapsApiKey } = placeholders;
-    const script = document.createElement("script");
-    script.type = "text/javascript";
-    script.async = true;
-    script.defer = true;
-    script.innerHTML = `
-        let script = document.createElement('script');
-        script.src = "https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=maps&callback=${CALLBACK_FN}";
-        document.head.append(script);
-    `;
-    document.head.append(script);
+    const src = "https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=maps&callback=${CALLBACK_FN}";
+    loadJS(src);
 }
 
 initGooglePlacesAPI();
