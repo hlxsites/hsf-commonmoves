@@ -8,46 +8,23 @@ import {
 
 import {
   propertySearch,
-  SearchParameters,
 } from '../../scripts/apis/creg/creg.js';
 import { getSpinner } from '../../scripts/util.js';
 
 import { setPropertyDetails as setResults } from '../../scripts/search/results.js';
+import SearchParameters from '../../scripts/apis/creg/SearchParameters.js';
 
-function prepareParamsForSearch(type) {
-  const params = getSearchObject();
-  const keysToDelete = ['SearchType'];
-  switch (type) {
-    case 'City':
-      keysToDelete.push(
-        'MapSearchType',
-        'SouthWestLongitude',
-        'SouthWestLatitude',
-        'NorthEastLongitude',
-        'NorthEastLatitude',
-        'SearchParameter',
-      );
-      break;
-    default:
-      break;
-  }
-  keysToDelete.forEach((key) => {
-    if (Object.prototype.hasOwnProperty.call(params, key)) {
-      delete params[key];
-    }
-  });
-  return params;
-}
-
+import SearchType from '../../scripts/apis/creg/SearchType.js';
 export function searchProperty() {
   const spinner = getSpinner();
   const overlay = document.querySelector('.overlay');
   toggleOverlay();
   overlay.prepend(spinner);
   const type = getParam('SearchType');
-  const input = '';
-  const searchParams = prepareParamsForSearch(type);
-  const params = new SearchParameters(type, input, searchParams);
+  const searchParams = getSearchObject();
+  const params = new SearchParameters(SearchType[type], searchParams);
+  params.populate(buildUrl());
+
   propertySearch(params).then((results) => {
     if (!results?.properties) {
       results.properties = [];
