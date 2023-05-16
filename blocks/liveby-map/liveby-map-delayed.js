@@ -187,9 +187,9 @@ function initLiveByMap() {
     const polyOptions = {
         map: map,
         strokeColor: "#BA9BB2",
-        strokeWeight: 2,
+        strokeWeight: 2,        
         fillColor: "#BA9BB2",
-        fillOpacity: 0.4,
+        fillOpacity: 1.0,
         clickable: false,
         zIndex: 1,
         path: convertCoordinates(coordinates),
