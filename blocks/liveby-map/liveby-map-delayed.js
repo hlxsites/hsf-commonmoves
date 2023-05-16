@@ -188,6 +188,8 @@ function initLiveByMap() {
         map: map,
         strokeColor: "#BA9BB2",
         strokeWeight: 2,
+        fillColor: "#BA9BB2",
+        fillOpacity: 0.4,
         clickable: false,
         zIndex: 1,
         path: convertCoordinates(coordinates),
@@ -213,14 +215,6 @@ function loadJS(src) {
     document.head.append(script);
 }
 
-async function initLiveByAPI() {
-    const liveby_id = getMetadata('liveby-id');
-    const liveby_ref = getMetadata('liveby-ref');
-    const liveby_community = getMetadata('liveby-community').toLowerCase();
-    const src=`https://pages.liveby.com/liveby.js?id=${liveby_id}&ref=%2F${liveby_ref}%2Fcommunities%2F${liveby_community}`
-    loadJS(src);
-}
-
 async function initGoogleMapsAPI() {
     const placeholders = await fetchPlaceholders();
     const CALLBACK_FN = "initLiveByMap";
@@ -230,5 +224,4 @@ async function initGoogleMapsAPI() {
     loadJS(src);
 }
 
-//initGoogleMapsAPI();
-initLiveByAPI();
+initGoogleMapsAPI();
