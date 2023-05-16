@@ -207,7 +207,7 @@ async function initLiveByAPI() {
     script.async = true;
     script.defer = true;
     script.innerHTML = `
-        const script = document.createElement('script');
+        let script = document.createElement('script');
         script.src = 'https://pages.liveby.com/liveby.js?id=${liveby_id}&ref=%2F${liveby_ref}%2Fcommunities%2F${liveby_community}';
         document.head.append(script);
     `;
@@ -225,7 +225,7 @@ async function initGooglePlacesAPI() {
     script.async = true;
     script.defer = true;
     script.innerHTML = `
-        const script = document.createElement('script');
+        let script = document.createElement('script');
         script.src = "https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=maps&callback=${CALLBACK_FN}";
         document.head.append(script);
     `;
