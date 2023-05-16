@@ -112,7 +112,7 @@ function createCard(listing) {
  * @param {HTMLElement} parent
  * @return {Promise<void>}
  */
-export default function render(searchParams, parent) {
+export default async function render(searchParams, parent) {
   const list = document.createElement('div');
   list.classList.add('property-list-cards');
   parent.append(list);
