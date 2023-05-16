@@ -221,7 +221,7 @@ async function initLiveByAPI() {
     loadJS(src);
 }
 
-async function initGooglePlacesAPI() {
+async function initGoogleMapsAPI() {
     const placeholders = await fetchPlaceholders();
     const CALLBACK_FN = "initLiveByMap";
     window[CALLBACK_FN] = initLiveByMap;
@@ -230,5 +230,5 @@ async function initGooglePlacesAPI() {
     loadJS(src);
 }
 
-initGooglePlacesAPI();
+//initGoogleMapsAPI();
 initLiveByAPI();
