@@ -204,7 +204,7 @@ function initLiveByMap() {
   };
 
   // eslint-disable-next-line no-unused-vars
-  const _poly = new google.maps.Polygon(polyOptions);
+  const poly = new google.maps.Polygon(polyOptions);
 }
 
 function loadJS(src) {
