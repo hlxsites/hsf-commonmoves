@@ -188,7 +188,7 @@ function initLiveByMap() {
     gestureHandling: 'greedy',
     styles: snazzyMapStyle,
     visualRefresh: true,
-    disableDefaultUI: true,
+    disableDefaultUI: false,
   });
 
   const polyOptions = {
