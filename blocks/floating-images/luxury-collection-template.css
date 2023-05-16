@@ -1,0 +1,49 @@
+.luxury-collection .image-right-extra-space-between .block.floating-images .content {
+    padding: 20px 100px;
+}
+
+.luxury-collection .block.floating-images p {
+    font-size: 18px;
+    letter-spacing: 0.9px;
+    font-weight: 300;
+    font-stretch: 100%;
+    margin-bottom: 16px;
+}
+
+.luxury-collection .button-container a {
+    background: var(--black);
+    color: var(--white);
+    border-color: var(--white);
+    padding: 9px 23px;
+    letter-spacing: 2.08px;
+    line-height: 22px;
+}
+
+.luxury-collection .button-container {
+    margin-top: 50px;
+}
+
+.luxury-collection .button-container .button.secondary:hover {
+    background-color: var(--white);
+    color: var(--black);
+    border: 1px solid var(--grey);
+    box-shadow: none;
+}
+
+.luxury-collection .block.floating-images h2 {
+    font: normal normal 300 50px/56px Gotham;
+}
+
+.luxury-collection .block.floating-images h3 {
+    font: normal normal 300 30px/36px 'Gotham';
+    font-weight: 200;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+    text-align: left;
+}
+.luxury-collection .block.floating-images .content h4 {
+    font: normal normal 400 16px/23px 'Gotham';
+    letter-spacing: 3.2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}

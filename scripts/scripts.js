@@ -250,6 +250,10 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
+  if (document.querySelector('.luxury-collection')) {
+    loadCSS(`${window.hlx.codeBasePath}/styles/templates/luxury-collection/lazy-styles.css`);
+  }
+
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
