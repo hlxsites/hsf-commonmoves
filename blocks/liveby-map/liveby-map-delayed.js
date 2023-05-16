@@ -226,7 +226,7 @@ async function initGooglePlacesAPI() {
     const CALLBACK_FN = "initLiveByMap";
     window[CALLBACK_FN] = initLiveByMap;
     const { mapsApiKey } = placeholders;
-    const src = "https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=maps&callback=${CALLBACK_FN}";
+    const src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=maps&callback=${CALLBACK_FN}`;
     loadJS(src);
 }
 
