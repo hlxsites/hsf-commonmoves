@@ -1,3 +1,5 @@
+/* global google */
+
 import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
 
 const snazzyMapStyle = [
@@ -174,7 +176,6 @@ function initLiveByMap() {
   const mapDiv = document.querySelector('.liveby-map-main');
   const coordinates = window.liveby.geometry.coordinates[0];
   const mapCenter = getCenter(coordinates);
-  console.dir(mapCenter);
   const map = new google.maps.Map(mapDiv, {
     zoom: 12,
     maxZoom: 18,
