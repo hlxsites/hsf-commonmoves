@@ -1,4 +1,4 @@
-import { fetchPlaceholders } from "../../scripts/lib-franklin.js";
+import { fetchPlaceholders, getMetadata } from "../../scripts/lib-franklin.js";
 
 const snazzyMapStyle = [
     {
@@ -164,9 +164,7 @@ function getCenter(coords) {
 }
 
 function convertCoordinates(coords) {
-  return coords.map(
-    c => {return {"lng": parseFloat(c[0]), "lat": parseFloat(c[1])};}
-  );
+  return coords.map(c => ({"lng": parseFloat(c[0]), "lat": parseFloat(c[1])}));
 }
 
 function initLiveByMap() {
@@ -200,6 +198,23 @@ function initLiveByMap() {
     const poly = new google.maps.Polygon(polyOptions);
 }
 
+async function initLiveByAPI() {
+    const liveby_id = getMetadata('liveby-id');
+    const liveby_ref = getMetadata('liveby-ref');
+    const liveby_community = getMetadata('liveby-community').toLowerCase();
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.async = true;
+    script.defer = true;
+    script.innerHTML = `
+        const script = document.createElement('script');
+        script.src = 'https://pages.liveby.com/liveby.js?id=${liveby_id}&ref=%2F${liveby_ref}%2Fcommunities%2F${liveby_community}';
+        document.head.append(script);
+    `;
+    document.head.append(script);
+
+}
+
 async function initGooglePlacesAPI() {
     const placeholders = await fetchPlaceholders();
     const CALLBACK_FN = "initLiveByMap";
@@ -210,11 +225,12 @@ async function initGooglePlacesAPI() {
     script.async = true;
     script.defer = true;
     script.innerHTML = `
-    const script = document.createElement('script');
-      script.src = "https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=maps&callback=${CALLBACK_FN}";
-      document.head.append(script);
-  `;
+        const script = document.createElement('script');
+        script.src = "https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=maps&callback=${CALLBACK_FN}";
+        document.head.append(script);
+    `;
     document.head.append(script);
 }
 
 initGooglePlacesAPI();
+initLiveByAPI();
