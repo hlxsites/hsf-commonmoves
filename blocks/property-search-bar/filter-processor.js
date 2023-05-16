@@ -15,6 +15,7 @@ import { setPropertyDetails as setResults } from '../../scripts/search/results.j
 import SearchParameters from '../../scripts/apis/creg/SearchParameters.js';
 
 import SearchType from '../../scripts/apis/creg/SearchType.js';
+
 export function searchProperty() {
   const spinner = getSpinner();
   const overlay = document.querySelector('.overlay');
