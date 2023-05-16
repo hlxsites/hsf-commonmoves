@@ -112,12 +112,12 @@ function createCard(listing) {
  * @param {HTMLElement} parent
  * @return {Promise<void>}
  */
-export default async function render(searchParams, parent) {
+export default function render(searchParams, parent) {
   const list = document.createElement('div');
   list.classList.add('property-list-cards');
   parent.append(list);
 
-  await propertySearch(searchParams).then((results) => {
+  propertySearch(searchParams).then((results) => {
     if (results?.properties) {
       results.properties.forEach((listing) => {
         list.append(createCard(listing));
