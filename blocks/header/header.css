@@ -358,7 +358,7 @@ body.light-nav {
   }
 
   .header.block nav .nav-sections > ul > li.nav-drop[aria-expanded="true"] a,
-  .header.block nav .nav-sections > ul > li.nav-drop[aria-expanded="true"] a:after {
+  .header.block nav .nav-sections > ul > li.nav-drop[aria-expanded="true"] a::after {
     color: var(--body-color);
   }
 
