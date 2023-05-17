@@ -57,31 +57,34 @@
   .block.floating-images > div > div {
     flex: 1;
   }
+
   .block.floating-images.image-left > div {
     flex-direction: row-reverse;
   }
 
   .image-full-size .block.floating-images.image-left > div {
-    justify-content: space-evenly;
+    justify-content: flex-end;
     align-items: flex-start;
   }
 
   .image-full-size .block.floating-images .image img {
     height: auto;
   }
-  .image-full-size .block.floating-images > div .image  {
-    flex: 0 0 58.33333%;
-    max-width: 58.33333%;
-  }
 
   .image-full-size .block.floating-images > div .content  {
-    flex: 0 0 25%;
-    max-width: 25%;
+    flex: 0 0 30%;
+    max-width: 30%;
+    padding: 0 20px;
   }
 
   .block.floating-images .image {
     padding: 0;
     min-height: 530px;
+  }
+
+  .image-full-size .block.floating-images > div .image  {
+    flex: 0 0 58.3333%;
+    max-width: 58.3333%;
   }
 
   .block.floating-images .image picture {

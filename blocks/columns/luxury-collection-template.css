@@ -1,0 +1,74 @@
+.luxury-collection .columns.block {
+    max-width: var(--normal-page-width);
+}
+
+.luxury-collection .columns.block h2 {
+    font: normal normal 300 50px/56px var(--font-family-gotham);
+    letter-spacing: 0;
+    margin-bottom: 25px;
+}
+
+.luxury-collection .columns.block h3 {
+    font: normal normal 700 16px/23px var(--font-family-gotham);
+    letter-spacing: 2.08px;
+    margin-bottom: 24px;
+}
+
+.luxury-collection .columns.block p{
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: .9px;
+    margin-bottom: 20px;
+}
+
+.luxury-collection .columns > div {
+    align-items: baseline;
+}
+
+.luxury-collection .columns.block img {
+    max-width: 315px;
+    height: auto;
+    float: left;
+    border: 16px solid var( --light-grey);
+    padding: 5px;
+    margin-right: 30px;
+}
+
+.luxury-collection .columns.block.columns-2-cols > div > div:first-of-type {
+    margin-bottom: 24px;
+}
+
+.luxury-collection .columns.block.columns-2-cols > div > div:last-of-type {
+    position: relative;
+}
+
+.luxury-collection .columns.block.columns-2-cols > div > div:last-of-type::before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 60%;
+    position: absolute;
+    left: 20%;
+    background: white;
+    top: -24px;
+}
+
+.luxury-collection .columns.block .button.secondary {
+    padding: 7px 25px;
+    background: var(--white);
+    color: var(--black);
+    border: 1px solid var(--black);
+    font-size: var(--body-font-size-xs);
+    line-height: 18px;
+    letter-spacing: 1px;
+    white-space: normal;
+    max-width: 200px;
+}
+
+
+@media (min-width: 900px) {
+    .luxury-collection .columns.block.columns-2-cols > div > div:last-of-type::before {
+        width: 100%;
+        left: 0;
+    }
+}
