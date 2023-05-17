@@ -11,25 +11,24 @@ function getCenter(coords) {
   // Return center of bounding box
   return [(maxX + minX) / 2, (maxY + minY) / 2];
 }
-
-function convertCoordinates(coords) {
-  return coords.map((c) => ({
+function convertCoordinates(c) {
+  return {
     lng: parseFloat(c[0]),
     lat: parseFloat(c[1]),
-  }));
+  };
+}
+
+function convertCoordinatesArray(coords) {
+  return coords.map(convertCoordinates);
 }
 
 function initLiveByMap() {
   const mapDiv = document.querySelector('.liveby-map-main');
   const coordinates = window.liveby.geometry.coordinates[0];
-  const mapCenter = getCenter(coordinates);
   const map = new google.maps.Map(mapDiv, {
     zoom: 12,
     maxZoom: 18,
-    center: {
-      lng: parseFloat(mapCenter[0]),
-      lat: parseFloat(mapCenter[1]),
-    },
+    center: convertCoordinates(window.liveby.centroid.coordinates),
     mapTypeId: 'roadmap',
     clickableIcons: true,
     gestureHandling: 'greedy',
@@ -45,7 +44,7 @@ function initLiveByMap() {
     fillOpacity: 0.3,
     clickable: false,
     zIndex: 1,
-    path: convertCoordinates(coordinates),
+    path: convertCoordinatesArray(coordinates),
     editable: false,
   };
 
