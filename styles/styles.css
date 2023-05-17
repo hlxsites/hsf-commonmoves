@@ -11,7 +11,6 @@
  */
 
 @import url('reset.css');
-@import url('./templates/luxury-collection/styles.css');
 
 :root {
   /* Colors */
@@ -462,10 +461,43 @@ form button[type="submit"]:hover {
 @font-face {
   font-family: 'Gotham Fallback';
   font-style: normal;
+  font-weight: 200;
+  src: local('Arial');
+  ascent-override: 82.60%;
+  descent-override: 20.65%;
+  line-gap-override: 0.00%;
+  size-adjust: 116.22%;
+}
+
+@font-face {
+  font-family: 'Gotham Fallback';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Arial');
+  ascent-override: 82.60%;
+  descent-override: 20.65%;
+  line-gap-override: 0.00%;
+  size-adjust: 116.22%;
+}
+
+@font-face {
+  font-family: 'Gotham Fallback';
+  font-style: normal;
   font-weight: 400;
   src: local('Arial');
-  ascent-override: 85.14%;
-  descent-override: 21.29%;
+  ascent-override: 82.60%;
+  descent-override: 20.65%;
   line-gap-override: 0.00%;
-  size-adjust: 112.75%;
+  size-adjust: 116.22%;
+}
+
+@font-face {
+  font-family: 'Gotham Fallback';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Arial Bold');
+  ascent-override: 89.37%;
+  descent-override: 22.34%;
+  line-gap-override: 0.00%;
+  size-adjust: 107.42%;
 }

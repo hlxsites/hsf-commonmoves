@@ -1,0 +1,28 @@
+.luxury-collection header * {
+    background: var(--white);
+    color: initial;
+}
+
+.luxury-collection .header.block nav .nav-sections {
+    background-color: var(--primary-color);
+}
+
+.luxury-collection .header.block nav .nav-sections > ul > li.nav-drop > a::after {
+    background: url('/icons/chevron-right-white.svg') center center no-repeat;
+}
+
+.luxury-collection .header.block nav[aria-expanded="true"],
+.luxury-collection .header.block nav[aria-expanded="true"] .nav-logo,
+.luxury-collection .header.block nav[aria-expanded="true"] .nav-sections
+{
+    background: transparent;
+}
+
+.luxury-collection .header.block nav .nav-sections > ul > li.nav-drop > a::after,
+.luxury-collection .header.block nav[aria-expanded="true"] .nav-logo img {
+    background: none;
+}
+
+.luxury-collection .header.block nav[aria-expanded="true"] .nav-sections > ul > li:hover > a {
+    background-color: var(--light-grey);
+}

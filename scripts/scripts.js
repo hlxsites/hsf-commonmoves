@@ -165,6 +165,13 @@ function buildPropertySearchBlock(main) {
 }
 
 /**
+ * Add luxury collection css for page with template
+ */
+function buildLuxuryTheme() {
+  loadCSS(`${window.hlx.codeBasePath}/styles/templates/luxury-collection/styles.css`);
+}
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -177,6 +184,7 @@ function buildAutoBlocks(main) {
     buildBlogDetails(main);
     buildBlogNav(main);
     buildPropertySearchBlock(main);
+    buildLuxuryTheme();
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -250,10 +258,6 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  if (document.querySelector('.luxury-collection')) {
-    loadCSS(`${window.hlx.codeBasePath}/styles/templates/luxury-collection/lazy-styles.css`);
-  }
-
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
