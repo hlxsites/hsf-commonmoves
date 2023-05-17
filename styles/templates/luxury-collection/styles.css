@@ -1,3 +1,6 @@
+.luxury-collection {
+    background: var(--black);
+}
 .luxury-collection * {
     background: var(--black);
     color: var(--white);
