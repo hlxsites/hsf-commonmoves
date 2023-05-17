@@ -684,7 +684,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     display: none;
 }
 
-.no-scroll {
+.property-search-template.no-scroll {
     height: 100%;
     overflow: hidden;
 }
