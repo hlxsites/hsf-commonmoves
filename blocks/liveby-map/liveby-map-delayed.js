@@ -28,7 +28,7 @@ function initLiveByMap() {
   const map = new google.maps.Map(mapDiv, {
     zoom: 12,
     maxZoom: 18,
-    center: convertCoordinates(window.liveby.centroid.coordinates),
+    center: convertCoordinates(window.liveby.geometry.centroid.geometry.coordinates),
     mapTypeId: 'roadmap',
     clickableIcons: true,
     gestureHandling: 'greedy',
