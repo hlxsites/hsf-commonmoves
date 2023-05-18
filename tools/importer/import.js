@@ -155,16 +155,16 @@ const createMetadata = (document) => {
       
       // Create hero
       const heroImageSrc = document.querySelector('#community-detail-hero-component div[data-cy="hero"] meta[itemprop="image"]')?.content;
-      const heroTitle = metadata["LiveBy Community"];
+      const community = metadata["LiveBy Community"];
       const heroSubtitle = document.querySelector('#directory-search h2').textContent;
       builder
         .element("img", {src: heroImageSrc}).up()
-        .element("h1").withText(heroTitle)
+        .element("h1").withText(community)
         .element("h2").withText(heroSubtitle)
         .addSectionMetadata("Style", "narrow");
 
       // TOC
-      const canonicalName = heroTitle.toLowerCase().replaceAll(' ','-');
+      const canonicalName = community.toLowerCase().replaceAll(' ','-');
       builder
         .section({Style:"no-padding"})
         .block("TOC (tabs)")
@@ -179,7 +179,7 @@ const createMetadata = (document) => {
       const demographicsAtttribution = document.querySelector("#demographics > div > h2 div[class^='styles_info-content']");
       builder
         .section({Style:"bottom-border"})
-        .element("h2").withText(`${heroTitle} Demographics`)
+        .element("h2").withText(`${community} Demographics`)
         .block("Info Mouseover").append(demographicsAtttribution)
         .block("LiveBy Demographics")
 
@@ -189,7 +189,7 @@ const createMetadata = (document) => {
 
       builder
         .section({Style: "bottom-border, center"})
-        .element("h2").withText(`Schools Near ${heroTitle}`)
+        .element("h2").withText(`Schools Near ${community}`)
         .block("Info Mouseover").append(schoolDiggerInfo).endBlock()
         .append(schoolText)
         .block("LiveBy Schools")
@@ -202,7 +202,7 @@ const createMetadata = (document) => {
       // Maps
       builder
         .section({Style: "bottom-border"})
-        .element("h2").withText(`${heroTitle} Map`)
+        .element("h2").withText(`${community} Map`)
         .block("LiveBy Map")
         .block("Listings")
 
@@ -211,7 +211,7 @@ const createMetadata = (document) => {
       const amenitiesContent = document.querySelector("#amenities > div > p");
       builder
         .section({Style: "center"})
-        .element("h2").withText(`Living in ${heroTitle}`)
+        .element("h2").withText(`Living in ${community}`)
         .block("Info Mouseover")
         .append(amenitiesInfo)
         .endBlock()
