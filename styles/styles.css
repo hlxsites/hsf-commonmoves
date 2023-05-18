@@ -51,6 +51,7 @@
   --font-weight-bold: 700;
 
   /* Headings */
+  --heading-font-size-xxxxl: 50px;
   --heading-font-size-xxxl: 48px;
   --heading-font-size-xxl: 40px;
   --heading-font-size-xl: 36px;
@@ -84,6 +85,7 @@
   --letter-spacing-m  : 0.09em;
   --letter-spacing-l  : 0.13em;
   --letter-spacing-xl : 0.17em;
+  --letter-spacing-xxl: 0.2em;
 
   /* Common dimensions */
   --full-page-width: 100vw;

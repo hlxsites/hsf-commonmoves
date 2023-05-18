@@ -18,11 +18,11 @@
     padding: 60px 15px;
 }
 
-.luxury-collection .property-listing.block .button-container a{
+.luxury-collection .property-listing.block .button-container a {
     font-size: var(--body-font-size-xs);
     padding: 7px 25px;
-    letter-spacing: 1px;
-    line-height: 18px;
+    letter-spacing: var(--letter-spacing-m);
+    line-height: var(--line-height-m);
 }
 
 .luxury-collection .property-listing.block .header {
@@ -34,9 +34,11 @@
 }
 
 .luxury-collection .property-listing.block .header > div > span {
-    font: normal normal 300 30px/36px var(--font-family-gotham);
+    font-weight: var(--font-weight-light);
+    font-size: var(--heading-font-size-l);
+    line-height: var(--line-height-s);
     font-family: var(--font-family-gotham);
-    letter-spacing: 1.5px;
+    letter-spacing: var(--letter-spacing-xs);
     border-bottom: 0;
     text-transform: none;
 }

@@ -1,6 +1,9 @@
 .luxury-collection .heading h2 {
-    font: normal normal 700 16px/23px var(--font-family-gotham);
-    letter-spacing: 2.08px;
+    font-family: var(--font-family-gotham);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--body-font-size-m);
+    line-height: var(--line-height-m);
+    letter-spacing: var(--letter-spacing-l);
 }
 
 .luxury-collection .heading {
@@ -9,8 +12,8 @@
 
 .luxury-collection .block.floating-images p {
     font-size: 18px;
-    letter-spacing: 0.9px;
-    font-weight: 300;
+    letter-spacing: var(--letter-spacing-s);
+    font-weight: var(--font-weight-light);
     font-stretch: 100%;
     margin-bottom: 16px;
 }
@@ -20,7 +23,7 @@
     color: var(--white);
     border-color: var(--white);
     padding: 9px 23px;
-    letter-spacing: 2.08px;
+    letter-spacing: var(--letter-spacing-l);
     line-height: 22px;
 }
 
@@ -42,19 +45,28 @@
 }
 
 .luxury-collection .block.floating-images h2 {
-    font: normal normal 300 50px/56px var(--font-family-gotham);
+    font-family: var(--font-family-gotham);
+    font-weight: 300;
+    font-size:50px;
+    line-height: 56px;
 }
 
 .luxury-collection .block.floating-images h3 {
-    font: normal normal 200 30px/36px var(--font-family-gotham);
-    letter-spacing: 1.5px;
+    font-family: var(--font-family-gotham);
+    font-weight: 200;
+    font-size: var(--heading-font-size-l);
+    line-height: var(--line-height-s);
+    letter-spacing: var(--letter-spacing-s);
     margin-bottom: 16px;
     text-align: left;
 }
 
 .luxury-collection .block.floating-images .content h4 {
-    font: normal normal 400 16px/23px var(--font-family-gotham);
-    letter-spacing: 3.2px;
+    font-family: var(--font-family-gotham);
+    font-weight: var(--font-weight-normal);
+    font-size: var(--body-font-size-m);
+    line-height: var(--line-height-m);
+    letter-spacing: var(--letter-spacing-xxl);
     text-transform: uppercase;
     margin-bottom: 16px;
 }
