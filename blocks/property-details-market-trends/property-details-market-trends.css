@@ -1,0 +1,173 @@
+.cmp-property-details-market-trends__table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cmp-property-details-market-trends__table th {
+  font-family: var(--font-family-proxima);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.cmp-property-details-market-trends__table th, .cmp-property-details-market-trends__table td {
+  padding: 25px 0;
+  vertical-align: top;
+  width: 50%;
+}
+
+.cmp-property-details-market-trends__table th span {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+.cmp-property-details-market-trends__table tbody tr {
+  border-top: 1px solid #e2e2e2;
+}
+
+.cmp-property-details-market-trends__table .label {
+  font-size: 13px;
+  letter-spacing: .93px;
+  line-height: 16px;
+  opacity: .6;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.cmp-property-details-market-trends__table .value {
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 26px;
+  letter-spacing: .65px;
+}
+
+.cmp-property-details-market-trends__table .chart {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  cursor: pointer;
+  float: left;
+  margin: 2px 0 0;
+  position: relative;
+}
+
+.cmp-property-details-market-trends__table .chart .mini-chart {
+  display: none;
+}
+
+
+.cmp-property-details-market-trends__table .chart .micro-trend {
+  color: #832b39;
+  font-size: 13px;
+  letter-spacing: 1.08px;
+  line-height: 17px;
+  height: 19px;
+  min-width: 68px;
+  padding: 2px 25px 0 18px;
+  position: relative;
+}
+
+.cmp-property-details-market-trends__table .chart .micro-trend::after {
+  border-color: #832b39 transparent transparent transparent;
+  border-style: solid;
+  border-width: 6px 3px 0 3px;
+  content: '';
+  display: block;
+  height: 0;
+  left: 7px;
+  position: absolute;
+  top: 7px;
+  width: 0;
+}
+
+.cmp-property-details-market-trends__table .chart .micro-trend.up::after {
+  border-color: transparent transparent #2b834f transparent;
+  border-width: 0 3px 6px 3px;
+  top: 6px;
+}
+
+.cmp-property-details-market-trends__table .chart .arrow {
+  border: 1px solid #e2e2e2;
+  color: #3a3a3a;
+  content: '';
+  display: block;
+  height: 21px;
+  position: absolute;
+  right: -1px;
+  top: -1px;
+  width: 21px;
+}
+
+.cmp-property-details-market-trends__table .chart .arrow svg {
+  left: 6px;
+  height: 7px;
+  position: absolute;
+  top: 6px;
+  width: 7px;
+}
+
+.cmp-property-details-market-trends__table .chart .micro-trend.up {
+  color: #2b834f;
+}
+
+@media (min-width: 992px) {
+  .cmp-property-details-market-trends__table th {
+    font-size: 18px;
+    line-height: 22px;
+    padding: 25px 0;
+  }
+
+  .cmp-property-details-market-trends__table td:first-child {
+    padding-right: 30px;
+  }
+
+  .cmp-property-details-market-trends__table td {
+    padding: 38px 0;
+  }
+
+  .cmp-property-details-market-trends__table .data {
+    float: left;
+  }
+
+  .cmp-property-details-market-trends__table .label {
+    font-size: 15px;
+    letter-spacing: 1.07px;
+    line-height: 18px;
+    margin-bottom: 4px;
+  }
+
+  .cmp-property-details-market-trends__table .value {
+    font-size: 40px;
+    letter-spacing: .89px;
+    line-height: 48px;
+  }
+
+  .cmp-property-details-market-trends__table .chart {
+    float: right;
+    margin: 0;
+    padding: 5px 0 0;
+  }
+
+  .cmp-property-details-market-trends__table .chart .mini-chart {
+    display: block;
+    height: 95px;
+    position: relative;
+    width: 150px;
+  }
+
+  .cmp-property-details-market-trends__table .chart .micro-trend {
+    display: none;
+  }
+
+  .cmp-property-details-market-trends__table .chart .arrow {
+    height: 15px;
+    width: 15px;
+  }
+
+  .cmp-property-details-market-trends__table .chart .arrow svg {
+    left: 3px;
+    top: 3px;
+  }
+}
