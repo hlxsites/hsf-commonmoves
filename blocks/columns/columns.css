@@ -6,7 +6,7 @@
   align-items: baseline;
 }
 
-.columns img {
+.columns.float-left img {
   width: 100%;
   height: auto;
   float: left;
