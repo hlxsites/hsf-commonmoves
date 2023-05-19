@@ -106,6 +106,7 @@
 }
 
 body {
+  max-width: var(--full-page-width);
   background-color: var(--white);
 }
 
@@ -174,7 +175,7 @@ main .section {
 }
 
 main .section.no-margin {
-  margin: 0;
+  margin: 0 auto;
 }
 
 main .section.wide {
@@ -370,7 +371,7 @@ form button[type="submit"]:hover {
     line-height: var(--line-height-s);
   }
 
-  main .section.narrow {
+  main .section.narrow > div {
     max-width: 75%;
     margin: 0 auto;
   }
