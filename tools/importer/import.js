@@ -20,64 +20,54 @@ class BlockBuilder {
   }
 
   append(e) {
-    this.currentDomElement ? this.currentDomElement.append(e) : this.children.push(e);
+    this.current ? this.current.append(e) : this.children.push(e);
     return this;
   }
 
   element(tag, props={}) {
     const e = this.doc.createElement(tag);
-    for (const [key, value] of Object.entries(props)) e.setAttribute(key, value);
-    this.append(e);
-    this.currentDomElement = e;
-    return this;
+    for (const [k, v] of Object.entries(props)) e.setAttribute(k, v);
+    return this.append(e).jumpTo(e);
   }
 
   text(text) {return this.append(this.doc.createTextNode(text));}
 
   withText(text) {return this.text(text).up();}
 
-  up() {
-    this.currentDomElement = this.currentDomElement?.parentElement;
+  jumpTo(e) {
+    this.current=e;
     return this;
   }
+
+  up() {return this.jumpTo(this.current?.parentElement);}
 
   upToTag(tag) {
-    while (this.currentDomElement && this.currentDomElement?.tagName !== tag.toUpperCase())
-      this.currentDomElement = this.currentDomElement.parentElement;
+    while (this.current && this.current?.tagName !== tag.toUpperCase()) this.up();
     return this;
   }
 
-  block(blockName, colspan=2) {
-    return this.endBlock().element("table").element("tr").element("th", {colspan:colspan}).text(blockName).row();
+  block(name, colspan=2, createRow=true) {
+    this.endBlock().element("table").element("tr").element("th", {colspan:colspan}).text(name);
+    return createRow ? this.row() : this;
   }
 
-  endBlock() {
-    delete this.currentDomElement;
-    return this;
-  }
+  endBlock() {return this.jumpTo(undefined);}
 
-  #addMetadataBlock(name, metadata) {
-    if (metadata && Object.entries(metadata).length > 0) {
-      this.block(name);
-      let isFirst = true;
-      for (const [key, value] of Object.entries(metadata)) {
-        isFirst || this.row();
-        this.text(key).column().text(value);
-        isFirst = false;
-      }
+  #addMetadataBlock(name, meta) {
+    if (meta && Object.entries(meta).length > 0) {
+      this.block(name, 2, false);
+      for (const [k, v] of Object.entries(meta)) this.row().text(k).column().text(v);
       this.endBlock();
     }
   }
 
   #writeSectionMetadata() {
     this.#addMetadataBlock("Section Metadata", this.sectionMetadata);
-    delete this.sectionMetadata;
-    return this;
+    return this.withSectionMetadata(undefined);
   }
 
   addSectionMetadata(key, value) {
-    this.sectionMetadata = this.sectionMetadata || {};
-    this.sectionMetadata[key] = value;
+    (this.sectionMetadata = this.sectionMetadata || {})[key] = value;
     return this;
   }
 
@@ -92,13 +82,12 @@ class BlockBuilder {
 
   section(metadata = {}) {
     if (this.children.length > 0) this.#writeSectionMetadata().element("hr").up();
-    this.sectionMetadata = metadata;
-    return this;
+    return this.withSectionMetadata(metadata);
   }
 
   replaceChildren(parent) {
     this.#writeSectionMetadata().#addMetadataBlock("Metadata", this.pageMetadata);
-    parent.replaceChildren(...this.children);
+    return parent.replaceChildren(...this.children);
   }
 }
 
