@@ -1,6 +1,5 @@
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 
-
 function loadEmbeds() {
   const style = document.createElement('link');
   style.href = 'https://assets.juicer.io/embed.css';
@@ -24,7 +23,7 @@ const io = new IntersectionObserver((categories) => {
     io.disconnect();
     loadEmbeds();
   }
-})
+});
 
 export default async function decorate(block) {
   const config = readBlockConfig(block);
