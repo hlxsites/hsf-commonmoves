@@ -17,9 +17,12 @@ function loadEmbeds() {
   document.head.append(script);
 }
 
-const io = new IntersectionObserver(() => {
-  io.disconnect();
-  loadEmbeds();
+const io = new IntersectionObserver((categories) => {
+  const sect = categories[0];
+  if (sect.isIntersecting) {
+    io.disconnect();
+    loadEmbeds();
+  }
 })
 
 export default async function decorate(block) {
