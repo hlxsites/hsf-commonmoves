@@ -15,6 +15,7 @@ import { setPropertyDetails as setResults } from '../../scripts/search/results.j
 import SearchParameters from '../../scripts/apis/creg/SearchParameters.js';
 
 import SearchType from '../../scripts/apis/creg/SearchType.js';
+import ApplicationType from '../../scripts/apis/creg/ApplicationType.js';
 
 export function searchProperty() {
   const spinner = getSpinner();
@@ -191,9 +192,10 @@ export function setFilterValue(name, value) {
         values = value.split(',');
         params = values.map((val) => {
           let param;
-          if (val === 'FOR_SALE' || val === 'FOR_RENT') param = 1;
-          if (val === 'PENDING') param = 2;
-          if (val === 'RECENTLY_SOLD') param = 3;
+          if (val === ApplicationType.FOR_SALE.type
+              || val === ApplicationType.FOR_RENT.type) param = 1;
+          if (val === ApplicationType.PENDING.type) param = 2;
+          if (val === ApplicationType.RECENTLY_SOLD.type) param = 3;
           return param;
         });
         const unique = [...new Set(params)];
@@ -329,9 +331,7 @@ export function populatePreSelectedFilters(topMenu = true) {
           filter = document.querySelector('[name="OpenHouses"]');
           filter.classList.toggle('selected', !!value);
           filter.querySelector('input[type="checkbox"]').checked = !!value;
-          el = value === 7 ? filter.querySelector('[name="openHousesOnlyWeekend"]')
-            : filter.querySelector('[name="openHousesOnlyAnytime"]');
-          el.checked = true;
+          filter.querySelector(`[name="OpenHouses"] input[value="${value}"]`).checked = true;
           break;
         case 'MatchAnyFeatures':
           document.querySelector('[name="matchTagsAll"]').checked = !value;

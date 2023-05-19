@@ -3,6 +3,7 @@ import {
   setFilterValue,
 } from '../filter-processor.js';
 import { buildKeywordEl, updateFilters } from '../common-function.js';
+import OpenHouses from '../../../scripts/apis/creg/OpenHouses.js';
 
 const event = new Event('onFilterChange');
 
@@ -72,17 +73,20 @@ function addEventListeners() {
     openHousesFilter.classList.toggle('selected');
     if (!openHousesCheckbox.checked) {
       removeFilterValue('OpenHouses');
+    } else if
+    (openHousesFilter.querySelector('input[type="radio"]:checked')) {
+      setFilterValue('OpenHouses', openHousesFilter.querySelector('input[type="radio"]:checked').getAttribute('value'));
     }
   });
   block.querySelectorAll('[name="OpenHouses"] input[type="radio"]').forEach((el) => {
     el.addEventListener('change', () => {
-      const name = el.getAttribute('name');
-      if (name === 'openHousesOnlyWeekend' && el.checked) {
-        setFilterValue('OpenHouses', 7);
-        block.querySelector('[name="openHousesOnlyAnytime"]').checked = false;
+      if (el.checked) {
+        setFilterValue('OpenHouses', el.getAttribute('value'));
+      }
+      if (el.getAttribute('value') === '7') {
+        block.querySelector(`[name="OpenHouses"] input[value="${OpenHouses.ANYTIME.value}"]`).checked = false;
       } else {
-        setFilterValue('OpenHouses', 365);
-        block.querySelector('[name="openHousesOnlyWeekend"]').checked = false;
+        block.querySelector(`[name="OpenHouses"] input[value="${OpenHouses.ONLY_WEEKEND.value}"]`).checked = false;
       }
     });
   });
