@@ -19,21 +19,6 @@ class BlockBuilder {
     this.pageMetadata = pageMetadata;
   }
 
-  append(e) {
-    this.current ? this.current.append(e) : this.children.push(e);
-    return this;
-  }
-
-  element(tag, props={}) {
-    const e = this.doc.createElement(tag);
-    for (const [k, v] of Object.entries(props)) e.setAttribute(k, v);
-    return this.append(e).jumpTo(e);
-  }
-
-  text(text) {return this.append(this.doc.createTextNode(text));}
-
-  withText(text) {return this.text(text).up();}
-
   jumpTo(e) {
     this.current=e;
     return this;
@@ -46,49 +31,59 @@ class BlockBuilder {
     return this;
   }
 
-  block(name, colspan=2, createRow=true) {
-    this.endBlock().element("table").element("tr").element("th", {colspan:colspan}).text(name);
-    return createRow ? this.row() : this;
+  append(e) {
+    this.current ? this.current.append(e) : this.children.push(e);
+    return this;
   }
 
-  endBlock() {return this.jumpTo(undefined);}
-
-  #addMetadataBlock(name, meta) {
-    if (meta && Object.entries(meta).length > 0) {
-      this.block(name, 2, false);
-      for (const [k, v] of Object.entries(meta)) this.row().text(k).column().text(v);
-      this.endBlock();
-    }
+  replaceChildren(parent) {
+    this.#writeSectionMeta().#metaBlock("Metadata", this.pageMetadata);
+    return parent.replaceChildren(...this.children);
   }
 
-  #writeSectionMetadata() {
-    this.#addMetadataBlock("Section Metadata", this.sectionMetadata);
-    return this.withSectionMetadata(undefined);
+  element(tag, attrs={}) {
+    const e = this.doc.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+    return this.append(e).jumpTo(e);
+  }
+
+  text(text) {return this.append(this.doc.createTextNode(text));}
+
+  withText(text) {return this.text(text).up();}
+
+  section(meta = {}) {return (this.children.length ? this.#writeSectionMeta().element("hr").up() : this).withSectionMetadata(meta);}
+
+  withSectionMetadata(meta) {
+    this.sectionMeta = meta;
+    return this;
   }
 
   addSectionMetadata(key, value) {
-    (this.sectionMetadata = this.sectionMetadata || {})[key] = value;
+    (this.sectionMeta = this.sectionMeta || {})[key] = value;
     return this;
   }
 
-  withSectionMetadata(metadata) {
-    this.sectionMetadata = metadata;
-    return this;
+  block(name, colspan=2, createRow=true) {
+    this.endBlock().element("table").element("tr").element("th", {colspan:colspan}).text(name);
+    return createRow ? this.row() : this;
   }
 
   row(attrs={}) {return this.upToTag("table").element("tr").element("td", attrs);}
 
   column(attrs={}) {return this.upToTag("tr").element("td", attrs);}
 
-  section(metadata = {}) {
-    if (this.children.length > 0) this.#writeSectionMetadata().element("hr").up();
-    return this.withSectionMetadata(metadata);
+  endBlock() {return this.jumpTo(undefined);}
+
+  #metaBlock(name, meta) {
+    if (meta && Object.entries(meta).length > 0) {
+      this.block(name, 2, false);
+      for (const [k, v] of Object.entries(meta)) this.row().text(k).column().text(v);
+      this.endBlock();
+    }
+    return this;
   }
 
-  replaceChildren(parent) {
-    this.#writeSectionMetadata().#addMetadataBlock("Metadata", this.pageMetadata);
-    return parent.replaceChildren(...this.children);
-  }
+  #writeSectionMeta() {return this.#metaBlock("Section Metadata", this.sectionMeta).withSectionMetadata(undefined);}
 }
 
 const getMetadata = (document, prop) => {
