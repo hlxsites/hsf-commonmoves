@@ -168,7 +168,9 @@ function buildPropertySearchBlock(main) {
  * Add luxury collection css for page with template
  */
 function buildLuxuryTheme() {
-  loadCSS(`${window.hlx.codeBasePath}/styles/templates/luxury-collection/styles.css`);
+  if (document.querySelector('.luxury-collection')) {
+    loadCSS(`${window.hlx.codeBasePath}/styles/templates/luxury-collection/styles.css`);
+  }
 }
 
 /**
