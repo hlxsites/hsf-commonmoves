@@ -1,17 +1,24 @@
 import { readBlockConfig } from '../../scripts/lib-franklin.js';
 
-function loadDelayed() {
+
+function loadEmbeds() {
+  const style = document.createElement('link');
+  style.href = 'https://assets.juicer.io/embed.css';
+  style.media = 'all';
+  style.rel = 'stylesheet';
+  style.type = 'text/css';
+  document.head.append(style);
+
   const script = document.createElement('script');
-  script.type = 'text/partytown';
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/juicer/juicer-delayed.js';
-    document.head.append(script);
-  `;
+  script.type = 'text/javascript';
+  script.src = 'https://assets.juicer.io/embed.js';
   document.head.append(script);
-  window.dispatchEvent(new Event('ptupdate'));
 }
+
+const io = new IntersectionObserver(() => {
+  io.disconnect();
+  loadEmbeds();
+})
 
 export default async function decorate(block) {
   const config = readBlockConfig(block);
@@ -24,6 +31,5 @@ export default async function decorate(block) {
       data-per="${config.show || ''}"
       data-columns="${config.columns || 4}"></ul>
   `;
-
-  window.setTimeout(loadDelayed, 3000);
+  io.observe(block);
 }
