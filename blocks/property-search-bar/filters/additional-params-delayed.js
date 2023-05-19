@@ -4,6 +4,8 @@ import {
 } from '../filter-processor.js';
 import { buildKeywordEl, updateFilters } from '../common-function.js';
 
+const event = new Event('onFilterChange');
+
 function toggleFilter(el) {
   const div = el.querySelector('.checkbox');
   const name = el.closest('.filter').getAttribute('name');
@@ -29,10 +31,16 @@ function addEventListeners() {
   const keyWordSearchAll = block.querySelector('[name="Features"] .filter-radiobutton input[name="matchTagsAll"]');
   // events for filters with type toggle
   block.querySelectorAll('.filter-toggle').forEach((el) => {
-    el.addEventListener('click', () => {
+    el.addEventListener('click', (e) => {
       toggleFilter(el);
       if (el.classList.contains('for-rent') || el.classList.contains('pending')) {
         updateFilters(el);
+      }
+      if (el.parentNode.classList.contains('top-menu')) {
+        // search property if we click top level filter
+        e.preventDefault();
+        e.stopPropagation();
+        window.dispatchEvent(event);
       }
     });
   });
@@ -106,7 +114,7 @@ function addEventListeners() {
   });
   // year, square feet, sort input logic on additional filters
   block.querySelectorAll('.filter .select-item .tooltip-container').forEach((element) => {
-    element.addEventListener('click', () => {
+    element.addEventListener('click', (e) => {
       const selectedElValue = element.innerText;
       const container = element.closest('section');
       const filter = element.closest('.filter');
@@ -137,6 +145,11 @@ function addEventListeners() {
         element.closest('.select-item').classList.remove('show');
       }
       setFilterValue(name, value);
+      if (name === 'Sort') {
+        e.stopPropagation();
+        e.preventDefault();
+        window.dispatchEvent(event);
+      }
       element.closest('.select-item').classList.remove('show');
     });
   });

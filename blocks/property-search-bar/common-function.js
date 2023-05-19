@@ -21,6 +21,7 @@ export const EXTRA_FILTERS = {
 export const BOTTOM_LEVEL_FILTERS = {
   ApplicationType: { label: 'Search Types', type: 'search-types' },
   Sort: { label: 'Sort By', type: 'select' },
+  Page: { label: '', type: 'child' },
 };
 
 const SQUARE_FEET = [
@@ -102,7 +103,7 @@ export function getConfig(filterName) {
       output = YEAR_BUILT;
       break;
     case 'ApplicationType':
-      output = ['For Sale', 'For Rent', 'Pending', 'Sold'];
+      output = ['For Sale', 'For Rent', 'Pending', 'Recently Sold'];
       break;
     case 'Sort':
       output = SORT_BY;
@@ -115,7 +116,7 @@ export function getConfig(filterName) {
 
 export function toggleOverlay() {
   const hideClass = 'hide';
-  const overlay = document.querySelector('.overlay');
+  const overlay = document.querySelector('.property-search-bar.block .overlay');
   overlay.classList.toggle(hideClass);
   if (overlay.classList.contains(hideClass)) {
     document.getElementsByTagName('body')[0].classList.remove('no-scroll');
@@ -285,9 +286,12 @@ export function buildKeywordEl(keyword, removeItemCallback) {
   keywordContainer.append(item);
   closeBtn.addEventListener(
     'click',
-    () => {
-      removeItemCallback('Features', item.textContent.trim());
-      item.remove();
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const itemEl = e.target.closest('.tag');
+      removeItemCallback('Features', itemEl.textContent.trim());
+      itemEl.remove();
     },
   );
   keywordInput.value = '';
