@@ -14,6 +14,7 @@ function loadEmbeds() {
   script.type = 'text/javascript';
   script.src = 'https://assets.juicer.io/embed.js';
   script.async = true;
+  script.defer = true;
   document.head.append(script);
 }
 
