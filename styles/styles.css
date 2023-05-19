@@ -29,7 +29,6 @@
   --error: #d3636a;
   --error-highlight: #f9e1e2;
 
-
   /* Blog Colors (only?) */
   --seller-advice: rgb(240 240 224);
   --home-improvement: rgb(252 245 217);
@@ -153,7 +152,8 @@ h5 {
   line-height: var(--line-height-m);
 }
 
-p, span, input {
+/* What happens if i remove span? */
+p, input {
   font-family: var(--font-family-proxima);
   font-size: var(--body-font-size-m);
   font-weight: var(--font-weight-normal);
@@ -329,6 +329,17 @@ main .section .default-content-wrapper picture img {
 @keyframes spinner-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 .loading-spinner {

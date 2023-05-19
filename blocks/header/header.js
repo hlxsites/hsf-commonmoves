@@ -1,5 +1,6 @@
 import { BREAKPOINTS } from '../../scripts/scripts.js';
 import { getMetadata, decorateIcons, decorateSections } from '../../scripts/aem.js';
+import { open as openSignIn, close as closeSignIn } from '../login/login.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = BREAKPOINTS.large;
@@ -63,9 +64,13 @@ function closeNavDrop(e) {
  */
 function toggleMenu(nav, navSections, forceExpanded = null) {
   const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
-  document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
+  const closing = (expanded || isDesktop.matches);
+  if (closing) {
+    closeSignIn();
+  }
+  document.body.style.overflowY = closing ? '' : 'hidden';
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
+  toggleAllNavSections(navSections, closing ? 'false' : 'true');
   // enable nav dropdown keyboard accessibility
   const navDrops = navSections.querySelectorAll('.nav-drop');
   if (isDesktop.matches) {
@@ -137,6 +142,7 @@ function addProfileLogin(nav) {
     </li>
   `;
   profileList.prepend(...profileMenu.childNodes);
+  profileList.querySelector('.login a').addEventListener('click', openSignIn);
 }
 
 /**

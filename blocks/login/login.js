@@ -1,15 +1,72 @@
+
+const LOGIN_ERROR = 'There was a problem processing your request.';
+
+export function reset() {
+  const block = document.body.querySelector('main .login.block');
+  block.querySelector('.message ').classList.remove('error');
+  block.querySelector('input[name="username"]').classList.remove('error');
+  block.querySelector('input[name="password"]').classList.remove('error');
+}
+
+/**
+ * Open/Show the login form.
+ */
+export function open() {
+  document.body.querySelector('main .login.block').classList.add('open');
+  document.body.classList.add('no-scroll');
+}
+
+/**
+ * Close the Login form.
+ */
+export function close() {
+  document.body.querySelector('main .login.block').classList.remove('open');
+  document.body.classList.remove('no-scroll');
+  reset();
+}
+
+/**
+ * Displays errors for logging in.
+ *
+ * @param {string[]} errors
+ */
+export function displayError(errors) {
+  const message = document.body.querySelector('main .login.block').querySelector('.message ');
+  const details = message.querySelector('.details');
+  const spans = [];
+  [LOGIN_ERROR, ...errors].forEach((m) => {
+    const span = document.createElement('span');
+    span.textContent = m;
+    spans.push(span);
+  });
+  details.replaceChildren(...spans);
+  message.classList.add('error');
+}
+
+function observeForm() {
+  const script = document.createElement('script');
+  script.type = 'text/partytown';
+  script.innerHTML = `
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = '${window.hlx.codeBasePath}/blocks/login/login-delayed.js';
+    document.head.append(script);
+  `;
+  document.head.append(script);
+}
+
 export default function decorate(block) {
   block.innerHTML = `
+    <div class="login-overlay"></div>
     <div class="login-form">
       <form>
         <h2 class="title">Sign In</h2>
-        <div class="message error">
-          <svg class="icon" role="presentation"><use xlink:href="/icons/icons.svg#error"></use></svg>
-          <span>There was a problem processing your request.</span>
-        </div>
-        <div class="message success">
-          <svg class="icon" role="presentation"><use xlink:href="/icons/icons.svg#success"></use></svg>
-          <span>There was a problem processing your request.</span>
+        <div class="message">
+          <svg class="icon error" role="presentation"><use xlink:href="/icons/icons.svg#error"></use></svg>
+          <svg class="icon success" role="presentation"><use xlink:href="/icons/icons.svg#success"></use></svg>
+          <div class="details">
+            <span></span>
+          </div>
         </div>
         <div class="inputs">
           <input name="username" aria-label="email address" aria-required="true"
@@ -20,7 +77,8 @@ export default function decorate(block) {
         <div class="help">
           <div class="remember">
             <input type="checkbox" name="rememberMe" aria-label="remember me" id="rememberMe">
-            <label for="rememberMe">Remember Me</label>
+            <div class="checkbox"></div>
+            <label for="rememberMe">Remember me</label>
           </div>
           <a href="#" class="forgot-password" role="button">I forgot my password</a>
           <div class="warning" role="alert">
@@ -29,10 +87,10 @@ export default function decorate(block) {
         </div>
         <div class="cta">
           <div class="button-container">
-            <a href="" target="_blank" class="button primary" role="button">Sign In</a>
+            <a href="" class="button primary submit" role="button">Sign In</a>
           </div>
           <div class="button-container">
-            <a href="" target="_blank" class="button secondary" role="button">Cancel</a>
+            <a href="" class="button secondary cancel" role="button">Cancel</a>
           </div>
         </div>
         <div class="divider">OR</div>
@@ -49,11 +107,20 @@ export default function decorate(block) {
             <span>Continue with Apple</span>
           </a>
         </div>
+        <div class="terms">
+          By clicking 'SIGN IN' or registering using any of the above third-party logins, I agree to the 
+          <a href="/terms-of-use">Terms of Use</a> and <a href="/privacy-policy">Privacy Policy </a> for this website.
+        </div>
+        <button type="submit" aria-label="Submit" title="Submit" class="sr-only"></button>
       </form>
+      <div class="create-account">
+        <div class="container">
+          Not a member yet?
+          <br>
+          <div class="create-button" role="button" tabindex="0">Create an account</div>
+        </div>
+      </div>
     </div>
-    <div class="login-overlay"></div>
   `;
-
-  // TODO: Add Click event for hidden remember me checkbox.
-  // TODO: Add click event for forgot password.
+  observeForm();
 }
