@@ -77,7 +77,7 @@ export default async function decorate(block) {
 
     search = new RadiusSearch(lat, lon, radius);
   } else if (type === SearchType.Community) {
-    const [bbox] = window.liveby.geometry;
+    const {bbox} = window.liveby.geometry;
     const minLon = Math.min(...bbox.map((e) => e[0]));
     const maxLon = Math.max(...bbox.map((e) => e[0]));
     const minLat = Math.min(...bbox.map((e) => e[1]));
