@@ -1,11 +1,6 @@
 @import url('luxury-collection-template.css');
 @import url('./cards/cards.css');
 
-.liveby-community .property-listing.block {
-  max-width: 1150px;
-  margin: auto;
-}
-
 .property-listing.block {
   overflow: hidden;
   width: 100%;
@@ -34,6 +29,11 @@
 
 .property-listing.block .header > div > p {
   margin: 0;
+}
+
+.liveby-community .property-listing.block {
+  max-width: 1150px;
+  margin: auto;
 }
 
 @media (min-width: 600px) {
