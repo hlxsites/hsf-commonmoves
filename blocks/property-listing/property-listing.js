@@ -55,7 +55,6 @@ export default async function decorate(block) {
 
   const keys = Object.keys(config);
   const [type] = keys.filter((k) => /search.*type/.test(k)).map((k) => searchTypeFor(config[k]));
-
   if (type === SearchType.Map) {
     const [minLat] = keys.filter((k) => k.includes('min') && k.includes('lat')).map((k) => config[k]);
     const [maxLat] = keys.filter((k) => k.includes('max') && k.includes('lat')).map((k) => config[k]);
@@ -75,6 +74,13 @@ export default async function decorate(block) {
     }
 
     search = new RadiusSearch(lat, lon, radius);
+  } else if (type === SearchType.Community) {
+    const bbox = window.liveby.geometry.bbox;
+    const minLon = Math.min(...bbox.map(e=>e[0]));
+    const maxLon = Math.max(...bbox.map(e=>e[0]));
+    const minLat = Math.min(...bbox.map(e=>e[1]));
+    const maxLat = Math.max(...bbox.map(e=>e[1]));
+    search = new MapSearch(minLat, minLon, maxLat, maxLon); 
   }
 
   search.minPrice = config.minprice;

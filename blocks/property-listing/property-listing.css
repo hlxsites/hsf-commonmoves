@@ -1,5 +1,10 @@
 @import url('./cards/cards.css');
 
+.liveby-community .property-listing.block {
+  max-width: 1150px;
+  margin: auto;
+}
+
 .property-listing.block {
   overflow: hidden;
   width: 100%;
