@@ -667,7 +667,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     display: none;
 }
 
-.property-search-template .no-scroll {
+.property-search-template.no-scroll {
     height: 100%;
     overflow: hidden;
 }
@@ -678,7 +678,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     overflow-y: auto;
     left: 0;
     width: 100vw;
-    height: 100%;
+    height: calc(100% - var(--nav-height) - 210px);
     background-color:  var(--white);
     z-index: 999;
 }
@@ -924,7 +924,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
 
     .property-search-bar.block .filter-block {
         width: 600px;
-        height: 100%;
+        height: calc(100% - 110px - var(--nav-height));
         top: calc(var(--nav-height) + 50px);
         left: calc(100% - 600px);
     }

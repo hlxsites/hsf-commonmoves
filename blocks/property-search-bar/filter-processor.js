@@ -331,7 +331,9 @@ export function populatePreSelectedFilters(topMenu = true) {
           filter = document.querySelector('[name="OpenHouses"]');
           filter.classList.toggle('selected', !!value);
           filter.querySelector('input[type="checkbox"]').checked = !!value;
-          filter.querySelector(`[name="OpenHouses"] input[value="${value}"]`).checked = true;
+          if (value) {
+            filter.querySelector(`[name="OpenHouses"] input[value="${value}"]`).checked = true;
+          }
           break;
         case 'MatchAnyFeatures':
           document.querySelector('[name="matchTagsAll"]').checked = !value;

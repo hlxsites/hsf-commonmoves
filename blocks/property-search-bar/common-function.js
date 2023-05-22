@@ -121,8 +121,10 @@ export function toggleOverlay() {
   const overlay = document.querySelector('.property-search-bar.block .overlay');
   overlay.classList.toggle(hideClass);
   if (overlay.classList.contains(hideClass)) {
+    // overlay.classList.remove('no-scroll');
     document.getElementsByTagName('body')[0].classList.remove('no-scroll');
   } else {
+    // overlay.classList.add('no-scroll');
     document.getElementsByTagName('body')[0].classList.add('no-scroll');
   }
 }
