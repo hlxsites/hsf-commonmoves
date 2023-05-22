@@ -37,7 +37,7 @@ class BlockBuilder {
   }
 
   replaceChildren(parent) {
-    this.#writeSectionMeta().#metaBlock("Metadata", this.pageMetadata);
+    this.#writeSectionMeta().metaBlock("Metadata", this.pageMetadata);
     return parent.replaceChildren(...this.children);
   }
 
@@ -74,7 +74,7 @@ class BlockBuilder {
 
   endBlock() {return this.jumpTo(undefined);}
 
-  #metaBlock(name, meta) {
+  metaBlock(name, meta) {
     if (meta && Object.entries(meta).length > 0) {
       this.block(name, 2, false);
       for (const [k, v] of Object.entries(meta)) this.row().text(k).column().text(v);
@@ -83,7 +83,7 @@ class BlockBuilder {
     return this;
   }
 
-  #writeSectionMeta() {return this.#metaBlock("Section Metadata", this.sectionMeta).withSectionMetadata(undefined);}
+  #writeSectionMeta() {return this.metaBlock("Section Metadata", this.sectionMeta).withSectionMetadata(undefined);}
 }
 
 const getMetadata = (document, prop) => {
@@ -154,10 +154,10 @@ const createMetadata = (document) => {
         .block("TOC (tabs)")
         .text("Jump To")
         .element("ul")
-        .element("li").element("a", {href:`${canonicalName}-demographics`}).withText('Demographics').up()
-        .element("li").element("a", {href:`schools-near-${canonicalName}`}).withText('Schools').up()
-        .element("li").element("a", {href:`${canonicalName}-map`}).withText('Map').up()
-        .element("li").element("a", {href:`living-in-${canonicalName}`}).withText('Amenities').up()
+        .element("li").element("a", {href:`#${canonicalName}-demographics`}).withText('Demographics').up()
+        .element("li").element("a", {href:`#schools-near-${canonicalName}`}).withText('Schools').up()
+        .element("li").element("a", {href:`#${canonicalName}-map`}).withText('Map').up()
+        .element("li").element("a", {href:`#living-in-${canonicalName}`}).withText('Amenities').up()
       
       // Demographics
       const demographicsAtttribution = document.querySelector("#demographics > div > h2 div[class^='styles_info-content']");
@@ -177,11 +177,7 @@ const createMetadata = (document) => {
         .block("Info Mouseover").append(schoolDiggerInfo).endBlock()
         .append(schoolText)
         .block("LiveBy Schools")
-        .text("Types").column().element("ul")
-        .element("li").withText("public")
-        .element("li").withText("Private")
-        .element("li").withText("catholic")
-        .row().text("Per page").column().text("500")
+        .text("Per page").column().text("500")
       
       // Maps
       builder
@@ -189,6 +185,14 @@ const createMetadata = (document) => {
         .element("h2").withText(`${community} Map`)
         .block("LiveBy Map")
         .block("Listings")
+        .section()
+        .metaBlock("Property Listing", {
+          Title: "Nearby Homes for Sale",
+          MinPrice: 800000,
+          PageSize: 8,
+          "Sort Direction": "Descending",
+          "Search Type": "Community"
+        })
 
       // Amenities
       const amenitiesInfo = document.querySelector("#amenities > div > h2 div[class^='styles_info-content']");
