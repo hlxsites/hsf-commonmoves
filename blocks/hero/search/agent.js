@@ -1,44 +1,21 @@
-import { BREAKPOINTS } from '../../../scripts/scripts.js';
+import { buildSearchBar, buildSelectionTags } from '../../agent-search/agent-search.js';
 
-export const getPlaceholder = () => (BREAKPOINTS.small.matches ? 'Search by Agent Name, Team Name, Location, Language or Designations' : 'Search by Name, Location and More...');
-
-function observeForm() {
-  const script = document.createElement('script');
-  script.type = 'text/partytown';
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/hero/search/agent-delayed.js';
-    document.head.append(script);
-  `;
-  document.head.append(script);
-}
+const formSubmitted = (e) => {
+  // Don't want to submit the keyword input.
+  const form = e.currentTarget.closest('form');
+  const data = new FormData(form);
+  data.delete('keyword');
+  window.location.href = `${form.action}?${new URLSearchParams(data).toString()}`;
+};
 
 function buildForm() {
-  const placeholder = getPlaceholder();
-
   const form = document.createElement('form');
-  form.classList.add('agents');
-  form.setAttribute('action', '/agent-search-results');
+  form.classList.add('agents', 'agent-search');
+  form.setAttribute('action', '/search/agent');
 
-  form.innerHTML = `
-    <div class="search-bar" role="search">
-      <div class="search-suggester">
-        <input type="text" placeholder="${placeholder}" aria-label="${placeholder}" name="keyword">
-        <ul class="suggester-results">
-          <li class="list-title">Please enter at least 3 characters.</li>
-        </ul>
-      </div>
-      <button class="search-submit" aria-label="Search Agents" type="submit">
-        <span>Search</span>
-      </button>
-    </div>
-    <div class="selection-tags">
-      <ul class="selection-tags-list" role="presentation">
-      </ul>
-    </div>
-  `;
-  observeForm();
+  form.append(buildSearchBar());
+  form.append(buildSelectionTags());
+  form.querySelector('button[type="submit"]').addEventListener('click', formSubmitted);
   return form;
 }
 
