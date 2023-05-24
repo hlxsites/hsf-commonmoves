@@ -1,0 +1,43 @@
+/* Cards in community block to show in 4 columns using a flex layout.  */
+.community-directory.block .cards-list {
+  display: flex;  
+  flex-wrap: wrap;
+}
+
+/* Headers in each card should overlap the image in a white font. */
+.community-directory.block .cards-list .cards-item {
+    max-height: 183px;
+    height:183px;
+    max-width: calc(25% - 20px);
+    text-align: center;
+    margin: 10px;
+    flex: calc(25% - 20px);
+    position:relative;
+    cursor: pointer;
+}
+
+.community-directory.block .cards-list .cards-item picture {
+    height:100%;
+    width:100%;
+    display: block;
+}
+
+.community-directory.block .cards-list .cards-item picture img {
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.community-directory.block .cards-list .cards-item h4 {
+    position: absolute;
+    margin-top: -5em;
+    z-index: 1;
+    color: white;
+    text-align: center;
+    display: block;
+    width: 100%;
+    text-transform: uppercase;
+    font-size: var(--heading-font-size-s);
+    filter: drop-shadow(0px 0px 2px black);
+}

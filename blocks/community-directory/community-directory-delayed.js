@@ -15,7 +15,7 @@ async function initCommunityCards() {
     
     const list = document.createElement('div');
     list.classList.add('cards-list');
-    block.classList.add(`cards-4-cols`);
+    block.classList.add(`cards`);
     index.data.forEach((community) => {
         const communityName = community["LiveBy Community"];
 
@@ -30,7 +30,7 @@ async function initCommunityCards() {
         img.src = community.image;
         img.alt = communityName;
         picture.append(img);
-        const paragraphElement = document.createElement(('p'));
+        const paragraphElement = document.createElement(('h4'));
         paragraphElement.textContent = `Explore ${communityName}`;
         card.append(picture, paragraphElement);
         list.append(card);
