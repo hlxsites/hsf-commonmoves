@@ -6,9 +6,13 @@
   display: flex;
   flex-wrap: wrap;
 }
+
 .property-search-template.search-map-active .property-result-listing.block > div {
-  flex-basis: 50%;
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px;
 }
+
 .property-result-listing.block .button-container {
   display: flex;
   margin-bottom: 1.5rem;
@@ -271,9 +275,11 @@ text-align: center;
   }
 }
 
-/*.search-map-active .property-result-listing.block {*/
-/*  width: 50%;*/
-/*}*/
+/* .search-map-active .property-result-listing.block { */
+
+/*  width: 50%; */
+
+/* } */
 
 @media (max-width: 899px) {
   .property-result-listing.block {

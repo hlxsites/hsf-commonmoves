@@ -1,7 +1,9 @@
 const event = new Event('onResultUpdated');
 
 function getResults() {
-  return sessionStorage.getItem('result') ? JSON.parse(sessionStorage.getItem('result')) : { properties: '[]', count: '0', disclaimer: '' };
+  return sessionStorage.getItem('result') ? JSON.parse(sessionStorage.getItem('result')) : {
+    properties: '[]', count: '0', disclaimer: '', listingClusters: '[]',
+  };
 }
 
 export function getPropertyDetails() {
@@ -14,6 +16,10 @@ export function getPropertiesCount() {
 
 export function getDisclaimer() {
   return getResults().disclaimer;
+}
+
+export function getListingClusters() {
+  return getResults().listingClusters;
 }
 /**
  *

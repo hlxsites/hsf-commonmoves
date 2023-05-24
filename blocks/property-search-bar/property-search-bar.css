@@ -1,5 +1,9 @@
 @import url('./search-results-dropdown.css');
 
+.section.property-search-bar-container {
+    margin-bottom: 0;
+}
+
 .property-search-bar.block {
     width: 100vw;
 }

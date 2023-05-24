@@ -1,7 +1,7 @@
 import { createCard } from '../property-listing/cards/cards.js';
 import { getDisclaimer, getPropertiesCount, getPropertyDetails } from '../../scripts/search/results.js';
 import { getValueFromStorage, searchProperty, setFilterValue } from '../property-search-bar/filter-processor.js';
-import {render as renderMap} from '../property-result-map/map.js';
+import { render as renderMap } from '../property-result-map/map.js';
 
 function buildPropertySearchResultsButton() {
   const wrapper = document.createElement('div');
@@ -14,7 +14,7 @@ function buildPropertySearchResultsButton() {
       </section>
       <section>
           <a rel="noopener" target="_blank" tabIndex="" class="btn btn-map map" role="button">
-            <span class="text-up">map view</span>
+            <span class="text-up">list view</span>
           </a>
         </section>
     `;
@@ -34,6 +34,8 @@ function buildDisclaimer(html) {
 }
 
 function buildPagination(currentPage, totalPages) {
+  // set map view
+  document.querySelector('body').classList.add('search-map-active');
   const wrapper = document.createElement('div');
   wrapper.setAttribute('name', 'Page');
   wrapper.classList.add('multiple-inputs');
