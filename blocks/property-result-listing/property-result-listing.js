@@ -73,6 +73,9 @@ export default async function decorate(block) {
 
   await renderMap(block);
   window.addEventListener('onResultUpdated', () => {
+    if (document.querySelector('.property-result-content')) {
+      document.querySelector('.property-result-content').remove();
+    }
     const propertyResultContent = document.createElement('div');
     propertyResultContent.classList.add('property-result-content');
     const listings = getPropertyDetails();

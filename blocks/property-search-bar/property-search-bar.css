@@ -1,9 +1,26 @@
 @import url('./search-results-dropdown.css');
 
-.section.property-search-bar-container {
+.property-search-template .section.property-search-bar-container {
     margin-bottom: 0;
+    position: sticky;
+    top: 65px;
+    z-index: 10;
+    background: white;
 }
 
+.property-search-template header {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 11;
+}
+
+.property-search-template footer {
+    background-color: var(--light-grey);
+    border-top: 1px solid var(--platinum);
+    position: relative;
+    z-index: 4;
+}
 .property-search-bar.block {
     width: 100vw;
 }
@@ -678,7 +695,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
 
 .property-search-bar.block .filter-block {
     letter-spacing: 0.5px;
-    position: absolute;
+    position: fixed;
     overflow-y: auto;
     left: 0;
     width: 100vw;
@@ -906,8 +923,15 @@ main .section .property-search-bar .btn.btn-secondary:hover {
 .property-search-bar.block [name="OpenHouses"].selected > div > div:not(.filter-checkbox) {
     display: block;
 }
-
 @media (min-width: 900px) {
+    .property-search-template .section.property-search-bar-container {
+        margin-bottom: 0;
+        position: sticky;
+        top: 140px;
+        z-index: 10;
+        background: white;
+    }
+
     .property-search-bar.block .overlay {
         top: calc(var(--nav-height) + 50px);
     }
