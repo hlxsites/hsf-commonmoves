@@ -184,7 +184,6 @@ const createMetadata = (document) => {
         .section({Style: "bottom-border"})
         .element("h2").withText(`${community} Map`)
         .block("LiveBy Map")
-        .block("Listings")
         .section()
         .metaBlock("Property Listing", {
           Title: "Nearby Homes for Sale",
