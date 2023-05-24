@@ -5,6 +5,12 @@
   padding: 0 15px;
 }
 
+.accordion-item .property-container {
+  max-width: 1350px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .property-row {
   display: flex;
   flex-wrap: wrap;

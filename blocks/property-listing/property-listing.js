@@ -29,9 +29,7 @@ export default async function decorate(block) {
       listingTypes.length === 0 && listingTypes.push(ApplicationType.FOR_SALE);
     }
   });
-  console.log(listingTypes);
   const config = readBlockConfig(block);
-  console.log(config);
   if (config.title) {
     block.innerHTML = `
       <div class="header">
@@ -89,7 +87,6 @@ export default async function decorate(block) {
   search.pageSize = config.pagesize;
   search.sortBy = config['sort-by'];
   search.sortDirection = config['sort-direction'];
-  console.log(search.sortDirection);
   search.propertyTypes = [
     PropertyType.CONDO_TOWNHOUSE,
     PropertyType.SINGLE_FAMILY,

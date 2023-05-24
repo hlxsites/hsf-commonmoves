@@ -1,7 +1,7 @@
 import { createAccordionItem } from '../../scripts/accordion.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 
-const schoolAPI = 'https://www.bhhs.com/bin/bhhs/cregSchoolServlet?latitude=41.96909713745117&longitude=-71.22725677490234';
+const schoolAPI = 'https://www.commonmoves.com/bin/bhhs/cregSchoolServlet?latitude=42.56574249267578&longitude=-70.76632690429688';
 
 
 async function getSchools() {
@@ -18,12 +18,9 @@ async function showSchoolDetail() {
   schoolTable.style.display = 'none';
   const schoolData = await getSchools();
   const schools = schoolData ? [...schoolData.schoolResults.public, ...schoolData.schoolResults.private] : [];
-  console.log(schools);
   var schoolN = this.innerText || this.textContent;
   schoolN = String(schoolN).trim();
-  console.log(schoolN);
   var school = schools.find((s) => s.schoolName == schoolN);
-  console.log(school);
   var schoolDetail = document.querySelector('.cmp-local-school-detail');
   schoolDetail.innerHTML = createSchoolDetailHTML(school);
 }
@@ -166,6 +163,7 @@ function createSchoolTableHTML(type, schools) {
 
 export default async function decorate(block) {
   const schoolData = await getSchools();
+  console.log(schoolData);
   var publicSchools = schoolData ? schoolData.schoolResults.public : [];
   var privateSchools = schoolData ? schoolData.schoolResults.private : [];
   var schoolsHTML = `

@@ -5,8 +5,8 @@ import { getData } from './property.js';
 const propID = '347543300';
 import { currencyToNum } from './../property-details-mortgage-calculator/compute-mortgage.js';
 
-const propertyAPI = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=412450&MaxPrice=1237350&Latitude=41.96909713745117&Longitude=-71.22725677490234&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
-const marketTrendsAPI = 'https://www.commonmoves.com/bin/bhhs/CregMarketTrends?PropertyId=347543300&Latitude=41.96909713745117&Longitude=-71.22725677490234&zipCode=02766';
+const propertyAPI = 'https://www.commonmoves.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
+const marketTrendsAPI = 'https://www.commonmoves.com/bin/bhhs/CregMarketTrends?PropertyId=343140756&Latitude=42.56574249267578&Longitude=-70.76632690429688&zipCode=01944';
 
 function calcPercentage(oldVal, newVal) {
   var percentage = ((newVal - oldVal) * 100) / oldVal;
@@ -30,7 +30,6 @@ function createInnerHTML(data, property) {
     a[k] = Number(percent.toFixed(0));
     return a;
 }, {});
-  console.log(percentDiff)
 
   var medianListPriceChange = calcPercentage(currencyToNum(last.medianListPrice), currencyToNum(current.medianListPrice));
   var medianSoldPriceChange = calcPercentage(currencyToNum(last.medianSalesPrice), currencyToNum(current.medianSalesPrice));
@@ -232,10 +231,7 @@ export default async function decorate(block) {
   //const respTwo = await fetch(propertyAPI);
   if (resp.ok) {
     const data = await resp.json();
-    console.log(data);
     var property = getData();
-    //var property = await respTwo.json().properties.find((item) => item.PropId == propID);
-    console.log(data);
     var innerHTML = createInnerHTML(data, property);
     var accordionItem = createAccordionItem('market-trends', 'Market Trends', innerHTML);
     block.append(accordionItem);

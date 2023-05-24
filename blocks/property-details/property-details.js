@@ -1,6 +1,6 @@
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 import { getPropertyListing } from './api.js';
-const propID = '347543300';
+const propID = '343140756';
 
 function next(item, carousel) {
   if (item.nextElementSibling) {
@@ -38,14 +38,12 @@ function togglePhotosMap() {
   var photoGallery = document.querySelector('.image-gallery-container');
   var photoRow = document.querySelector('.pagination-row');
   var mapElem = document.querySelector('#cmp-map-canvas');
-  console.log(this.classList);
   if(this.classList.contains('photos')) {
     mapElem.classList.add('invisible');
     photoGallery.classList.remove('invisible');
     photoRow.classList.remove('invisible');
   } else if(this.classList.contains('map')) {
     var height = photoGallery.querySelector('img').offsetHeight;
-    console.log(height);
     photoGallery.classList.add('invisible');
     photoRow.classList.add('invisible');
     mapElem.classList.remove('invisible');
@@ -174,7 +172,6 @@ function createPropertyDetailsTop(listing) {
 
 export default async function decorate(block) {
   var listing = await getPropertyListing(propID);
-  console.log(listing);
   if(listing) {
     var media = listing['Media'];
     var photos = media.map((item) => item['mediaUrl']);
@@ -287,7 +284,6 @@ export default async function decorate(block) {
     buttonToggle.forEach((button) => {
       button.addEventListener('click', togglePhotosMap);
     });
-    console.log(buttonToggle);
     var scriptGoogle = document.createElement("script");
     scriptGoogle.innerHTML = '(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({ key: "AIzaSyCYC2eu629We-fwHNImmusqP8_8TzSIBDg" });'
     document.head.append(scriptGoogle);

@@ -150,7 +150,6 @@ const detailConfig = {
 async function getMarketTrends() {
   const marketTrendsAPI = 'https://www.commonmoves.com/bin/bhhs/CregMarketTrends?PropertyId=347543300&Latitude=41.96909713745117&Longitude=-71.22725677490234&zipCode=02766';
   const resp = await fetch(marketTrendsAPI);
-  console.log(resp);
   if (resp.ok) {
     const data = await resp.json();
     return data;
@@ -204,29 +203,6 @@ function getChange(values) {
   var change = (values.slice(-1)[0] - values.slice(-2)[0]) / values.slice(-2)[0];
   return change < 0 ? "down" : "up";
 }
-/*
-getMarketTrends().then((data) => {
-  var trends = data.detailTrends;
-  var months = trends.map((item) => new Date(item.startDate).toLocaleString('default', { month: "short" }));
-  console.log(months);
-  var medianListPrice = trends.map((item) => Number(item.medianListPrice.replace(/[^0-9.-]+/g,"")));
-  var medianSoldPrice = trends.map((item) => Number(item.medianSalesPrice.replace(/[^0-9.-]+/g,"")));
-  var avgPrice = trends.map((item) => Number(item.avgPriceArea.replace(/[^0-9.-]+/g,"")));
-  var homesSold = trends.map((item) => item.homesSold);
-  var homesSale = trends.map((item) => item.homesForSale);
-  var avgDays = trends.map((item) => item.avgDaysOnMarket);
-  console.log(homesSold);
-  const medianListPriceLineChart = initChart(document.getElementById("medianlistprice-line-chart"), months, medianListPrice, getChange(medianListPrice));
-  const medianSoldPriceLineChart = initChart(document.getElementById("mediansoldprice-line-chart"), months, medianSoldPrice, getChange(medianSoldPrice));
-  const avgPriceLineChart = initChart(document.getElementById("avgprice-line-chart"), months, avgPrice, getChange(avgPrice));
-  const homesSoldLineChart = initChart(document.getElementById("homessold-line-chart"), months, homesSold, getChange(homesSold));
-  const homesSaleLineChart = initChart(document.getElementById("homesforsale-line-chart"), months, homesSale, getChange(homesSale));
-  const avgDaysLineChart = initChart(document.getElementById("avgdays-line-chart"), months, avgDays, getChange(avgDays));
-
-  var charts = document.querySelectorAll('.cmp-property-details-market-trends__table .chart');
-
-});
-*/
 
 var data = await getMarketTrends();
 var trends = data.detailTrends;
@@ -279,9 +255,7 @@ var detailLineChart = initChart(document.getElementById('detail-line-chart'), mo
 
 div.querySelectorAll('.cmp-property-details-market-trends__table .chart').forEach((chart) => {
   chart.addEventListener('click', (e) => {
-    //console.log(e.currentTarget.id);
     var elem = e.currentTarget;
-    console.log(elem);
     var dataElem = elem.previousElementSibling;
     var label = dataElem.firstElementChild.textContent;
     var value = dataElem.lastElementChild.textContent;
@@ -325,7 +299,6 @@ div.querySelectorAll('.cmp-property-details-market-trends__table .chart').forEac
 });
 
 var close = detail.querySelector('.close');
-  console.log(close);
   close.addEventListener('click', () => {
     table.classList.toggle('d-none');
     detail.classList.toggle('d-none');

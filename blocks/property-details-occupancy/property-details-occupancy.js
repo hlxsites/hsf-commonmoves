@@ -1,7 +1,7 @@
 import { createAccordionItem } from '../../scripts/accordion.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 
-const socioEconomicAPI = 'https://www.bhhs.com/bin/bhhs/pdp/socioEconomicDataServlet?latitude=41.96909713745117&longitude=-71.22725677490234';
+const socioEconomicAPI = 'https://www.commonmoves.com/bin/bhhs/pdp/socioEconomicDataServlet?latitude=42.56574249267578&longitude=-70.76632690429688';
 
 function createTableRow(levelData) {
   const label = levelData.level == 'zipcode' ? `Zip Code: ${levelData.label}` : levelData.label;
