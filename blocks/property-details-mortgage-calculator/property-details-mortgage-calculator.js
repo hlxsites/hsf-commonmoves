@@ -1,6 +1,6 @@
 import { createAccordionItem } from '../../scripts/accordion.js';
-import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
-import { computeMortgage, addCommaSeparators, removeCommas } from './compute-mortgage.js';
+import { loadCSS } from '../../scripts/lib-franklin.js';
+import { computeMortgage, addCommaSeparators, nFormatter } from './compute-mortgage.js';
 const propertyAPI = 'https://www.bhhs.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
 const propID = '343140756';
 
@@ -59,7 +59,7 @@ export default async function decorate(block) {
             </div>
             <div class="cmp-mtg-calc__input">
               <div class="cmp-mtg-calc__input__label"><label for="down_payment">Down Payment</label> <span
-                  class="extra">($3M)</span>
+                  class="extra">($${nFormatter(initialMortgageCalc.downpayment, 0)})</span>
               </div>
               <div class="cmp-mtg-calc__input__slider">
                 <div data-content="%" class="input input-percent has-input-formatted">
@@ -118,14 +118,9 @@ export default async function decorate(block) {
     var accordionItem = createAccordionItem('mortgage-calculator', 'Mortgage Calculator', calcHTML);
     block.append(accordionItem);
     
-    
-    
-    decorateIcons(block);
-    
     loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
     loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
 
-    
     var scriptSrc = document.createElement('script');
     scriptSrc.type = 'module';
     scriptSrc.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
@@ -140,45 +135,6 @@ export default async function decorate(block) {
       document.head.append(script);
     `;
     document.body.append(script);
-    /*
-    const script = document.createElement('script');
-
-    script.innerHTML = `
-      var scriptChart = document.createElement('script');
-      scriptChart
-      const ctx = document.getElementById("doughnut-chart");
-      var xValues = ["Principal", "Interest"];
-      var yValues = [12474, 57698];
-      var barColors = [
-        "rgba(85, 36, 72, 1.0)",
-        "rgba(85,36,72,0.5)"
-      ];
-      const dataDoughnut = {
-        labels: xValues,
-        datasets: [{
-          backgroundColor: barColors,
-          data: yValues,
-          borderWidth: 0
-        }]
-      };
-      const config = {
-        type: 'doughnut',
-        data: dataDoughnut,
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              display: false
-            }
-          },
-          cutout: '70%'
-        },
-      };
-      new Chart(ctx, config);
-    `;
-    document.body.append(script);
-    */
-
   }
   
 }

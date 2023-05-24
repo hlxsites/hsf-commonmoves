@@ -29,8 +29,9 @@ export default async function decorate(block) {
       listingTypes.length === 0 && listingTypes.push(ApplicationType.FOR_SALE);
     }
   });
+  console.log(listingTypes);
   const config = readBlockConfig(block);
-
+  console.log(config);
   if (config.title) {
     block.innerHTML = `
       <div class="header">
@@ -56,7 +57,6 @@ export default async function decorate(block) {
 
   const keys = Object.keys(config);
   const [type] = keys.filter((k) => /search.*type/.test(k)).map((k) => searchTypeFor(config[k]));
-
   if (type === SearchType.Map) {
     const [minLat] = keys.filter((k) => k.includes('min') && k.includes('lat')).map((k) => config[k]);
     const [maxLat] = keys.filter((k) => k.includes('max') && k.includes('lat')).map((k) => config[k]);
@@ -65,7 +65,7 @@ export default async function decorate(block) {
     search = new MapSearch(minLat, minLon, maxLat, maxLon);
   } else if (type === SearchType.Radius) {
     let [lat] = keys.filter((k) => k.includes('lat')).map((k) => config[k]);
-    let [lon] = keys.filter((k) => k.includes('lat')).map((k) => config[k]);
+    let [lon] = keys.filter((k) => k.includes('lon')).map((k) => config[k]);
     const [radius] = keys.filter((k) => k.includes('distance')).map((k) => config[k]);
 
     // Go looking for the search parameters.
@@ -89,6 +89,7 @@ export default async function decorate(block) {
   search.pageSize = config.pagesize;
   search.sortBy = config['sort-by'];
   search.sortDirection = config['sort-direction'];
+  console.log(search.sortDirection);
   search.propertyTypes = [
     PropertyType.CONDO_TOWNHOUSE,
     PropertyType.SINGLE_FAMILY,

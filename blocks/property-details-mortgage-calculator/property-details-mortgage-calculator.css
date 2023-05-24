@@ -20,39 +20,6 @@
   line-height: inherit;
 }
 
-.chartjs-size-monitor, .chartjs-size-monitor-expand, .chartjs-size-monitor-shrink {
-  position: absolute;
-  direction: ltr;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  pointer-events: none;
-  visibility: hidden;
-  z-index: -1;
-}
-
-.chartjs-render-monitor {
-  animation: chartjs-render-animation 0.001s;
-}
-
-.chartjs-size-monitor-expand > div {
-  position: absolute;
-  width: 1000000px;
-  height: 1000000px;
-  left: 0;
-  top: 0;
-}
-
-.chartjs-size-monitor-shrink > div {
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  left: 0;
-  top: 0;
-}
-
 .cmp-mtg-calc__chart ol {
   list-style: none;
   margin: 0;
@@ -129,6 +96,7 @@
 .input-percent {
   position: relative;
 }
+
 .cmp-mtg-calc__input__slider .input-standard.has-input-formatted input, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted input, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted input {
   opacity: 0;
   position: relative;
@@ -170,9 +138,11 @@
   width: 100%;
   z-index: 1;
 }
+
 .has-input-formatted input {
   text-align: right;
 }
+
 .input input {
   background: 0;
   border: 1px solid #e7e7e7;
@@ -228,136 +198,12 @@ input {
   width: 100% !important;
   height: 100% !important;
 }
-.vue-slider-component {
-  position: relative;
-  box-sizing: border-box;
-}
-
-.vue-slider-component .vue-slider {
-  background-color: #e7e7e7;
-}
-
-.vue-slider-component .vue-slider {
-  position: relative;
-  display: block;
-  border-radius: 15px;
-  background-color: #ccc;
-}
-
-.vue-slider-component.vue-slider-horizontal .vue-slider-dot {
-  left: 0;
-}
-
-.vue-slider-component .vue-slider-dot {
-  position: absolute;
-  transition: all 0s;
-  will-change: transform;
-  cursor: pointer;
-  z-index: 5;
-}
-
-.vue-slider-component .vue-slider-dot .vue-slider-dot-handle {
-  background-color: #552448;
-  box-shadow: none;
-}
-
-.vue-slider-component .vue-slider-dot .vue-slider-dot-handle {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: #fff;
-  box-shadow: 0.5px 0.5px 2px 1px rgba(0,0,0,.32);
-}
-
-.vue-slider-component .vue-slider-tooltip-wrap.vue-slider-tooltip-top {
-  top: -9px;
-  left: 50%;
-  transform: translate(-50%,-100%);
-}
-
-.vue-slider-component .vue-slider-tooltip-wrap {
-  display: none;
-  position: absolute;
-  z-index: 9;
-}
-
-.vue-slider-component .vue-slider-tooltip {
-  display: block;
-  font-size: 14px;
-  white-space: nowrap;
-  padding: 2px 5px;
-  min-width: 20px;
-  text-align: center;
-  color: #fff;
-  border-radius: 5px;
-  border: 1px solid #3498db;
-  background-color: #3498db;
-}
-
-.vue-slider-component .vue-slider-piecewise {
-  position: absolute;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  left: 0;
-  top: 0;
-  height: 100%;
-  list-style: none;
-}
-
-.vue-slider-component.vue-slider-horizontal .vue-slider-process {
-  width: 0;
-  height: 100%;
-  top: 0;
-  left: 0;
-  will-change: width;
-}
-
-.vue-slider-component .vue-slider-process {
-  background-color: #aaa;
-}
-
-
-.vue-slider-component .vue-slider-process {
-  position: absolute;
-  border-radius: 15px;
-  transition: all 0s;
-  z-index: 1;
-}
-
-.vue-slider-component .vue-slider-tooltip-wrap.vue-merged-tooltip {
-  display: block;
-  visibility: hidden;
-}
-
-.vue-slider-component .vue-slider-tooltip-wrap {
-  display: none;
-  position: absolute;
-  z-index: 9;
-}
-
-.vue-slider-component .vue-slider-sr-only {
-  clip: rect(1px,1px,1px,1px);
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  position: absolute!important;
-}
-
-.vue-slider-component .vue-slider:after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-}
 
 .slider-wrapper {
   width: auto;
   padding: 1px 8px;
 }
+
 .custom-slider {
   height: 6px;
   width: 100%;
@@ -365,6 +211,7 @@ input {
   -webkit-appearance: none;
   border-radius: 15px;
 }
+
 .custom-slider::-webkit-slider-thumb {
   width: 16px;
   height: 16px;
@@ -372,12 +219,14 @@ input {
   border-radius: 50%;
   background: #552448;
 }
+
 .custom-slider::-moz-slider-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background: #552448;
 }
+
 .text-disclaimer {
   color: #979797;
   font-family: var(--font-family-proxima);
@@ -386,6 +235,7 @@ input {
   letter-spacing: 0;
   line-height: 13px;
 }
+
 .text-right {
   text-align: right !important;
 }
@@ -393,6 +243,7 @@ input {
 .cmp-mtg-calc__input__label .extra {
   font-family: var(--font-family-proxima);
   font-weight: 300;
+  font-size: inherit;
 }
 
 @media (min-width: 992px) {
@@ -438,5 +289,4 @@ input {
     flex: 0 0 41.667%;
     width: 41.667%;
   }
-
 }

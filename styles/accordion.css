@@ -46,6 +46,60 @@
   transition: transform .3s linear;
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip svg {
+  height: 19px;
+  width: 19px;
+}
+
+.tooltip .icon-info_circle_dark {
+  display: none;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 290px;
+  background-color: black;
+  color: #fff;
+  text-align: left;
+  padding: 14px 18px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  margin: 12px 0 0 -10px;
+  font-family: var(--font-family-proxima);
+  font-size: 14px;
+  letter-spacing: .44px;
+  line-height: 22px;
+}
+
+.tooltip:hover .icon-info_circle {
+  display: none;
+}
+
+.tooltip:hover .icon-info_circle_dark {
+  display: block;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 8px;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent black transparent;
+}
+
 @media (min-width: 992px) {
   .accordion-header {
     padding: 27px 30px 30px 0;

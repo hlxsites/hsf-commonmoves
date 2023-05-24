@@ -1,3 +1,7 @@
+.market-trends.accordion-item {
+  background-color: #f6f6f6;
+}
+
 .cmp-property-details-market-trends__table table {
   width: 100%;
   border-collapse: collapse;
@@ -51,6 +55,16 @@
   float: left;
   margin: 2px 0 0;
   position: relative;
+}
+
+.cmp-property-details-market-trends__table .chart:hover {
+  border: 1px solid var(--body-color);
+}
+
+.cmp-property-details-market-trends__table .chart:hover .arrow{
+  border: 1px solid var(--body-color);
+  color: var(--white);
+  background-color: var(--body-color);
 }
 
 .cmp-property-details-market-trends__table .chart .mini-chart {
@@ -112,6 +126,68 @@
   color: #2b834f;
 }
 
+.cmp-property-details-market-trends__detail {
+  margin: 20px 0 0;
+}
+
+.cmp-property-details-market-trends__detail__title {
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0;
+}
+
+.cmp-property-details-market-trends__detail__value {
+  font-family: var(--font-family-proxima);
+  font-weight: 300;
+  font-size: 22px;
+  line-height: 26px;
+  letter-spacing: .65px;
+}
+
+.cmp-property-details-market-trends__detail__chart {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  margin: 27px 0 0;
+  padding: 20px 0 10px;
+  position: relative;
+}
+
+.cmp-property-details-market-trends__detail__chart .detail-chart {
+  height: 240px;
+  position: relative;
+}
+
+.cmp-property-details-market-trends__detail .close {
+  cursor: pointer;
+  padding: 10px;
+  position: absolute;
+  right: 5px;
+  top: 2px;
+}
+
+.cmp-property-details-market-trends__detail .close svg {
+  height: 22px;
+  width: 22px;
+}
+
+.market-trends .sourceBy {
+  margin-right: 117px;
+  margin-top: -70px;
+  padding-bottom: 50px;
+  opacity: 1;
+  letter-spacing: .75px;
+}
+
+.market-trends .sourceBy p {
+  text-align: right;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
 @media (min-width: 992px) {
   .cmp-property-details-market-trends__table th {
     font-size: 18px;
@@ -169,5 +245,31 @@
   .cmp-property-details-market-trends__table .chart .arrow svg {
     left: 3px;
     top: 3px;
+  }
+
+  .cmp-property-details-market-trends__detail {
+    margin: 0;
+  }
+
+  .cmp-property-details-market-trends__detail__title {
+    font-size: 32px;
+    line-height: 38px;
+  }
+
+  .cmp-property-details-market-trends__detail__value {
+    font-family: var(--font-family-proxima);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: .89px;
+  }
+
+  .cmp-property-details-market-trends__detail__chart {
+    margin: 33px 0 0;
+    padding: 30px 10px 20px;
+  }
+
+  .cmp-property-details-market-trends__detail__chart .detail-chart {
+    height: 400px;
   }
 }

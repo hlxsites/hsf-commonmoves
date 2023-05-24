@@ -148,6 +148,10 @@
   padding-bottom: 1.5rem !important;
 }
 
+.pb-content {
+  padding-bottom: 57px;
+}
+
 .order-0 {
   order: 0;
 }
@@ -228,6 +232,10 @@
 
   .mb-md-0, .my-md-0 {
     margin-bottom: 0 !important;
+  }
+
+  .pb-content {
+    padding-bottom: 80px;
   }
 }
 
@@ -374,5 +382,9 @@
 
   .offset-xl-6 {
     margin-left: 50%;
+  }
+
+  .pb-content {
+    padding-bottom: 100px;
   }
 }

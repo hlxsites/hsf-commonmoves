@@ -1,162 +1,19 @@
-<div class="cmp-property-details-market-trends__table active">
+<div class="cmp-property-details-market-trends__detail d-none">
   <div class="property-container">
     <div class="property-row">
       <div class="col col-12 col-md-10 offset-md-1">
-        <table>
-          <thead>
-            <tr>
-              <th><span class="pr-2">${property.StreetName}</span></th>
-              <th>ZIP Code: ${property.PostalCode}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="data">
-                  <div class="label">List Price</div>
-                  <div class="value">
-                    <div class="currency md-length">${property.ListPriceUS}</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="data">
-                  <div class="label">Median List Price</div>
-                  <div class="value">
-                    <div class="currency">${data.total.medianListPrice minus USD}</div>
-                  </div>
-                </div>
-                <div class="chart">
-                  <div class="mini-chart">
-                    <canvas id="line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
-                  </div>
-                  <div class="micro-trend up">16%</div>
-                  <div class="arrow">
-                    <span class="icon icon-expand_arrow"></span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="data">
-                  <div class="label">Sale Price</div>
-                  <div class="value">
-                    <div class="currency">${- if data.listingInfo.salePrice is null}</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="data">
-                  <div class="label">Median Sold Price</div>
-                  <div class="value">
-                    <div class="currency">${data.total.medianSalesPrice minus USD}</div>
-                  </div>
-                </div>
-                <div class="chart">
-                  <div class="mini-chart">
-                    <canvas id="line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
-                  </div>
-                  <div class="micro-trend down">-55%</div>
-                  <div class="arrow">
-                    <span class="icon icon-expand_arrow"></span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="data">
-                  <div class="label">price/Sqft</div>
-                  <div class="value">
-                    <div class="currency">$1,500</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="data">
-                  <div class="label">Avg Price/Sqft</div>
-                  <div class="value">
-                    <div class="currency">${data.total.avgPriceArea minus USD}</div>
-                  </div>
-                </div>
-                <div class="chart">
-                  <div class="mini-chart">
-                    <canvas id="line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
-                  </div>
-                  <div class="micro-trend up">1%</div>
-                  <div class="arrow">
-                    <span class="icon icon-expand_arrow"></span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="data">
-                  <div class="label">Days on Market</div>
-                  <div class="value">51</div>
-                </div>
-              </td>
-              <td>
-                <div class="data">
-                  <div class="label">Avg Days on Market</div>
-                  <div class="value">${data.total.avgDaysOnMarket}</div>
-                </div>
-                <div class="chart">
-                  <div class="mini-chart">
-                    <canvas id="line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
-                  </div>
-                  <div class="micro-trend down">-13%</div>
-                  <div class="arrow">
-                    <span class="icon icon-expand_arrow"></span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table>
-          <thead>
-            <tr>
-              <th>Homes for Sale</th>
-              <th>Homes Sold</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="data">
-                  <div class="value">${data.total.homesForSale}</div>
-                </div>
-                <div class="chart">
-                  <div class="mini-chart">
-                    <canvas id="line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
-                  </div>
-                  <div class="micro-trend up">20%</div>
-                  <div class="arrow">
-                    <span class="icon icon-expand_arrow"></span>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <div class="data">
-                  <div class="value">${data.total.homesSold}</div>
-                </div>
-                <div class="chart">
-                  <div class="mini-chart">
-                    <canvas id="line-chart" width="300" height="190"
-                      style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
-                  </div>
-                  <div class="micro-trend up">67%</div>
-                  <div class="arrow">
-                    <span class="icon icon-expand_arrow"></span>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="cmp-property-details-market-trends__detail__title"></div>
+        <div class="cmp-property-details-market-trends__detail__value">
+          <div class="currency"></div>
+        </div>
+        <div class="cmp-property-details-market-trends__detail__chart">
+          <div class="detail-chart">
+            <canvas id="line-chart" width="2146" height="800" class="chartjs-render-monitor"></canvas>
+          </div>
+        </div>
+        <div class="close">
+          <span class="icon icon-close_x"></span>
+        </div>
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { computeMortgage, addCommaSeparators, removeCommas } from './compute-mortgage.js';
+import { computeMortgage, addCommaSeparators, removeCommas, nFormatter } from './compute-mortgage.js';
 
 function initChart() {
   const ctx = document.getElementById("doughnut-chart");
@@ -60,6 +60,9 @@ function adjustSlider() {
   var interestRate = block.querySelector('.interest-rate-field').innerHTML;
   var loanTerm = block.querySelector('.loan-term-field').innerHTML;
   var mortgage = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm);
+  
+  var spanLabel = block.querySelector('label[for=down_payment]').nextElementSibling;
+  spanLabel.innerHTML = `$(${nFormatter(mortgage.downpayment, 1)})`;
   var monthlyPayment = mortgage.totalPayment.toFixed(0);
   var principal = mortgage.principal.toFixed(0);
   var interest = mortgage.interest.toFixed(0);
@@ -106,7 +109,10 @@ function focusOutInput() {
   var downPayment = block.querySelector('.down-payment-field').innerHTML ? block.querySelector('.down-payment-field').innerHTML : this.value;
   var interestRate = block.querySelector('.interest-rate-field').innerHTML ? block.querySelector('.interest-rate-field').innerHTML : this.value;
   var loanTerm = block.querySelector('.loan-term-field').innerHTML ? block.querySelector('.loan-term-field').innerHTML : this.value;
-  var mortgage = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm)
+  var mortgage = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm);
+  
+  var spanLabel = block.querySelector('label[for=down_payment]').nextElementSibling;
+  spanLabel.innerHTML = `$(${nFormatter(mortgage.downpayment, 1)})`;
   var monthlyPayment = mortgage.totalPayment.toFixed(0);
   var principal = mortgage.principal.toFixed(0);
   var interest = mortgage.interest.toFixed(0);
@@ -128,7 +134,10 @@ function adjustField() {
     var downPayment = block.querySelector('.down-payment-field').innerHTML ? block.querySelector('.down-payment-field').innerHTML : this.value;
     var interestRate = block.querySelector('.interest-rate-field').innerHTML ? block.querySelector('.interest-rate-field').innerHTML : this.value;
     var loanTerm = block.querySelector('.loan-term-field').innerHTML ? block.querySelector('.loan-term-field').innerHTML : this.value;
-    var mortgage = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm)
+    var mortgage = computeMortgage(purchasePrice, interestRate, downPayment, loanTerm);
+
+    var spanLabel = block.querySelector('label[for=down_payment]').nextElementSibling;
+    spanLabel.innerHTML = `$(${nFormatter(mortgage.downpayment, 1)})`;
     var monthlyPayment = mortgage.totalPayment.toFixed(0);
     var principal = mortgage.principal.toFixed(0);
     var interest = mortgage.interest.toFixed(0);  

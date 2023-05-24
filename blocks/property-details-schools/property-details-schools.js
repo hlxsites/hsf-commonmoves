@@ -5,25 +5,19 @@ const schoolAPI = 'https://www.bhhs.com/bin/bhhs/cregSchoolServlet?latitude=41.9
 
 
 async function getSchools() {
-  var publicSchools = [];
-  var privateSchools = [];
   const resp = await fetch(schoolAPI);
   if (resp.ok) {
     const schoolData = await resp.json();
-    publicSchools = schoolData.schoolResults.public;
-    privateSchools = schoolData.schoolResults.private;
+    return schoolData;
   }
-  return {
-    public: publicSchools,
-    private: privateSchools
-  }
+  return null;
 }
 
 async function showSchoolDetail() {
   var schoolTable = document.querySelector('.schools-table');
   schoolTable.style.display = 'none';
   const schoolData = await getSchools();
-  const schools = [...schoolData.public, ...schoolData.private];
+  const schools = schoolData ? [...schoolData.schoolResults.public, ...schoolData.schoolResults.private] : [];
   console.log(schools);
   var schoolN = this.innerText || this.textContent;
   schoolN = String(schoolN).trim();
@@ -172,8 +166,8 @@ function createSchoolTableHTML(type, schools) {
 
 export default async function decorate(block) {
   const schoolData = await getSchools();
-  var publicSchools = schoolData.public;
-  var privateSchools = schoolData.private;
+  var publicSchools = schoolData ? schoolData.schoolResults.public : [];
+  var privateSchools = schoolData ? schoolData.schoolResults.private : [];
   var schoolsHTML = `
     <div class="schools-wrap">
       <div id="school-table" class="schools-table">

@@ -1,3 +1,4 @@
+var x = `
 {
   "ListingId": "73084552",
   "ListPrice": "$14,995,000 USD",
@@ -596,4 +597,9 @@
   "brandedTeamDba": null,
   "brandedOfficeLicense": null,
   "brandedOfficeDba": null
+}
+`;
+
+export function getData() {
+    return JSON.parse(x);
 }

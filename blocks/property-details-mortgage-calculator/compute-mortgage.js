@@ -21,3 +21,35 @@ export function addCommaSeparators(price) {
 export function removeCommas(price) {
   return price.toString().replace(/,/g,'',);
 }
+
+export function currencyToNum(price) {
+  return Number(price.toString().replace(/[^0-9.-]+/g,""));
+}
+
+export function nFormatter(val, a) {
+  var c = [{
+      value: 1,
+      symbol: ""
+  }, {
+      value: 1E3,
+      symbol: "k"
+  }, {
+      value: 1E6,
+      symbol: "M"
+  }, {
+      value: 1E9,
+      symbol: "G"
+  }, {
+      value: 1E12,
+      symbol: "T"
+  }, {
+      value: 1E15,
+      symbol: "P"
+  }, {
+      value: 1E18,
+      symbol: "E"
+  }], f;
+  for (f = c.length - 1; 0 < f && !(Number(val) >= c[f].value); f--)
+      ;
+  return (Number(val) / c[f].value).toFixed(a).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, "$1") + c[f].symbol
+}

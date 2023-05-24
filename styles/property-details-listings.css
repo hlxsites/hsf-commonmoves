@@ -1,0 +1,17 @@
+.property-details-template .property-listing.block .header > div > span {
+  font-family: var(--font-family-georgia);
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 17px;
+  line-height: 35px;
+  text-transform: none;
+  border-bottom: none;
+}
+
+@media (min-width: 992px) {
+  .property-details-template .property-listing.block .header > div > span {
+    font-size: 25px;
+    font-family: var(--font-family-gotham);
+    font-weight: 500;
+  }
+}

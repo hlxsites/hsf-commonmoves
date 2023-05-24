@@ -164,6 +164,45 @@ function buildPropertySearchBlock(main) {
   }
 }
 
+function buildPropertyDetailNearbyBlock(main) {
+  if(getMetadata('template') == 'property-details-template') {
+    var forSaleHomes = document.createElement('div');
+    forSaleHomes.setAttribute('id', 'nearby-homes');
+    forSaleHomes.append(buildBlock('property-listing', 
+    [
+      ["Title", "Nearby Homes For Sale"],
+      ["Listing Type", "For Sale"],
+      ["MinPrice", "412450"],
+      ["MaxPrice", "1237350"],
+      ["PageSize", "8"],
+      ["Sort By", "Price"],
+      ["Sort Direction", "ASCENDING"],
+      ["Lat", "41.96909713745117"],
+      ["Lon", "-71.22725677490234"],
+      ["Distance", "2"],
+      ["Search Type", "Radius"]
+    ]));
+    const recentlySoldHomes = document.createElement('div');
+    recentlySoldHomes.append(buildBlock('property-listing', [
+      ["Title", "Recent Sales Nearby"],
+      ["Listing Type", "Recently Sold"],
+      ["MinPrice", "659920"],
+      ["MaxPrice", "989880"],
+      ["PageSize", "4"],
+      ["Sort By", "Price"],
+      ["Sort Direction", "ASCENDING"],
+      ["Lat", "41.96909713745117"],
+      ["Lon", "-71.22725677490234"],
+      ["Distance", "2"],
+      ["Search Type", "Radius"]
+    ]));
+    loadCSS(`${window.hlx.codeBasePath}/styles/property-details-listings.css`);
+    main.append(forSaleHomes);
+    main.append(recentlySoldHomes);
+
+
+  }
+}
 /**
  * Add luxury collection css for page with template
  */
@@ -186,7 +225,11 @@ function buildAutoBlocks(main) {
     buildBlogDetails(main);
     buildBlogNav(main);
     buildPropertySearchBlock(main);
+<<<<<<< HEAD
     buildLuxuryTheme();
+=======
+    buildPropertyDetailNearbyBlock(main);
+>>>>>>> 69453c2 (finish market trend block)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
