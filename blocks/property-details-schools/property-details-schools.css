@@ -111,6 +111,11 @@
   text-overflow: ellipsis;
 }
 
+.cmp-local-school-detail__profile .url a {
+  color: #3a3a3a;
+  text-decoration: underline;
+}
+
 .cmp-local-school-detail__stat {
   border-left: 2px solid transparent;
   height: 75px;

@@ -56,7 +56,7 @@ export default async function decorate(block) {
                 class="property-details-description__more d-lg-none hidden d-block">View More</a>
             </div>
           </div>
-          <div class="col d-lg-block col-lg-4 pt-lg-0  ">
+          <div class="col d-lg-block col-lg-4 pt-lg-0">
             <span class="d-none"></span>
             <div class="contact-card">
               <section class="cmp-contact-card afix">
@@ -100,7 +100,7 @@ export default async function decorate(block) {
                     </div>
                     <div class="col col-lg-12 pl-2 pr-2 pt-3 pb-3 pt-lg-1 pb-lg-1 sticky order-lg-1 pl-lg-0  ">
                       <div class="cmp-cta">
-                        <a class="cmp-cta-btn btn-contact d-none d-lg-block" href="#" rel="noopener">
+                        <a class="cmp-cta-btn btn-contact display-none d-lg-block" href="#" rel="noopener">
                           <span class="cmp-cta__btn-text">
                             contact
                           </span>

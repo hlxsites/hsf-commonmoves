@@ -79,7 +79,7 @@ function createInnerHTML(data, property) {
                       <div class="data">
                         <div class="label">Sale Price</div>
                         <div class="value">
-                          ${data.listingInfo.salePrice}
+                          ${data.listingInfo.salePrice ? data.listingInfo.salePrice : '–'}
                         </div>
                       </div>
                     </td>

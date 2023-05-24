@@ -1,5 +1,8 @@
-.market-trends.accordion-item {
-  background-color: #f6f6f6;
+.property-details-market-trends-wrapper {
+  background: #f6f6f6;
+  width: 95vw;
+  position: relative;
+  margin-left: calc(-47.5vw + 50%);
 }
 
 .cmp-property-details-market-trends__table table {
@@ -271,5 +274,15 @@
 
   .cmp-property-details-market-trends__detail__chart .detail-chart {
     height: 400px;
+  }
+}
+
+@media(min-width: 1200px) {
+  .cmp-property-details-market-trends__table td:first-child, .cmp-property-details-market-trends__table th:first-child {
+    padding-right: 0;
+  }
+
+  .cmp-property-details-market-trends__table td, .cmp-property-details-market-trends__table th {
+    padding-left: 60px;
   }
 }

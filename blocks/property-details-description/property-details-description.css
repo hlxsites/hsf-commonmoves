@@ -92,8 +92,6 @@
   margin-bottom: 14px;
 }
 
-
-
 .align-items-start {
   align-items: flex-start !important;
 }
@@ -450,5 +448,9 @@
     bottom: 0;
     left: 0;
     z-index: 9;
+  }
+  
+  .display-none {
+    display: none !important;
   }
 }
