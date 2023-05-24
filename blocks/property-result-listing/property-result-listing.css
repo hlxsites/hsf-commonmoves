@@ -284,6 +284,7 @@ text-align: center;
 @media (max-width: 899px) {
   .property-result-listing.block {
     width: 100%;
+    flex-direction: column-reverse;
   }
 
   .property-result-listing.block .property-list-cards {
@@ -301,9 +302,15 @@ text-align: center;
   }
 
   .search-map-active .property-result-listing.block .property-list-cards,
-  .search-map-active .property-result-listing.block [name="Page"]
-  {
+  .search-map-active .property-result-listing.block [name="Page"],
+  .search-map-active .property-result-listing.block .property-list-cards .property-result-content .disclaimer {
     display: none;
+  }
+
+  .property-search-template.search-map-active .property-result-listing.block > div {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding: 0 15px;
   }
 }
 

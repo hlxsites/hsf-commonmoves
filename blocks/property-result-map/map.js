@@ -40,10 +40,11 @@ function initGoogleMapsAPI() {
 }
 
 export async function render(block) {
-  const div = document.createElement('div');
+  const container = document.createElement('div');
+    container.classList.add('property-result-map-container');
   const map = document.createElement('div');
   map.classList.add('property-result-map');
-  div.append(map, buildCustomControls());
-  block.append(div);
+  container.append(map, buildCustomControls());
+  block.append(container);
   initGoogleMapsAPI();
 }

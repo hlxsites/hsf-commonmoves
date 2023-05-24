@@ -81,6 +81,7 @@ export default async function decorate(block) {
     const currentPage = parseInt(getValueFromStorage('Page'), 10);
     const totalPages = Math.ceil(getPropertiesCount() / 32);
     const disclaimerHtml = getDisclaimer() === '' ? '' : getDisclaimer().Text;
+    const disclaimerBlock  = buildDisclaimer(disclaimerHtml);
     let nextPage;
     listings.forEach((listing) => {
       div.append(createCard(listing));
@@ -93,7 +94,9 @@ export default async function decorate(block) {
     /** add property search results button */
     propertyResultContent.append(buildPropertySearchResultsButton());
     /** build disclaimer */
+
     propertyResultContent.append(buildDisclaimer(disclaimerHtml));
+    document.querySelector('.property-result-map-container').append(disclaimerBlock);
     block.prepend(propertyResultContent);
     /** update page on select change */
     block.querySelector('[name="Page"] .select-selected').addEventListener('click', () => {
