@@ -3,6 +3,18 @@ import { getDisclaimer, getPropertiesCount, getPropertyDetails } from '../../scr
 import { getValueFromStorage, searchProperty, setFilterValue } from '../property-search-bar/filter-processor.js';
 import { render as renderMap } from '../property-result-map/map.js';
 
+const event = new Event('onFilterChange');
+function buildLoader () {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('search-results-loader');
+  wrapper.innerHTML = `
+    <div class="search-results-loader-image enter">
+    <img src="/icons/maps/loader_opt.gif" alt="Loading Results" width="475" height="475" loading="lazy">
+    </div>
+  `;
+  return wrapper;
+}
+
 function buildPropertySearchResultsButton() {
   const wrapper = document.createElement('div');
   wrapper.classList.add('property-search-results-buttons');
@@ -70,12 +82,10 @@ export default async function decorate(block) {
   block.textContent = '';
   // const div = document.createElement('div');
   // div.classList.add('property-result-content');
-
+  block.append(buildLoader());
   await renderMap(block);
+  window.dispatchEvent(event);
   window.addEventListener('onResultUpdated', () => {
-    if (document.querySelector('.property-result-content')) {
-      document.querySelector('.property-result-content').remove();
-    }
     const propertyResultContent = document.createElement('div');
     propertyResultContent.classList.add('property-result-content');
     const listings = getPropertyDetails();
