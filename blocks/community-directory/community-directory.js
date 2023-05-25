@@ -1,21 +1,51 @@
-let alreadyDeferred = false;
-function initCommunityCards() {
-  if (alreadyDeferred) {
-    return;
+let queryIndex;
+export async function getQueryIndex() {
+  if (!queryIndex) {
+    const resp = await fetch('/communities/query-index.json');
+    if (resp.ok) {
+      queryIndex = await resp.json();
+    }
   }
-  alreadyDeferred = true;
-  const script = document.createElement('script');
-  script.type = 'text/partytown';
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/community-directory/community-directory-delayed.js';
-    document.head.append(script);
-  `;
-  document.head.append(script);
+  return queryIndex;
 }
 
+export default async function decorate(block) {
+    const index = await getQueryIndex();
 
-export default function decorate(block) {
-    initCommunityCards();
+    const list = document.createElement('div');
+    list.classList.add('cards-list');
+    index.data.forEach((community) => {
+        const communityName = community["LiveBy Community"];
+
+        const card = document.createElement('div');
+        list.append(card);
+        card.classList.add('cards-item');
+
+        const cardBody = document.createElement('div');
+        cardBody.classList.add('cards-item-body');
+
+        card.append(cardBody);
+        cardBody.onclick = () => {
+            document.location.href = community.path;
+        }
+
+        // Add a listener to cardBody so that when it is active in the viewport, the background image is set
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              cardBody.style.backgroundImage = `url(${community.image})`;
+              observer.unobserve(cardBody);
+            }
+          });
+        });
+        observer.observe(cardBody);
+
+        cardBody.img = community.image;
+        cardBody.alt = communityName; 
+        const paragraphElement = document.createElement(('h4'));
+        paragraphElement.textContent = `Explore ${communityName}`;
+        cardBody.append(paragraphElement);
+    });
+    block.classList.add(`cards`);
+    block.append(list);
 }
