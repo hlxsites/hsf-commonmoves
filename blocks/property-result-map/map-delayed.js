@@ -2,6 +2,7 @@
 /* global markerClusterer */
 
 import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
+import {removeFilterValue, searchProperty, setFilterValue} from "../property-search-bar/filter-processor.js";
 
 const Nr = [{
   featureType: 'administrative',
@@ -214,6 +215,8 @@ let Cj = [];
 let map;
 let hi = !1;
 let Hh = [];
+let rn = !0;
+
 const bA = function (d, h, k, m) {
   d.forEach((d) => {
     h.push(d);
@@ -234,6 +237,99 @@ function Yd(a) {
   this.pos = new google.maps.LatLng(c, f);
   this.icon = a.icon;
   this.propId = a.propId;
+}
+
+function Yt(a) {
+  a = a.listingPins;
+  return (void 0 === a ? [] : a).reduce((a, f) => {
+    const c = `${f.lat}${f.lon}`;
+    Array.isArray(a[c]) || (a[c] = []);
+    a[c].push(f);
+    return a;
+  }, {});
+}
+
+let U = {
+  isXs() {
+    return window.innerWidth <= 575;
+  },
+  isSm() {
+    const a = window.innerWidth;
+    return a >= 576 && a <= 599;
+  },
+  isMd() {
+    const a = window.innerWidth;
+    return a >= 600 && a <= 991;
+  },
+  isLg() {
+    const a = window.innerWidth;
+    return a >= 992 && a <= 1199;
+  },
+  isXl() {
+    return window.innerWidth >= 1200;
+  },
+};
+
+function Xt(a, c, f) {
+  a = on(a);
+  Promise.all(a).then((a) => {
+    a = pn(a, c, f);
+    let d = document.getElementsByClassName('mobile-cluster-info-window');
+    d.length > 0 && (d = d[0],
+        d.innerHTML = '',
+        d.appendChild(a),
+        d.style.display = 'block');
+  });
+}
+
+function $t() {
+  return rn;
+}
+
+function au(a) {
+  let c = a.groupOfListingPins;
+  const f = void 0 === c ? [] : c;
+  const d = a.propertiesMap;
+  const h = a.isAgentPage;
+  const q = a.agentHomePath;
+  a = vj(d, 'cluster');
+  c = [];
+  const m = f[0];
+  const p = f.length;
+  const k = m.lat;
+  const n = m.lon;
+  const B = a({
+    latitude: k,
+    longitude: n,
+    labelText: `${p}`,
+    visible: !0,
+    groupCount: p,
+  });
+  c.push(B);
+  B.setZIndex(0);
+  B.bhhsInitialZIndex = B.getZIndex();
+  const t = {
+    getListingPins() {
+      return [].concat(f);
+    },
+    getCenter() {
+      return new google.maps.LatLng(k, n);
+    },
+  };
+  U.isXs() ? B.addListener('click', () => {
+    Jd();
+    Xt(t, h, q);
+  }) : (B.addListener('mouseover', () => {
+    $t && Zd && (Jd(),
+        Zd = !1,
+        Wt(t, d, B, h, q));
+  }),
+      B.addListener('mouseover', function () {
+        this.setOptions({
+          zIndex: 1000002,
+        });
+      }));
+  return c;
 }
 
 function Pt() {
@@ -391,20 +487,400 @@ function Qt() {
 function Rt(a) {
   a.filter((a) => a.visible).forEach((a) => {
     a.addListener('click', () => {
-      window.dispatchEvent(new Event('search-by-cluster-click',
-          {coords: {
+      const event = new CustomEvent('search-by-cluster-click',
+          {detail: {
               northEastLatitude: a.neLat,
               northEastLongitude: a.neLon,
               southWestLatitude: a.swLat,
               southWestLongitude: a.swLon,
             },
-          }));
+          });
+      window.dispatchEvent(event);
       const c = new google.maps.LatLngBounds();
       c.extend(new google.maps.LatLng(a.neLat, a.neLon));
       c.extend(new google.maps.LatLng(a.swLat, a.swLon));
       a.map.panTo(c.getCenter());
     });
   });
+}
+
+function commaSeparatedPriceToFloat(a) {
+  a = (`${a}`).replace('$', '');
+  a = a.replace(/,/g, '');
+  a = parseFloat(a);
+  return isNaN(a) ? 0 : a;
+}
+
+function nFormatter(a, c) {
+  const f = [{
+    value: 1,
+    symbol: '',
+  }, {
+    value: 1E3,
+    symbol: 'k',
+  }, {
+    value: 1E6,
+    symbol: 'M',
+  }, {
+    value: 1E9,
+    symbol: 'G',
+  }, {
+    value: 1E12,
+    symbol: 'T',
+  }, {
+    value: 1E15,
+    symbol: 'P',
+  }, {
+    value: 1E18,
+    symbol: 'E',
+  }]; let
+      d;
+  for (d = f.length - 1; d > 0 && !(a >= f[d].value); d--) ;
+  return (a / f[d].value).toFixed(c).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + f[d].symbol;
+}
+
+function Tt(a) {
+  a = commaSeparatedPriceToFloat(a);
+  return `$${nFormatter(a, 1)}`;
+}
+
+function Aj(a) {
+  let c = a.propertyData;
+  let f = void 0 === c ? {
+    city: '',
+    zipCode: '',
+    id: '',
+    stateOrProvince: '',
+    luxury: !1,
+    isCompanyListing: !1,
+  } : c;
+  c = a.propertyImage;
+  const d = a.propertyPrice;
+  const h = a.municipality;
+  const q = a.addMlsFlag;
+  const m = a.listAor;
+  const p = a.mlsLogo;
+  const k = a.mlsStatus;
+  const n = a.ClosedDate;
+  const B = a.ListingId;
+  const t = a.CourtesyOf;
+  const y = a.sellingOfficeName;
+  const A = a.ApplicationType;
+  const H = a.propertyAltCurrencyPrice;
+  const J = a.brImageUrl;
+  const I = a.propertyAddress;
+  const P = a.propertyPdpPath;
+  f = {
+    city: f.city,
+    state: f.stateOrProvince,
+    postalCode: f.zipCode,
+    listingKey: f.id,
+    luxury: f.luxury,
+    isCompanyListing: f.isCompanyListing,
+  };
+  f = void 0 === f ? {
+    city: '',
+    state: '',
+    postalCode: '',
+    listingKey: '',
+    luxury: !1,
+    isCompanyListing: !1,
+  } : f;
+  a = a.propertyProviders;
+  // const u = document.getElementById('property-info-window').innerHTML;
+ // @todo prepare content for info window
+  // c = ah.render(u, {
+  //   image: c,
+  //   price: d,
+  //   municipality: h,
+  //   addMlsFlag: q,
+  //   listAor: m,
+  //   mlsLogo: p,
+  //   mlsStatus: k,
+  //   ClosedDate: n,
+  //   ListingId: B,
+  //   CourtesyOf: t,
+  //   sellingOfficeName: y,
+  //   ApplicationType: A,
+  //   altCurrencyPrice: H,
+  //   brImageUrl: J,
+  //   address: I,
+  //   city: f.city,
+  //   stateOrProvince: f.state,
+  //   postalCode: f.postalCode,
+  //   propertyId: f.listingKey,
+  //   linkUrl: P,
+  //   luxury: f.luxury,
+  //   luxuryLabel: Granite.I18n.get('luxury collection'),
+  //   isCompanyListing: f.isCompanyListing,
+  //   providers: a,
+  // });
+  return new google.maps.InfoWindow({
+    content: '',
+  });
+}
+
+function mn(a) {
+  google.maps.event.addListener(a, 'domready', () => {
+    uf.push(a);
+  });
+}
+
+function St() {
+  const a = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+  const c = arguments[1];
+  const f = arguments[2];
+  const d = arguments[3];
+  const h = vj(c);
+  const q = [];
+  a.forEach((a, p) => {
+    const m = a.lat;
+    const n = a.lon;
+    const B = Tt(a.price);
+    const t = a.listingKey;
+    const y = a.officeCode;
+    a = h({
+      latitude: m,
+      longitude: n,
+      labelText: `${B}`,
+      visible: !0,
+      groupCount: 1,
+      listingKey: t,
+    });
+    U.isXs() ? (a.addListener('click', function () {
+      const a = this;
+      Jd();
+      if (this.propertyPdpPath) {
+        let c = a.propertyImage;
+        const h = a.propertyPrice;
+        const m = a.listAor;
+        const q = a.mlsLogo;
+        const p = a.mlsStatus;
+        const n = a.ClosedDate;
+        const x = a.ListingId;
+        const B = a.CourtesyOf;
+        const u = a.sellingOfficeName;
+        const v = a.ApplicationType;
+        const E = a.propertyAltCurrencyPrice;
+        const G = a.brImageUrl;
+        const X = a.propertyAddress;
+        const Jb = a.propertyProviders || a.originatingSystemName;
+        const Ab = a.propertyId;
+        const Ba = a.propertyCity;
+        const da = a.propertyZipcode;
+        const Id = a.propertyState;
+        const Ma = a.propertyPdpPath;
+        const Wh = a.propertyLuxury;
+        var aa = jn(a);
+        c = Ut({
+          image: c,
+          price: h,
+          listAor: m,
+          mlsLogo: q,
+          mlsStatus: p,
+          ClosedDate: n,
+          ListingId: x,
+          CourtesyOf: B,
+          sellingOfficeName: u,
+          ApplicationType: v,
+          altCurrencyPrice: E,
+          brImageUrl: G,
+          address: X,
+          city: Ba,
+          stateOrProvince: Id,
+          postalCode: da,
+          propertyId: Ab,
+          pdpPath: Ma,
+          luxury: Wh,
+          isCompanyListing: a.propertyIsCompanyListing,
+          providers: Jb,
+        });
+        k('.mobile-info-window').addClass('is-active').html(c);
+        wj(aa);
+        xj();
+      } else {
+        aa = Vt(),
+            k('.mobile-info-window').addClass('is-active').html(aa),
+            yj(t, y).then((c) => {
+              let h = zj(c, f, d);
+              const m = document.getElementById('property-info-window-mobile').innerHTML;
+              h = ah.render(m, {
+                image: h.propertyImage,
+                price: h.propertyPrice,
+                municipality: h.municipality,
+                addMlsFlag: h.addMlsFlag,
+                listAor: h.listAor,
+                mlsLogo: h.mlsLogo,
+                mlsStatus: h.mlsStatus,
+                ClosedDate: h.ClosedDate,
+                ListingId: h.ListingId,
+                CourtesyOf: h.CourtesyOf,
+                sellingOfficeName: h.sellingOfficeName,
+                ApplicationType: h.ApplicationType,
+                altCurrencyPrice: h.propertyAltCurrencyPrice,
+                brImageUrl: h.brImageUrl,
+                address: h.propertyAddress,
+                city: h.propertyData.city,
+                providers: h.propertyProviders,
+                stateOrProvince: h.propertyData.stateOrProvince,
+                postalCode: h.propertyData.zipCode,
+                propertyId: h.propertyData.id,
+                linkUrl: h.propertyLinkUrl,
+                luxury: h.propertyData.luxury,
+                isCompanyListing: h.propertyData.isCompanyListing,
+                luxuryLabel: Granite.I18n.get('luxury collection'),
+              });
+              k('.mobile-info-window').addClass('is-active').html(h);
+              wj(c);
+              xj();
+              kn({
+                property: c,
+                marker: a,
+              });
+            });
+      }
+    }),
+        a.bhhsInitialZIndex = a.getZIndex(),
+        a.addListener('click', function () {
+          this.setOptions({
+            zIndex: 1000002,
+          });
+        })) : (a.addListener('mouseover', function () {
+      if (Zd) {
+        Jd();
+        Zd = !1;
+        const a = this;
+        if (this.propertyPdpPath) {
+          let h = a.propertyImage;
+          const m = a.propertyPrice;
+          const q = a.municipality;
+          const p = a.addMlsFlag;
+          const n = a.listAor;
+          const k = a.mlsLogo;
+          const x = a.mlsStatus;
+          const B = a.ClosedDate;
+          const u = a.ListingId;
+          const v = a.CourtesyOf;
+          const E = a.sellingOfficeName;
+          const G = a.ApplicationType;
+          const X = a.propertyAltCurrencyPrice;
+          const Jb = a.brImageUrl;
+          const Ab = a.propertyAddress;
+          const Ba = a.propertyProviders || a.originatingSystemName;
+          const da = a.propertyId;
+          const Id = a.propertyCity;
+          const Ma = a.propertyZipcode;
+          const Wh = a.propertyState;
+          const aa = a.propertyPdpPath;
+          const qd = a.propertyLuxury;
+          const L = a.propertyIsCompanyListing;
+          const O = jn(a);
+          h = Aj({
+            propertyImage: h,
+            propertyPrice: m,
+            municipality: q,
+            addMlsFlag: p,
+            listAor: n,
+            mlsLogo: k,
+            mlsStatus: x,
+            ClosedDate: B,
+            ListingId: u,
+            CourtesyOf: v,
+            sellingOfficeName: E,
+            ApplicationType: G,
+            propertyAltCurrencyPrice: X,
+            brImageUrl: Jb,
+            propertyAddress: Ab,
+            propertyPdpPath: aa,
+            propertyProviders: Ba,
+            propertyData: {
+              city: Id,
+              zipCode: Ma,
+              id: da,
+              stateOrProvince: Wh,
+              luxury: qd,
+              isCompanyListing: L,
+            },
+          });
+          h.open(c, a);
+          ln(h, O);
+          Zd = !0;
+        } else {
+          const F = Aj({
+            propertyImage: '',
+            propertyPrice: 'loading...',
+            propertyAltCurrencyPrice: '',
+            brImageUrl: '',
+            propertyAddress: '-',
+            municipality: '',
+            addMlsFlag: '',
+            listAor: '',
+            mlsLogo: '',
+            mlsStatus: '',
+            ClosedDate: '',
+            ListingId: '',
+            CourtesyOf: '',
+            sellingOfficeName: '',
+            ApplicationType: '',
+            propertyPdpPath: '',
+            propertyProviders: '-',
+            propertyData: {},
+          });
+          mn(F);
+          F.open(c, a);
+          //@todo fix property info window with link to property detal page
+
+          // yj(t, y).then((h) => {
+          //   F.close();
+          //   Zd = !0;
+          //   let m = zj(h, f, d);
+          //   m = Aj({
+          //     propertyImage: m.propertyImage,
+          //     propertyPrice: m.propertyPrice,
+          //     municipality: m.municipality,
+          //     addMlsFlag: m.addMlsFlag,
+          //     listAor: m.listAor,
+          //     mlsLogo: m.mlsLogo,
+          //     mlsStatus: m.mlsStatus,
+          //     ClosedDate: m.ClosedDate,
+          //     ListingId: m.ListingId,
+          //     CourtesyOf: m.CourtesyOf,
+          //     sellingOfficeName: m.sellingOfficeName,
+          //     ApplicationType: m.ApplicationType,
+          //     propertyAltCurrencyPrice: m.propertyAltCurrencyPrice,
+          //     brImageUrl: m.brImageUrl,
+          //     propertyAddress: m.propertyAddress,
+          //     propertyProviders: m.propertyProviders,
+          //     propertyPdpPath: m.propertyLinkUrl,
+          //     propertyData: {
+          //       city: m.propertyData.city,
+          //       zipCode: m.propertyData.zipCode,
+          //       id: m.propertyData.id,
+          //       stateOrProvince: m.propertyData.stateOrProvince,
+          //       luxury: m.propertyData.luxury,
+          //       isCompanyListing: m.propertyData.isCompanyListing,
+          //     },
+          //   });
+          //   m.open(c, a);
+          //   ln(m, h);
+          //   kn({
+          //     property: h,
+          //     marker: a,
+          //   });
+          // });
+        }
+      }
+    }),
+        a.addListener('mouseover', function () {
+          this.setOptions({
+            zIndex: 1000002,
+          });
+        }));
+    a.setZIndex(200 + p);
+    a.bhhsInitialZIndex = a.getZIndex();
+    q.push(a);
+  });
+  return q;
 }
 
 const aA = function (d, h, k, m, p) {
@@ -440,6 +916,20 @@ const aA = function (d, h, k, m, p) {
   };
 };
 
+//@todo move to search class
+function createMapSearchGeoJsonParameter(d) {
+  return {
+    type: 'FeatureCollection',
+    features: [{
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'Polygon',
+        coordinates: [d],
+      },
+    }],
+  };
+}
 
 async function initMap() {
   Pt();
@@ -503,6 +993,57 @@ async function initMap() {
       window.updatePropertyMap(d);
     }, 200);
   };
+  window.addEventListener('search-by-cluster-click', (e) => {
+    //set Search params
+    setFilterValue('NorthEastLatitude', e.detail.northEastLatitude);
+    setFilterValue( 'NorthEastLongitude', e.detail.northEastLongitude);
+    setFilterValue('SouthWestLatitude', e.detail.southWestLatitude);
+    setFilterValue('SouthWestLongitude', e.detail.southWestLongitude);
+    setFilterValue('SearchType', 'Map');
+    let m = [];
+    let p = [e.detail.southWestLongitude, e.detail.northEastLatitude];
+    let q = [e.detail.northEastLongitude, e.detail.northEastLatitude];
+    let x = [e.detail.northEastLongitude, e.detail.southWestLatitude];
+    let T = [e.detail.southWestLongitude, e.detail.southWestLatitude];
+    m.push(p);
+    m.push(T);
+    m.push(x);
+    m.push(q);
+    m.push(p);
+    m = createMapSearchGeoJsonParameter(m);
+    m = JSON.stringify(m);
+    removeFilterValue('MapSearchType');
+    setFilterValue('SearchParameter', m);
+    searchProperty();
+    // d.mapBounds = e.coords;
+    // d.searchByMapBounds = !1;
+    // d.query.SearchType = 'Map';
+    // d.makeRequest();
+  });
+
+  window.addEventListener('properties-map-bounds-changed', (event) => {
+    //set Search params
+    d.mapCoordinates.northEastLatitude = event.coords.northEastLatitude;
+    d.mapCoordinates.northEastLongitude = event.coords.northEastLongitude;
+    d.mapCoordinates.southWestLatitude = event.coords.southWestLatitude;
+    d.mapCoordinates.southWestLongitude = event.coords.southWestLongitude;
+    d.mapBounds = event.coords;
+    d.searchByMapBounds && !d.searchByMapDraw && event.updateProperties && d.makeRequest();
+    if (d.searchByMapDraw) {
+      const k = d.mapBounds.southWestLatitude;
+      const n = d.mapBounds.southWestLongitude;
+      const m = d.mapBounds.northEastLatitude;
+      const p = d.mapBounds.northEastLongitude;
+      d.properties = d.properties.map((d) => {
+        const h = d.Longitude;
+        const q = d.Latitude;
+        d.hide = q < k || q > m || h < n || h > p ? !0 : !1;
+        return d;
+      });
+    }
+  });
+  //add custom events handling 
+  
 }
 
 function loadJS(src) {
@@ -524,7 +1065,8 @@ async function initGoogleMapsAPI() {
   const placeholders = await fetchPlaceholders();
   const CALLBACK_FN = 'initMap';
   window[CALLBACK_FN] = initMap;
-  const { mapsApiKey } = placeholders;
+  // const { mapsApiKey } = placeholders;
+  const mapsApiKey = 'AIzaSyCypwVwVpDMRUGiacGCQmPuvmVmmyOYRJs';
   const clusterSrc = 'https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js';
   loadJS(clusterSrc);
   const src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=places&callback=${CALLBACK_FN}`;
