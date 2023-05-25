@@ -225,7 +225,6 @@ function buildAutoBlocks(main) {
     buildBlogDetails(main);
     buildBlogNav(main);
     buildPropertySearchBlock(main);
-<<<<<<< HEAD
     buildLuxuryTheme();
     buildPropertyDetailNearbyBlock(main);
   } catch (error) {
