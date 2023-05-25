@@ -49,7 +49,6 @@ const miniConfig = {
         }
       },
       y: {
-        beginAtZero: true,
         border: {
           display: false
         },
@@ -126,7 +125,6 @@ const detailConfig = {
         }
       },
       y: {
-        beginAtZero: true,
         border: {
           display: false
         },
@@ -147,22 +145,13 @@ const detailConfig = {
   }
 };
 
-async function getMarketTrends() {
-  const marketTrendsAPI = 'https://www.commonmoves.com/bin/bhhs/CregMarketTrends?PropertyId=347543300&Latitude=41.96909713745117&Longitude=-71.22725677490234&zipCode=02766';
-  const resp = await fetch(marketTrendsAPI);
-  if (resp.ok) {
-    const data = await resp.json();
-    return data;
-  }
-  return null;
-}
-
-function initChart(ctx, xValues, yValues, dir, mini = true) {
+function initChart(ctx, xValues, yValues, dir, beginAtZero = false, mini = true) {
   const backgroundColor = dir == "down" ? 'rgba(131, 43, 57, 0.1)' : 'rgba(43, 131, 79, 0.1)';
   var borderColor = dir == "down" ? '#832B39' : '#2B834F';
   var radius = new Array(xValues.length).fill(0);
   if(mini) {
     radius.splice(-1,1,3);
+    miniConfig.options.scales.y.beginAtZero = beginAtZero;
     miniConfig.data = {
       labels: xValues,
       datasets: [{
@@ -179,6 +168,7 @@ function initChart(ctx, xValues, yValues, dir, mini = true) {
     return new Chart(ctx, miniConfig);
   } else {
     radius.splice(-1,1,4);
+    detailConfig.options.scales.y.beginAtZero = beginAtZero;
     detailConfig.data = {
       labels: xValues,
       datasets: [{
@@ -204,95 +194,99 @@ function getChange(values) {
   return change < 0 ? "down" : "up";
 }
 
-var data = await getMarketTrends();
-var trends = data.detailTrends;
-var months = trends.map((item) => new Date(item.startDate).toLocaleString('default', { month: "short" }));
-months.splice(-1, 1, "Current");
-var medianListPrice = trends.map((item) => Number(item.medianListPrice.replace(/[^0-9.-]+/g,"")));
-var medianSoldPrice = trends.map((item) => Number(item.medianSalesPrice.replace(/[^0-9.-]+/g,"")));
-var avgPrice = trends.map((item) => Number(item.avgPriceArea.replace(/[^0-9.-]+/g,"")));
-var homesSold = trends.map((item) => item.homesSold);
-var homesSale = trends.map((item) => item.homesForSale);
-var avgDays = trends.map((item) => item.avgDaysOnMarket);
+if(window.marketTrends) {
+  var data = window.marketTrends;
+  var trends = data.detailTrends;
+  var months = trends.map((item) => new Date(item.startDate).toLocaleString('default', { month: "short" }));
+  months.splice(-1, 1, "Current");
+  var medianListPrice = trends.map((item) => Number(item.medianListPrice.replace(/[^0-9.-]+/g,"")));
+  var medianSoldPrice = trends.map((item) => Number(item.medianSalesPrice.replace(/[^0-9.-]+/g,"")));
+  var avgPrice = trends.map((item) => Number(item.avgPriceArea.replace(/[^0-9.-]+/g,"")));
+  var homesSold = trends.map((item) => item.homesSold);
+  var homesSale = trends.map((item) => item.homesForSale);
+  var avgDays = trends.map((item) => item.avgDaysOnMarket);
 
-var medianListPriceLineChart = null;
-var medianSoldPriceLineChart = null;
-var avgPriceLineChart = null;
-var homesSoldLineChart = null;
-var homesSaleLineChart = null;
-var avgDaysLineChart = null;
+  var medianListPriceLineChart = null;
+  var medianSoldPriceLineChart = null;
+  var avgPriceLineChart = null;
+  var homesSoldLineChart = null;
+  var homesSaleLineChart = null;
+  var avgDaysLineChart = null;
 
-var div = document.getElementsByClassName('cmp-property-details-market-trends__wrap')[0];
+  var div = document.getElementsByClassName('cmp-property-details-market-trends__wrap')[0];
 
-function initCharts() {
-  medianListPriceLineChart = medianListPriceLineChart || initChart(document.getElementById("medianlistprice-line-chart"), months, medianListPrice, getChange(medianListPrice));
-  medianSoldPriceLineChart = medianSoldPriceLineChart || initChart(document.getElementById("mediansoldprice-line-chart"), months, medianSoldPrice, getChange(medianSoldPrice));
-  avgPriceLineChart = avgPriceLineChart || initChart(document.getElementById("avgprice-line-chart"), months, avgPrice, getChange(avgPrice));
-  homesSoldLineChart = homesSoldLineChart || initChart(document.getElementById("homessold-line-chart"), months, homesSold, getChange(homesSold));
-  homesSaleLineChart = homesSaleLineChart || initChart(document.getElementById("homesforsale-line-chart"), months, homesSale, getChange(homesSale));
-  avgDaysLineChart = avgDaysLineChart || initChart(document.getElementById("avgdays-line-chart"), months, avgDays, getChange(avgDays)); 
-}
+  function initCharts() {
+    medianListPriceLineChart = medianListPriceLineChart || initChart(document.getElementById("medianlistprice-line-chart"), months, medianListPrice, getChange(medianListPrice), true);
+    medianSoldPriceLineChart = medianSoldPriceLineChart || initChart(document.getElementById("mediansoldprice-line-chart"), months, medianSoldPrice, getChange(medianSoldPrice), true);
+    avgPriceLineChart = avgPriceLineChart || initChart(document.getElementById("avgprice-line-chart"), months, avgPrice, getChange(avgPrice));
+    homesSoldLineChart = homesSoldLineChart || initChart(document.getElementById("homessold-line-chart"), months, homesSold, getChange(homesSold));
+    homesSaleLineChart = homesSaleLineChart || initChart(document.getElementById("homesforsale-line-chart"), months, homesSale, getChange(homesSale));
+    avgDaysLineChart = avgDaysLineChart || initChart(document.getElementById("avgdays-line-chart"), months, avgDays, getChange(avgDays)); 
+  }
 
-if(window.innerWidth >= 992) {
-  initCharts();
-}
-window.addEventListener('resize', () => {
   if(window.innerWidth >= 992) {
     initCharts();
   }
-});
-
-var table = document.getElementById('cmp-property-details-market-trends__table');
-var detail = document.getElementById('cmp-property-details-market-trends__detail');
-var detailLineChart = initChart(document.getElementById('detail-line-chart'), months, new Array(months.length).fill(100), "up", false);
-
-div.querySelectorAll('.cmp-property-details-market-trends__table .chart').forEach((chart) => {
-  chart.addEventListener('click', (e) => {
-    var elem = e.currentTarget;
-    var dataElem = elem.previousElementSibling;
-    var label = dataElem.firstElementChild.textContent;
-    var value = dataElem.lastElementChild.textContent;
-    var title = document.querySelector('.cmp-property-details-market-trends__detail__title');
-    title.innerHTML = `${label} (1 Year)`;
-    var val = document.querySelector('.cmp-property-details-market-trends__detail__value');
-    val.innerHTML = value;
-    var chartData = detailLineChart.data.datasets[0].data;
-    switch(e.currentTarget.id) {
-      case 'medianlistprice':
-        chartData = medianListPrice;
-        detailLineChart.options.plugins.tooltip.callbacks.label = labelFunc;
-        break;
-      case 'mediansoldprice':
-        chartData = medianSoldPrice;
-        detailLineChart.options.plugins.tooltip.callbacks.label = labelFunc;
-        break;
-      case 'avgprice':
-        chartData = avgPrice;
-        detailLineChart.options.plugins.tooltip.callbacks.label = labelFunc;
-        break;
-      case 'avgdays':
-        chartData = avgDays;
-        break;
-      case 'homesforsale':
-        chartData = homesSale;
-        break;
-      case 'homessold':
-        chartData = homesSold;
-        break;
-    };
-    const backgroundColor = getChange(chartData) == "down" ? 'rgba(131, 43, 57, 0.1)' : 'rgba(43, 131, 79, 0.1)';
-    var borderColor = getChange(chartData) == "down" ? '#832B39' : '#2B834F';
-    detailLineChart.data.datasets[0].data = chartData;
-    detailLineChart.data.datasets[0].backgroundColor = backgroundColor;
-    detailLineChart.data.datasets[0].borderColor = borderColor;
-    detailLineChart.update(); 
-    table.classList.toggle('d-none');
-    detail.classList.toggle('d-none');
+  window.addEventListener('resize', () => {
+    if(window.innerWidth >= 992) {
+      initCharts();
+    }
   });
-});
 
-var close = detail.querySelector('.close');
-  close.addEventListener('click', () => {
-    table.classList.toggle('d-none');
-    detail.classList.toggle('d-none');
-});
+  var table = document.getElementById('cmp-property-details-market-trends__table');
+  var detail = document.getElementById('cmp-property-details-market-trends__detail');
+  var detailLineChart = initChart(document.getElementById('detail-line-chart'), months, new Array(months.length).fill(100), "up", false, false);
+
+  div.querySelectorAll('.cmp-property-details-market-trends__table .chart').forEach((chart) => {
+    chart.addEventListener('click', (e) => {
+      var elem = e.currentTarget;
+      var dataElem = elem.previousElementSibling;
+      var label = dataElem.firstElementChild.textContent;
+      var value = dataElem.lastElementChild.textContent;
+      var title = document.querySelector('.cmp-property-details-market-trends__detail__title');
+      title.innerHTML = `${label} (1 Year)`;
+      var val = document.querySelector('.cmp-property-details-market-trends__detail__value');
+      val.innerHTML = value;
+      var chartData = detailLineChart.data.datasets[0].data;
+      switch(e.currentTarget.id) {
+        case 'medianlistprice':
+          chartData = medianListPrice;
+          detailLineChart.options.plugins.tooltip.callbacks.label = labelFunc;
+          detailLineChart.options.scales.y.beginAtZero = true;
+          break;
+        case 'mediansoldprice':
+          chartData = medianSoldPrice;
+          detailLineChart.options.plugins.tooltip.callbacks.label = labelFunc;
+          detailLineChart.options.scales.y.beginAtZero = true;
+          break;
+        case 'avgprice':
+          chartData = avgPrice;
+          detailLineChart.options.plugins.tooltip.callbacks.label = labelFunc;
+          break;
+        case 'avgdays':
+          chartData = avgDays;
+          break;
+        case 'homesforsale':
+          chartData = homesSale;
+          break;
+        case 'homessold':
+          chartData = homesSold;
+          break;
+      };
+      const backgroundColor = getChange(chartData) == "down" ? 'rgba(131, 43, 57, 0.1)' : 'rgba(43, 131, 79, 0.1)';
+      var borderColor = getChange(chartData) == "down" ? '#832B39' : '#2B834F';
+      detailLineChart.data.datasets[0].data = chartData;
+      detailLineChart.data.datasets[0].backgroundColor = backgroundColor;
+      detailLineChart.data.datasets[0].borderColor = borderColor;
+      detailLineChart.update(); 
+      table.classList.toggle('d-none');
+      detail.classList.toggle('d-none');
+    });
+  });
+
+  var close = detail.querySelector('.close');
+    close.addEventListener('click', () => {
+      table.classList.toggle('d-none');
+      detail.classList.toggle('d-none');
+  });
+}

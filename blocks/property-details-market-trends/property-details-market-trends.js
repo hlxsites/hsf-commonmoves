@@ -2,10 +2,21 @@ import { createAccordionItem } from '../../scripts/accordion.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
 import { currencyToNum } from './../property-details-mortgage-calculator/compute-mortgage.js';
 
-import { getPropertyListing } from './../property-details/api.js';
-const propID = '343140756';
+const urlParams = new URLSearchParams(window.location.search);
+export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.com' : 'www.bhhs.com';
+const API_URL = `https://${DOMAIN}/bin/bhhs`;
 
-const marketTrendsAPI = 'https://www.commonmoves.com/bin/bhhs/CregMarketTrends?PropertyId=343140756&Latitude=42.56574249267578&Longitude=-70.76632690429688&zipCode=01944';
+async function getMarketTrends(propId, latitude, longitude, zipcode) {
+  const resp = await fetch(`${API_URL}/CregMarketTrends?PropertyId=${propId}&Latitude=${latitude}&Longitude=${longitude}&zipCode=${zipcode}`);
+  if (resp.ok) {
+    const data = await resp.json();
+    /* eslint-disable-next-line no-underscore-dangle */
+    return data;
+  }
+  /* eslint-disable-next-line no-console */
+  console.log('Unable to retrieve market trends.');
+  return undefined;
+}
 
 function createInnerHTML(data, property) {
   const len = data.detailTrends.length;
@@ -220,31 +231,33 @@ function createInnerHTML(data, property) {
 }
 
 export default async function decorate(block) {
-  const resp = await fetch(marketTrendsAPI);
-  if (resp.ok) {
-    const data = await resp.json();
-    var property = await getPropertyListing(propID);
-    var innerHTML = createInnerHTML(data, property);
-    var accordionItem = createAccordionItem('market-trends', 'Market Trends', innerHTML);
-    block.append(accordionItem);
-    decorateIcons(block);
-    loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
-    loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
-    loadCSS(`${window.hlx.codeBasePath}/styles/property-details-table.css`);
+  if(window.property) {
+    const property = window.property;
+    const data = await getMarketTrends(property.PropId, property.Latitude, property.Longitude, property.PostalCode);
+    if (data) {
+      window.marketTrends = data;
+      var innerHTML = createInnerHTML(data, property);
+      var accordionItem = createAccordionItem('market-trends', 'Market Trends', innerHTML);
+      block.append(accordionItem);
+      decorateIcons(block);
+      loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
+      loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
+      loadCSS(`${window.hlx.codeBasePath}/styles/property-details-table.css`);
 
-    var scriptSrc = document.createElement('script');
-    scriptSrc.type = 'module';
-    scriptSrc.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
-    document.head.append(scriptSrc);
+      var scriptSrc = document.createElement('script');
+      scriptSrc.type = 'module';
+      scriptSrc.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
+      document.head.append(scriptSrc);
 
-    const script = document.createElement('script');
-    script.type = 'text/partytown';
-    script.innerHTML = `
       const script = document.createElement('script');
-      script.type = 'module';
-      script.src = '${window.hlx.codeBasePath}/blocks/property-details-market-trends/load-chart.js';
-      document.head.append(script);
-    `;
-    document.body.append(script);
+      script.type = 'text/partytown';
+      script.innerHTML = `
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = '${window.hlx.codeBasePath}/blocks/property-details-market-trends/load-chart.js';
+        document.head.append(script);
+      `;
+      document.body.append(script);
+    }
   }
 }
