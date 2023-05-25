@@ -695,12 +695,13 @@ main .section .property-search-bar .btn.btn-secondary:hover {
 }
 
 .property-search-bar.block .filter-block {
+    top: 115px;
     letter-spacing: 0.5px;
     position: fixed;
     overflow-y: auto;
     left: 0;
     width: 100vw;
-    height: calc(100% - var(--nav-height) - 210px);
+    height: calc(100% - var(--nav-height) - 115px);
     background-color:  var(--white);
     z-index: 999;
 }
