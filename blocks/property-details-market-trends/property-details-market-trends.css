@@ -1,5 +1,5 @@
 .property-details-market-trends-wrapper {
-  background: #f6f6f6;
+  background: var(--light-grey);
   width: 95vw;
   position: relative;
   margin-left: calc(-47.5vw + 50%);
@@ -12,8 +12,8 @@
 
 .cmp-property-details-market-trends__table th {
   font-family: var(--font-family-proxima);
-  font-weight: 700;
-  font-size: 16px;
+  font-weight: var(--font-weight-bold);
+  font-size: var(--body-font-size-m);
   line-height: 19px;
 }
 
@@ -31,7 +31,7 @@
   line-height: inherit;
 }
 .cmp-property-details-market-trends__table tbody tr {
-  border-top: 1px solid #e2e2e2;
+  border-top: 1px solid var(--ultra-light-grey);
 }
 
 .cmp-property-details-market-trends__table .label {
@@ -45,15 +45,15 @@
 
 .cmp-property-details-market-trends__table .value {
   font-family: var(--font-family-proxima);
-  font-weight: 300;
+  font-weight: var(--font-weight-light);
   font-size: 22px;
   line-height: 26px;
   letter-spacing: .65px;
 }
 
 .cmp-property-details-market-trends__table .chart {
-  background: #fff;
-  border: 1px solid #e2e2e2;
+  background: var(--white);
+  border: 1px solid var(--ultra-light-grey);
   cursor: pointer;
   float: left;
   margin: 2px 0 0;
@@ -76,7 +76,7 @@
 
 
 .cmp-property-details-market-trends__table .chart .micro-trend {
-  color: #832b39;
+  color: var(--downward-trend);
   font-size: 13px;
   letter-spacing: 1.08px;
   line-height: 17px;
@@ -87,7 +87,7 @@
 }
 
 .cmp-property-details-market-trends__table .chart .micro-trend::after {
-  border-color: #832b39 transparent transparent transparent;
+  border-color: var(--downward-trend) transparent transparent transparent;
   border-style: solid;
   border-width: 6px 3px 0 3px;
   content: '';
@@ -100,14 +100,14 @@
 }
 
 .cmp-property-details-market-trends__table .chart .micro-trend.up::after {
-  border-color: transparent transparent #2b834f transparent;
+  border-color: transparent transparent var(--upward-trend) transparent;
   border-width: 0 3px 6px 3px;
   top: 6px;
 }
 
 .cmp-property-details-market-trends__table .chart .arrow {
-  border: 1px solid #e2e2e2;
-  color: #3a3a3a;
+  border: 1px solid var(--ultra-light-grey);
+  color: var(--body-color);
   content: '';
   display: block;
   height: 21px;
@@ -126,7 +126,7 @@
 }
 
 .cmp-property-details-market-trends__table .chart .micro-trend.up {
-  color: #2b834f;
+  color: var(--upward-trend);
 }
 
 .cmp-property-details-market-trends__detail {
@@ -135,23 +135,23 @@
 
 .cmp-property-details-market-trends__detail__title {
   font-family: var(--font-family-proxima);
-  font-weight: 300;
-  font-size: 16px;
+  font-weight: var(--font-weight-light);
+  font-size: var(--body-font-size-m);
   line-height: 19px;
   letter-spacing: 0;
 }
 
 .cmp-property-details-market-trends__detail__value {
   font-family: var(--font-family-proxima);
-  font-weight: 300;
+  font-weight: var(--font-weight-light);
   font-size: 22px;
   line-height: 26px;
   letter-spacing: .65px;
 }
 
 .cmp-property-details-market-trends__detail__chart {
-  background: #fff;
-  border: 1px solid #e2e2e2;
+  background: var(--white);
+  border: 1px solid var(--ultra-light-grey);
   margin: 27px 0 0;
   padding: 20px 0 10px;
   position: relative;
@@ -218,7 +218,7 @@
   }
 
   .cmp-property-details-market-trends__table .value {
-    font-size: 40px;
+    font-size: var(--body-font-size-xxxl);
     letter-spacing: .89px;
     line-height: 48px;
   }
@@ -255,14 +255,14 @@
   }
 
   .cmp-property-details-market-trends__detail__title {
-    font-size: 32px;
+    font-size: var(--body-font-size-xxl);
     line-height: 38px;
   }
 
   .cmp-property-details-market-trends__detail__value {
     font-family: var(--font-family-proxima);
-    font-weight: 400;
-    font-size: 40px;
+    font-weight: var(--font-weight-normal);
+    font-size: var(--body-font-size-xxxl);
     line-height: 48px;
     letter-spacing: .89px;
   }
