@@ -227,9 +227,7 @@ function buildAutoBlocks(main) {
     buildPropertySearchBlock(main);
 <<<<<<< HEAD
     buildLuxuryTheme();
-=======
     buildPropertyDetailNearbyBlock(main);
->>>>>>> 69453c2 (finish market trend block)
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
