@@ -21,6 +21,7 @@
 .community-directory.block .cards-list .cards-item-body {
   width:100%;
   height:100%;
+  background-size: cover;
   display: block;
   position: absolute;
   transition: margin var(--anim-speed) ease-in-out, width var(--anim-speed) ease-in-out, height var(--anim-speed) ease-in-out;
