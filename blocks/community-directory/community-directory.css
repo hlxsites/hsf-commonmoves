@@ -2,6 +2,8 @@
 .community-directory.block .cards-list {
   display: flex;  
   flex-wrap: wrap;
+  --anim-speed: 0.2s;
+  --zoom: 10px;
 }
 
 /* Headers in each card should overlap the image in a white font. */
@@ -14,6 +16,16 @@
     flex: calc(25% - 20px);
     position:relative;
     cursor: pointer;
+    transition: margin var(--anim-speed) ease-in-out, flex var(--anim-speed) ease-in-out, max-width var(--anim-speed) ease-in-out, max-height var(--anim-speed) ease-in-out, height var(--anim-speed) ease-in-out;
+  }
+
+.community-directory.block .cards-list .cards-item:hover {
+  margin: calc(10px - var(--zoom)/2);
+  flex: calc(25% - 20px + var(--zoom));
+  max-width: calc(25% + var(--zoom));
+  max-height: calc(183px + var(--zoom));
+  height:calc(183px + var(--zoom));
+  transition: margin var(--anim-speed) ease-in-out, flex var(--anim-speed) ease-in-out, max-width var(--anim-speed) ease-in-out, max-height var(--anim-speed) ease-in-out, height var(--anim-speed) ease-in-out;
 }
 
 .community-directory.block .cards-list .cards-item picture {
@@ -31,13 +43,27 @@
 
 .community-directory.block .cards-list .cards-item h4 {
     position: absolute;
-    margin-top: -5em;
+    padding-top: 80px;
+    margin-top: -183px;
     z-index: 1;
     color: white;
     text-align: center;
     display: block;
     width: 100%;
+    height: 100%;
     text-transform: uppercase;
     font-size: var(--heading-font-size-s);
     filter: drop-shadow(0px 0px 2px black);
+    /* Transparent gradient to black on the bottom of the card */
+    background: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0), rgba(0,0,0,0.5));
+    transition: margin-top var(--anim-speed) ease-in-out, padding-top var(--anim-speed) ease-in-out, filter var(--anim-speed) ease-in-out;
+  }
+
+
+.community-directory.block .cards-list .cards-item h4:hover{
+  margin-top: calc(-183px - var(--zoom));
+  padding-top: calc(78px + var(--zoom)/2);
+  background: linear-gradient(rgba(0,0,0,0.0),rgba(0,0,0,0.0),rgba(0,0,0,0.0));
+  filter: drop-shadow(0px 2px 4px black);
+  transition: margin-top var(--anim-speed) ease-in-out, padding-top var(--anim-speed) ease-in-out, filter var(--anim-speed) ease-in-out;
 }
