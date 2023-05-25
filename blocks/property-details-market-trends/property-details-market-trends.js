@@ -1,17 +1,12 @@
 import { createAccordionItem } from '../../scripts/accordion.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
-import { getPropertyListing } from './../property-details/api.js';
-import { getData } from './property.js';
-const propID = '347543300';
 import { currencyToNum } from './../property-details-mortgage-calculator/compute-mortgage.js';
 
-const propertyAPI = 'https://www.commonmoves.com/bin/bhhs/CregPropertySearchServlet?ucsid=false&SearchType=Radius&ApplicationType=FOR_SALE&Sort=PRICE_ASCENDING&PageSize=9&MinPrice=7497500&MaxPrice=22492500&Latitude=42.56574249267578&Longitude=-70.76632690429688&Distance=2&CoverageZipcode=&teamNearBy=&teamCode=';
+import { getPropertyListing } from './../property-details/api.js';
+const propID = '343140756';
+
 const marketTrendsAPI = 'https://www.commonmoves.com/bin/bhhs/CregMarketTrends?PropertyId=343140756&Latitude=42.56574249267578&Longitude=-70.76632690429688&zipCode=01944';
 
-function calcPercentage(oldVal, newVal) {
-  var percentage = ((newVal - oldVal) * 100) / oldVal;
-  return percentage.toFixed(0);
-}
 function createInnerHTML(data, property) {
   const len = data.detailTrends.length;
   var last = {...data.detailTrends[len - 2]};
@@ -31,8 +26,6 @@ function createInnerHTML(data, property) {
     return a;
 }, {});
 
-  var medianListPriceChange = calcPercentage(currencyToNum(last.medianListPrice), currencyToNum(current.medianListPrice));
-  var medianSoldPriceChange = calcPercentage(currencyToNum(last.medianSalesPrice), currencyToNum(current.medianSalesPrice));
   return `
     <div class="cmp-property-details-market-trends__wrap pb-content">
       <div id="cmp-property-details-market-trends__table" class="cmp-property-details-market-trends__table">
@@ -228,10 +221,9 @@ function createInnerHTML(data, property) {
 
 export default async function decorate(block) {
   const resp = await fetch(marketTrendsAPI);
-  //const respTwo = await fetch(propertyAPI);
   if (resp.ok) {
     const data = await resp.json();
-    var property = getData();
+    var property = await getPropertyListing(propID);
     var innerHTML = createInnerHTML(data, property);
     var accordionItem = createAccordionItem('market-trends', 'Market Trends', innerHTML);
     block.append(accordionItem);

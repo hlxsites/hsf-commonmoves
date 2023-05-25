@@ -221,14 +221,7 @@ var avgPriceLineChart = null;
 var homesSoldLineChart = null;
 var homesSaleLineChart = null;
 var avgDaysLineChart = null;
-/*
-const medianListPriceLineChart = initChart(document.getElementById("medianlistprice-line-chart"), months, medianListPrice, getChange(medianListPrice));
-const medianSoldPriceLineChart = initChart(document.getElementById("mediansoldprice-line-chart"), months, medianSoldPrice, getChange(medianSoldPrice));
-const avgPriceLineChart = initChart(document.getElementById("avgprice-line-chart"), months, avgPrice, getChange(avgPrice));
-const homesSoldLineChart = initChart(document.getElementById("homessold-line-chart"), months, homesSold, getChange(homesSold));
-const homesSaleLineChart = initChart(document.getElementById("homesforsale-line-chart"), months, homesSale, getChange(homesSale));
-const avgDaysLineChart = initChart(document.getElementById("avgdays-line-chart"), months, avgDays, getChange(avgDays));
-*/
+
 var div = document.getElementsByClassName('cmp-property-details-market-trends__wrap')[0];
 
 function initCharts() {
