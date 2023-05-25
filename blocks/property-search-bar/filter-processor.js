@@ -35,6 +35,7 @@ export function searchProperty() {
     cont: 0,
     disclaimer: {},
     listingClusters: [],
+    result: {}
   };
   // set params from session storage
   Object.keys(searchParams).forEach((key) => {
@@ -58,6 +59,7 @@ export function searchProperty() {
     result.count = results['@odata.count'];
     result.disclaimer = results.disclaimer;
     result.listingClusters = results.listingClusters;
+    result.result = results;
     setResults(result);
   }).catch(() => {
     setResults(result);

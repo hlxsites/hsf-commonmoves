@@ -41,10 +41,14 @@ function initGoogleMapsAPI() {
 
 export async function render(block) {
   const container = document.createElement('div');
+  const mobileClusterInfo = document.createElement('div');
+  mobileClusterInfo.classList.add('mobile-cluster-info-window');
+  const mobileInfo = document.createElement('div');
+  mobileInfo.classList.add('mobile-info-window');
     container.classList.add('property-result-map-container');
   const map = document.createElement('div');
   map.classList.add('property-result-map');
-  container.append(map, buildCustomControls());
+  container.append(map, buildCustomControls(), mobileClusterInfo, mobileInfo);
   block.append(container);
   initGoogleMapsAPI();
 }

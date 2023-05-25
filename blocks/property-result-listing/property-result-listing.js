@@ -1,5 +1,10 @@
 import { createCard } from '../property-listing/cards/cards.js';
-import { getDisclaimer, getPropertiesCount, getPropertyDetails } from '../../scripts/search/results.js';
+import {
+  getDisclaimer,
+  getPropertiesCount,
+  getPropertyDetails,
+  getAllData
+} from '../../scripts/search/results.js';
 import { getValueFromStorage, searchProperty, setFilterValue } from '../property-search-bar/filter-processor.js';
 import { render as renderMap } from '../property-result-map/map.js';
 
@@ -80,8 +85,6 @@ function buildPagination(currentPage, totalPages) {
 
 export default async function decorate(block) {
   block.textContent = '';
-  // const div = document.createElement('div');
-  // div.classList.add('property-result-content');
   block.append(buildLoader());
   await renderMap(block);
   window.dispatchEvent(event);
@@ -94,23 +97,26 @@ export default async function decorate(block) {
     const currentPage = parseInt(getValueFromStorage('Page'), 10);
     const totalPages = Math.ceil(getPropertiesCount() / 32);
     const disclaimerHtml = getDisclaimer() === '' ? '' : getDisclaimer().Text;
+
     const disclaimerBlock  = buildDisclaimer(disclaimerHtml);
     let nextPage;
     listings.forEach((listing) => {
       div.append(createCard(listing));
     });
     propertyResultContent.append(div);
-    // decorateIcons(ul);
-    // block.textContent = '';
     /** add pagination */
     propertyResultContent.append(buildPagination(currentPage, totalPages));
     /** add property search results button */
     propertyResultContent.append(buildPropertySearchResultsButton());
     /** build disclaimer */
-
     propertyResultContent.append(buildDisclaimer(disclaimerHtml));
-    document.querySelector('.property-result-map-container').append(disclaimerBlock);
     block.prepend(propertyResultContent);
+
+    // update map
+    window.updatePropertyMap(getAllData(), false);
+
+
+    document.querySelector('.property-result-map-container').append(disclaimerBlock);
     /** update page on select change */
     block.querySelector('[name="Page"] .select-selected').addEventListener('click', () => {
       block.querySelector('[name="Page"] ul').classList.toggle('hide');
