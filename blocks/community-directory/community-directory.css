@@ -46,17 +46,16 @@
   height: 100%;
   text-transform: uppercase;
   font-size: var(--heading-font-size-s);
-  filter: drop-shadow(0px 0px 2px black);
-  /* Transparent gradient to black on the bottom of the card */
-  background: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0), rgba(0,0,0,0.5));
+  filter: drop-shadow(0 0 2px black);
+  background: linear-gradient(transparent, transparent, rgba(0 0 0 / 50%));
   transition: margin-top var(--anim-speed) ease-in-out, padding-top var(--anim-speed) ease-in-out, filter var(--anim-speed) ease-in-out;
 }
 
 
 .community-directory.block .cards-list .cards-item-body:hover h4{
   padding-top: calc(76px + var(--zoom)/2);
-  background: linear-gradient(rgba(0,0,0,0.0),rgba(0,0,0,0.0),rgba(0,0,0,0.0));
-  filter: drop-shadow(0px 4px 6px black);
+  background: none;
+  filter: drop-shadow(0 4px 6px black);
   transition: margin-top var(--anim-speed) ease-in-out, padding-top var(--anim-speed) ease-in-out, filter var(--anim-speed) ease-in-out;
 }
 
