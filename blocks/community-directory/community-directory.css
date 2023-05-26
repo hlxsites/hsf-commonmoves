@@ -2,6 +2,7 @@
 .community-directory.block .cards-list {
   --anim-speed: 0.2s;
   --zoom: 10px;
+  --columns: 1;
 
   display: flex;  
   flex-wrap: wrap;
@@ -11,11 +12,11 @@
 .community-directory.block .cards-list .cards-item {
   max-height: 183px;
   height:183px;
-  max-width: calc(25% - 20px);
-  flex: calc(25% - 20px);
+  flex-basis: calc(100% / var(--columns) - 20px);
   margin: 10px;
   position:relative;
   cursor: pointer;
+  transition: flex-basis var(--anim-speed) ease-in-out;
 }
 
 .community-directory.block .cards-list .cards-item-body {
@@ -25,21 +26,13 @@
   display: block;
   position: absolute;
   transition: margin var(--anim-speed) ease-in-out, width var(--anim-speed) ease-in-out, height var(--anim-speed) ease-in-out;
-  /* transition: margin var(--anim-speed) ease-in-out, flex var(--anim-speed) ease-in-out, max-width var(--anim-speed) ease-in-out, max-height var(--anim-speed) ease-in-out, height var(--anim-speed) ease-in-out; */
 }
 
 .community-directory.block .cards-list .cards-item-body:hover {
   width: calc(100% + var(--zoom));
   height: calc(100% + var(--zoom));
   margin: calc(0px - var(--zoom)/2);
-  /* margin: calc(10px - var(--zoom)/2);
-  flex: calc(25% - 20px + var(--zoom));
-  max-width: calc(25% + var(--zoom));
-  max-height: calc(183px + var(--zoom));
-  height:calc(183px + var(--zoom)); */
   transition: margin var(--anim-speed) ease-in-out, width var(--anim-speed) ease-in-out, height var(--anim-speed) ease-in-out;
-
-  /* transition: margin var(--anim-speed) ease-in-out, flex var(--anim-speed) ease-in-out, max-width var(--anim-speed) ease-in-out, max-height var(--anim-speed) ease-in-out, height var(--anim-speed) ease-in-out; */
 }
 
 .community-directory.block .cards-list .cards-item-body h4 {
@@ -61,8 +54,20 @@
 
 
 .community-directory.block .cards-list .cards-item-body:hover h4{
-  padding-top: calc(78px + var(--zoom)/2);
+  padding-top: calc(76px + var(--zoom)/2);
   background: linear-gradient(rgba(0,0,0,0.0),rgba(0,0,0,0.0),rgba(0,0,0,0.0));
-  filter: drop-shadow(0px 4px 4px black);
+  filter: drop-shadow(0px 4px 6px black);
   transition: margin-top var(--anim-speed) ease-in-out, padding-top var(--anim-speed) ease-in-out, filter var(--anim-speed) ease-in-out;
+}
+
+@media (min-width: 600px) {
+  .community-directory.block .cards-list {
+    --columns: 2;
+  }
+}
+
+@media (min-width: 1200px) {
+  .community-directory.block .cards-list {
+    --columns: 4;
+  }
 }
