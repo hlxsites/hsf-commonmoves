@@ -140,6 +140,9 @@ export default class SearchParameters {
   asQueryString() {
     let query = Object.keys(this).filter((k) => this[k]).map((k) => `${k}=${encodeURIComponent(this[k])}`).join('&');
     query += `&Sort=${this.#sort}&isFranchisePage=${this.#isFranchisePage}`;
+    if (this.#ApplicationType) {
+      query += `&ApplicationType=${this.#ApplicationType}`;
+    }
     if (this.#params) {
       query += `&${this.#params}`;
     }

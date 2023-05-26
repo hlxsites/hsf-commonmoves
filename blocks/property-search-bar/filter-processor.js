@@ -40,7 +40,7 @@ export function searchProperty() {
   // set params from session storage
   Object.keys(searchParams).forEach((key) => {
     if (key === 'ApplicationType') {
-      params.applicationTypes = searchParams[key].split(',');
+      params.applicationTypes = searchParams[key].split(',').map((propertyType) => ApplicationType[propertyType]);
     } else if (key === 'PropertyType') {
       params.propertyTypes = searchParams[key].split(',');
     } else if (key === 'franchiseeCode') {
