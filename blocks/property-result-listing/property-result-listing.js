@@ -3,13 +3,13 @@ import {
   getDisclaimer,
   getPropertiesCount,
   getPropertyDetails,
-  getAllData
+  getAllData,
 } from '../../scripts/search/results.js';
 import { getValueFromStorage, searchProperty, setFilterValue } from '../property-search-bar/filter-processor.js';
-import { render as renderMap } from '../property-result-map/map.js';
+import renderMap from '../property-result-map/map.js';
 
 const event = new Event('onFilterChange');
-function buildLoader () {
+function buildLoader() {
   const wrapper = document.createElement('div');
   wrapper.classList.add('search-results-loader');
   wrapper.innerHTML = `
@@ -98,7 +98,7 @@ export default async function decorate(block) {
     const totalPages = Math.ceil(getPropertiesCount() / 32);
     const disclaimerHtml = getDisclaimer() === '' ? '' : getDisclaimer().Text;
 
-    const disclaimerBlock  = buildDisclaimer(disclaimerHtml);
+    const disclaimerBlock = buildDisclaimer(disclaimerHtml);
     let nextPage;
     listings.forEach((listing) => {
       div.append(createCard(listing));
@@ -114,7 +114,6 @@ export default async function decorate(block) {
 
     // update map
     window.updatePropertyMap(getAllData(), false);
-
 
     document.querySelector('.property-result-map-container').append(disclaimerBlock);
     /** update page on select change */

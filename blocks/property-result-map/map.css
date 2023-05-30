@@ -2,15 +2,173 @@
     display: none;
 }
 
+.property-search-template.search-map-active .info-window div {
+    padding: 3px;
+}
+
 .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
     position: fixed;
     width: 50%;
     left: 50%;
     top: calc(var(--nav-height) + 50px + 120px);
+
     /* todo need to figureout on how to do this dynamicly */
     height: 600px;
     max-width: calc(1400px/2 - 30px);
 }
+
+.property-search-template.search-map-active .info-window {
+    width: 178px;
+    pointer-events: all;
+}
+
+.property-search-template.search-map-active .info-window a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.property-search-template.search-map-active .info-window .info .price {
+    font-size: var(--body-font-size-m);
+    font-family: var(--font-family-proxima);
+    font-weight: var(--font-weight-bold);
+}
+
+.property-search-template.search-map-active svg:not(:root) {
+    overflow: hidden;
+}
+
+.property-search-template.search-map-active .info-window .btn-contact-property svg,
+.property-search-template.search-map-active .info-window .btn-save-property svg {
+    width: 100%;
+    height: 100%;
+}
+
+.property-search-template.search-map-active .info-window .btn-contact-property .envelope,
+.property-search-template.search-map-active .btn-save-property .empty{
+    position: absolute;
+    opacity: 1;
+}
+
+.property-search-template.search-map-active .info-window .btn-contact-property .envelope-dark,
+.property-search-template.search-map-active .btn-save-property .empty-dark {
+    position: absolute;
+    opacity: 0;
+}
+
+.property-search-template.search-map-active .info-window .btn-save-property .full {
+    position: absolute;
+    display: none;
+}
+
+/* stylelint-disable selector-class-pattern */
+.property-search-template.search-map-active .info-window .info .altPrice {
+    font-size: var(--body-font-size-s);
+    font-family: var(--font-family-proxima);
+    font-weight: var(--font-weight-light);
+}
+
+.property-search-template.search-map-active .info-window .info .address,
+.property-search-template.search-map-active .info-window .info .providers {
+    font-size: var(--body-font-size-xs);
+}
+
+.property-search-template.search-map-active .cmp-property-tile__extra-info {
+    display: block;
+    font-size: var(--body-font-size-xs);
+    font-family: var(--font-family-proxima);
+    font-weight: var(--font-weight-light);
+    padding-left: 10px;
+    opacity: 1;
+    color: var(--dark-grey);
+    letter-spacing: 0;
+    line-height: var(--line-height-xs);
+}
+
+.property-search-template.search-map-active .info-window .arrow {
+    width: 0;
+    border-top: 20px solid var(--white);
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    cursor: pointer;
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: .2s bottom opacity ease-out;
+    opacity: 1;
+}
+
+.property-search-template.search-map-active .info-window .text-danger {
+    color: #dc3545 !important;
+}
+
+.property-search-template.search-map-active .gm-ui-hover-effect {
+    display: none !important;
+}
+
+.property-search-template.search-map-active .gm-ui-hover-effect, button[draggable] {
+    opacity: 0;
+}
+
+.property-search-template hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgb(0 0 0 / 10%);
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+}
+
+.property-search-template.search-map-active .info-window .property-image {
+    width: 100%;
+    height: 131px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.property-search-template.search-map-active .btn-contact-property,
+.property-search-template.search-map-active .btn-save-property {
+    display: block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.property-search-template .d-flex {
+    display: flex !important;
+
+}
+
+.property-search-template .align-items-center {
+    align-items: center !important;
+
+}
+
+.property-search-template .p-0 {
+   padding: 0 !important;
+}
+
+.property-search-template .mr-2 {
+    margin-right: 0.5rem !important;
+}
+
+.property-search-template.search-map-active .info-window .info {
+    background: var(--white);
+}
+
+.property-search-template.search-map-active .info-window::before,
+.property-search-template.search-map-active .info-window::after {
+    content: "";
+    bottom: 0;
+    opacity: 0;
+    transition: .2s bottom opacity ease-in;
+}
+
 
 .property-search-template .property-result-map {
     height: 600px;
@@ -87,6 +245,9 @@
 .property-search-template.search-map-active .custom-controls a.map-draw {
     margin-top: 15px;
     box-shadow: 0 0 3px 2px rgb(0 0 0 / 30%);
+
+    /* @todo change visibility for draw functionality https://github.com/hlxsites/hsf-commonmoves/issues/122 */
+    visibility: hidden;
 }
 
 .property-search-template.search-map-active .custom-controls a.map-draw::before {
@@ -218,39 +379,48 @@
     .property-search-template.search-map-active  .custom-controls {
         bottom: 16vw;
     }
+
     .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
         position: fixed;
         width: 100%;
         left: 50%;
         top: calc(var(--nav-height) + 50px + 120px);
+
         /* todo need to figureout on how to do this dynamicly */
         height: 600px;
-        /*max-width: calc(1400px/2 - 30px);*/
+
+        /* max-width: calc(1400px/2 - 30px); */
     }
 }
 
 .property-result-listing.block .property-result-map-container .disclaimer {
     display: none;
 }
-@media (max-width: 899px) {
 
+@media (max-width: 899px) {
     .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
         position: static;
         width: 100%;
+
         /* todo need to figureout on how to do this dynamicly */
-        /*height: 600px;*/
-        /*max-width: calc(1400px/2 - 30px);*/
+
+        /* height: 600px; */
+
+        /* max-width: calc(1400px/2 - 30px); */
     }
+
     .property-search-template.search-map-active .property-result-listing.block .property-result-map-container .disclaimer {
         display: block;
     }
 }
+
 @media (min-width: 900px) {
     .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
         position: fixed;
         width: 100%;
         left: 50%;
         top: calc(var(--nav-height) + 50px + 120px);
+
         /* todo need to figureout on how to do this dynamicly */
         height: 600px;
     }

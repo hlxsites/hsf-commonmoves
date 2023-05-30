@@ -41,11 +41,10 @@ export function createCard(listing) {
   if (listing.mlsStatus) {
     item.classList.add('is-new');
   }
-
   if (listing.PdpPath.includes('LuxuryTheme=true')) {
     item.classList.add('is-luxury');
   }
-
+  const applicationType = listing.ApplicationType && listing.ApplicationType === 'For Rent' ? `<span class="property-label new-listing">${listing.ApplicationType}</span>` : '';
   item.innerHTML = `
     <a href="${detailsPath}" rel="noopener" aria-label="${listing.StreetName}">
       <div class="listing-image-container"> 
@@ -68,6 +67,7 @@ export function createCard(listing) {
         <div class="image-position-bottom"> 
           <div class="property-labels">
             <span class="property-label featured-listing">Featured Listing</span>
+            ${applicationType}
             <span class="property-label new-listing">${listing.mlsStatus}</span>
           </div>
           <div class="property-price">
@@ -79,6 +79,7 @@ export function createCard(listing) {
     <div class="property-details">
       <div class="property-info-wrapper"> 
         <div class="property-info"> 
+        
           <div class="address"> 
             ${listing.StreetName}
             <br> 

@@ -23,7 +23,7 @@ export function getListingClusters() {
 }
 
 export function getAllData() {
-  return getResults().result
+  return getResults().result;
 }
 /**
  *

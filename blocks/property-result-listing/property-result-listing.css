@@ -6,6 +6,7 @@
   display: flex;
   flex-wrap: wrap;
 }
+
 .property-result-listing.block .search-results-loader {
   position: relative;
   overflow: hidden;
@@ -26,22 +27,26 @@
   text-align: center;
   margin: 0 !important;
   z-index: 1;
-  /*position: absolute;*/
+
+  /* position: absolute; */
   height: 100%;
   width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   background-color: var(--white);
-  -webkit-transition: all 1s ease-in;
   transition: all 1s ease-in;
 }
 
-/*.property-result-listing.block .search-results-loader-image img {*/
-/*  width: 250px;*/
-/*  height: auto;*/
-/*  margin: 10vh 0;*/
-/*}*/
+/* .property-result-listing.block .search-results-loader-image img { */
+
+/*  width: 250px; */
+
+/*  height: auto; */
+
+/*  margin: 10vh 0; */
+
+/* } */
 
 
 .property-search-template.search-map-active .property-result-listing.block > div {
@@ -347,11 +352,15 @@ text-align: center;
 }
 
 @media (max-width: 900px) {
-  /*.property-result-listing.block .search-results-loader-image img {*/
-  /*  padding: 5px 5px 5px 5px;*/
-  /*  width: 30px;*/
-  /*}*/
+  /* .property-result-listing.block .search-results-loader-image img { */
+
+  /*  padding: 5px 5px 5px 5px; */
+
+  /*  width: 30px; */
+
+  /* } */
 }
+
 @media (min-width: 1200px) {
   .property-result-listing.block .property-info-wrapper {
     font-size: var(--body-font-size-xl);

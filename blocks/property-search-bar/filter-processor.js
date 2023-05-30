@@ -3,7 +3,7 @@ import {
 } from '../../scripts/search.js';
 import {
   buildKeywordEl, formatPriceLabel,
-  TOP_LEVEL_FILTERS, EXTRA_FILTERS, BOTTOM_LEVEL_FILTERS, getConfig
+  TOP_LEVEL_FILTERS, EXTRA_FILTERS, BOTTOM_LEVEL_FILTERS, getConfig,
 } from './common-function.js';
 
 import {
@@ -23,7 +23,7 @@ export function searchProperty() {
   if (document.querySelector('.property-result-map-container .disclaimer')) {
     document.querySelector('.property-result-map-container .disclaimer').remove();
   }
-  document.querySelector('.search-results-loader').style.display = "block";
+  document.querySelector('.search-results-loader').style.display = 'block';
   const overlay = document.querySelector('.search-results-loader-image');
   overlay.classList.remove('exit');
   overlay.classList.add('enter');
@@ -35,7 +35,7 @@ export function searchProperty() {
     cont: 0,
     disclaimer: {},
     listingClusters: [],
-    result: {}
+    result: {},
   };
   // set params from session storage
   Object.keys(searchParams).forEach((key) => {
@@ -64,7 +64,7 @@ export function searchProperty() {
   }).catch(() => {
     setResults(result);
   }).finally(() => {
-    document.querySelector('.search-results-loader').style.display = "none";
+    document.querySelector('.search-results-loader').style.display = 'none';
     overlay.classList.remove('enter');
     overlay.classList.add('exit');
   });

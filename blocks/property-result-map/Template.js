@@ -1,22 +1,21 @@
-export default class Template {
-  render(data) {
-      const luxuryHTML = data.luxury && data.isCompanyListing ?
-          `div class="position-absolute top w-100">
+export default function render(data) {
+  const luxuryHTML = data.luxury && data.isCompanyListing
+    ? `div class="position-absolute top w-100">
                 <div class="cmp-property-tile__image-labels">
                     <span class="cmp-property-tile__label--luxury text-uppercase">${data.luxuryLabel}</span>
                 </div>
             </div>`
-          : '';
-      const soldHTML = data.sellingOfficeName ? `<div class="text-danger">${data.mlsStatus} ${data.ClosedDate}<br/></div>`: '';
-      const municipalityHTML = data.municipality ? `<div class="address">${data.municipality}</div>` : '';
-      const CourtesyOfHr = data.CourtesyOf ? `
-          <hr style="margin-top: 0px; margin-bottom: 0px;"> ${data.CourtesyOf}` : '';
-      const addMlsFlagHTML = data.addMlsFlag ? `<span  class="cmp-property-tile__extra-info" style="padding-left: 0px">MLS ID: ${data.ListingId} </span>` : '';
-      const courtersyHTML = data.CourtesyOf ? `
+    : '';
+  const soldHTML = data.sellingOfficeName ? `<div class="text-danger">${data.mlsStatus} ${data.ClosedDate}<br/></div>` : '';
+  const municipalityHTML = data.municipality ? `<div class="address">${data.municipality}</div>` : '';
+  const CourtesyOfHr = data.CourtesyOf ? `
+          <hr style="margin-top: 0px; margin-bottom: 0px;">` : '';
+  const addMlsFlagHTML = data.addMlsFlag ? `<span  class="cmp-property-tile__extra-info" style="padding-left: 0px">MLS ID: ${data.ListingId} </span>` : '';
+  const courtersyHTML = data.CourtesyOf ? `
       <span class="cmp-property-tile__extra-info" style="padding-left: 0px">Listing courtesy of: ${data.CourtesyOf} </span>` : '';
-      const sellingOfficeNameHTML = data.sellingOfficeName ? `
+  const sellingOfficeNameHTML = data.sellingOfficeName ? `
           <span class="cmp-property-tile__extra-info" style="padding-left: 0px">Listing sold by: ${data.sellingOfficeName} </span>` : '';
-      const addMLsFlagHTML = data.addMlsFlag ? `
+  const addMLsFlagHTML = data.addMlsFlag ? `
           <div class="cmp-property-tile__extra-info d-flex align-items-center justify-content-between" style="padding: 0px; margin-top: -5px;"><div>Listing Provided by: ${data.listAor}</div>
   ${data.listAor}
   ${data.brImageUrl}
@@ -29,7 +28,7 @@ export default class Template {
       </div>
   </div>
       ${data.ddMlsFlag}` : '';
-    return `<div class="info-window">
+  return `<div class="info-window">
     <a href="${data.linkUrl}" rel="noopener">
         <div class="property-image" style="background-image:url(${data.image}); background-size:cover;">
             ${luxuryHTML}
@@ -71,8 +70,8 @@ export default class Template {
             <div class="address">
                 ${soldHTML}
                 <div>
-                    ${data.address}<br/>
-                    ${data.city}, ${data.stateOrProvince} ${data.postalCode}
+                    ${data.address || ''}<br/>
+                    ${data.city || ''}, ${data.stateOrProvince || ''} ${data.postalCode || ''}
                 </div>
             </div>
             ${municipalityHTML}
@@ -88,5 +87,4 @@ export default class Template {
     </a>
     <div class="arrow"></div>
 </div>`;
-  }
 }

@@ -1,11 +1,11 @@
 /* global google */
-/* global markerClusterer */
+/* eslint-disable no-param-reassign, no-unused-vars,  no-shadow,  prefer-rest-params */
 
 import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
-import { removeFilterValue, searchProperty, setFilterValue} from '../property-search-bar/filter-processor.js';
-import Template from './Template.js';
+import { removeFilterValue, searchProperty, setFilterValue } from '../property-search-bar/filter-processor.js';
+import render from './Template.js';
 import SearchParameters from '../../scripts/apis/creg/SearchParameters.js';
-import {propertySearch} from '../../scripts/apis/creg/creg.js';
+import { propertySearch } from '../../scripts/apis/creg/creg.js';
 
 const Nr = [{
   featureType: 'administrative',
@@ -213,30 +213,12 @@ let rd = [];
 let lg = [];
 let uf = [];
 let Zd = !1;
-let Bj = [];
-let Cj = [];
+const Bj = [];
+const Cj = [];
 let map;
 let hi = !1;
-let Hh = [];
-let rn = !0;
-
-const bA = function (d, h, k, m) {
-  d.forEach((d) => {
-    h.push(d);
-    d = new Yd(d);
-    d.setMap(m);
-    k.push(d);
-  });
-};
-
-function ln(a, c) {
-  google.maps.event.addListener(a, 'domready', () => {
-    uf.push(a);
-    // wj(c);
-    // xj();
-  });
-}
-
+const Hh = [];
+const rn = !0;
 
 function Yd(a) {
   this.baseMarker = a;
@@ -248,9 +230,27 @@ function Yd(a) {
   this.icon = a.icon;
   this.propId = a.propId;
 }
-//load Listing info by id
+function bA(d, h, k, m) {
+  // eslint-disable-next-line no-shadow
+  d.forEach((d) => {
+    h.push(d);
+    // eslint-disable-next-line no-param-reassign
+    d = new Yd(d);
+    d.setMap(m);
+    k.push(d);
+  });
+}
+
+function ln(a, c) {
+  google.maps.event.addListener(a, 'domready', () => {
+    uf.push(a);
+    // wj(c);
+    // xj();
+  });
+}
+// load Listing info by id
 async function yj(listingId) {
-  //@todo generate dynamicly from result response MLSFlag, AddMlsFlag, OfficeCode
+  // @todo generate dynamicly from result response MLSFlag, AddMlsFlag, OfficeCode
   const params = new SearchParameters('ListingId');
   params.ListingId = listingId;
   params.MLSFlag = 'false';
@@ -261,10 +261,9 @@ async function yj(listingId) {
 }
 
 function nn(a) {
-  let c = '';
-  a && a.smallPhotos && a.smallPhotos.length > 0 && (c = a.smallPhotos[0].mediaUrl);
-  return c;
+  return a && a.smallPhotos && a.smallPhotos.length > 0 ? a.smallPhotos[0].mediaUrl : '';
 }
+
 function zj(a, c, f) {
   const d = nn(a);
   const h = a.ListPriceUS;
@@ -288,9 +287,9 @@ function zj(a, c, f) {
   let ka = a.PdpPath;
   const Uh = a.luxury;
   const E = a.isCompanyListing;
-  a = a.originatingSystemName == '' || void 0 == a.originatingSystemName || a.originatingSystemName == null ? ' ' : `Listing Provided by  ${a.originatingSystemName}`;
-  c && (c = ka.split('/'),
-      ka = ka.startsWith('http') ? `${f}/${c[3]}/${c[4]}/${c[5]}` : `${f}/${c[2]}/${c[3]}/${c[4]}`);
+  a = a.originatingSystemName === '' || undefined === a.originatingSystemName || a.originatingSystemName === null ? ' ' : `Listing Provided by  ${a.originatingSystemName}`;
+  c = c || ka.split('/');
+  ka = ka.startsWith('http') ? `${f}/${c[3]}/${c[4]}/${c[5]}` : `${f}/${c[2]}/${c[3]}/${c[4]}`;
   return {
     propertyImage: d,
     propertyPrice: h,
@@ -321,15 +320,16 @@ function zj(a, c, f) {
 }
 function Yt(a) {
   a = a.listingPins;
-  return (void 0 === a ? [] : a).reduce((a, f) => {
+  return (undefined === a ? [] : a).reduce((a, f) => {
     const c = `${f.lat}${f.lon}`;
+    // eslint-disable-next-line no-unused-expressions
     Array.isArray(a[c]) || (a[c] = []);
     a[c].push(f);
     return a;
   }, {});
 }
 
-let U = {
+const U = {
   isXs() {
     return window.innerWidth <= 575;
   },
@@ -350,149 +350,63 @@ let U = {
   },
 };
 
+function pn(a, c, f) {
+  const d = document.createElement('div');
+  d.classList.add('info-window');
+  d.classList.add('cluster-window');
+  a.forEach((a) => {
+    a = zj(a, c, f);
+    a = render({
+      linkUrl: a.propertyLinkUrl,
+      image: a.propertyImage,
+      price: a.propertyPrice,
+      municipality: a.municipality,
+      addMlsFlag: a.addMlsFlag,
+      listAor: a.listAor,
+      mlsLogo: a.mlsLogo,
+      mlsStatus: a.mlsStatus,
+      ClosedDate: a.ClosedDate,
+      ListingId: a.ListingId,
+      CourtesyOf: a.CourtesyOf,
+      sellingOfficeName: a.sellingOfficeName,
+      ApplicationType: a.ApplicationType,
+      altCurrencyPrice: a.propertyAltCurrencyPrice,
+      brImageUrl: a.brImageUrl,
+      address: a.propertyAddress,
+      luxury: a.propertyLuxury,
+      isCompanyListing: a.isCompanyListing,
+      luxuryLabel: 'luxury collection',
+      providers: a.propertyProviders,
+    });
+    d.insertAdjacentHTML('beforeend', a);
+  });
+  return d;
+}
+
+function on(a) {
+  const c = [];
+  a.getListingPins().forEach((a) => {
+    c.push(yj(a.listingKey, a.officeCode));
+  });
+  return c;
+}
+
 function Xt(a, c, f) {
   a = on(a);
   Promise.all(a).then((a) => {
     a = pn(a, c, f);
     let d = document.getElementsByClassName('mobile-cluster-info-window');
+
+    // eslint-disable-next-line no-unused-expressions,prefer-destructuring
     d.length > 0 && (d = d[0],
-        d.innerHTML = '',
-        d.appendChild(a),
-        d.style.display = 'block');
+    d.innerHTML = '',
+    d.appendChild(a),
+    d.style.display = 'block');
   });
 }
 
 function $t() {
   return rn;
-}
-
-function au(a) {
-  let c = a.groupOfListingPins;
-  const f = void 0 === c ? [] : c;
-  const d = a.propertiesMap;
-  const h = a.isAgentPage;
-  const q = a.agentHomePath;
-  a = vj(d, 'cluster');
-  c = [];
-  const m = f[0];
-  const p = f.length;
-  const k = m.lat;
-  const n = m.lon;
-  const B = a({
-    latitude: k,
-    longitude: n,
-    labelText: `${p}`,
-    visible: !0,
-    groupCount: p,
-  });
-  c.push(B);
-  B.setZIndex(0);
-  B.bhhsInitialZIndex = B.getZIndex();
-  const t = {
-    getListingPins() {
-      return [].concat(f);
-    },
-    getCenter() {
-      return new google.maps.LatLng(k, n);
-    },
-  };
-  U.isXs() ? B.addListener('click', () => {
-    Jd();
-    Xt(t, h, q);
-  }) : (B.addListener('mouseover', () => {
-    // $t && Zd && (Jd(),
-    //     Zd = !1,
-    //     Wt(t, d, B, h, q));
-  }),
-      B.addListener('mouseover', function () {
-        this.setOptions({
-          zIndex: 1000002,
-        });
-      }));
-  return c;
-}
-
-function Pt() {
-  Yd.prototype = new google.maps.OverlayView();
-  Yd.prototype.onRemove = function () {};
-  Yd.prototype.onAdd = function () {
-    const a = document.createElement('DIV');
-    a.style.position = 'absolute';
-    a.className = 'RevealMarker';
-    const c = this.icon.scaledSize.height;
-    const f = this.icon.scaledSize.width;
-    let d = '50%';
-    let h = '50%';
-    this.baseMarker.icon.labelOrigin && (h = `${this.baseMarker.icon.labelOrigin.x}px`,
-        d = `${this.baseMarker.icon.labelOrigin.y}px`);
-    a.innerHTML = `\x3cdiv class\x3d"reveal-marker"\x3e\x3cimg src\x3d"${this.icon.url.replace('map-marker', 'map-reveal-marker')}" style\x3d"width:${f}px;height:${c}px" alt\x3d"Marker image"\x3e\x3cspan class\x3d"reveal-marker__text" style\x3d"top:${d};left: ${h}"\x3e${this.baseMarker.label.text}\x3c/span\x3e\x3c/div\x3e`;
-    a.style.visibility = 'hidden';
-    this.getPanes().floatPane.appendChild(a);
-    this.div = a;
-  };
-  Yd.prototype.draw = function () {
-    this.getProjection();
-    const a = this.icon.scaledSize.width;
-    this.div.style.top = `${-1 * this.icon.scaledSize.height}px`;
-    this.div.style.left = `${-1 * Math.round(a / 2)}px`;
-  };
-  Yd.prototype.hide = function () {
-    this.div && (this.div.style.visibility = 'hidden');
-  };
-  Yd.prototype.show = function () {
-    this.div && (this.div.style.visibility = 'visible');
-  };
-  Yd.prototype.getPosition = function () {
-    return this.baseMarker.getPosition();
-  };
-}
-
-function bu() {
-  for (let a = 0; a < rd.length; a++) {
-    rd[a].setMap(null);
-    rd[a] = null;
-  }
-  rd = [];
-  lg.forEach((a) => {
-    a.clearMarkers();
-  });
-  lg = [];
-}
-
-function Jd() {
-  uf.forEach((a) => {
-    const c = a.anchor;
-    c && c.setOptions({
-      zIndex: c.bhhsInitialZIndex,
-    });
-    a.close();
-  });
-  uf = [];
-  Zd = !0;
-  document.querySelector('.mobile-info-window').classList.remove('is-active');
-  document.querySelector('.mobile-cluster-info-window').innerHTML = null;
-}
-function sn() {
-  if (Bj.length > 0) for (var a = 0; a < Bj.length; a++) Bj[a].close();
-  if (Cj.length > 0) for (a = 0; a < Cj.length; a++) Cj[a].close();
-  document.querySelector('.mobile-cluster-info-window').style.display = 'none';
-  document.querySelector('.mobile-info-window').classList.remove('is-active');
-
-}
-
-function cu(a) {
-  let c = new google.maps.LatLngBounds;
-  a.forEach(function(a) {
-    c.extend(a.getPosition())
-  });
-  0 < a.length && (map.setCenter(c.getCenter()),
-      map.fitBounds(c))
-}
-
-function Zt(a) {
-  a.addListener('click', () => {
-    Jd();
-  });
 }
 
 function vj(a, c) {
@@ -501,16 +415,18 @@ function vj(a, c) {
   let h = 25;
   if (c === 'cluster') {
     f = '/icons/maps/map-clusterer-blue.png';
-    h = d = 30;
+    h = 30;
+    d = 30;
   }
-  return function (q) {
+  return (q) => {
     let m = q.labelText;
-    let p = void 0 === m ? '' : m;
+    let p = undefined === m ? '' : m;
     m = q.groupCount;
     const k = q.listingKey;
     q = new google.maps.LatLng(q.latitude, q.longitude);
     let n = 0;
-    c === 'cluster' && (n = Math.round(2 * Math.log10(m)) / 2 * 6);
+    // eslint-disable-next-line no-unused-expressions
+    c === 'cluster' && (n = (Math.round(2 * Math.log10(m)) / 2) * 6);
     n = {
       url: f,
       scaledSize: new google.maps.Size(d + n, h + n),
@@ -538,8 +454,109 @@ function vj(a, c) {
   };
 }
 
+function Jd() {
+  uf.forEach((a) => {
+    const c = a.anchor;
+    // eslint-disable-next-line no-unused-expressions
+    c && c.setOptions({
+      zIndex: c.bhhsInitialZIndex,
+    });
+    a.close();
+  });
+  uf = [];
+  Zd = !0;
+  document.querySelector('.mobile-info-window').classList.remove('is-active');
+  document.querySelector('.mobile-cluster-info-window').innerHTML = null;
+}
+
+function au(a) {
+  let c = a.groupOfListingPins;
+  const f = undefined === c ? [] : c;
+  const d = a.propertiesMap;
+  const h = a.isAgentPage;
+  const q = a.agentHomePath;
+  a = vj(d, 'cluster');
+  c = [];
+  const m = f[0];
+  const p = f.length;
+  const k = m.lat;
+  const n = m.lon;
+  const B = a({
+    latitude: k,
+    longitude: n,
+    labelText: `${p}`,
+    visible: !0,
+    groupCount: p,
+  });
+  c.push(B);
+  B.setZIndex(0);
+  B.bhhsInitialZIndex = B.getZIndex();
+  const t = {
+    getListingPins() {
+      return [].concat(f);
+    },
+    getCenter() {
+      return new google.maps.LatLng(k, n);
+    },
+  };
+  // eslint-disable-next-line no-unused-expressions
+  U.isXs() ? B.addListener('click', () => {
+    Jd();
+    Xt(t, h, q);
+  }) : (B.addListener('mouseover', () => {
+    // $t && Zd && (Jd(),
+    //     Zd = !1,
+    //     Wt(t, d, B, h, q));
+  }),
+  B.addListener('mouseover', () => {
+    this.setOptions({
+      zIndex: 1000002,
+    });
+  }));
+  return c;
+}
+
+function Pt() {
+  Yd.prototype = new google.maps.OverlayView();
+}
+
+function bu() {
+  for (let a = 0; a < rd.length; a += 1) {
+    rd[a].setMap(null);
+    rd[a] = null;
+  }
+  rd = [];
+  lg.forEach((a) => {
+    a.clearMarkers();
+  });
+  lg = [];
+}
+
+function sn() {
+  if (Bj.length > 0) for (let a = 0; a < Bj.length; a += 1) Bj[a].close();
+  if (Cj.length > 0) for (let a = 0; a < Cj.length; a += 1) Cj[a].close();
+  document.querySelector('.mobile-cluster-info-window').style.display = 'none';
+  document.querySelector('.mobile-info-window').classList.remove('is-active');
+}
+
+function cu(a) {
+  const c = new google.maps.LatLngBounds();
+  a.forEach((a) => {
+    c.extend(a.getPosition());
+  });
+  // eslint-disable-next-line no-unused-expressions
+  a.length > 0 && (map.setCenter(c.getCenter()),
+  map.fitBounds(c));
+}
+
+function Zt(a) {
+  a.addListener('click', () => {
+    Jd();
+  });
+}
+
 function Qt() {
-  const a = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+  const a = arguments.length > 0 && undefined !== arguments[0] ? arguments[0] : [];
   const c = vj(arguments[1], 'cluster');
   const f = [];
   a.forEach((a, h) => {
@@ -567,14 +584,17 @@ function Qt() {
 function Rt(a) {
   a.filter((a) => a.visible).forEach((a) => {
     a.addListener('click', () => {
-      const event = new CustomEvent('search-by-cluster-click',
-          {detail: {
-              northEastLatitude: a.neLat,
-              northEastLongitude: a.neLon,
-              southWestLatitude: a.swLat,
-              southWestLongitude: a.swLon,
-            },
-          });
+      const event = new CustomEvent(
+        'search-by-cluster-click',
+        {
+          detail: {
+            northEastLatitude: a.neLat,
+            northEastLongitude: a.neLon,
+            southWestLatitude: a.swLat,
+            southWestLongitude: a.swLon,
+          },
+        },
+      );
       window.dispatchEvent(event);
       const c = new google.maps.LatLngBounds();
       c.extend(new google.maps.LatLng(a.neLat, a.neLon));
@@ -588,7 +608,7 @@ function commaSeparatedPriceToFloat(a) {
   a = (`${a}`).replace('$', '');
   a = a.replace(/,/g, '');
   a = parseFloat(a);
-  return isNaN(a) ? 0 : a;
+  return Number.isNaN(a) ? 0 : a;
 }
 
 function nFormatter(a, c) {
@@ -614,7 +634,8 @@ function nFormatter(a, c) {
     value: 1E18,
     symbol: 'E',
   }]; let
-      d;
+    d;
+  // eslint-disable-next-line no-plusplus
   for (d = f.length - 1; d > 0 && !(a >= f[d].value); d--) ;
   return (a / f[d].value).toFixed(c).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, '$1') + f[d].symbol;
 }
@@ -626,7 +647,7 @@ function Tt(a) {
 
 function Aj(a) {
   let c = a.propertyData;
-  let f = void 0 === c ? {
+  let f = undefined === c ? {
     city: '',
     zipCode: '',
     id: '',
@@ -658,7 +679,7 @@ function Aj(a) {
     luxury: f.luxury,
     isCompanyListing: f.isCompanyListing,
   };
-  f = void 0 === f ? {
+  f = undefined === f ? {
     city: '',
     state: '',
     postalCode: '',
@@ -669,8 +690,8 @@ function Aj(a) {
   a = a.propertyProviders;
   // const cont = '';
   // const u = document.getElementById('property-info-window').innerHTML;
-//@todo prepare content for info window
-  const cont = new Template().render({
+  // @todo prepare content for info window
+  const cont = render({
     image: c,
     price: d,
     municipality: h,
@@ -707,8 +728,133 @@ function mn(a) {
   });
 }
 
+function jn(a) {
+  return {
+    leadParam: a.propertyLeadParam,
+    StreetName: a.propertyAddress,
+    PropId: a.propertyId,
+    ApplicationType: a.propertyApplicationType,
+    NotificationId: a.NotificationId,
+    originatingSystemName: a.originatingSystemName,
+  };
+}
+
+function Ut(a) {
+  const c = a.image;
+  const f = a.price;
+  const d = a.municipality;
+  const h = a.addMlsFlag;
+  const q = a.listAor;
+  const m = a.mlsLogo;
+  const p = a.mlsStatus;
+  const k = a.ClosedDate;
+  const n = a.ListingId;
+  const B = a.CourtesyOf;
+  const t = a.sellingOfficeName;
+  const y = a.ApplicationType;
+  const A = a.altCurrencyPrice;
+  const H = a.brImageUrl;
+  const J = a.address;
+  const I = a.city;
+  const P = a.stateOrProvince;
+  const u = a.postalCode;
+  const v = a.propertyId;
+  const gb = a.pdpPath;
+  const ea = a.luxury;
+  const ka = a.isCompanyListing;
+  a = a.providers;
+  return render({
+    image: c,
+    price: f,
+    municipality: d,
+    addMlsFlag: h,
+    listAor: q,
+    mlsLogo: m,
+    mlsStatus: p,
+    ClosedDate: k,
+    ListingId: n,
+    CourtesyOf: B,
+    sellingOfficeName: t,
+    ApplicationType: y,
+    altCurrencyPrice: A,
+    brImageUrl: H,
+    address: J,
+    city: I,
+    stateOrProvince: P,
+    postalCode: u,
+    propertyId: v,
+    linkUrl: gb,
+    luxury: ea,
+    isCompanyListing: ka,
+    luxuryLabel: 'luxury collection',
+    providers: a,
+  });
+}
+
+function kn(a) {
+  const c = a.property;
+  a = a.marker;
+  const f = nn(c);
+  const d = c.municipality;
+  const h = c.addMlsFlag;
+  const q = c.listAor;
+  const m = c.mlsLogo;
+  const p = c.mlsStatus;
+  const k = c.ClosedDate;
+  const n = c.ListingId;
+  const B = c.CourtesyOf;
+  const t = c.sellingOfficeName;
+  const y = c.ApplicationType;
+  const A = c.ListPriceUS;
+  const H = c.listPriceAlternateCurrency;
+  const J = c.brImageUrl;
+  const I = c.StreetName;
+  const P = c.PdpPath;
+  const u = c.PropId;
+  const v = c.City;
+  const gb = c.PostalCode;
+  const ea = c.StateOrProvince;
+  const ka = c.luxury;
+  const E = c.isCompanyListing;
+  const G = c.originatingSystemName === '' || undefined === c.originatingSystemName || c.originatingSystemName == null ? ' ' : `Listing Provided by  ${c.originatingSystemName}`;
+  a.propertyImage = f;
+  a.propertyPrice = A;
+  a.municipality = d;
+  a.addMlsFlag = h;
+  a.listAor = q;
+  a.mlsLogo = m;
+  a.mlsStatus = p;
+  a.ClosedDate = k;
+  a.ListingId = n;
+  a.CourtesyOf = B;
+  a.sellingOfficeName = t;
+  a.ApplicationType = y;
+  a.propertyAltCurrencyPrice = H;
+  a.brImageUrl = J;
+  a.propertyAddress = I;
+  a.propertyPdpPath = P;
+  a.propertyId = u;
+  a.propertyCity = v;
+  a.propertyZipcode = gb;
+  a.propertyState = ea;
+  a.propertyLuxury = ka;
+  a.propertyLeadParam = c.leadParam;
+  a.propertyApplicationType = c.applicationType;
+  a.NotificationId = u;
+  a.originatingSystemName = G;
+  a.propertyIsCompanyListing = E;
+}
+
+function Vt() {
+  return render({
+    image: '',
+    price: 'loading...',
+    address: '-',
+    providers: '-',
+  });
+}
 function St() {
-  const a = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [];
+  const a = arguments.length > 0 && undefined !== arguments[0] ? arguments[0] : [];
   const c = arguments[1];
   const f = arguments[2];
   const d = arguments[3];
@@ -728,7 +874,8 @@ function St() {
       groupCount: 1,
       listingKey: t,
     });
-    U.isXs() ? (a.addListener('click', function () {
+    // eslint-disable-next-line no-unused-expressions
+    U.isXs() ? (a.addListener('click', () => {
       const a = this;
       Jd();
       if (this.propertyPdpPath) {
@@ -752,7 +899,7 @@ function St() {
         const Id = a.propertyState;
         const Ma = a.propertyPdpPath;
         const Wh = a.propertyLuxury;
-        var aa = jn(a);
+        const aa = jn(a);
         c = Ut({
           image: c,
           price: h,
@@ -776,62 +923,65 @@ function St() {
           isCompanyListing: a.propertyIsCompanyListing,
           providers: Jb,
         });
-        k('.mobile-info-window').addClass('is-active').html(c);
-        wj(aa);
-        xj();
+        // add logic to process mobile view page
+        document.getElementsByClassName('mobile-info-window').classList.add('is-active').html(c);
+        // add logic to process mobile view page
+        // wj(aa);
+        // xj();
       } else {
-        aa = Vt(),
-            k('.mobile-info-window').addClass('is-active').html(aa),
-            yj(t, y).then((c) => {
-              let h = zj(c, f, d);
-              // const m = document.getElementById('property-info-window-mobile').innerHTML;
-              h = new Template().render({
-                image: h.propertyImage,
-                price: h.propertyPrice,
-                municipality: h.municipality,
-                addMlsFlag: h.addMlsFlag,
-                listAor: h.listAor,
-                mlsLogo: h.mlsLogo,
-                mlsStatus: h.mlsStatus,
-                ClosedDate: h.ClosedDate,
-                ListingId: h.ListingId,
-                CourtesyOf: h.CourtesyOf,
-                sellingOfficeName: h.sellingOfficeName,
-                ApplicationType: h.ApplicationType,
-                altCurrencyPrice: h.propertyAltCurrencyPrice,
-                brImageUrl: h.brImageUrl,
-                address: h.propertyAddress,
-                city: h.propertyData.city,
-                providers: h.propertyProviders,
-                stateOrProvince: h.propertyData.stateOrProvince,
-                postalCode: h.propertyData.zipCode,
-                propertyId: h.propertyData.id,
-                linkUrl: h.propertyLinkUrl,
-                luxury: h.propertyData.luxury,
-                isCompanyListing: h.propertyData.isCompanyListing,
-                luxuryLabel: Granite.I18n.get('luxury collection'),
-              });
-              k('.mobile-info-window').addClass('is-active').html(h);
-              wj(c);
-              xj();
-              kn({
-                property: c,
-                marker: a,
-              });
-            });
+        const aa = Vt();
+        document.getElementsByClassName('mobile-info-window').classList.add('is-active').html(aa);
+        yj(t, y).then((c) => {
+          let h = zj(c, f, d);
+          // const m = document.getElementById('property-info-window-mobile').innerHTML;
+          h = render({
+            image: h.propertyImage,
+            price: h.propertyPrice,
+            municipality: h.municipality,
+            addMlsFlag: h.addMlsFlag,
+            listAor: h.listAor,
+            mlsLogo: h.mlsLogo,
+            mlsStatus: h.mlsStatus,
+            ClosedDate: h.ClosedDate,
+            ListingId: h.ListingId,
+            CourtesyOf: h.CourtesyOf,
+            sellingOfficeName: h.sellingOfficeName,
+            ApplicationType: h.ApplicationType,
+            altCurrencyPrice: h.propertyAltCurrencyPrice,
+            brImageUrl: h.brImageUrl,
+            address: h.propertyAddress,
+            city: h.propertyData.city,
+            providers: h.propertyProviders,
+            stateOrProvince: h.propertyData.stateOrProvince,
+            postalCode: h.propertyData.zipCode,
+            propertyId: h.propertyData.id,
+            linkUrl: h.propertyLinkUrl,
+            luxury: h.propertyData.luxury,
+            isCompanyListing: h.propertyData.isCompanyListing,
+            luxuryLabel: 'luxury collection',
+          });
+          document.getElementsByClassName('mobile-info-window').classList.add('is-active').html(h);
+          // @todo add logic to trigger assitional events on mobile view
+          // wj(c);
+          // xj();
+          kn({
+            property: c,
+            marker: a,
+          });
+        });
       }
     }),
-        a.bhhsInitialZIndex = a.getZIndex(),
-        a.addListener('click', function () {
-          this.setOptions({
-            zIndex: 1000002,
-          });
-        })) : (a.addListener('mouseover', function () {
+    a.bhhsInitialZIndex = a.getZIndex(),
+    a.addListener('click', () => {
+      this.setOptions({
+        zIndex: 1000002,
+      });
+    })) : (a.addListener('mouseover', (e) => {
       if (Zd) {
         Jd();
         Zd = !1;
-        const a = this;
-        if (this.propertyPdpPath) {
+        const a = e;
+        if (e.propertyPdpPath) {
           let h = a.propertyImage;
           const m = a.propertyPrice;
           const q = a.municipality;
@@ -907,10 +1057,10 @@ function St() {
             propertyProviders: '-',
             propertyData: {},
           });
-          const listingKey = a.listingKey;
+          const { listingKey } = a;
           mn(F);
           F.open(c, a);
-          //@todo fix property info window with link to property detal page
+          // @todo fix property info window with link to property detal page
 
           yj(t, y).then((h) => {
             F.close();
@@ -953,11 +1103,9 @@ function St() {
         }
       }
     }),
-        a.addListener('mouseover', function () {
-          this.setOptions({
-            zIndex: 1000002,
-          });
-        }));
+    a.addListener('mouseover', (e) => {
+      e.domEvent.currentTarget.style.zIndex = 1000002;
+    }));
     a.setZIndex(200 + p);
     a.bhhsInitialZIndex = a.getZIndex();
     q.push(a);
@@ -965,15 +1113,15 @@ function St() {
   return q;
 }
 
-const aA = function (d, h, k, m, p) {
+function aA(d, h, k, m, p) {
   h = h || [];
   k = k || [];
   let q = [];
   Zt(d);
   if (h.length > 0) {
-    k = Qt(h, d),
-        Rt(k),
-        q = q.concat(k);
+    k = Qt(h, d);
+    Rt(k);
+    q = q.concat(k);
   } else if (k.length > 0) {
     const n = Yt({
       listingPins: k,
@@ -981,13 +1129,14 @@ const aA = function (d, h, k, m, p) {
     const B = [];
     Object.keys(n).forEach((h, k) => {
       h = n[h];
+      // eslint-disable-next-line no-unused-expressions
       h.length > 1 ? (h = au({
         groupOfListingPins: h,
         propertiesMap: d,
         isAgentPage: m,
         agentHomePath: p,
       }),
-          q = q.concat(h)) : B.push(h[0]);
+      q = q.concat(h)) : B.push(h[0]);
     });
     k = St(B, d, m, p);
     q = q.concat(k);
@@ -996,9 +1145,9 @@ const aA = function (d, h, k, m, p) {
     markers: q,
     markerClusters: [],
   };
-};
+}
 
-//@todo move to search class
+// @todo move to search class
 function createMapSearchGeoJsonParameter(coordinates) {
   return {
     type: 'FeatureCollection',
@@ -1029,64 +1178,73 @@ async function initMap() {
     disableDefaultUI: true,
   });
   window.mapInitialized = !0;
+  // eslint-disable-next-line func-names
   window.renderPropertyMap = function (d) {
-    const h = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : !0;
+    const h = arguments.length > 1 && undefined !== arguments[1] ? arguments[1] : !0;
+    // eslint-disable-next-line no-new
     new google.maps.InfoWindow({
       pixelOffset: new google.maps.Size(0, 0),
     });
     Jd();
     sn();
+    // eslint-disable-next-line no-unused-expressions
     d && (Promise.resolve(1).then(() => {
-      //update map center
+      // update map center
+      // eslint-disable-next-line no-unused-expressions,no-mixed-operators
       !h && window.boundsInitialized || cu(rd);
     }));
-        // document.querySelector('.map-style-hybrid').unbind();
-        document.querySelector('.map-style-hybrid').addEventListener('click', function () {
-          document.querySelector('.map-style-hybrid').classList.toggle('activated');
-          if (document.querySelector('.map-style-hybrid').classList.contains('activated')) {
-            map.setMapTypeId(google.maps.MapTypeId.HYBRID);
-            map.setOptions({
-              styles: [],
-            }) }
-          else {
-            map.setOptions({styles: Nr});
-            map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-          }});
-        // k('.map-zoom-in').unbind(),
-        // k('.map-zoom-out').unbind(),
-      document.querySelector('.map-zoom-in').addEventListener('click', () =>{
-          hi = !0;
-          map.setZoom(map.getZoom() + 1);
+    // document.querySelector('.map-style-hybrid').unbind();
+    document.querySelector('.map-style-hybrid').addEventListener('click', () => {
+      document.querySelector('.map-style-hybrid').classList.toggle('activated');
+      if (document.querySelector('.map-style-hybrid').classList.contains('activated')) {
+        map.setMapTypeId(google.maps.MapTypeId.HYBRID);
+        map.setOptions({
+          styles: [],
         });
+      } else {
+        map.setOptions({ styles: Nr });
+        map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+      }
+    });
+    // k('.map-zoom-in').unbind(),
+    // k('.map-zoom-out').unbind(),
+    document.querySelector('.map-zoom-in').addEventListener('click', () => {
+      hi = !0;
+      map.setZoom(map.getZoom() + 1);
+    });
     document.querySelector('.map-zoom-out').addEventListener('click', () => {
-          hi = !0;
-          map.setZoom(map.getZoom() - 1);
-        });
+      hi = !0;
+      map.setZoom(map.getZoom() - 1);
+    });
   };
 
-  window.updatePropertyMap = function (d, h, k, m) {
+  window.updatePropertyMap = (d, h, k, m) => {
+    // eslint-disable-next-line no-unused-expressions
     window.mapInitialized ? (clearTimeout(window.queuedRenderPropertyMap),
-        bu(),
-        window.renderPropertyMap(d, h),
-        h = aA(map, d && d.listingClusters && d.listingClusters.length > 0 ? d.listingClusters : [], d && d.listingPins && d.listingPins.length > 0 ? d.listingPins : [], k, m),
-        k = h.markerClusters,
-        bA(h.markers, rd, Hh, map),
-        lg = [].concat(k)) : window.queuedRenderPropertyMap = setTimeout(() => {
+    bu(),
+    window.renderPropertyMap(d, h),
+    h = aA(map, d && d.listingClusters && d.listingClusters.length > 0
+      ? d.listingClusters : [], d && d.listingPins && d.listingPins.length > 0
+      ? d.listingPins
+      : [], k, m),
+    k = h.markerClusters,
+    bA(h.markers, rd, Hh, map),
+    lg = [].concat(k)) : window.queuedRenderPropertyMap = setTimeout(() => {
       window.updatePropertyMap(d);
     }, 200);
   };
   window.addEventListener('search-by-cluster-click', (e) => {
-    //set Search params
+    // set Search params
     setFilterValue('NorthEastLatitude', e.detail.northEastLatitude);
-    setFilterValue( 'NorthEastLongitude', e.detail.northEastLongitude);
+    setFilterValue('NorthEastLongitude', e.detail.northEastLongitude);
     setFilterValue('SouthWestLatitude', e.detail.southWestLatitude);
     setFilterValue('SouthWestLongitude', e.detail.southWestLongitude);
     setFilterValue('SearchType', 'Map');
     let m = [];
-    let p = [e.detail.southWestLongitude, e.detail.northEastLatitude];
-    let q = [e.detail.northEastLongitude, e.detail.northEastLatitude];
-    let x = [e.detail.northEastLongitude, e.detail.southWestLatitude];
-    let T = [e.detail.southWestLongitude, e.detail.southWestLatitude];
+    const p = [e.detail.southWestLongitude, e.detail.northEastLatitude];
+    const q = [e.detail.northEastLongitude, e.detail.northEastLatitude];
+    const x = [e.detail.northEastLongitude, e.detail.southWestLatitude];
+    const T = [e.detail.southWestLongitude, e.detail.southWestLatitude];
     m.push(p);
     m.push(T);
     m.push(x);
@@ -1103,29 +1261,7 @@ async function initMap() {
     // d.makeRequest();
   });
 
-  window.addEventListener('properties-map-bounds-changed', (event) => {
-    //set Search params
-    d.mapCoordinates.northEastLatitude = event.coords.northEastLatitude;
-    d.mapCoordinates.northEastLongitude = event.coords.northEastLongitude;
-    d.mapCoordinates.southWestLatitude = event.coords.southWestLatitude;
-    d.mapCoordinates.southWestLongitude = event.coords.southWestLongitude;
-    d.mapBounds = event.coords;
-    d.searchByMapBounds && !d.searchByMapDraw && event.updateProperties && d.makeRequest();
-    if (d.searchByMapDraw) {
-      const k = d.mapBounds.southWestLatitude;
-      const n = d.mapBounds.southWestLongitude;
-      const m = d.mapBounds.northEastLatitude;
-      const p = d.mapBounds.northEastLongitude;
-      d.properties = d.properties.map((d) => {
-        const h = d.Longitude;
-        const q = d.Latitude;
-        d.hide = q < k || q > m || h < n || h > p ? !0 : !1;
-        return d;
-      });
-    }
-  });
-  //add custom events handling 
-  
+  // add custom events handling
 }
 
 function loadJS(src) {
