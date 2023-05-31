@@ -7,8 +7,8 @@
 .agent-search .selection-tags .selection-tags-list {
   display: flex;
   flex-wrap: wrap;
-  cursor: default;
   padding: 5px;
+  cursor: default;
 }
 
 .agent-search .selection-tags .selection-tags-list .selection-tags-item {

@@ -1,11 +1,10 @@
-import { buildSearchBar, buildSelectionTags } from '../../agent-search/agent-search.js';
+import { buildSearchBar } from '../../agent-search/builders/form.js';
+import { buildSelectionTags } from '../../agent-search/builders/tags.js';
 
-const formSubmitted = (e) => {
+const formSubmitted = (urlParams) => {
   // Don't want to submit the keyword input.
-  const form = e.currentTarget.closest('form');
-  const data = new FormData(form);
-  data.delete('keyword');
-  window.location.href = `${form.action}?${new URLSearchParams(data).toString()}`;
+  const form = document.querySelector('form.agents.agent-search');
+  window.location.href = `${form.action}?${urlParams.toString()}`;
 };
 
 function buildForm() {
@@ -13,9 +12,8 @@ function buildForm() {
   form.classList.add('agents', 'agent-search');
   form.setAttribute('action', '/search/agent');
 
-  form.append(buildSearchBar());
+  form.append(buildSearchBar(formSubmitted));
   form.append(buildSelectionTags());
-  form.querySelector('button[type="submit"]').addEventListener('click', formSubmitted);
   return form;
 }
 
