@@ -126,17 +126,16 @@ export default async function decorate(block) {
     </div>
   `;
   block.append(div);
-  
   window.addEventListener('scroll', () => {
     const contactCard = block.querySelector('.cmp-contact-card.afix');
     const header = document.querySelector('header');
-    var height = header.offsetHeight;
-    //var mainSection = document.querySelector('.section');
-    var currentSection = document.querySelector('.property-details-description-wrapper');
-    while(currentSection = currentSection.previousElementSibling) {
+    let height = header.offsetHeight;
+    let currentSection = document.querySelector('.property-details-description-wrapper');
+    while (currentSection.previousElementSibling !== null) {
+      currentSection = currentSection.previousElementSibling;
       height += currentSection.offsetHeight;
     }
-    if(window.pageYOffset > height) {
+    if (window.pageYOffset > height) {
       contactCard.classList.add('stickable');
     } else {
       contactCard.classList.remove('stickable');

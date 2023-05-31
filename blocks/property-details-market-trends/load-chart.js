@@ -18,6 +18,10 @@ Chart.Tooltip.positioners.custom = function (items) {
 
 const labelFunc = (tooltipItem) => `$${tooltipItem.formattedValue}`;
 
+function tickFunc(value, index, ticks) {
+  return ticks.length - 1 === index || (index === 0 ? this.getLabelForValue(value).toUpperCase() : '');
+}
+
 const miniConfig = {
   type: 'line',
   options: {
@@ -110,7 +114,7 @@ const detailConfig = {
           autoSkip: false,
           maxRotation: 0,
           padding: 10,
-          callback: (value, index, ticks) => ticks.length - 1 === index || (index === 0 ? this.getLabelForValue(value).toUpperCase() : ''),
+          callback: tickFunc,
         },
         grid: {
           drawTicks: false,
@@ -226,7 +230,7 @@ if (window.marketTrends) {
 
   const table = document.getElementById('cmp-property-details-market-trends__table');
   const detail = document.getElementById('cmp-property-details-market-trends__detail');
-  const detailLineChart = initChart(document.getElementById('detail-line-chart'), months, new Array(months.length).fill(100), 'up', false, false);
+  let detailLineChart = initChart(document.getElementById('detail-line-chart'), months, new Array(months.length).fill(100), 'up', false, false);
 
   div.querySelectorAll('.cmp-property-details-market-trends__table .chart').forEach((chart) => {
     chart.addEventListener('click', (e) => {
@@ -253,15 +257,19 @@ if (window.marketTrends) {
         case 'avgprice':
           chartData = avgPrice;
           detailLineChart.options.plugins.tooltip.callbacks.label = labelFunc;
+          detailLineChart.options.scales.y.beginAtZero = false;
           break;
         case 'avgdays':
           chartData = avgDays;
+          detailLineChart.options.scales.y.beginAtZero = false;
           break;
         case 'homesforsale':
           chartData = homesSale;
+          detailLineChart.options.scales.y.beginAtZero = false;
           break;
         case 'homessold':
           chartData = homesSold;
+          detailLineChart.options.scales.y.beginAtZero = false;
           break;
         default:
           break;

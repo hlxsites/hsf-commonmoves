@@ -18,7 +18,7 @@ async function getSchools(latitude, longitude) {
 }
 
 function createSchoolTableHTML(type, schools) {
-  var schoolHTML = `
+  let schoolHTML = `
     <div class="property-container">
   `;
   schools.forEach((school) => {
@@ -63,19 +63,19 @@ function createSchoolTableHTML(type, schools) {
 }
 
 export default async function decorate(block) {
-  if(window.property) {
+  if (window.property) {
     const schools = await getSchools(window.property.Latitude, window.property.Longitude);
-    if(schools) {
-      var publicSchools = schools.schoolResults.public || [];
-      var privateSchools = schools.schoolResults.private || [];
-      var schoolsHTML = `
+    if (schools) {
+      const publicSchools = schools.schoolResults.public || [];
+      const privateSchools = schools.schoolResults.private || [];
+      let schoolsHTML = `
         <div class="schools-wrap">
           <div id="school-table" class="schools-table">
       `;
-      if (publicSchools.length != 0) {
+      if (publicSchools.length !== 0) {
         schoolsHTML += createSchoolTableHTML('Public', publicSchools);
       }
-      if (privateSchools.length != 0) {
+      if (privateSchools.length !== 0) {
         schoolsHTML += createSchoolTableHTML('Private', privateSchools);
       }
       schoolsHTML += `
@@ -168,34 +168,34 @@ export default async function decorate(block) {
           </div>
         </div>
       `;
-      var schoolAccordionItem = createAccordionItem('schools', 'Your Schools', schoolsHTML, schools.citation);
+      const schoolAccordionItem = createAccordionItem('schools', 'Your Schools', schoolsHTML, schools.citation);
       block.append(schoolAccordionItem);
       decorateIcons(block);
       loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
       loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
-      
-      
-      var schoolNames = block.querySelectorAll('.school-name');
+      const schoolNames = block.querySelectorAll('.school-name');
       schoolNames.forEach((school) => {
         school.addEventListener('click', (e) => {
-          var schoolTable = document.getElementById('school-table');
+          const schoolTable = document.getElementById('school-table');
           schoolTable.classList.toggle('d-none');
-          var schoolDetail = document.getElementById('school-detail');
+          const schoolDetail = document.getElementById('school-detail');
           schoolDetail.classList.toggle('d-none');
-          var target = e.currentTarget;
-          var schoolName = target.textContent.trim();
-          var school = [...privateSchools, ...publicSchools].find((s) => s.schoolName == schoolName);
-          schoolDetail.querySelector('.cmp-local-school-detail__title').textContent = school.schoolName;
-          schoolDetail.querySelector('.cmp-local-school-detail__grade-range').textContent = `${school.lowGrade}-${school.highGrade}`;
-          schoolDetail.querySelector('.cmp-local-school-detail__num-students').textContent = school.schoolYearlyDetails[0].numberOfStudents;
-          schoolDetail.querySelector('.cmp-local-school-detail__school-type').textContent = school.schoolLevel;
-          schoolDetail.querySelector('.cmp-local-school-detail__district-name').textContent = school.district.districtName ? school.district.districtName : "n/a";
-          schoolDetail.querySelector('.adr').textContent = school.addressFull;
-          schoolDetail.querySelector('.tel').textContent = school.phone
-          schoolDetail.querySelector('.url > a').textContent = school.url;
-          schoolDetail.querySelector('.url > a').setAttribute('href', school.url);
-          schoolDetail.querySelector('.cmp-local-school-detail__stat .val').textContent = school.schoolYearlyDetails[0].pupilTeacherRatio;
-          schoolDetail.querySelector('.cmp-local-school-detail__ratings a').setAttribute('href', school.urlCompare);
+          const target = e.currentTarget;
+          const schoolName = target.textContent.trim();
+          const schoolBody = [
+            ...privateSchools,
+            ...publicSchools].find((s) => s.schoolName === schoolName);
+          schoolDetail.querySelector('.cmp-local-school-detail__title').textContent = schoolBody.schoolName;
+          schoolDetail.querySelector('.cmp-local-school-detail__grade-range').textContent = `${schoolBody.lowGrade}-${schoolBody.highGrade}`;
+          schoolDetail.querySelector('.cmp-local-school-detail__num-students').textContent = schoolBody.schoolYearlyDetails[0].numberOfStudents;
+          schoolDetail.querySelector('.cmp-local-school-detail__school-type').textContent = schoolBody.schoolLevel;
+          schoolDetail.querySelector('.cmp-local-school-detail__district-name').textContent = schoolBody.district.districtName ? schoolBody.district.districtName : 'n/a';
+          schoolDetail.querySelector('.adr').textContent = schoolBody.addressFull;
+          schoolDetail.querySelector('.tel').textContent = schoolBody.phone;
+          schoolDetail.querySelector('.url > a').textContent = schoolBody.url;
+          schoolDetail.querySelector('.url > a').setAttribute('href', schoolBody.url);
+          schoolDetail.querySelector('.cmp-local-school-detail__stat .val').textContent = schoolBody.schoolYearlyDetails[0].pupilTeacherRatio;
+          schoolDetail.querySelector('.cmp-local-school-detail__ratings a').setAttribute('href', schoolBody.urlCompare);
         });
       });
     }

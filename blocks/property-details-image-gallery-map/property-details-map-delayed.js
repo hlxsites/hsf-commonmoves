@@ -1,20 +1,31 @@
-var lat = 42.56574249267578;
-var lon = -70.76632690429688;
-// Initialize and add the map
+import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
 
-let map;
+/*
+var scriptGoogle = document.createElement("script");
+scriptGoogle.innerHTML = '(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({ key: "AIzaSyCYC2eu629We-fwHNImmusqP8_8TzSIBDg" });'
+document.head.append(scriptGoogle);
 
-async function initMap() {
-  // The location of Uluru
-  const position = { lat: lat, lng: lon };
-  // Request needed libraries.
-  //@ts-ignore
-  const { Map, StyledMapType } = await google.maps.importLibrary("maps");
-  const { Marker } = await google.maps.importLibrary("marker");
-  const { Point } = await google.maps.importLibrary("core");
-  // The map, centered at Uluru
+const scriptMap = document.createElement('script');
+scriptMap.type = 'text/partytown';
+scriptMap.innerHTML = `
+  const script = document.createElement('script');
+  script.type = 'module';
+  script.src = '${window.hlx.codeBasePath}/blocks/property-details/map.js';
+  document.head.append(script);
+`;
+document.body.append(scriptMap);
+*/
+
+
+function initPropertyMap() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const latitude = urlParams.get('latitude') || window.property.Latitude;
+  const longitude = urlParams.get('longitude') || window.property.Longitude;
+  const position = { lat: Number(latitude), lng: Number(longitude) };
+  //const { Map, StyledMapType } = await google.maps.importLibrary("maps");
+  //const { Marker } = await google.maps.importLibrary("marker");
   
-  var styledMap = new StyledMapType(
+  const styledMap = new google.maps.StyledMapType(
     [
       { featureType: "administrative", elementType: "labels.text.fill", stylers: [{ color: "#444444" }]}, 
       { featureType: "administrative.locality", elementType: "labels.text.fill",stylers: [{ saturation: "-42" }, { lightness: "-53" }, { gamma: "2.98" }]}, 
@@ -48,8 +59,8 @@ async function initMap() {
     name: "Styled Map"
     }
   );
-  
-  map = new Map(document.getElementById("cmp-map-canvas"), {
+  const mapElem = document.getElementById("cmp-map-canvas");
+  let map = new google.maps.Map(mapElem, {
     zoom: 15,
     center: position,
     mapTypeControlOptions: {
@@ -66,8 +77,7 @@ async function initMap() {
   });
   map.mapTypes.set("styled_map", styledMap);
   map.setMapTypeId("styled_map");
-  // The marker, positioned at Uluru
-  const marker = new Marker({
+  const marker = new google.maps.Marker({
     map: map,
     position: position,
     title: "Uluru",
@@ -77,4 +87,28 @@ async function initMap() {
   });
 }
 
-initMap();
+function loadJS(src) {
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.async = true;
+  script.defer = true;
+  script.innerHTML = `
+    (()=>{
+      let script = document.createElement('script');
+      script.src = '${src}';
+      document.head.append(script);
+    })();
+  `;
+  document.head.append(script);
+}
+
+async function initGoogleMapsAPI() {
+  const placeholders = await fetchPlaceholders();
+  const CALLBACK_FN = 'initPropertyMap';
+  window[CALLBACK_FN] = initPropertyMap;
+  const { mapsApiKey } = placeholders;
+  const src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=maps&callback=${CALLBACK_FN}`;
+  loadJS(src);
+}
+
+initGoogleMapsAPI();

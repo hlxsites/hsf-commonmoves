@@ -59,7 +59,7 @@ async function getSocioEconomicData(latitude, longitude) {
 export default async function decorate(block) {
   let property = {};
   let socioEconomicData = {};
-  const propId = '348257210';
+  const propId = '348430616';
   getPropIdFromPath();
   const propertyData = await getPropertyByPropId(propId);
   if (propertyData) {

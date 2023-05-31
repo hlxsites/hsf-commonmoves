@@ -3,12 +3,12 @@ import { loadCSS } from '../../scripts/lib-franklin.js';
 import { computeMortgage, addCommaSeparators, nFormatter } from './compute-mortgage.js';
 
 export default async function decorate(block) {
-  if(window.property) {
+  if (window.property) {
     const listPriceUSD = window.property.ListPriceUS;
     const listPrice = listPriceUSD.replace(/[^\d.]+/g, '');
     const maxPurchasePrice = 2 * listPrice + 1000;
     const initialMortgageCalc = computeMortgage(listPrice);
-    var calcHTML = `
+    const calcHTML = `
       <div class="property-container">
         <div class="property-row mortage-calc-body">
           <div class="col col-12 col-md-10 offset-md-1 col-xl-4">
@@ -110,17 +110,14 @@ export default async function decorate(block) {
         </div>
       </div>
     `;
-    var accordionItem = createAccordionItem('mortgage-calculator', 'Mortgage Calculator', calcHTML);
+    const accordionItem = createAccordionItem('mortgage-calculator', 'Mortgage Calculator', calcHTML);
     block.append(accordionItem);
-    
     loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
     loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
-
-    var scriptSrc = document.createElement('script');
+    const scriptSrc = document.createElement('script');
     scriptSrc.type = 'module';
     scriptSrc.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
     document.head.append(scriptSrc);
-    
     const script = document.createElement('script');
     script.type = 'text/partytown';
     script.innerHTML = `
@@ -131,5 +128,4 @@ export default async function decorate(block) {
     `;
     document.body.append(script);
   }
-  
 }
