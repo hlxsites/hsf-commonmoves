@@ -22,8 +22,6 @@ function initPropertyMap() {
   const latitude = urlParams.get('latitude') || window.property.Latitude;
   const longitude = urlParams.get('longitude') || window.property.Longitude;
   const position = { lat: Number(latitude), lng: Number(longitude) };
-  //const { Map, StyledMapType } = await google.maps.importLibrary("maps");
-  //const { Marker } = await google.maps.importLibrary("marker");
   
   const styledMap = new google.maps.StyledMapType(
     [

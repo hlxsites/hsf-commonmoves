@@ -20,24 +20,20 @@ function initGoogleMapsAPI() {
 function next(item, carousel) {
   if (item.nextElementSibling) {
     return item.nextElementSibling;
-  } else {
-    return carousel.firstElementChild;
   }
+  return carousel.firstElementChild;
 }
 
 function prev(item, carousel) {
   if (item.previousElementSibling) {
     return item.previousElementSibling;
-  } else {
-    return carousel.lastElementChild;
   }
+  return carousel.lastElementChild;
 }
 
 function getIndex(block) {
-  var items = [...block.querySelectorAll('.carousel-seat')];
-  var refIndex = items.findIndex(
-    (elem) => elem.classList.contains('is-ref')
-  );
+  const items = [...block.querySelectorAll('.carousel-seat')];
+  let refIndex = items.findIndex((elem) => elem.classList.contains('is-ref'));
   refIndex += 2;
   if (refIndex > items.length) {
     refIndex -= items.length;
@@ -46,34 +42,34 @@ function getIndex(block) {
 }
 
 function togglePhotosMap() {
-  var parent = this.parentElement;
+  const parent = this.parentElement;
   [...parent.children].forEach((button) => {
     button.classList.toggle('disabled');
   });
-  var photoGallery = document.querySelector('.image-gallery-container');
-  var photoRow = document.querySelector('.pagination-row');
-  var mapElem = document.querySelector('#cmp-map-canvas');
-  if(this.classList.contains('photos')) {
+  const photoGallery = document.querySelector('.image-gallery-container');
+  const photoRow = document.querySelector('.pagination-row');
+  const mapElem = document.querySelector('#cmp-map-canvas');
+  if (this.classList.contains('photos')) {
     mapElem.classList.add('invisible');
     photoGallery.classList.remove('invisible');
     photoRow.classList.remove('invisible');
-  } else if(this.classList.contains('map')) {
-    var height = photoGallery.querySelector('img').offsetHeight;
+  } else if (this.classList.contains('map')) {
+    const height = photoGallery.querySelector('img').offsetHeight;
     photoGallery.classList.add('invisible');
     photoRow.classList.add('invisible');
     mapElem.classList.remove('invisible');
-    mapElem.style.height = height + 'px';
+    mapElem.style.height = `${height}px`;
   }
 }
 
 export default async function decorate(block) {
-  if(window.property) {
-    var media = window.property.Media || [];
-    var photos = media.map((item) => item['mediaUrl']);
+  if (window.property) {
+    const media = window.property.Media || [];
+    const photos = media.map((item) => item.mediaUrl);
     photos.unshift(photos.pop());
     const imageGalleryDiv = document.createElement('div');
     imageGalleryDiv.className = 'property-image-gallery';
-    var carouselInnerHTML = `
+    let carouselInnerHTML = `
       <div class="image-gallery-content">
         <div class="image-gallery-container">
           <ul class="carousel is-set">`;
@@ -132,7 +128,7 @@ export default async function decorate(block) {
     block.append(imageGalleryDiv);
     const carousel = block.querySelector('.carousel');
     const items = block.querySelectorAll('.carousel-seat');
-    var ref = carousel.lastElementChild;
+    const ref = carousel.lastElementChild;
     ref.classList.add('is-ref');
     const indexElem = block.querySelector('.num-index');
     indexElem.textContent = getIndex(block);
@@ -141,36 +137,32 @@ export default async function decorate(block) {
     nextButton.addEventListener('click', () => {
       const item = block.querySelector('.is-ref');
       item.classList.remove('is-ref');
-      var nextItem = next(item, carousel);
+      let nextItem = next(item, carousel);
       carousel.classList.remove('is-reversing');
       nextItem.classList.add('is-ref');
       nextItem.style.order = 1;
-      for(var i = 2; i <= items.length; i++) {
+      for (let i = 2; i <= items.length; i += 1) {
         nextItem = next(nextItem, carousel);
         nextItem.style.order = i;
       }
       indexElem.textContent = getIndex(block);
       carousel.classList.remove('is-set');
-      return setTimeout(function() {
-        return carousel.classList.add('is-set');
-      }, 50);
+      return setTimeout(() => carousel.classList.add('is-set'), 50);
     });
     prevButton.addEventListener('click', () => {
       const item = block.querySelector('.is-ref');
       item.classList.remove('is-ref');
-      var nextItem = prev(item, carousel);
+      let nextItem = prev(item, carousel);
       carousel.classList.add('is-reversing');
       nextItem.classList.add('is-ref');
       nextItem.style.order = 1;
-      for(var i = 2; i <= items.length; i++) {
+      for (let i = 2; i <= items.length; i += 1) {
         nextItem = next(nextItem, carousel);
         nextItem.style.order = i;
       }
       indexElem.textContent = getIndex(block);
       carousel.classList.remove('is-set');
-      return setTimeout(function() {
-        return carousel.classList.add('is-set');
-      }, 50);
+      return setTimeout(() => carousel.classList.add('is-set'), 50);
     });
     const buttonToggle = block.querySelectorAll('.button-toggle');
     buttonToggle.forEach((button) => {

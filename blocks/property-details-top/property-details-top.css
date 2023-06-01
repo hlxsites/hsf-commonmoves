@@ -2,7 +2,7 @@
   padding: 15px 0 20px;
 }
 
-.property-container .property-container {
+.cmp-property-details-main-attributes-summary__content > .property-container {
   width: 100% !important;
   padding-left: 0;
   padding-right: 0;
@@ -196,7 +196,7 @@
     display: inline;
   }
 
-  details-main-attributes-summary .open-house__datetime .time {
+  .cmp-property-details-main-attributes-summary .open-house__datetime .time {
     margin-right: 8px;
   }
 

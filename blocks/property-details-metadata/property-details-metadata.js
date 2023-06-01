@@ -3,6 +3,8 @@ export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.co
 const API_URL = `https://${DOMAIN}/bin/bhhs`;
 
 const keys = [
+  'BedroomsTotal',
+  'BathroomsTotal',
   'ListPriceUS',
   'StreetName',
   'City',
@@ -12,6 +14,7 @@ const keys = [
   'Longitude',
   'LotSizeAcres',
   'LotSizeSquareFeet',
+  'LivingArea',
   'LivingAreaUnits',
   'Media',
   'SmallMedia',
@@ -63,9 +66,12 @@ export default async function decorate(block) {
   getPropIdFromPath();
   const propertyData = await getPropertyByPropId(propId);
   if (propertyData) {
+    console.log(propertyData);
     property = pick(propertyData, ...keys);
-    if (property.Latitude && property.Longitude) {
-      const socioEconData = await getSocioEconomicData(property.Latitude, property.Longitude);
+    const latitude = urlParams.get('latitude') || property.Latitude;
+    const longitude = urlParams.get('longitude') || property.Longitude;
+    if (latitude && longitude) {
+      const socioEconData = await getSocioEconomicData(latitude, longitude);
       if (socioEconData) {
         socioEconomicData = socioEconData;
       }

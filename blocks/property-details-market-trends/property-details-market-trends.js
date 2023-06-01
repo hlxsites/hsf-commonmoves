@@ -26,17 +26,37 @@ function createInnerHTML(data, property) {
     delete obj.startDate;
     delete obj.endDate;
     Object.keys(obj).forEach((item) => {
-      obj[item] = currencyToNum(obj[item])
+      if (obj[item])  {
+          obj[item] = currencyToNum(obj[item]);
+      }
     });
   };
   transformTrend(last);
   transformTrend(current);
   let percentDiff = Object.keys(current).reduce((a, k) => {
-    var percent = (current[k] - last[k]) / last[k] * 100;
-    a[k] = Number(percent.toFixed(0));
+    if(current[k] == null || last[k] == null) {
+        a[k] = null;
+    } else {
+        var percent = (current[k] - last[k]) / last[k] * 100;
+        a[k] = Number(percent.toFixed(0));
+    }
     return a;
-}, {});
-
+  }, {});
+  let total = data.total;
+  Object.keys(total).forEach((item) => {
+    if (!total[item])  {
+        total[item] = '–';
+        percentDiff[item] = null;
+    }
+  });
+  if (total.homesForSale === '–') {
+    total.homesForSale = 0;
+  }
+  total.avgPriceArea = total.avgPriceArea.replace(" USD", "");
+  total.medianSalesPrice = total.medianSalesPrice.replace(" USD", "");
+  total.medianListPrice = total.medianListPrice.replace(" USD", "");
+  console.log(total);
+  const propertyAvgPriceArea = (currencyToNum(property.ListPriceUS) / currencyToNum(property.LivingArea)).toFixed(0);
   return `
     <div class="cmp-property-details-market-trends__wrap pb-content">
       <div id="cmp-property-details-market-trends__table" class="cmp-property-details-market-trends__table">
@@ -64,10 +84,10 @@ function createInnerHTML(data, property) {
                       <div class="data">
                         <div class="label">Median List Price</div>
                         <div class="value">
-                          ${data.total.medianListPrice.replace(" USD", "")}
+                          ${total.medianListPrice}
                         </div>
-                      </div>
-                      <div class="chart" id="medianlistprice">
+                      </div> 
+                      <div class="chart${percentDiff.medianListPrice == null ? ' d-none' : ''}" id="medianlistprice">
                         <div class="mini-chart">
                           <canvas id="medianlistprice-line-chart" width="300" height="190" class="chartjs-render-monitor"></canvas>
                         </div>
@@ -91,10 +111,10 @@ function createInnerHTML(data, property) {
                       <div class="data">
                         <div class="label">Median Sold Price</div>
                         <div class="value">
-                          ${data.total.medianSalesPrice.replace(" USD", "")}
+                          ${total.medianSalesPrice}
                         </div>
                       </div>
-                      <div class="chart" id="mediansoldprice">
+                      <div class="chart${percentDiff.medianSalesPrice == null ? ' d-none' : ''}" id="mediansoldprice">
                         <div class="mini-chart">
                           <canvas id="mediansoldprice-line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
                         </div>
@@ -110,7 +130,7 @@ function createInnerHTML(data, property) {
                       <div class="data">
                         <div class="label">price/Sqft</div>
                         <div class="value">
-                          <div class="currency">$1,500</div>
+                          <div class="currency">$${propertyAvgPriceArea}</div>
                         </div>
                       </div>
                     </td>
@@ -118,10 +138,10 @@ function createInnerHTML(data, property) {
                       <div class="data">
                         <div class="label">Avg Price/Sqft</div>
                         <div class="value">
-                          ${data.total.avgPriceArea.replace(" USD", "")}
+                          ${total.avgPriceArea}
                         </div>
                       </div>
-                      <div class="chart" id="avgprice">
+                      <div class="chart${percentDiff.avgPriceArea == null ? ' d-none' : ''}" id="avgprice">
                         <div class="mini-chart">
                           <canvas id="avgprice-line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
                         </div>
@@ -136,15 +156,15 @@ function createInnerHTML(data, property) {
                     <td>
                       <div class="data">
                         <div class="label">Days on Market</div>
-                        <div class="value">51</div>
+                        <div class="value">${data.listingInfo.daysOnMarket}</div>
                       </div>
                     </td>
                     <td>
                       <div class="data">
                         <div class="label">Avg Days on Market</div>
-                        <div class="value">${data.total.avgDaysOnMarket}</div>
+                        <div class="value">${total.avgDaysOnMarket}</div>
                       </div>
-                      <div class="chart" id="avgdays">
+                      <div class="chart${percentDiff.avgDaysOnMarket == null ? ' d-none' : ''}" id="avgdays">
                         <div class="mini-chart">
                           <canvas id="avgdays-line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
                         </div>
@@ -169,9 +189,9 @@ function createInnerHTML(data, property) {
                     <td>
                       <div class="data">
                         <div class="label" style="display:none">Homes for Sale</div>
-                        <div class="value">${data.total.homesForSale}</div>
+                        <div class="value">${total.homesForSale}</div>
                       </div>
-                      <div class="chart" id="homesforsale">
+                      <div class="chart${percentDiff.homesForSale == null ? ' d-none' : ''}" id="homesforsale">
                         <div class="mini-chart">
                           <canvas id="homesforsale-line-chart" width="300" height="190" style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>
                         </div>
@@ -184,9 +204,9 @@ function createInnerHTML(data, property) {
                     <td>
                       <div class="data">
                         <div class="label" style="display:none">Homes Sold</div>
-                        <div class="value">${data.total.homesSold}</div>
+                        <div class="value">${total.homesSold}</div>
                       </div>
-                      <div class="chart" id="homessold">
+                      <div class="chart${percentDiff.homesSold == null ? ' d-none' : ''}" id="homessold">
                         <div class="mini-chart">
                           <canvas id="homessold-line-chart" width="300" height="190"
                             style="display: block; height: 95px; width: 150px;" class="chartjs-render-monitor"></canvas>

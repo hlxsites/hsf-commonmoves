@@ -19,7 +19,7 @@ Chart.Tooltip.positioners.custom = function (items) {
 const labelFunc = (tooltipItem) => `$${tooltipItem.formattedValue}`;
 
 function tickFunc(value, index, ticks) {
-  return ticks.length - 1 === index || (index === 0 ? this.getLabelForValue(value).toUpperCase() : '');
+  return (ticks.length - 1 === index || index === 0) ? this.getLabelForValue(value).toUpperCase() : '';
 }
 
 const miniConfig = {
@@ -140,48 +140,52 @@ const detailConfig = {
 };
 
 function initChart(ctx, xValues, yValues, dir, beginAtZero = false, mini = true) {
-  const backgroundColor = dir === 'down' ? 'rgba(131, 43, 57, 0.1)' : 'rgba(43, 131, 79, 0.1)';
-  const borderColor = dir === 'down' ? '#832B39' : '#2B834F';
-  const radius = new Array(xValues.length).fill(0);
-  if (mini) {
-    radius.splice(-1, 1, 3);
-    miniConfig.options.scales.y.beginAtZero = beginAtZero;
-    miniConfig.data = {
+  if(ctx) {
+    const backgroundColor = dir === 'down' ? 'rgba(131, 43, 57, 0.1)' : 'rgba(43, 131, 79, 0.1)';
+    const borderColor = dir === 'down' ? '#832B39' : '#2B834F';
+    const radius = new Array(xValues.length).fill(0);
+    if (mini) {
+      radius.splice(-1, 1, 3);
+      miniConfig.options.scales.y.beginAtZero = beginAtZero;
+      miniConfig.data = {
+        labels: xValues,
+        datasets: [{
+          data: yValues,
+          fill: true,
+          backgroundColor,
+          borderColor,
+          borderWidth: 2,
+          pointRadius: radius,
+          pointBackgroundColor: '#fff',
+          tension: 0.4,
+        }],
+      };
+      // eslint-disable-next-line no-undef
+      return new Chart(ctx, miniConfig);
+    }
+    radius.splice(-1, 1, 4);
+    detailConfig.options.scales.y.beginAtZero = beginAtZero;
+    detailConfig.data = {
       labels: xValues,
       datasets: [{
         data: yValues,
         fill: true,
         backgroundColor,
         borderColor,
-        borderWidth: 2,
+        borderWidth: 3,
         pointRadius: radius,
         pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverBackgroundColor: '#3A3A3A',
+        pointHoverRadius: 5,
         tension: 0.4,
       }],
     };
     // eslint-disable-next-line no-undef
-    return new Chart(ctx, miniConfig);
+    return new Chart(ctx, detailConfig);
+  } else {
+    return null;
   }
-  radius.splice(-1, 1, 4);
-  detailConfig.options.scales.y.beginAtZero = beginAtZero;
-  detailConfig.data = {
-    labels: xValues,
-    datasets: [{
-      data: yValues,
-      fill: true,
-      backgroundColor,
-      borderColor,
-      borderWidth: 3,
-      pointRadius: radius,
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
-      pointHoverBackgroundColor: '#3A3A3A',
-      pointHoverRadius: 5,
-      tension: 0.4,
-    }],
-  };
-  // eslint-disable-next-line no-undef
-  return new Chart(ctx, detailConfig);
 }
 
 function getChange(values) {
@@ -194,12 +198,12 @@ if (window.marketTrends) {
   const trends = data.detailTrends;
   const months = trends.map((item) => new Date(item.startDate).toLocaleString('default', { month: 'short' }));
   months.splice(-1, 1, 'Current');
-  const medianListPrice = trends.map((item) => Number(item.medianListPrice.replace(/[^0-9.-]+/g, '')));
-  const medianSoldPrice = trends.map((item) => Number(item.medianSalesPrice.replace(/[^0-9.-]+/g, '')));
-  const avgPrice = trends.map((item) => Number(item.avgPriceArea.replace(/[^0-9.-]+/g, '')));
-  const homesSold = trends.map((item) => item.homesSold);
-  const homesSale = trends.map((item) => item.homesForSale);
-  const avgDays = trends.map((item) => item.avgDaysOnMarket);
+  const medianListPrice = trends.map((item) => item.medianListPrice ? Number(item.medianListPrice.replace(/[^0-9.-]+/g, '')) : 0);
+  const medianSoldPrice = trends.map((item) => item.medianSalesPrice ? Number(item.medianSalesPrice.replace(/[^0-9.-]+/g, '')) : 0);
+  const avgPrice = trends.map((item) => item.avgPriceArea ? Number(item.avgPriceArea.replace(/[^0-9.-]+/g, '')) : 0);
+  const homesSold = trends.map((item) => item.homesSold ? item.homesSold : 0);
+  const homesSale = trends.map((item) => item.homesForSale ? item.homesForSale : 0);
+  const avgDays = trends.map((item) => item.avgDaysOnMarket ? item.avgDaysOnMarket : 0);
 
   let medianListPriceLineChart = null;
   let medianSoldPriceLineChart = null;

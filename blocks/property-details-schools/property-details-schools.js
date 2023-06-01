@@ -63,8 +63,10 @@ function createSchoolTableHTML(type, schools) {
 }
 
 export default async function decorate(block) {
-  if (window.property) {
-    const schools = await getSchools(window.property.Latitude, window.property.Longitude);
+  const latitude = urlParams.get('latitude') || window.property.Latitude;
+  const longitude = urlParams.get('longitude') || window.property.Longitude;
+  if (latitude && longitude) {
+    const schools = await getSchools(latitude, longitude);
     if (schools) {
       const publicSchools = schools.schoolResults.public || [];
       const privateSchools = schools.schoolResults.private || [];

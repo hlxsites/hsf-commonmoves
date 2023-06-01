@@ -12,9 +12,8 @@ function tConv24(time24) {
 
 function createPropertyDetailsTop(listing) {
   const div = document.createElement('div');
-  div.className = 'property-container';
+  div.className = 'cmp-property-details-main-attributes-summary';
   let infoHTML = `
-    <div class="cmp-property-details-main-attributes-summary">
       <div class="cmp-property-details-main-attributes-summary__content">
         <div class="property-container">
           <div class="property-row">
@@ -38,7 +37,7 @@ function createPropertyDetailsTop(listing) {
                 </div>
                 <div class="col col-10">
                   <div class="specs mt-2 mt-lg-3">
-                    ${listing.SpecsLabel} ${listing.LivingAreaUnits} / ${listing.LotSizeSquareFeet} Sq. Ft., ${listing.LotSizeAcres} acres lot size / Single Family
+                    ${listing.BedroomsTotal} bed / ${listing.BathroomsTotal} bath / ${listing.LivingArea} ${listing.LivingAreaUnits} / ${listing.LotSizeSquareFeet} Sq. Ft., ${listing.LotSizeAcres} acres lot size / Single Family
                   </div>
                 </div>
   `;
@@ -113,7 +112,6 @@ function createPropertyDetailsTop(listing) {
           </div>
         </div>
       </div>
-    </div>
   `;
   div.innerHTML = infoHTML;
   return div;
