@@ -978,7 +978,6 @@ async function initMap() {
       // eslint-disable-next-line no-unused-expressions,no-mixed-operators
       !h && window.boundsInitialized || cu(rd);
     }));
-    // document.querySelector('.map-style-hybrid').unbind();
     document.querySelector('.map-style-hybrid').addEventListener('click', () => {
       document.querySelector('.map-style-hybrid').classList.toggle('activated');
       if (document.querySelector('.map-style-hybrid').classList.contains('activated')) {
@@ -1065,7 +1064,6 @@ async function initGoogleMapsAPI() {
   const CALLBACK_FN = 'initMap';
   window[CALLBACK_FN] = initMap;
   const { mapsApiKey } = placeholders;
-  // const mapsApiKey = 'AIzaSyCypwVwVpDMRUGiacGCQmPuvmVmmyOYRJs';
   const clusterSrc = 'https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js';
   loadJS(clusterSrc);
   const src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=places&callback=${CALLBACK_FN}`;

@@ -7,6 +7,9 @@ import {
 } from '../../scripts/search/results.js';
 import { getValueFromStorage, searchProperty, setFilterValue } from '../property-search-bar/filter-processor.js';
 import renderMap from '../property-result-map/map.js';
+import {
+  showModal,
+} from '../../scripts/util.js';
 
 const event = new Event('onFilterChange');
 function buildLoader() {
@@ -89,73 +92,78 @@ export default async function decorate(block) {
   await renderMap(block);
   window.dispatchEvent(event);
   window.addEventListener('onResultUpdated', () => {
-    const propertyResultContent = document.createElement('div');
-    propertyResultContent.classList.add('property-result-content');
-    const listings = getPropertyDetails();
-    const div = document.createElement('div');
-    div.classList.add('property-list-cards');
-    const currentPage = parseInt(getValueFromStorage('Page'), 10);
-    const totalPages = Math.ceil(getPropertiesCount() / 32);
-    const disclaimerHtml = getDisclaimer() === '' ? '' : getDisclaimer().Text;
+    if (getPropertiesCount() > 0) {
+      const propertyResultContent = document.createElement('div');
+      propertyResultContent.classList.add('property-result-content');
+      const listings = getPropertyDetails();
+      const div = document.createElement('div');
+      div.classList.add('property-list-cards');
+      const currentPage = parseInt(getValueFromStorage('Page'), 10);
+      const totalPages = Math.ceil(getPropertiesCount() / 32);
+      const disclaimerHtml = getDisclaimer() === '' ? '' : getDisclaimer().Text;
 
-    const disclaimerBlock = buildDisclaimer(disclaimerHtml);
-    let nextPage;
-    listings.forEach((listing) => {
-      div.append(createCard(listing));
-    });
-    propertyResultContent.append(div);
-    /** add pagination */
-    propertyResultContent.append(buildPagination(currentPage, totalPages));
-    /** add property search results button */
-    propertyResultContent.append(buildPropertySearchResultsButton());
-    /** build disclaimer */
-    propertyResultContent.append(buildDisclaimer(disclaimerHtml));
-    block.prepend(propertyResultContent);
+      const disclaimerBlock = buildDisclaimer(disclaimerHtml);
+      let nextPage;
+      listings.forEach((listing) => {
+        div.append(createCard(listing));
+      });
+      propertyResultContent.append(div);
+      /** add pagination */
+      propertyResultContent.append(buildPagination(currentPage, totalPages));
+      /** add property search results button */
+      propertyResultContent.append(buildPropertySearchResultsButton());
+      /** build disclaimer */
+      propertyResultContent.append(buildDisclaimer(disclaimerHtml));
+      block.prepend(propertyResultContent);
 
-    // update map
-    window.updatePropertyMap(getAllData(), false);
+      // update map
+      window.updatePropertyMap(getAllData(), false);
 
-    document.querySelector('.property-result-map-container').append(disclaimerBlock);
-    /** update page on select change */
-    block.querySelector('[name="Page"] .select-selected').addEventListener('click', () => {
-      block.querySelector('[name="Page"] ul').classList.toggle('hide');
-    });
-    block.querySelector('[name="Page"] ul').addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      nextPage = e.target.closest('li').getAttribute('data-value');
-      setFilterValue('Page', nextPage);
-      block.querySelector('[name="Page"] ul').classList.toggle('hide');
-      searchProperty();
-    });
-    /** update page on arrow click */
-    block.querySelector('.pagination-arrows .arrow.prev').addEventListener('click', (e) => {
-      if (!e.target.closest('.arrow').classList.contains('disabled')) {
+      document.querySelector('.property-result-map-container').append(disclaimerBlock);
+      /** update page on select change */
+      block.querySelector('[name="Page"] .select-selected').addEventListener('click', () => {
+        block.querySelector('[name="Page"] ul').classList.toggle('hide');
+      });
+      block.querySelector('[name="Page"] ul').addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        setFilterValue('Page', currentPage - 1);
+        nextPage = e.target.closest('li').getAttribute('data-value');
+        setFilterValue('Page', nextPage);
+        block.querySelector('[name="Page"] ul').classList.toggle('hide');
         searchProperty();
-      }
-    });
-    block.querySelector('.pagination-arrows .arrow.next').addEventListener('click', (e) => {
-      if (!e.target.closest('.arrow').classList.contains('disabled')) {
+      });
+      /** update page on arrow click */
+      block.querySelector('.pagination-arrows .arrow.prev').addEventListener('click', (e) => {
+        if (!e.target.closest('.arrow').classList.contains('disabled')) {
+          e.preventDefault();
+          e.stopPropagation();
+          setFilterValue('Page', currentPage - 1);
+          searchProperty();
+        }
+      });
+      block.querySelector('.pagination-arrows .arrow.next').addEventListener('click', (e) => {
+        if (!e.target.closest('.arrow').classList.contains('disabled')) {
+          e.preventDefault();
+          e.stopPropagation();
+          setFilterValue('Page', currentPage + 1);
+          searchProperty();
+        }
+      });
+      block.querySelector('.property-search-results-buttons .map').addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        setFilterValue('Page', currentPage + 1);
-        searchProperty();
-      }
-    });
-    block.querySelector('.property-search-results-buttons .map').addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const span = e.target.closest('span');
-      if (span.innerText === 'LIST VIEW') {
-        span.innerText = 'map view';
-        document.querySelector('body').classList.remove('search-map-active');
-      } else {
-        span.innerText = 'list view';
-        document.querySelector('body').classList.add('search-map-active');
-      }
-    });
+        const span = e.target.closest('span');
+        if (span.innerText === 'LIST VIEW') {
+          span.innerText = 'map view';
+          document.querySelector('body').classList.remove('search-map-active');
+        } else {
+          span.innerText = 'list view';
+          document.querySelector('body').classList.add('search-map-active');
+        }
+      });
+    } else {
+      showModal('Your search returned 0 results.\n'
+          + 'Please modify your search and try again.');
+    }
   });
 }
