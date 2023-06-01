@@ -1,5 +1,5 @@
 /* global google */
-/* eslint-disable no-param-reassign, no-unused-vars,  no-shadow,  prefer-rest-params */
+/* eslint-disable no-param-reassign,  no-shadow,  prefer-rest-params */
 
 import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
 import { removeFilterValue, searchProperty, setFilterValue } from '../property-search-bar/filter-processor.js';
@@ -216,6 +216,7 @@ let Zd = !1;
 const Bj = [];
 const Cj = [];
 let map;
+// eslint-disable-next-line no-unused-vars
 let hi = !1;
 const Hh = [];
 const rn = !0;
@@ -240,11 +241,9 @@ const bA = (d, h, k, m) => {
   });
 };
 
-function ln(a, c) {
+function ln(a) {
   google.maps.event.addListener(a, 'domready', () => {
     uf.push(a);
-    // wj(c);
-    // xj();
   });
 }
 // load Listing info by id
@@ -355,16 +354,8 @@ function on(a) {
   });
   return c;
 }
-function Xt(a, c, f) {
-  a = on(a);
-  // Promise.all(a).then((a) => {
-  //   a = pn(a, c, f);
-  //   let d = document.getElementsByClassName('mobile-cluster-info-window');
-  //   d.length > 0 && (d = d[0],
-  //   d.innerHTML = '',
-  //   d.appendChild(a),
-  //   d.style.display = 'block');
-  // });
+function Xt(a) {
+  on(a);
 }
 
 function $t() {
@@ -472,12 +463,6 @@ function au(a) {
     // Wt(t, d, B, h, q)
     );
   })
-  // B.addListener('mouseover', (e) => {
-  //   e.eve.setOptions({
-  //     zIndex: 1000002,
-  //   });
-  // }
-  // )
   );
   return c;
 }
@@ -693,8 +678,6 @@ function Aj(a) {
     isCompanyListing: !1,
   } : f;
   a = a.propertyProviders;
-  // const cont = '';
-  // const u = document.getElementById('property-info-window').innerHTML;
   // @todo prepare content for info window
   const cont = new Template().render({
     image: c,
@@ -767,97 +750,7 @@ function St() {
     });
     // eslint-disable-next-line no-unused-expressions
     U.isXs() ? (a.addListener('click', () => {
-      const a = this;
       Jd();
-      if (this.propertyPdpPath) {
-        const c = a.propertyImage;
-        const h = a.propertyPrice;
-        const m = a.listAor;
-        const q = a.mlsLogo;
-        const p = a.mlsStatus;
-        const n = a.ClosedDate;
-        const x = a.ListingId;
-        const B = a.CourtesyOf;
-        const u = a.sellingOfficeName;
-        const v = a.ApplicationType;
-        const E = a.propertyAltCurrencyPrice;
-        const G = a.brImageUrl;
-        const X = a.propertyAddress;
-        const Jb = a.propertyProviders || a.originatingSystemName;
-        const Ab = a.propertyId;
-        const Ba = a.propertyCity;
-        const da = a.propertyZipcode;
-        const Id = a.propertyState;
-        const Ma = a.propertyPdpPath;
-        const Wh = a.propertyLuxury;
-        const aa = jn(a);
-        // c = Ut({
-        //   image: c,
-        //   price: h,
-        //   listAor: m,
-        //   mlsLogo: q,
-        //   mlsStatus: p,
-        //   ClosedDate: n,
-        //   ListingId: x,
-        //   CourtesyOf: B,
-        //   sellingOfficeName: u,
-        //   ApplicationType: v,
-        //   altCurrencyPrice: E,
-        //   brImageUrl: G,
-        //   address: X,
-        //   city: Ba,
-        //   stateOrProvince: Id,
-        //   postalCode: da,
-        //   propertyId: Ab,
-        //   pdpPath: Ma,
-        //   luxury: Wh,
-        //   isCompanyListing: a.propertyIsCompanyListing,
-        //   providers: Jb,
-        // });
-        // k('.mobile-info-window').addClass('is-active').html(c);
-        // wj(aa);
-        // xj();
-      } else {
-        // const aa = Vt();
-        // document.querySelector('.mobile-info-window').classList.add('is-active').html(aa),
-        yj(t, y).then((c) => {
-          let h = zj(c, f, d);
-          // const m = document.getElementById('property-info-window-mobile').innerHTML;
-          h = new Template().render({
-            image: h.propertyImage,
-            price: h.propertyPrice,
-            municipality: h.municipality,
-            addMlsFlag: h.addMlsFlag,
-            listAor: h.listAor,
-            mlsLogo: h.mlsLogo,
-            mlsStatus: h.mlsStatus,
-            ClosedDate: h.ClosedDate,
-            ListingId: h.ListingId,
-            CourtesyOf: h.CourtesyOf,
-            sellingOfficeName: h.sellingOfficeName,
-            ApplicationType: h.ApplicationType,
-            altCurrencyPrice: h.propertyAltCurrencyPrice,
-            brImageUrl: h.brImageUrl,
-            address: h.propertyAddress,
-            city: h.propertyData.city,
-            providers: h.propertyProviders,
-            stateOrProvince: h.propertyData.stateOrProvince,
-            postalCode: h.propertyData.zipCode,
-            propertyId: h.propertyData.id,
-            linkUrl: h.propertyLinkUrl,
-            luxury: h.propertyData.luxury,
-            isCompanyListing: h.propertyData.isCompanyListing,
-            luxuryLabel: 'luxury collection',
-          });
-          // k('.mobile-info-window').addClass('is-active').html(h);
-          // wj(c);
-          // xj();
-          // kn({
-          //   property: c,
-          //   marker: a,
-          // });
-        });
-      }
     }),
     a.bhhsInitialZIndex = a.getZIndex(),
     // eslint-disable-next-line func-names
@@ -948,7 +841,6 @@ function St() {
             propertyProviders: '-',
             propertyData: {},
           });
-          const { listingKey } = a;
           mn(F);
           F.open(c, a);
           // @todo fix property info window with link to property detal page
@@ -1021,7 +913,7 @@ function aA(d, h, k, m, p) {
       listingPins: k,
     });
     const B = [];
-    Object.keys(n).forEach((h, k) => {
+    Object.keys(n).forEach((h) => {
       h = n[h];
       // eslint-disable-next-line no-unused-expressions
       h.length > 1 ? (h = au({
@@ -1148,10 +1040,6 @@ async function initMap() {
     removeFilterValue('MapSearchType');
     setFilterValue('SearchParameter', m);
     searchProperty();
-    // d.mapBounds = e.coords;
-    // d.searchByMapBounds = !1;
-    // d.query.SearchType = 'Map';
-    // d.makeRequest();
   });
 
   // add custom events handling
