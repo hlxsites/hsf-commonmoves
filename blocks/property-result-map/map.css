@@ -86,7 +86,7 @@
 
 .property-search-template.search-map-active .info-window .arrow {
     width: 0;
-    border-top: 20px solid var(--white);
+    border-top: 20px solid transparent;
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
     cursor: pointer;
