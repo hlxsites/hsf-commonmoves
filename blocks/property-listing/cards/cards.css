@@ -66,6 +66,20 @@
   object-fit: cover;
 }
 
+.property-list-cards .is-sold .listing-image-container .property-image {
+  filter: brightness(0.25);
+}
+
+.property-list-cards .is-sold .listing-image-container .image-position-top::after {
+  color: var(--white);
+  font-size: var(--body-font-size-xl);
+  position:absolute;
+  margin: 55px 0;
+  width: 100%;
+  text-align: center;
+  content: "SOLD";
+}
+
 .property-list-cards .listing-image-container .property-image img {
   height: 100%;
   width: 100%;

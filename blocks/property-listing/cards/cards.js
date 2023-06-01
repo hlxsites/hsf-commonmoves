@@ -46,6 +46,12 @@ export function createCard(listing) {
     item.classList.add('is-luxury');
   }
 
+  if (listing.ApplicationType === 'Sold' || listing.mlsStatus === 'Closed') {
+    item.classList.add('is-sold');
+    listing.mlsStatus = 'Closed';
+  }
+
+  const status = listing.mlsStatus ? `<span class='property-label new-listing'>${listing.mlsStatus}</span>` : '';
   item.innerHTML = `
     <a href="${detailsPath}" rel="noopener" aria-label="${listing.StreetName}">
       <div class="listing-image-container"> 
@@ -68,7 +74,7 @@ export function createCard(listing) {
         <div class="image-position-bottom"> 
           <div class="property-labels">
             <span class="property-label featured-listing">Featured Listing</span>
-            <span class="property-label new-listing">${listing.mlsStatus}</span>
+            ${status}
           </div>
           <div class="property-price">
               ${listing.ListPriceUS}
