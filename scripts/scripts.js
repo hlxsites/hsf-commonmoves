@@ -13,6 +13,7 @@ import {
   loadCSS,
   getMetadata,
 } from './lib-franklin.js';
+import { currencyToNum } from '../blocks/property-details-mortgage-calculator/compute-mortgage.js';
 
 export const LIVEBY_API = 'https://api.liveby.com/v1/';
 
@@ -104,6 +105,14 @@ function buildLiveByMetadata(main) {
   }
 }
 
+function buildPropertyDetailsMetadata(main) {
+  if (getMetadata('template') === 'property-details-template') {
+    const section = document.createElement('div');
+    section.append(buildBlock('property-details-metadata', { elems: [] }));
+    main.prepend(section);
+  }
+}
+
 /**
  * Build Floating image block
  * @param {Element} main The container element
@@ -164,6 +173,53 @@ function buildPropertySearchBlock(main) {
   }
 }
 
+function buildPropertyDetailNearbyBlock(main) {
+  if (getMetadata('template') === 'property-details-template') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const latitude = urlParams.get('latitude') || window.property.Latitude;
+    const longitude = urlParams.get('longitude') || window.property.Longitude;
+    const price = currencyToNum(window.property.ListPriceUS);
+    const minForSalePrice = (price * 0.5).toFixed(0).toString();
+    const maxForSalePrice = (price * 1.5).toFixed(0).toString();
+    const minSoldPrice = (price * 0.8).toFixed(0).toString();
+    const maxSoldPrice = (price * 1.2).toFixed(0).toString();
+    const forSaleHomes = document.createElement('div');
+    forSaleHomes.setAttribute('id', 'nearby-homes');
+    forSaleHomes.append(buildBlock(
+      'property-listing',
+      [
+        ['Title', 'Nearby Homes For Sale'],
+        ['Listing Type', 'For Sale'],
+        ['MinPrice', minForSalePrice],
+        ['MaxPrice', maxForSalePrice],
+        ['PageSize', '8'],
+        ['Sort By', 'Price'],
+        ['Sort Direction', 'ASCENDING'],
+        ['Lat', latitude],
+        ['Lon', longitude],
+        ['Distance', '2'],
+        ['Search Type', 'Radius'],
+      ],
+    ));
+    const recentlySoldHomes = document.createElement('div');
+    recentlySoldHomes.append(buildBlock('property-listing', [
+      ['Title', 'Recent Sales Nearby'],
+      ['Listing Type', 'Recently Sold'],
+      ['MinPrice', minSoldPrice],
+      ['MaxPrice', maxSoldPrice],
+      ['PageSize', '4'],
+      ['Sort By', 'Price'],
+      ['Sort Direction', 'ASCENDING'],
+      ['Lat', latitude],
+      ['Lon', longitude],
+      ['Distance', '2'],
+      ['Search Type', 'Radius'],
+    ]));
+    loadCSS(`${window.hlx.codeBasePath}/styles/property-details-listings.css`);
+    main.append(forSaleHomes);
+    main.append(recentlySoldHomes);
+  }
+}
 /**
  * Add luxury collection css for page with template
  */
@@ -180,6 +236,7 @@ function buildLuxuryTheme() {
 function buildAutoBlocks(main) {
   try {
     buildHeroBlock(main);
+    buildPropertyDetailsMetadata(main);
     buildLiveByMetadata(main);
     buildFloatingImages(main);
     buildSeparator(main);
@@ -187,6 +244,7 @@ function buildAutoBlocks(main) {
     buildBlogNav(main);
     buildPropertySearchBlock(main);
     buildLuxuryTheme();
+    buildPropertyDetailNearbyBlock(main);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);

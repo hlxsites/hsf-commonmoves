@@ -20,6 +20,8 @@
   --body-color: #3a3a3a;
   --platinum: #e7e7e7;
   --light-grey: #f6f6f6;
+  --light-silver: #d8d8d8;
+  --ultra-light-grey: #e2e2e2;
   --grey: #aaa;
   --dark-grey: #797676;
   --black: #000;
@@ -34,6 +36,8 @@
   --general: rgb(229 222 227);
   --buyer-advice: rgb(228 232 234);
   --grey-blog-category: #aaa;
+  --downward-trend: #832b39;
+  --upward-trend: #2b834f;
 
   /* Needed? */
   --secondary-grey: #EFEFEF;
