@@ -93,6 +93,7 @@ export default async function decorate(block) {
   window.dispatchEvent(event);
   window.addEventListener('onResultUpdated', () => {
     if (getPropertiesCount() > 0) {
+      document.querySelector('.property-result-map-container').style.display = 'block';
       const propertyResultContent = document.createElement('div');
       propertyResultContent.classList.add('property-result-content');
       const listings = getPropertyDetails();
@@ -162,6 +163,7 @@ export default async function decorate(block) {
         }
       });
     } else {
+      document.querySelector('.property-result-map-container').style.display = 'none';
       showModal('Your search returned 0 results.\n'
           + 'Please modify your search and try again.');
     }
