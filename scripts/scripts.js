@@ -14,6 +14,7 @@ import {
   getMetadata,
 } from './lib-franklin.js';
 import { currencyToNum } from '../blocks/property-details-mortgage-calculator/compute-mortgage.js';
+
 export const LIVEBY_API = 'https://api.liveby.com/v1/';
 
 export const BREAKPOINTS = {
