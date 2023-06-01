@@ -1064,8 +1064,8 @@ async function initGoogleMapsAPI() {
   const placeholders = await fetchPlaceholders();
   const CALLBACK_FN = 'initMap';
   window[CALLBACK_FN] = initMap;
-  // const { mapsApiKey } = placeholders;
-  const mapsApiKey = 'AIzaSyCypwVwVpDMRUGiacGCQmPuvmVmmyOYRJs';
+  const { mapsApiKey } = placeholders;
+  // const mapsApiKey = 'AIzaSyCypwVwVpDMRUGiacGCQmPuvmVmmyOYRJs';
   const clusterSrc = 'https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js';
   loadJS(clusterSrc);
   const src = `https://maps.googleapis.com/maps/api/js?key=${mapsApiKey}&libraries=places&callback=${CALLBACK_FN}`;
