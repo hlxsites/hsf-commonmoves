@@ -1,6 +1,6 @@
 import { createAccordionItem } from '../../scripts/accordion.js';
 import { decorateIcons, loadCSS } from '../../scripts/lib-franklin.js';
-import { currencyToNum } from './../property-details-mortgage-calculator/compute-mortgage.js';
+import { currencyToNum } from '../property-details-mortgage-calculator/compute-mortgage.js';
 
 const urlParams = new URLSearchParams(window.location.search);
 export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.com' : 'www.bhhs.com';
@@ -20,43 +20,43 @@ async function getMarketTrends(propId, latitude, longitude, zipcode) {
 
 function createInnerHTML(data, property) {
   const len = data.detailTrends.length;
-  var last = {...data.detailTrends[len - 2]};
-  var current = {...data.detailTrends[len - 1]};
-  var transformTrend = (obj) => {
+  const last = { ...data.detailTrends[len - 2] };
+  const current = { ...data.detailTrends[len - 1] };
+  const transformTrend = (obj) => {
     delete obj.startDate;
     delete obj.endDate;
     Object.keys(obj).forEach((item) => {
-      if (obj[item])  {
-          obj[item] = currencyToNum(obj[item]);
+      if (obj[item]) {
+        obj[item] = currencyToNum(obj[item]);
       }
     });
   };
   transformTrend(last);
   transformTrend(current);
-  let percentDiff = Object.keys(current).reduce((a, k) => {
-    if(current[k] == null || last[k] == null) {
-        a[k] = null;
+  const percentDiff = Object.keys(current).reduce((a, k) => {
+    if (current[k] == null || last[k] == null) {
+      a[k] = null;
     } else {
-        var percent = (current[k] - last[k]) / last[k] * 100;
-        a[k] = Number(percent.toFixed(0));
+      const percent = ((current[k] - last[k]) / last[k]) * 100;
+      a[k] = Number(percent.toFixed(0));
     }
     return a;
   }, {});
-  let total = data.total;
+  const { total } = data;
   Object.keys(total).forEach((item) => {
-    if (!total[item])  {
-        total[item] = '–';
-        percentDiff[item] = null;
+    if (!total[item]) {
+      total[item] = '–';
+      percentDiff[item] = null;
     }
   });
   if (total.homesForSale === '–') {
     total.homesForSale = 0;
   }
-  total.avgPriceArea = total.avgPriceArea.replace(" USD", "");
-  total.medianSalesPrice = total.medianSalesPrice.replace(" USD", "");
-  total.medianListPrice = total.medianListPrice.replace(" USD", "");
-  console.log(total);
-  const propertyAvgPriceArea = (currencyToNum(property.ListPriceUS) / currencyToNum(property.LivingArea)).toFixed(0);
+  total.avgPriceArea = total.avgPriceArea.replace(' USD', '');
+  total.medianSalesPrice = total.medianSalesPrice.replace(' USD', '');
+  total.medianListPrice = total.medianListPrice.replace(' USD', '');
+  const propertyAvgPriceArea = (currencyToNum(property.ListPriceUS)
+    / currencyToNum(property.LivingArea)).toFixed(0);
   return `
     <div class="cmp-property-details-market-trends__wrap pb-content">
       <div id="cmp-property-details-market-trends__table" class="cmp-property-details-market-trends__table">
@@ -251,20 +251,24 @@ function createInnerHTML(data, property) {
 }
 
 export default async function decorate(block) {
-  if(window.property) {
-    const property = window.property;
-    const data = await getMarketTrends(property.PropId, property.Latitude, property.Longitude, property.PostalCode);
+  if (window.property) {
+    const { property } = window;
+    const data = await getMarketTrends(
+      property.PropId,
+      property.Latitude,
+      property.Longitude,
+      property.PostalCode,
+    );
     if (data) {
       window.marketTrends = data;
-      var innerHTML = createInnerHTML(data, property);
-      var accordionItem = createAccordionItem('market-trends', 'Market Trends', innerHTML);
+      const innerHTML = createInnerHTML(data, property);
+      const accordionItem = createAccordionItem('market-trends', 'Market Trends', innerHTML);
       block.append(accordionItem);
       decorateIcons(block);
-      loadCSS(`${window.hlx.codeBasePath}/styles/accordion.css`);
-      loadCSS(`${window.hlx.codeBasePath}/styles/property-details.css`);
-      loadCSS(`${window.hlx.codeBasePath}/styles/property-details-table.css`);
-
-      var scriptSrc = document.createElement('script');
+      loadCSS(`${window.hlx.codeBasePath}/styles/templates/accordion/accordion.css`);
+      loadCSS(`${window.hlx.codeBasePath}/styles/templates/property-details/property-details.css`);
+      loadCSS(`${window.hlx.codeBasePath}/styles/templates/property-details/property-details-table.css`);
+      const scriptSrc = document.createElement('script');
       scriptSrc.type = 'module';
       scriptSrc.src = 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.umd.js';
       document.head.append(scriptSrc);

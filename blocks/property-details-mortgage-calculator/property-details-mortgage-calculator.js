@@ -21,7 +21,7 @@ export default async function decorate(block) {
             </div>
             <figure class="cmp-mtg-calc__chart">
               <div class="property-row align-items-center">
-                <div id="doughnutChartContainer">
+                <div id="doughnut-chart-container">
                   <canvas id="doughnut-chart"></canvas>
                 </div>
                 <div class="col col-5 col-lg-7">

@@ -153,7 +153,7 @@ export default async function decorate(block) {
                       <h6>School Ratings</h6>
                       <p>For school ratings and more information, please visit SchoolDigger.</p> 
                       <a target="_blank" class="btn btn-secondary--compact">
-                        <span class="cmp-cta__btn-text">See Ratings</span>
+                        <span class="cmp-cta-btn-text">See Ratings</span>
                       </a>
                     </div>
                     <div class="close" onclick="getElementById('school-table').classList.toggle('d-none');getElementById('school-detail').classList.toggle('d-none');">

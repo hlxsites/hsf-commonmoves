@@ -140,7 +140,7 @@ const detailConfig = {
 };
 
 function initChart(ctx, xValues, yValues, dir, beginAtZero = false, mini = true) {
-  if(ctx) {
+  if (ctx) {
     const backgroundColor = dir === 'down' ? 'rgba(131, 43, 57, 0.1)' : 'rgba(43, 131, 79, 0.1)';
     const borderColor = dir === 'down' ? '#832B39' : '#2B834F';
     const radius = new Array(xValues.length).fill(0);
@@ -183,9 +183,8 @@ function initChart(ctx, xValues, yValues, dir, beginAtZero = false, mini = true)
     };
     // eslint-disable-next-line no-undef
     return new Chart(ctx, detailConfig);
-  } else {
-    return null;
   }
+  return null;
 }
 
 function getChange(values) {
@@ -198,12 +197,12 @@ if (window.marketTrends) {
   const trends = data.detailTrends;
   const months = trends.map((item) => new Date(item.startDate).toLocaleString('default', { month: 'short' }));
   months.splice(-1, 1, 'Current');
-  const medianListPrice = trends.map((item) => item.medianListPrice ? Number(item.medianListPrice.replace(/[^0-9.-]+/g, '')) : 0);
-  const medianSoldPrice = trends.map((item) => item.medianSalesPrice ? Number(item.medianSalesPrice.replace(/[^0-9.-]+/g, '')) : 0);
-  const avgPrice = trends.map((item) => item.avgPriceArea ? Number(item.avgPriceArea.replace(/[^0-9.-]+/g, '')) : 0);
-  const homesSold = trends.map((item) => item.homesSold ? item.homesSold : 0);
-  const homesSale = trends.map((item) => item.homesForSale ? item.homesForSale : 0);
-  const avgDays = trends.map((item) => item.avgDaysOnMarket ? item.avgDaysOnMarket : 0);
+  const medianListPrice = trends.map((item) => (item.medianListPrice ? Number(item.medianListPrice.replace(/[^0-9.-]+/g, '')) : 0));
+  const medianSoldPrice = trends.map((item) => (item.medianSalesPrice ? Number(item.medianSalesPrice.replace(/[^0-9.-]+/g, '')) : 0));
+  const avgPrice = trends.map((item) => (item.avgPriceArea ? Number(item.avgPriceArea.replace(/[^0-9.-]+/g, '')) : 0));
+  const homesSold = trends.map((item) => (item.homesSold ? item.homesSold : 0));
+  const homesSale = trends.map((item) => (item.homesForSale ? item.homesForSale : 0));
+  const avgDays = trends.map((item) => (item.avgDaysOnMarket ? item.avgDaysOnMarket : 0));
 
   let medianListPriceLineChart = null;
   let medianSoldPriceLineChart = null;
@@ -234,7 +233,7 @@ if (window.marketTrends) {
 
   const table = document.getElementById('cmp-property-details-market-trends__table');
   const detail = document.getElementById('cmp-property-details-market-trends__detail');
-  let detailLineChart = initChart(document.getElementById('detail-line-chart'), months, new Array(months.length).fill(100), 'up', false, false);
+  const detailLineChart = initChart(document.getElementById('detail-line-chart'), months, new Array(months.length).fill(100), 'up', false, false);
 
   div.querySelectorAll('.cmp-property-details-market-trends__table .chart').forEach((chart) => {
     chart.addEventListener('click', (e) => {

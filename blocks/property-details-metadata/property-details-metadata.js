@@ -66,7 +66,6 @@ export default async function decorate(block) {
   getPropIdFromPath();
   const propertyData = await getPropertyByPropId(propId);
   if (propertyData) {
-    console.log(propertyData);
     property = pick(propertyData, ...keys);
     const latitude = urlParams.get('latitude') || property.Latitude;
     const longitude = urlParams.get('longitude') || property.Longitude;

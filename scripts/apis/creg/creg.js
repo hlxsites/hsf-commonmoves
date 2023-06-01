@@ -81,7 +81,6 @@ export function abortSuggestions() {
 export function propertySearch(params) {
   return new Promise((resolve) => {
     const queryParams = params.asQueryString();
-    console.log(queryParams);
     const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/propertySearch.js`);
     const url = `${CREG_API_URL}/CregPropertySearchServlet?${queryParams}&_=${Date.now()}`;
     worker.onmessage = (e) => resolve(e.data);

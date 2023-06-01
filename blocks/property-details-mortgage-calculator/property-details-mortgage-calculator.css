@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern, no-descending-specificity, color-function-notation, alpha-value-notation, property-no-vendor-prefix */
+
 .cmp-mtg-calc__intro {
   font-size: 13px;
   letter-spacing: .41px;
@@ -110,14 +112,8 @@
 }
 
 /* Firefox */
-.has-input-formatted input[type=number] {
+.has-input-formatted input[type="number"] {
   -moz-appearance: textfield;
-}
-
-.cmp-mtg-calc__input__slider .input-standard.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-percent.has-input-formatted .input-formatted, .cmp-mtg-calc__input__slider .input-currency.has-input-formatted .input-formatted {
-  border-color: #aaa;
-  height: 31px;
-  line-height: 29px;
 }
 
 .input-percent .input-formatted {
@@ -163,7 +159,7 @@ input {
   overflow: visible;
 }
 
-.input-currency:after {
+.input-currency::after {
   content: attr(data-content);
   display: block;
   left: 10px;
@@ -176,7 +172,7 @@ input {
   padding-right: 21px !important;
 }
 
-.input-percent:after {
+.input-percent::after {
   content: attr(data-content);
   display: block;
   left: 100%;
@@ -185,7 +181,7 @@ input {
   transform: translate(-20px,-50%);
 }
 
-#doughnutChartContainer {
+#doughnut-chart-container {
   position: relative;
   min-height: 1px;
   padding-right: 15px;
@@ -285,7 +281,7 @@ input {
     line-height: 29px;
   }
 
-  #doughnutChartContainer {
+  #doughnut-chart-container {
     flex: 0 0 41.667%;
     width: 41.667%;
   }

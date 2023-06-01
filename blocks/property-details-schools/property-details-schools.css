@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern, no-descending-specificity */
+
 .schools-wrap {
   padding-bottom: 57px;
 }
@@ -130,7 +132,7 @@
   letter-spacing: .65px;
 }
 
-.btn:not(:disabled):not(.disabled) {
+.btn:not(.disabled) {
   cursor: pointer;
 }
 

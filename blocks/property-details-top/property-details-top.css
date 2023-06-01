@@ -1,3 +1,5 @@
+/* stylelint-disable selector-class-pattern */
+
 .cmp-property-details-main-attributes-summary {
   padding: 15px 0 20px;
 }
@@ -87,10 +89,6 @@
   letter-spacing: inherit;
   line-height: inherit;
   color: inherit;
-}
-
-.cmp-property-details-main-attributes-summary .open-house .col-auto {
-  padding-right: 0;
 }
 
 .cmp-property-details-main-attributes-summary .open-house .col-auto:nth-child(2) {

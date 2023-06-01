@@ -13,15 +13,15 @@ export default async function decorate(block) {
                 <div class="cmp-property-details-notes__content">
                   <div>
                     <section class="cmp-property-details-notes" id="propertyDetailsNotes">
-                      <div class="cmp-property-details-notes__note-count">Your Notes
+                      <div class="cmp-property-details-notes-note-count">Your Notes
                         <!---->
                       </div>
                       <div tabindex="0" class="cmp-property-details-notes">
                         <!---->
                         <!---->
-                        <li class="cmp-property-details-notes__result--zero">To add notes, please save this
+                        <li class="cmp-property-details-notes-result-zero">To add notes, please save this
                           property.</li>
-                        <ul class="cmp-property-details-notes__result--entry"></ul>
+                        <ul class="cmp-property-details-notes-result-entry"></ul>
                       </div>
                       <!---->
                       <!---->
@@ -39,7 +39,7 @@ export default async function decorate(block) {
                 </div>
               </div>
             </div>
-            <div class="property-details-description__text">
+            <div class="property-details-description-text">
               <p data-text-count class="collapsed">
                 How many properties check the boxes!This outstanding center entrance colonial is in the highly sought after Rosewood
                 Estates.A welcoming foyer offers double closets
@@ -53,7 +53,7 @@ export default async function decorate(block) {
                 shed.Generator hookup!Showings begin at OH Sat 12 - 2 
               </p>
               <a href="#" rel="noopener" data-more-btn=""
-                class="property-details-description__more d-lg-none hidden d-block">View More</a>
+                class="property-details-description-more d-lg-none hidden d-block">View More</a>
             </div>
           </div>
           <div class="col d-lg-block col-lg-4 pt-lg-0">
@@ -64,10 +64,10 @@ export default async function decorate(block) {
                   data-lead-source="[{&quot;source&quot;:&quot;https://ma312.bhhs.hsfaffiliates.com/profile/card#me&quot;,&quot;recipientId&quot;:&quot;https://ma312.bhhs.hsfaffiliates.com/profile/card#me&quot;,&quot;recipientName&quot;:&quot;Commonwealth Real Estate&quot;,&quot;recipientType&quot;:&quot;organization&quot;,&quot;coListing&quot;:true,&quot;agentType&quot;:&quot;Primary&quot;,&quot;price&quot;:1.4995E7,&quot;priceCurrency&quot;:&quot;USD&quot;,&quot;postalCode&quot;:&quot;01944&quot;,&quot;addressRegion&quot;:&quot;MA&quot;,&quot;addressCountry&quot;:&quot;US&quot;,&quot;streetAddress&quot;:&quot;38 Masconomo St, Manchester, MA 01944&quot;,&quot;addressLocality&quot;:&quot;Manchester&quot;,&quot;mlsId&quot;:&quot;73084552&quot;,&quot;mlsName&quot;:&quot;MLSPIN - MLS Property Information Network&quot;,&quot;mlsKey&quot;:&quot;73084552&quot;,&quot;listAor&quot;:&quot;mamlspin&quot;}]">
                   <div class="data-fields w-100 d-flex align-items-start">
                     <div class="data-fields-item mr-3">
-                      <h2 class="cmp-contact-card__title">
+                      <h2 class="cmp-contact-card-title">
                         Berkshire Hathaway HomeServices<br>Commonwealth Real Estate
                       </h2>
-                      <hr class="cmp-contact-card__separator">
+                      <hr class="cmp-contact-card-separator">
                       <div class="cmp-contact-card-data-contact">
                         <div class="cmp-contact-card-data-contact__mail">
                           <a class="text-lowercase cmp-contact-card-data-contact__mail-link"
@@ -79,11 +79,11 @@ export default async function decorate(block) {
                       </div>
                     </div>
                   </div>
-                  <div class="property-row cmp-contact-card__btn-group property-container m-sm-0 p-0 col col-lg-6">
+                  <div class="property-row cmp-contact-card-btn-group property-container m-sm-0 p-0 col col-lg-6">
                     <div class="col col-6 col-md-3 col-lg-12 pl-1 pr-1 pt-1 pb-1 order-lg-2 pl-lg-0 see-property">
                       <div class="cmp-cta">
                         <a class="cmp-cta-btn btn-see-property " href="#" rel="noopener">
-                          <span class="cmp-cta__btn-text">
+                          <span class="cmp-cta-btn-text">
                             See the property
                           </span>
                         </a>
@@ -92,7 +92,7 @@ export default async function decorate(block) {
                     <div class="col col-6 col-md-3 col-lg-12 pl-1 pr-1 pt-1 pb-1 order-lg-3 pl-lg-0 offer">
                       <div class="cmp-cta">
                         <a class="cmp-cta-btn btn-make-offer" href="#" rel="noopener">
-                          <span class="cmp-cta__btn-text">
+                          <span class="cmp-cta-btn-text">
                             make an offer
                           </span>
                         </a>
@@ -101,7 +101,7 @@ export default async function decorate(block) {
                     <div class="col col-lg-12 pl-2 pr-2 pt-3 pb-3 pt-lg-1 pb-lg-1 sticky order-lg-1 pl-lg-0  ">
                       <div class="cmp-cta">
                         <a class="cmp-cta-btn btn-contact display-none d-lg-block" href="#" rel="noopener">
-                          <span class="cmp-cta__btn-text">
+                          <span class="cmp-cta-btn-text">
                             contact
                           </span>
                         </a>
@@ -110,7 +110,7 @@ export default async function decorate(block) {
                       <!-- Mobile button -->
                       <div class="cmp-cta">
                         <a class="cmp-cta-btn btn-contact d-block d-lg-none " href="#" rel="noopener">
-                          <span class="cmp-cta__btn-text">
+                          <span class="cmp-cta-btn-text">
                             contact
                           </span>
                         </a>
