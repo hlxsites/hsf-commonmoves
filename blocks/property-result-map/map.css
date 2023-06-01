@@ -381,15 +381,11 @@
     }
 
     .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
-        position: fixed;
         width: 100%;
-        left: 50%;
+        left: 0;
         top: calc(var(--nav-height) + 50px + 120px);
-
-        /* todo need to figureout on how to do this dynamicly */
         height: 600px;
 
-        /* max-width: calc(1400px/2 - 30px); */
     }
 }
 
@@ -398,17 +394,6 @@
 }
 
 @media (max-width: 899px) {
-    .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
-        position: static;
-        width: 100%;
-
-        /* todo need to figureout on how to do this dynamicly */
-
-        /* height: 600px; */
-
-        /* max-width: calc(1400px/2 - 30px); */
-    }
-
     .property-search-template.search-map-active .property-result-listing.block .property-result-map-container .disclaimer {
         display: block;
     }
