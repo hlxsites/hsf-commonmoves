@@ -30,6 +30,8 @@ export default class Search {
 
   minPrice;
 
+  officeId;
+
   pageSize;
 
   propertyTypes;
@@ -49,6 +51,7 @@ export default class Search {
     this.#searchParams.applicationTypes = this.listingTypes;
     this.#searchParams.NewListing = this.isNew || this.#searchParams.NewListing;
     this.#searchParams.OpenHouses = this.isOpenHouse ? '7' : undefined;
+    this.#searchParams.franchisee = this.officeId;
 
     await renderCards(this.#searchParams, parent);
     // TODO: Enable the "Load More" for the Property Search page.

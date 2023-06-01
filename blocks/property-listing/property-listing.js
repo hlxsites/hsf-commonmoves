@@ -13,7 +13,7 @@ const buildListingTypes = (configEntry) => {
     return types;
   }
 
-  let [, configStr] = configEntry;
+  const [, configStr] = configEntry;
   if (configStr.match(/sale/i)) {
     types.push(ApplicationType.FOR_SALE);
   }
@@ -23,13 +23,8 @@ const buildListingTypes = (configEntry) => {
   if (configStr.match(/pending/gi)) {
     types.push(ApplicationType.PENDING);
   }
-  if (configStr.match(/recently\s+sold/gi)) {
-    types.push(ApplicationType.RECENTLY_SOLD);
-    // Prevent confusion with sold
-    configStr = configStr.replaceAll(/recently\s+sold/gi, '');
-  }
   if (configStr.match(/sold/gi)) {
-    types.push(ApplicationType.SOLD);
+    types.push(ApplicationType.RECENTLY_SOLD);
   }
   return types;
 };
@@ -90,8 +85,6 @@ export default async function decorate(block) {
     block.innerHTML = '';
   }
 
-  const officeId = getMetadata('office-id');
-
   let search;
 
   const entries = Object.entries(config);
@@ -137,9 +130,7 @@ export default async function decorate(block) {
   [, search.pageSize] = entries.find(([k]) => k.match(/page.*size/i)) || [];
   search.sortBy = config['sort-by'];
   search.sortDirection = config['sort-direction'];
-  if (officeId) {
-    search.franchisee = officeId;
-  }
+  search.officeId = getMetadata('office-id');
 
   await search.render(block, false);
 }
