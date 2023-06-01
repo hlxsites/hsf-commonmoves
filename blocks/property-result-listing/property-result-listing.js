@@ -12,6 +12,7 @@ import {
 } from '../../scripts/util.js';
 
 const event = new Event('onFilterChange');
+const ITEMS_PER_PAGE = 32;
 function buildLoader() {
   const wrapper = document.createElement('div');
   wrapper.classList.add('search-results-loader');
@@ -21,6 +22,17 @@ function buildLoader() {
     </div>
   `;
   return wrapper;
+}
+function updateStyles(count, div, items = 4) {
+  if (count < ITEMS_PER_PAGE) {
+    // adjust block height
+    const lines = Math.ceil(count / items);
+    const height = lines * 400 + 20 * (lines - 1);
+    div.style.height = `${height}px`;
+    div.style.gridTemplate = `repeat(${lines}, 400px) / repeat(${items}, 1fr)`;
+  } else {
+    div.style = '';
+  }
 }
 
 function buildPropertySearchResultsButton() {
@@ -100,7 +112,7 @@ export default async function decorate(block) {
       const div = document.createElement('div');
       div.classList.add('property-list-cards');
       const currentPage = parseInt(getValueFromStorage('Page'), 10);
-      const totalPages = Math.ceil(getPropertiesCount() / 32);
+      const totalPages = Math.ceil(getPropertiesCount() / ITEMS_PER_PAGE);
       const disclaimerHtml = getDisclaimer() === '' ? '' : getDisclaimer().Text;
 
       const disclaimerBlock = buildDisclaimer(disclaimerHtml);
@@ -108,6 +120,7 @@ export default async function decorate(block) {
       listings.forEach((listing) => {
         div.append(createCard(listing));
       });
+      updateStyles(listings.length, div, 2);
       propertyResultContent.append(div);
       /** add pagination */
       propertyResultContent.append(buildPagination(currentPage, totalPages));
@@ -150,6 +163,18 @@ export default async function decorate(block) {
           searchProperty();
         }
       });
+      document.querySelector('.map-toggle > a').addEventListener('click', (e) => {
+        const span = e.target.closest('span');
+        if (span.innerText === 'GRID VIEW') {
+          span.innerText = 'map view';
+          document.querySelector('body').classList.remove('search-map-active');
+          updateStyles(listings.length, div, 4);
+        } else {
+          span.innerText = 'grid view';
+          document.querySelector('body').classList.add('search-map-active');
+          updateStyles(listings.length, div, 2);
+        }
+      });
       block.querySelector('.property-search-results-buttons .map').addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -157,6 +182,7 @@ export default async function decorate(block) {
         if (span.innerText === 'LIST VIEW') {
           span.innerText = 'map view';
           document.querySelector('body').classList.remove('search-map-active');
+          updateStyles(listings.length, div, 1);
         } else {
           span.innerText = 'list view';
           document.querySelector('body').classList.add('search-map-active');

@@ -351,15 +351,6 @@ text-align: center;
   }
 }
 
-@media (max-width: 900px) {
-  /* .property-result-listing.block .search-results-loader-image img { */
-
-  /*  padding: 5px 5px 5px 5px; */
-
-  /*  width: 30px; */
-
-  /* } */
-}
 
 @media (min-width: 1200px) {
   .property-result-listing.block .property-info-wrapper {
