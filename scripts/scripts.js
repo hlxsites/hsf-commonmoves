@@ -13,7 +13,7 @@ import {
   loadCSS,
   getMetadata,
 } from './lib-franklin.js';
-
+import { currencyToNum } from '../blocks/property-details-mortgage-calculator/compute-mortgage.js';
 export const LIVEBY_API = 'https://api.liveby.com/v1/';
 
 export const BREAKPOINTS = {
@@ -174,6 +174,14 @@ function buildPropertySearchBlock(main) {
 
 function buildPropertyDetailNearbyBlock(main) {
   if (getMetadata('template') === 'property-details-template') {
+    const urlParams = new URLSearchParams(window.location.search);
+    const latitude = urlParams.get('latitude') || window.property.Latitude;
+    const longitude = urlParams.get('longitude') || window.property.Longitude;
+    const price = currencyToNum(window.property.ListPriceUS);
+    const minForSalePrice = (price * 0.5).toFixed(0).toString();
+    const maxForSalePrice = (price * 1.5).toFixed(0).toString();
+    const minSoldPrice = (price * 0.8).toFixed(0).toString();
+    const maxSoldPrice = (price * 1.2).toFixed(0).toString();
     const forSaleHomes = document.createElement('div');
     forSaleHomes.setAttribute('id', 'nearby-homes');
     forSaleHomes.append(buildBlock(
@@ -181,13 +189,13 @@ function buildPropertyDetailNearbyBlock(main) {
       [
         ['Title', 'Nearby Homes For Sale'],
         ['Listing Type', 'For Sale'],
-        ['MinPrice', '412450'],
-        ['MaxPrice', '1237350'],
+        ['MinPrice', minForSalePrice],
+        ['MaxPrice', maxForSalePrice],
         ['PageSize', '8'],
         ['Sort By', 'Price'],
         ['Sort Direction', 'ASCENDING'],
-        ['Lat', '41.96909713745117'],
-        ['Lon', '-71.22725677490234'],
+        ['Lat', latitude],
+        ['Lon', longitude],
         ['Distance', '2'],
         ['Search Type', 'Radius'],
       ],
@@ -196,13 +204,13 @@ function buildPropertyDetailNearbyBlock(main) {
     recentlySoldHomes.append(buildBlock('property-listing', [
       ['Title', 'Recent Sales Nearby'],
       ['Listing Type', 'Recently Sold'],
-      ['MinPrice', '659920'],
-      ['MaxPrice', '989880'],
+      ['MinPrice', minSoldPrice],
+      ['MaxPrice', maxSoldPrice],
       ['PageSize', '4'],
       ['Sort By', 'Price'],
       ['Sort Direction', 'ASCENDING'],
-      ['Lat', '41.96909713745117'],
-      ['Lon', '-71.22725677490234'],
+      ['Lat', latitude],
+      ['Lon', longitude],
       ['Distance', '2'],
       ['Search Type', 'Radius'],
     ]));
