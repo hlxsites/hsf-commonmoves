@@ -262,6 +262,7 @@ function nn(a) {
   return a && a.smallPhotos && a.smallPhotos.length > 0 ? a.smallPhotos[0].mediaUrl : '';
 }
 function zj(a, c, f) {
+  const path = f || '/property/detail';
   const d = nn(a);
   const h = a.ListPriceUS;
   const q = a.municipality;
@@ -286,7 +287,7 @@ function zj(a, c, f) {
   const E = a.isCompanyListing;
   a = a.originatingSystemName === '' || undefined === a.originatingSystemName || a.originatingSystemName === null ? ' ' : `Listing Provided by  ${a.originatingSystemName}`;
   c = c || ka.split('/');
-  ka = ka.startsWith('http') ? `${f}/${c[3]}/${c[4]}/${c[5]}` : `${f}/${c[2]}/${c[3]}/${c[4]}`;
+  ka = `${path}/${c[4]}/${c[5]}`;
   return {
     propertyImage: d,
     propertyPrice: h,
@@ -878,10 +879,6 @@ function St() {
             });
             m.open(c, a);
             ln(m, h);
-            // kn({
-            //   property: h,
-            //   marker: a,
-            // });
           });
         }
       }
@@ -990,8 +987,6 @@ async function initMap() {
         map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
       }
     });
-    // k('.map-zoom-in').unbind(),
-    // k('.map-zoom-out').unbind(),
     document.querySelector('.map-zoom-in').addEventListener('click', () => {
       hi = !0;
       map.setZoom(map.getZoom() + 1);
