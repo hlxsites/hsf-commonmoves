@@ -3,7 +3,7 @@ import { decorateIcons } from '../../../scripts/lib-franklin.js';
 
 function createImage(listing) {
   if (listing.SmallMedia?.length > 0) {
-    return `<img src="${listing.SmallMedia[0].mediaUrl} alt="property-image" loading="lazy" class="property-thumbnail">`;
+    return `<img src="${listing.SmallMedia[0].mediaUrl}" alt="Property Image" loading="lazy" class="property-thumbnail">`;
   }
   return '<div class="property-no-available-image"><span>no images available</span></div>';
 }
