@@ -23,10 +23,11 @@
   width: 250px;
   max-width: 90%;
   background-color: var(--white);
+  height: fit-content;
 }
 
 .property-list-cards .listing-tile a {
-  aspect-ratio: 16/9
+  aspect-ratio: 16/9;
 }
 
 .property-list-cards .listing-tile .property-no-available-image {
