@@ -8,6 +8,7 @@
   scroll-behavior: smooth;
   scrollbar-width: none;
   column-gap: 10px;
+  padding-bottom: 10px;
 }
 
 .property-list-cards::-webkit-scrollbar {
@@ -316,6 +317,7 @@
     height: 820px;
     grid-template: repeat(2, 1fr) / repeat(4, 1fr);
     gap: 20px;
+    padding-bottom: 20px;
   }
 
   .property-list-cards .listing-tile {
