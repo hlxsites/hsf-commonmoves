@@ -21,10 +21,11 @@
   flex-shrink: 0;
   width: 250px;
   max-width: 90%;
+  background-color: var(--white);
 }
 
 .property-list-cards .listing-tile a {
-  height: 56.25%;
+  height: 75%;
 }
 
 .property-list-cards .listing-tile .property-no-available-image {
@@ -58,7 +59,7 @@
 
 .property-list-cards .listing-image-container .property-image {
   position: absolute;
-  z-index: -1;
+  z-index: 0;
   top: 0;
   left: 0;
   right: 0;
@@ -101,6 +102,7 @@
 }
 
 .property-list-cards .property-labels .property-label {
+  display: initial;
   height: 24px;
   font-size: var(--body-font-size-xs);
   padding: 0 7px;
@@ -110,6 +112,8 @@
   margin: 5px 0 5px 5px;
   align-items: center;
   justify-content: center;
+  background-color: var(--white);
+  color: var(--body-color);
 }
 
 .property-list-cards .property-labels .property-label .icon {
@@ -157,12 +161,6 @@
 
 .property-list-cards .listing-tile.is-featured .property-labels .property-label.featured {
   display: initial;
-}
-
-.property-list-cards .property-labels .property-label {
-  display: initial;
-  background-color: var(--white);
-  color: var(--body-color);
 }
 
 .property-list-cards .listing-image-container .image-position-top {
