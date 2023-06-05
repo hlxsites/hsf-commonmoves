@@ -18,7 +18,7 @@ function buildLoader() {
   wrapper.classList.add('search-results-loader');
   wrapper.innerHTML = `
     <div class="search-results-loader-image enter">
-    <img src="/icons/maps/loader_opt.gif" alt="Loading Results" width="475" height="475" loading="lazy">
+    <img src="/icons/maps/loader_opt.gif" alt="Loading Results" width="475" height="475">
     </div>
   `;
   return wrapper;
