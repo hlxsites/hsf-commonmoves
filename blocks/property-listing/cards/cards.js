@@ -38,9 +38,6 @@ export function createCard(listing) {
     item.classList.add('is-featured');
   }
 
-  if (listing.mlsStatus) {
-    item.classList.add('is-new');
-  }
   if (listing.PdpPath.includes('LuxuryTheme=true')) {
     item.classList.add('is-luxury');
   }

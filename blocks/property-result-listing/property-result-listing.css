@@ -36,17 +36,6 @@
   transition: all 1s ease-in;
 }
 
-/* .property-result-listing.block .search-results-loader-image img { */
-
-/*  width: 250px; */
-
-/*  height: auto; */
-
-/*  margin: 10vh 0; */
-
-/* } */
-
-
 .property-search-template.search-map-active .property-result-listing.block > div {
   flex: 0 0 50%;
   max-width: 50%;
