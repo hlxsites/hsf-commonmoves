@@ -18,7 +18,10 @@ function buildLoader() {
   wrapper.classList.add('search-results-loader');
   wrapper.innerHTML = `
     <div class="search-results-loader-image enter">
-    <img src="/icons/maps/loader_opt.gif" alt="Loading Results" width="475" height="475">
+    <video autoplay loop muted playsinline>
+        <source src="/icons/maps/loader_opt.webm" type="video/webm" />
+        <source src="/icons/maps/loader_opt.mp4" type="video/mp4" />
+     </video>
     </div>
   `;
   return wrapper;
