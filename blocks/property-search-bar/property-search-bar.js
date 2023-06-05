@@ -37,5 +37,4 @@ export default async function decorate(block) {
     e.stopPropagation();
     searchProperty();
   });
-  // window.dispatchEvent(event);
 }
