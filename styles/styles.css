@@ -199,7 +199,7 @@ main .section.formatted-text h3 {
   font-weight: var(--font-weight-bold);
 }
 
-main .section.width-67-percent {
+main .section.page-width-two-thirds {
   max-width: 67%;
 }
 
@@ -412,6 +412,10 @@ form button[type="submit"]:hover {
   .section.hide-on-mobile,
   .section .block.hide-on-mobile {
     display: none;
+  }
+
+  main .section.page-width-two-thirds {
+    max-width: 100%;
   }
 }
 
