@@ -200,7 +200,7 @@ main .section.formatted-text h3 {
 }
 
 main .section.page-width-two-thirds {
-  max-width: 67%;
+  max-width: 100%;
 }
 
 main .section.numeric-list ol {
@@ -414,9 +414,6 @@ form button[type="submit"]:hover {
     display: none;
   }
 
-  main .section.page-width-two-thirds {
-    max-width: 100%;
-  }
 }
 
 @media screen and (min-width: 600px) {
@@ -428,6 +425,10 @@ form button[type="submit"]:hover {
   main .section.narrow > div {
     max-width: 75%;
     margin: 0 auto;
+  }
+
+  main .section.page-width-two-thirds {
+    max-width: 67%;
   }
 }
 
