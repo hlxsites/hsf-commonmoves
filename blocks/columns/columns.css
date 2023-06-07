@@ -6,6 +6,11 @@
   align-items: baseline;
 }
 
+.columns img {
+  width: 100%;
+  height: auto;
+}
+
 .columns.float-left img {
   width: 100%;
   height: auto;
@@ -13,6 +18,7 @@
   margin-right: 30px;
   padding: 5px;
 }
+
 
 .columns > div > div {
   order: 1;
