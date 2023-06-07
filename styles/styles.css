@@ -392,6 +392,7 @@ main .section.button-primary-color .button-container a:hover {
   text-align: center;
 }
 
+/* stylelint-disable-next-line no-descending-specificity */
 .modal .modal-content a {
   display: inline-block;
   margin-top: 1em;
