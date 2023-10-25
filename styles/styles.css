@@ -188,6 +188,7 @@ main .section.wide {
   max-width: var(--wide-page-width);
 }
 
+/* TODO: Do we need this? */
 main .section.formatted-text * {
   letter-spacing: normal;
   line-height: var(--line-height-m);
@@ -230,6 +231,7 @@ main .section.disc-list li {
   padding-left: 1em;
   margin-bottom: 1.5em;
 }
+/* End to do check */
 
 main .section.full-width {
   max-width: var(--full-page-width);
