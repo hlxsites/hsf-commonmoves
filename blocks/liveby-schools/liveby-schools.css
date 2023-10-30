@@ -41,6 +41,7 @@ main .section.liveby-schools-container p {
 .liveby-schools .school-lists section {
   margin: 1em 0;
 }
+
 .liveby-schools .actions p.button-container {
   text-align: center;
 }
@@ -93,7 +94,6 @@ main .section.liveby-schools-container p {
   text-transform: uppercase;
   opacity: .625;
 }
-
 
 .liveby-schools .school-lists section .school-item .school-details h3 {
   margin: 0;
