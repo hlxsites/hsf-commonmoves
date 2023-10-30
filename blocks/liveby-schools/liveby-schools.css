@@ -41,9 +41,13 @@ main .section.liveby-schools-container p {
 .liveby-schools .school-lists section {
   margin: 1em 0;
 }
+.liveby-schools .actions p.button-container {
+  text-align: center;
+}
 
 .liveby-schools .actions p.button-container a {
   padding: .85em 1.15em;
+  margin: 0 auto;
   font-size: var(--body-font-size-m);
   color: var(--white);
   background-color: var(--primary-color);
@@ -96,7 +100,7 @@ main .section.liveby-schools-container p {
   font-family: var(--font-family-georgia);
   font-weight: var(--font-weight-bold);
   font-size: var(--heading-font-size-xs);
-  line-height: var(--line-height-reg);
+  line-height: var(--line-height-m);
   border-bottom: none;
 }
 
