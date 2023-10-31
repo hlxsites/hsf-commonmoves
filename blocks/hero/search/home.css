@@ -45,7 +45,7 @@
   justify-content: center;
 }
 
-.hero.block .content .homes .search-bar .filter span.icon svg {
+.hero.block .content .homes .search-bar .filter span.icon img {
   height: 22px;
   width: 22px;
   color: var(--black);

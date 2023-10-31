@@ -6,23 +6,6 @@ import loadMaps from '../../scripts/google-maps/index.js';
 
 let autocompleteAttached = false;
 
-//
-// function initGooglePlacesAPI() {
-//   if (alreadyDeferred) {
-//     return;
-//   }
-//   alreadyDeferred = true;
-//   const script = document.createElement('script');
-//   script.type = 'text/partytown';
-//   script.innerHTML = `
-//     const script = document.createElement('script');
-//     script.type = 'module';
-//     script.src = '${window.hlx.codeBasePath}/blocks/avm-report/avm-report-delayed.js';
-//     document.head.append(script);
-//   `;
-//   document.head.append(script);
-// }
-
 export default async function decorate(block) {
   const form = document.createElement('form');
   form.setAttribute('action', '/home-value');
