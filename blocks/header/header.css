@@ -32,7 +32,11 @@ body.light-nav {
   height: 100vh;
 }
 
-.header.block nav svg {
+.header.block nav span.icon {
+  display: block;
+}
+
+.header.block nav span.icon img {
   display: inline-block;
   height: 100%;
   width: 100%;
