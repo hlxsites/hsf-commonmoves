@@ -11,6 +11,7 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  loadScript,
   getMetadata,
 } from './aem.js';
 
