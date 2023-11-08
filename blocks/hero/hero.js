@@ -56,6 +56,13 @@ export default async function decorate(block) {
     }
   }
 
+  const headline = block.querySelectorAll('div.hero > div');
+  if (headline.length) {
+    const headlineWrapper = document.createElement('div');
+    headlineWrapper.classList.add('headline');
+
+  }
+
   const wrapper = document.createElement('div');
   wrapper.append(images);
   // don't add contentWrapper if it's empty
