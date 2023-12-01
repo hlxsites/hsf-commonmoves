@@ -138,14 +138,14 @@ const createMetadata = (document) => {
       const builder = new BlockBuilder(document, metadata);
       
       // Create hero
-      const heroImageSrc = document.querySelector('#community-detail-hero-component div[data-cy="hero"] meta[itemprop="image"]')?.content;
+      const heroImageSrc = document.querySelector('#community-detail-hero-component meta[itemprop="image"] + img')?.src;
       const community = metadata["LiveBy Community"];
       const heroSubtitle = document.querySelector('#directory-search h2').textContent;
       builder
         .element("img", {src: heroImageSrc}).up()
         .element("h1").withText(community)
-        .element("h2").withText(heroSubtitle)
-        .addSectionMetadata("Style", "narrow");
+        .section({Style:"narrow"})
+        .element("h2").withText(heroSubtitle);
 
       // TOC
       const canonicalName = community.toLowerCase().replaceAll(' ','-');
