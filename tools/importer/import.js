@@ -136,7 +136,6 @@ const createMetadata = (document) => {
 
       // define the main element: the one that will be transformed to Markdown
       const builder = new BlockBuilder(document, metadata);
-      
       // Create hero
       const heroImageSrc = document.querySelector('#community-detail-hero-component meta[itemprop="image"] + img')?.src;
       const community = metadata["LiveBy Community"];
@@ -160,7 +159,7 @@ const createMetadata = (document) => {
         .element("li").element("a", {href:`#living-in-${canonicalName}`}).withText('Amenities').up()
       
       // Demographics
-      const demographicsAtttribution = document.querySelector("#demographics > div > h2 div[class^='styles_info-content']");
+      const demographicsAtttribution = document.querySelector("#demographics > div > h2 div[class^='styles_info-content']") || "Demographic information is from the 2019 American Community Survey (ACS) provided by the U.S. Census Bureau.";
       builder
         .section({Style:"bottom-border"})
         .element("h2").withText(`${community} Demographics`)
@@ -168,8 +167,8 @@ const createMetadata = (document) => {
         .block("LiveBy Demographics")
 
       // Schools
-      const schoolDiggerInfo = document.querySelector("#schools > div > h2 div[class^='styles_info-content']");
-      const schoolText = document.querySelector("#schools > div > p");
+      const schoolDiggerInfo = document.querySelector("#schools > div > h2 div[class^='styles_info-content']") || "Data provided by School Digger, National Center for Education Statistics, and the U.S. Census Bureau. The schools listed are intended to be used as a reference only. To verify enrollment eligibility for an area, contact the school directly.";
+      const schoolText = document.querySelector("#schools > div > p") || `The following schools are within or nearby ${community}. The rating and statistics can serve as a starting point to make baseline comparisons on the right schools for your family.`;
 
       builder
         .section({Style: "bottom-border, center"})
@@ -194,8 +193,8 @@ const createMetadata = (document) => {
         })
 
       // Amenities
-      const amenitiesInfo = document.querySelector("#amenities > div > h2 div[class^='styles_info-content']");
-      const amenitiesContent = document.querySelector("#amenities > div > p");
+      const amenitiesInfo = document.querySelector("#amenities > div > h2 div[class^='styles_info-content']") || "Business information provided by Yelp.";
+      const amenitiesContent = document.querySelector("#amenities > div > p") || `Explore the best restaurants, businesses, and activities near ${community}.`;
       builder
         .section({Style: "center"})
         .element("h2").withText(`Living in ${community}`)
