@@ -102,7 +102,7 @@ export function createCard(listing) {
               <img data-icon-name="heartempty" src="/icons/heartempty.svg" loading="lazy" alt="heart">
             </span>
             <span class="icon icon-heartemptydark">
-              <img data-icon-name="heartempty" src="/icons/heartempty.svg" loading="lazy" alt="heart">
+              <img data-icon-name="heartempty" src="/icons/heartemptydark.svg" loading="lazy" alt="heart">
             </span>
           </a>
         </div>
