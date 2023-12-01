@@ -3,7 +3,7 @@ import { decorateIcons } from '../../../scripts/aem.js';
 
 function createImage(listing) {
   if (listing.SmallMedia?.length > 0) {
-    return `<img src="${listing.SmallMedia[0].mediaUrl}" alt="Property Image" loading="lazy" class="property-thumbnail">`;
+    return `<img src="${listing.SmallMedia[0].mediaUrl}" alt="${listing.StreetName}" loading="lazy" class="property-thumbnail">`;
   }
   return '<div class="property-no-available-image"><span>no images available</span></div>';
 }
@@ -49,7 +49,7 @@ export function createCard(listing) {
   }
 
   item.innerHTML = `
-    <a href="${detailsPath}" rel="noopener" aria-label="${listing.StreetName}">
+    <a href="${detailsPath}" rel="noopener" aria-labelledby="listing-${listing.ListingId}-address">
       <div class="listing-image-container"> 
         <div class="property-image"> 
           ${createImage(listing)} 
@@ -79,7 +79,7 @@ export function createCard(listing) {
       <div class="property-info-wrapper"> 
         <div class="property-info"> 
           <div class="sold-date">Closed: ${listing.ClosedDate}</div>
-          <div class="address"> 
+          <div id="listing-${listing.ListingId}-address" class="address"> 
             ${listing.StreetName}
             <br> 
             ${listing.City}, ${listing.StateOrProvince} ${listing.PostalCode} 
@@ -126,12 +126,11 @@ export async function render(searchParams, parent) {
   list.classList.add('property-list-cards');
   parent.append(list);
 
-  propertySearch(searchParams).then((results) => {
-    if (results?.properties) {
-      results.properties.forEach((listing) => {
-        list.append(createCard(listing));
-      });
-      decorateIcons(parent);
-    }
-  });
+  const results = await propertySearch(searchParams);
+  if (results?.properties) {
+    results.properties.forEach((listing) => {
+      list.append(createCard(listing));
+    });
+    decorateIcons(parent);
+  }
 }

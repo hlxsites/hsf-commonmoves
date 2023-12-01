@@ -2,7 +2,6 @@
 
 .property-list-cards {
   display: flex;
-  height: 400px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -314,7 +313,6 @@
 @media (min-width: 1200px) {
   .property-list-cards {
     display: grid;
-    height: 820px;
     grid-template: repeat(2, 1fr) / repeat(4, 1fr);
     gap: 20px;
     padding-bottom: 20px;

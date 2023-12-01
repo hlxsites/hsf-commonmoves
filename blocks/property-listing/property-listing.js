@@ -42,7 +42,7 @@ const buildPropertyTypes = (configEntry) => {
   if (configStr.match(/(condo|townhouse)/i)) {
     types.push(PropertyType.CONDO_TOWNHOUSE);
   }
-  if (configStr.match(/single\sfamily/gi)) {
+  if (configStr.match(/single\s+family/gi)) {
     types.push(PropertyType.SINGLE_FAMILY);
   }
   if (configStr.match(/commercial/gi)) {

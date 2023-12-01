@@ -1,6 +1,5 @@
 {
   "project": "HSF Common Moves",
-  "host": "www.commonmoves.com",
   "plugins": [
     {
       "id": "library",
