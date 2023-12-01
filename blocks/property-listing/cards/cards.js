@@ -89,13 +89,21 @@ export function createCard(listing) {
       </div> 
       <div class="property-buttons"> 
         <div class="buttons-row-flex"> 
-          <a aria-label="Contact Form" href="#" class="button-property"> 
-            <span class="icon icon-envelope"></span>
-            <span class="icon icon-envelopedark"></span>
+          <a aria-label="Contact us about ${listing.StreetName}" href="#" class="button-property"> 
+            <span class="icon icon-envelope">
+              <img data-icon-name="envelope" src="/icons/envelope.svg" loading="lazy" alt="envelope">
+            </span>
+            <span class="icon icon-envelopedark">
+              <img data-icon-name="envelopedark" src="/icons/envelopedark.svg" loading="lazy" alt="envelope">
+            </span>
           </a> 
-          <a aria-label="Save" href="#" class="button-property"> 
-            <span class="icon icon-heartempty"></span>
-            <span class="icon icon-heartemptydark"></span>
+          <a aria-label="Save ${listing.StreetName} to saved properties." href="#" class="button-property"> 
+            <span class="icon icon-heartempty">
+              <img data-icon-name="heartempty" src="/icons/heartempty.svg" loading="lazy" alt="heart">
+            </span>
+            <span class="icon icon-heartemptydark">
+              <img data-icon-name="heartempty" src="/icons/heartempty.svg" loading="lazy" alt="heart">
+            </span>
           </a>
         </div>
       </div>
@@ -131,6 +139,5 @@ export async function render(searchParams, parent) {
     results.properties.forEach((listing) => {
       list.append(createCard(listing));
     });
-    decorateIcons(parent);
   }
 }

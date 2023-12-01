@@ -147,7 +147,7 @@
   justify-content: center;
 }
 
-.property-list-cards .property-labels .property-label.open-house svg {
+.property-list-cards .property-labels .property-label.open-house img {
   height: 24px;
   width: 24px;
   margin-right: 5px;
@@ -258,7 +258,7 @@
   left: 0;
 }
 
-.property-list-cards .property-details .property-buttons .button-property svg {
+.property-list-cards .property-details .property-buttons .button-property img {
   width: 24px;
   height: 24px;
 }
