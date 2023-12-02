@@ -117,7 +117,7 @@ const createMetadata = (document) => {
     return meta;
   };
 
-  const getStateFromDescription = (docment) => {
+  const getStateFromDescription = (document) => {
     const description = getMetadata(document, "og:description");
     if (description) {
       if (description.includes(', CT ')) return "Connecticut";
@@ -196,7 +196,7 @@ const createMetadata = (document) => {
         .element("li").element("a", {href:`#living-in-${canonicalName}`}).withText('Amenities').up()
       
       // Demographics
-      const demographicsAtttribution = queryOrDefault(document, "#demographics > div > h2 div[class^='styles_info-content']", "<p>Demographic information is from the 201 <a href='https://www.census.gov/programs-surveys/acs/about.html'>American Community Survey (ACS) provided by the U.S. Census Bureau</a>.</p>");
+      const demographicsAtttribution = queryOrDefault(document, "#demographics > div > h2 div[class^='styles_info-content']", "<p>Demographic information is from the 2019 <a href='https://www.census.gov/programs-surveys/acs/about.html'>American Community Survey (ACS) provided by the U.S. Census Bureau</a>.</p>");
       builder
         .section({Style:"bottom-border"})
         .element("h2").withText(`${community} Demographics`)
@@ -204,7 +204,7 @@ const createMetadata = (document) => {
         .block("LiveBy Demographics")
 
       // Schools
-      const schoolDiggerInfo = queryOrDefault(document, "#schools > div > h2 div[class^='styles_info-content']", "<h2>SchoolDigger Rating</h2>Data provided by School Digger, National Center for Education Statistics, and the U.S. Census Bureau. The schools listed are intended to be used as a reference only. To verify enrollment eligibility for an area, contact the school directly.");
+      const schoolDiggerInfo = queryOrDefault(document, "#schools > div > h2 div[class^='styles_info-content']", "<div><h2>SchoolDigger Rating</h2>Data provided by School Digger, National Center for Education Statistics, and the U.S. Census Bureau. The schools listed are intended to be used as a reference only. To verify enrollment eligibility for an area, contact the school directly.</div>");
       const schoolText = queryOrDefault(document, "#schools > div > p", `The following schools are within or nearby ${community}, ${state}. The rating and statistics can serve as a starting point to make baseline comparisons on the right schools for your family.`);
 
       builder
