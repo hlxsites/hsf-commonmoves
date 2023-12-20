@@ -5,14 +5,14 @@ import {
   getSelected as getSelectedCountry,
 } from '../../shared/search-countries/search-countries.js';
 import {
-  abortSuggestions,
-  getSuggestions,
-  propertySearch,
-  DOMAIN,
+  abort as abortSuggestions,
+  get as getSuggestions,
+} from '../../../scripts/apis/creg/suggestion.js';
+import {
+  DOMAIN, metadataSearch,
 } from '../../../scripts/apis/creg/creg.js';
 import { getSpinner } from '../../../scripts/util.js';
-import SearchType from '../../../scripts/apis/creg/SearchType.js';
-import SearchParameters from '../../../scripts/apis/creg/SearchParameters.js';
+import Search from '../../../scripts/apis/creg/search/Search.js';
 
 const noOverlayAt = BREAKPOINTS.medium;
 
@@ -99,6 +99,7 @@ const buildSuggestions = (suggestions) => {
       li.setAttribute('category', category.searchType);
       li.setAttribute('display', result.displayText);
       li.setAttribute('query', result.QueryString);
+      li.setAttribute('type', result.type);
       li.textContent = result.SearchParameter;
       ul.append(li);
     });
@@ -114,11 +115,12 @@ const buildSuggestions = (suggestions) => {
  * @param {HTMLElement} target the container in which to add suggestions
  */
 const inputChanged = (e, target) => {
-  const { value } = e.currentTarget;
+  const { currentTarget } = e;
+  const { value } = currentTarget;
   if (value.length > 0) {
-    e.currentTarget.closest('.search-bar').classList.add('show-suggestions');
+    currentTarget.closest('.search-bar').classList.add('show-suggestions');
   } else {
-    e.currentTarget.closest('.search-bar').classList.remove('show-suggestions');
+    currentTarget.closest('.search-bar').classList.remove('show-suggestions');
   }
 
   if (value.length <= 2) {
@@ -127,7 +129,7 @@ const inputChanged = (e, target) => {
     updateSuggestions([], target);
   } else {
     target.querySelector(':scope > li:first-of-type').textContent = SEARCHING_SUGGESTIONS;
-    getSuggestions(value, getSelectedCountry(e.currentTarget.closest('form')))
+    getSuggestions(value, getSelectedCountry(currentTarget.closest('form')))
       .then((suggestions) => {
         if (!suggestions) {
           // Undefined suggestions means it was aborted, more input coming.
@@ -146,11 +148,13 @@ const inputChanged = (e, target) => {
 const suggestionSelected = (e, form) => {
   const query = e.target.getAttribute('query');
   const keyword = e.target.getAttribute('display');
+  const type = e.target.getAttribute('type');
   if (!query) {
     return;
   }
   form.querySelector('input[name="keyword"]').value = keyword;
   form.querySelector('input[name="query"]').value = query;
+  form.querySelector('input[name="type"]').value = type;
   form.querySelector('.search-bar').classList.remove('show-suggestions');
 };
 
@@ -163,32 +167,22 @@ const formSubmitted = async (e) => {
   form.prepend(spinner);
 
   const franchisee = getMetadata('office-id');
-  const type = SearchType[form.querySelector('input[name="type"]').value];
-  const query = form.querySelector('input[name="query"]').value;
-  const input = form.querySelector('input[name="keyword"]').value;
-  const params = new SearchParameters(type);
-  params.SearchInput = input;
-  if (query) {
-    params.populate(query);
-  }
+  const search = await Search.fromSuggestionQuery(form.querySelector('input[name="query"]').value);
+  search.input = form.querySelector('input[name="keyword"]').value;
 
   if (franchisee) {
-    params.franchisee = franchisee;
+    search.franchisee = franchisee;
   }
-  params.PageSize = 1;
-  propertySearch(params).then((results) => {
-    if (!results?.properties) {
-      // What to do here?
-      spinner.remove();
-      return;
+  metadataSearch(search).then((results) => {
+    if (results) {
+      if (!results.vanityDomain || getMetadata('vanity-domain') === results.vanityDomain) {
+        window.location = `/search?${search.asURLSearchParameters()}`;
+      } else {
+        const paramStr = search.asCregURLSearchParameters().toString().replaceAll(/\+/g, '%20');
+        window.location = `${results.vanityDomain}/search?${paramStr}&${form.querySelector('input[name="query"]').value}`;
+      }
     }
-
-    const domain = results.vanityDomain || `https://${DOMAIN}`;
-    const searchPath = '/search';
-    params.PageSize = SearchParameters.DEFAULT_PAGE_SIZE;
-    params.ApplicationType = results.ApplicationType || params.ApplicationType;
-    params.PropertyType = results.PropertyType || params.PropertyType;
-    window.location = `${domain}${searchPath}?${params.asQueryString()}`;
+    spinner.remove();
   });
 };
 

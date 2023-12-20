@@ -1,6 +1,3 @@
-import { propertySearch } from '../../../scripts/apis/creg/creg.js';
-import { decorateIcons } from '../../../scripts/aem.js';
-
 function createImage(listing) {
   if (listing.SmallMedia?.length > 0) {
     return `<img src="${listing.SmallMedia[0].mediaUrl}" alt="${listing.StreetName}" loading="lazy" class="property-thumbnail">`;
@@ -41,7 +38,7 @@ export function createCard(listing) {
   if (listing.PdpPath.includes('LuxuryTheme=true')) {
     item.classList.add('is-luxury');
   }
-  const applicationType = listing.ApplicationType && listing.ApplicationType === 'For Rent' ? `<span class="property-label new-listing">${listing.ApplicationType}</span>` : '';
+  const applicationType = listing.ListingType && listing.ListingType === 'For Rent' ? `<span class="property-label new-listing">${listing.ListingType}</span>` : '';
 
   if (listing.ClosedDate !== '01/01/0001') {
     item.classList.add('is-sold');
@@ -125,19 +122,12 @@ export function createCard(listing) {
 /**
  * Render the results of the provided search into the specified parent element.
  *
- * @param {SearchParameters} searchParams
  * @param {HTMLElement} parent
+ * @param {Object[]} properties results from CREG
  * @return {Promise<void>}
  */
-export async function render(searchParams, parent) {
-  const list = document.createElement('div');
-  list.classList.add('property-list-cards');
-  parent.append(list);
-
-  const results = await propertySearch(searchParams);
-  if (results?.properties) {
-    results.properties.forEach((listing) => {
-      list.append(createCard(listing));
-    });
-  }
+export function render(parent, properties = []) {
+  properties.forEach((listing) => {
+    parent.append(createCard(listing));
+  });
 }

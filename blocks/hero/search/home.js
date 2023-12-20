@@ -86,7 +86,9 @@ async function buildForm() {
         </div>
       </div>
       <button class="filter" type="button" aria-label="More Filters" aria-haspopup="true">
-        <span class="icon icon-filter"></span>
+        <span class="icon icon-filter">
+          <img src="/icons/filter.svg" role="presentation" alt="Filter"/>
+        </span>
       </button>
       <button class="search-submit" aria-label="Search Homes" type="submit">
         <span>Search</span>
