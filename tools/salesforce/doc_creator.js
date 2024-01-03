@@ -113,6 +113,7 @@ import {
   TableRow,
   TextRun,
 } from 'docx';
+import fetch from 'node-fetch';
 
 // If the contents are a string, wrap them in a paragraph
 function valueToCellContents(value) {
