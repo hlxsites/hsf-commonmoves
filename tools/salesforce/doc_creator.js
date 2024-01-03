@@ -105,7 +105,7 @@ Payload looks like this:
 import {
   Document,
   HeadingLevel,
-  // ImageRun,
+  ImageRun,
   // Packer,
   Paragraph,
   Table,
@@ -114,13 +114,23 @@ import {
   TextRun,
 } from 'docx';
 
+// If the contents are a string, wrap them in a paragraph
+function valueToCellContents(value) {
+  return (typeof value === 'string')
+    ? new Paragraph(value) : new Paragraph({ children: [value] });
+}
+
 function nvpToTable(componentName, nameValuePairs) {
   // convert an object of name/value pairs to a table
   const rows = Object.entries(nameValuePairs).map(([name, value]) => new TableRow({
     children: [
       new TableCell({ children: [new Paragraph(name)] }),
-      new TableCell({ children: [new Paragraph(value)] }),
+      new TableCell({ children: [valueToCellContents(value)] }),
     ],
+    width: {
+      size: 75,
+      type: 'pct',
+    },
   }));
   // Insert a header row at the beginning
   rows.unshift(new TableRow({
@@ -128,6 +138,7 @@ function nvpToTable(componentName, nameValuePairs) {
       new TableCell({
         children: [new Paragraph(componentName)],
         columnSpan: 2,
+        shading: { fill: 'A0A0FF' },
       }),
     ],
   }));
@@ -141,7 +152,41 @@ function divider() {
   });
 }
 
-export default function generateWordDoc(contactDetails) {
+async function extractContactDetails(contactDetails) {
+  const contact = {};
+  const details = contactDetails.object ? contactDetails.object : contactDetails;
+  const { address, image, contactPoint } = details;
+  if (address) {
+    contact.streetAddress = address.streetAddress || address.postOfficeBoxNumber;
+    contact.city = address.addressLocality;
+    contact.state = address.addressRegion;
+    contact.zip = address.postalCode;
+  }
+
+  if (contactPoint) {
+    contact.phone = contactPoint.telephone;
+    contact.email = contactPoint.email;
+    contact.website = contactPoint.url;
+  }
+
+  // If there is an image, add it to the contact object
+  if (image && image.length > 0) {
+    const { url, encodingFormat } = image[0];
+    const imageFormat = encodingFormat.split('/').pop();
+    contact.photo = new ImageRun({
+      type: imageFormat,
+      data: Buffer.from(await fetch(url).then((response) => response.arrayBuffer())),
+      transformation: {
+        width: 400,
+        height: 400,
+      },
+    });
+  }
+  return contact;
+}
+
+export default async function generateWordDoc(contactDetails) {
+  const contact = await extractContactDetails(contactDetails);
   const doc = new Document({
     sections: [{
       children: [
@@ -150,7 +195,7 @@ export default function generateWordDoc(contactDetails) {
           heading: HeadingLevel.TITLE,
         }),
         divider(),
-        nvpToTable('Contact Details', contactDetails),
+        nvpToTable('Contact Details', contact),
       ],
     }],
   });
