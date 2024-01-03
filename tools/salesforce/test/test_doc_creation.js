@@ -53,11 +53,11 @@ const testContact = {
       {
         type: 'ImageObject',
         '@id': 'http://example.com',
-        id: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Dr_Makate_Meshack_Tebeila.jpg',
+        id: 'https://hsflibrary.s3-us-west-2.amazonaws.com/bhhsagents/1107231/profileimages/1107231-profileimage.jpg',
         name: 'image.jpg',
         encodingFormat: 'image/jpeg',
         about: 'http://user.example.com/profile/card#me',
-        url: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Dr_Makate_Meshack_Tebeila.jpg',
+        url: 'https://hsflibrary.s3-us-west-2.amazonaws.com/bhhsagents/1107231/profileimages/1107231-profileimage.jpg',
       },
     ],
     jobTitle: [

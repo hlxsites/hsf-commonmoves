@@ -167,7 +167,7 @@ function divider() {
 
 async function extractContactDetails(contactDetails) {
   const details = contactDetails.object ? contactDetails.object : contactDetails;
-  const { address, image, contactPoint } = details;
+  const { address, image, contactPoint, identifier } = details;
   const contact = {
     firstName: details.givenName,
     lastName: details.familyName,
@@ -186,6 +186,10 @@ async function extractContactDetails(contactDetails) {
     contact.website = contactPoint.url;
   }
 
+  if (identifier) {
+    contact.bhhsId = identifier.bhhsconsumerid;
+  }
+
   // If there is an image, add it to the contact object
   if (image && image.length > 0) {
     const { url, encodingFormat } = image[0];
@@ -194,7 +198,7 @@ async function extractContactDetails(contactDetails) {
       type: imageFormat,
       data: Buffer.from(await fetch(url).then((response) => response.arrayBuffer())),
       transformation: {
-        width: 400,
+        width: 300,
         height: 400,
       },
     });
