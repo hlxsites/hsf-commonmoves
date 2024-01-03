@@ -116,22 +116,22 @@ import {
 
 function nvpToTable(componentName, nameValuePairs) {
   // convert an object of name/value pairs to a table
-  const table = new Table({
+  const rows = Object.entries(nameValuePairs).map(([name, value]) => new TableRow({
+    children: [
+      new TableCell({ children: [new Paragraph(name)] }),
+      new TableCell({ children: [new Paragraph(value)] }),
+    ],
+  }));
+  // Insert a header row at the beginning
+  rows.unshift(new TableRow({
     children: [
       new TableCell({
         children: [new Paragraph(componentName)],
         columnSpan: 2,
       }),
     ],
-  });
-  Object.entries(nameValuePairs).forEach(([name, value]) => {
-    table.addChildElement(new TableRow({
-      children: [
-        new TableCell({ children: [new Paragraph(name)] }),
-        new TableCell({ children: [new Paragraph(value)] }),
-      ],
-    }));
-  });
+  }));
+  const table = new Table({ rows });
   return table;
 }
 

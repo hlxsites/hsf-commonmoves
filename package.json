@@ -3,11 +3,13 @@
   "private": true,
   "version": "1.0.0",
   "description": "Starter project for Adobe Helix",
+  "type": "module",
   "scripts": {
     "lint:js": "eslint .",
     "lint:css": "stylelint blocks/**/*.css styles/*.css",
     "lint": "npm run lint:js && npm run lint:css",
-    "doc-builder": "node tools/salesforce/doc-builder.js"
+    "doc-builder": "node tools/salesforce/doc-builder.js",
+    "test": "mocha tools/**/test/*.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +31,7 @@
     "eslint": "8.35.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.27.5",
+    "mocha": "^10.2.0",
     "sinon": "15.0.1",
     "stylelint": "15.2.0",
     "stylelint-config-standard": "30.0.1"
