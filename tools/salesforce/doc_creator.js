@@ -121,18 +121,24 @@ function valueToCellContents(value) {
     ? new Paragraph(value) : new Paragraph({ children: [value] });
 }
 
-function nvpToTable(componentName, nameValuePairs) {
-  // convert an object of name/value pairs to a table
-  const rows = Object.entries(nameValuePairs).map(([name, value]) => new TableRow({
-    children: [
-      new TableCell({ children: [new Paragraph(name)] }),
-      new TableCell({ children: [valueToCellContents(value)] }),
-    ],
-    width: {
-      size: 75,
-      type: 'pct',
-    },
-  }));
+function component(componentName, content) {
+  // If content is an object, convert it to a table
+  const rows = [];
+  if (typeof content !== 'string') {
+    // convert an object of name/value pairs to a table
+    Object.entries(content).forEach(([name, value]) => rows.push(new TableRow({
+      children: [
+        new TableCell({ children: [new Paragraph(name)] }),
+        new TableCell({ children: [valueToCellContents(value)] }),
+      ],
+    })));
+  } else {
+    rows.push(new TableRow({
+      children: [
+        new TableCell({ children: [valueToCellContents(content)] }),
+      ],
+    }));
+  }
   // Insert a header row at the beginning
   rows.unshift(new TableRow({
     children: [
@@ -143,7 +149,13 @@ function nvpToTable(componentName, nameValuePairs) {
       }),
     ],
   }));
-  const table = new Table({ rows });
+  const table = new Table({
+    rows,
+    width: {
+      size: 90,
+      type: 'pct',
+    },
+  });
   return table;
 }
 
@@ -154,14 +166,18 @@ function divider() {
 }
 
 async function extractContactDetails(contactDetails) {
-  const contact = {};
   const details = contactDetails.object ? contactDetails.object : contactDetails;
   const { address, image, contactPoint } = details;
+  const contact = {
+    firstName: details.givenName,
+    lastName: details.familyName,
+  };
   if (address) {
     contact.streetAddress = address.streetAddress || address.postOfficeBoxNumber;
     contact.city = address.addressLocality;
     contact.state = address.addressRegion;
     contact.zip = address.postalCode;
+    contact.subdivision = address.addressSubdivision;
   }
 
   if (contactPoint) {
@@ -195,8 +211,27 @@ export default async function generateWordDoc(contactDetails) {
           text: 'Your Local Real Estate Expert',
           heading: HeadingLevel.TITLE,
         }),
+        component('Contact Details', contact),
         divider(),
-        nvpToTable('Contact Details', contact),
+        component('Embed', '/embed/common_about.docx'),
+        divider(),
+        component('Embed', '/embed/home_value.docx'),
+        divider(),
+        component('Closed Transactions', {}),
+        divider(),
+        component('Embed', `/embed/communities/explore_${contact.subdivision}.docx`),
+        divider(),
+        component('New to Market', {}),
+        divider(),
+        component('Embed', '/embed/giving back.docx'),
+        divider(),
+        component('Metadata', {
+          Title: `${contact.firstName} ${contact.lastName}`,
+          Description: 'This is a description of the document',
+          Robots: 'index,follow',
+          Image: contact.photo,
+          Template: 'Agent Profile',
+        }),
       ],
     }],
   });
