@@ -56,6 +56,15 @@ describe('ElementarySchoolSearch', () => {
     });
   });
 
+  describe('from suggestion results', () => {
+    it('should create elementary school search', async () => {
+      const search = new ElementarySchoolSearch();
+      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dElementary%20School\u0026SearchParameter\u003dElementary%20School%20on%20elm%20street'));
+      assert(search instanceof ElementarySchoolSearch, 'Created correct type.');
+      assert.equal(search.school, 'Elementary School on elm street', 'School was correct.');
+    });
+  });
+
   describe('to CREG URL Search Parameters', () => {
     it('should have school search parameters', () => {
       const search = new ElementarySchoolSearch();

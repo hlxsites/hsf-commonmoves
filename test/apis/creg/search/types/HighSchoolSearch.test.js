@@ -56,6 +56,15 @@ describe('HighSchoolSearch', () => {
     });
   });
 
+  describe('from suggestion results', () => {
+    it('should create high school search', async () => {
+      const search = new HighSchoolSearch();
+      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dHigh%20School\u0026SearchParameter\u003dHigh%20School%20on%20elm%20street'));
+      assert(search instanceof HighSchoolSearch, 'Created correct type.');
+      assert.equal(search.school, 'High School on elm street', 'School was correct.');
+    });
+  });
+
   describe('to CREG URL Search Parameters', () => {
     it('should have school search parameters', () => {
       const search = new HighSchoolSearch();

@@ -56,6 +56,15 @@ describe('AddressSearch', () => {
     });
   });
 
+  describe('from suggestion results', () => {
+    it('should create address search', async () => {
+      const search = new AddressSearch();
+      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dAddress\u0026SearchParameter\u003d123%20Elm%20Street%2C%20Nowhere%2C%20NO%2012345'));
+      assert(search instanceof AddressSearch, 'Created correct type.');
+      assert.equal(search.address, '123 Elm Street, Nowhere, NO 12345', 'Address was correct.');
+    });
+  });
+
   describe('to CREG URL Search Parameters', () => {
     it('should have address search parameters', () => {
       const search = new AddressSearch();

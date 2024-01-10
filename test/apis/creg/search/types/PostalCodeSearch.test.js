@@ -56,6 +56,15 @@ describe('PostalCodeSearch', () => {
     });
   });
 
+  describe('from suggestion results', () => {
+    it('should create Postal Code search', async () => {
+      const search = new PostalCodeSearch();
+      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dPostalCode\u0026SearchParameter\u003d12345'));
+      assert(search instanceof PostalCodeSearch, 'Created correct type.');
+      assert.equal(search.code, '12345', 'Postal Code was correct.');
+    });
+  });
+
   describe('to CREG URL Search Parameters', () => {
     it('should have postal code search parameters', () => {
       const search = new PostalCodeSearch();

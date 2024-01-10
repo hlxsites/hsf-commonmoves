@@ -56,6 +56,15 @@ describe('CitySearch', () => {
     });
   });
 
+  describe('from suggestion results', () => {
+    it('should create city search', async () => {
+      const search = new CitySearch();
+      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dCity\u0026SearchParameter\u003dNowhere%2C%20NO'));
+      assert(search instanceof CitySearch, 'Created correct type.');
+      assert.equal(search.city, 'Nowhere, NO', 'City was correct.');
+    });
+  });
+
   describe('to CREG URL Search Parameters', () => {
     it('should have city search parameters', () => {
       const search = new CitySearch();

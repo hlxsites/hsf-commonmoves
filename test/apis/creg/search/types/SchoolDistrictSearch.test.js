@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import { strict as assert } from 'node:assert';
 import Search from '../../../../../scripts/apis/creg/search/Search.js';
 import SchoolDistrictSearch from '../../../../../scripts/apis/creg/search/types/SchoolDistrictSearch.js';
+import PostalCodeSearch from '../../../../../scripts/apis/creg/search/types/PostalCodeSearch.js';
 
 describe('SchoolDistrictSearch', () => {
   describe('create from block config', () => {
@@ -53,6 +54,15 @@ describe('SchoolDistrictSearch', () => {
       search.district = 'School District in Nowhere, NO';
       const created = await Search.fromJSON(JSON.parse(JSON.stringify(search)));
       assert.deepStrictEqual(created, search, 'To/From JSON correct.');
+    });
+  });
+
+  describe('from suggestion results', () => {
+    it('should create school district search', async () => {
+      const search = new SchoolDistrictSearch();
+      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dSchoolDistrict\u0026SearchParameter\u003dSchool%20District%20in%20Nowhere%2C%20NO'));
+      assert(search instanceof SchoolDistrictSearch, 'Created correct type.');
+      assert.equal(search.district, 'School District in Nowhere, NO', 'School district was correct.');
     });
   });
 

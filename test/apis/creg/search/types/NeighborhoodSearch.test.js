@@ -56,6 +56,15 @@ describe('NeighborhoodSearch', () => {
     });
   });
 
+  describe('from suggestion results', () => {
+    it('should create Neighborhood search', async () => {
+      const search = new NeighborhoodSearch();
+      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dNeighborhood\u0026SearchParameter\u003d123%20Elm%20Street%2C%20Nowhere%2C%20NO%2012345'));
+      assert(search instanceof NeighborhoodSearch, 'Created correct type.');
+      assert.equal(search.neighborhood, '123 Elm Street, Nowhere, NO 12345', 'Neighborhood was correct.');
+    });
+  });
+
   describe('to CREG URL Search Parameters', () => {
     it('should have neighborhood search parameters', () => {
       const search = new NeighborhoodSearch();

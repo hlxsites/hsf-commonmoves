@@ -4,14 +4,14 @@ import Search from '../Search.js';
  * Special case of search - not to be confused with searching for a specific property based on the listing ID.
  * MLS Key searches require the context of the ID to validate franchisee metadata (e.g. vanityDomain)
  */
-export default class MlsListingKeySearch extends Search {
+export default class MLSListingKeySearch extends Search {
   listingId;
 
   context;
 
   constructor() {
     super();
-    this.type = 'MlsListingKey';
+    this.type = 'MLSListingKey';
   }
 
   asCregURLSearchParameters() {

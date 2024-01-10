@@ -11,6 +11,10 @@ export default class Search {
 
   maxPrice;
 
+  minBedrooms;
+
+  minBathrooms;
+
   isNew = false;
 
   page = '1';
@@ -140,6 +144,8 @@ export default class Search {
     if (this.input) params.set('SearchInput', this.input);
     if (this.minPrice) params.set('MinPrice', this.minPrice);
     if (this.maxPrice) params.set('MaxPrice', this.maxPrice);
+    if (this.minBedrooms) params.set('MinBedroomsTotal', this.minBedrooms);
+    if (this.minBathrooms) params.set('MinBathroomsTotal', this.minBathrooms);
     if (this.isNew) params.set('NewListing', this.isNew);
     if (this.openHouses) params.set('OpenHouses', this.openHouses.value);
 
@@ -183,12 +189,6 @@ export default class Search {
       // Fill object.
       if (Object.hasOwn(this, k)) {
         this[k] = v;
-        // } else if (k === 'openHouses') {
-        //   this.openHouses = OpenHouses.fromValue(v);
-        // } else if (k === 'sortBy') {
-        //   this.sortBy = v;
-        // } else if (k === 'sortDirection') {
-        //   this.sortDirection = v;
       }
     });
     this.listingTypes = params.getAll('listingTypes');
@@ -232,6 +232,27 @@ export default class Search {
   }
 
   /**
+   * Loads the specified search type.
+   *
+   * @param {string} type
+   * @return {Promise<Search>}
+   */
+  static async load(type) {
+    let search = new Search();
+    try {
+      const mod = await import(`./types/${type}Search.js`);
+      if (mod.default) {
+        // eslint-disable-next-line new-cap
+        search = new mod.default();
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(`failed to load Search Type for ${type}`, error);
+    }
+    return search;
+  }
+
+  /**
    * Builds a new Search instance from a URL query string
    * @param {String} query the query string
    * @return {Search} the search instance
@@ -241,16 +262,7 @@ export default class Search {
     let search = new Search();
     if (params.has('type')) {
       const type = params.get('type').replace(/(^\w)|\s+(\w)/g, (letter) => letter.toUpperCase());
-      try {
-        const mod = await import(`./types/${type}Search.js`);
-        if (mod.default) {
-          // eslint-disable-next-line new-cap
-          search = new mod.default();
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(`failed to load Search Type for ${type}`, error);
-      }
+      search = await Search.load(type);
     }
     search.populateFromURLSearchParameters(params);
     return search;
@@ -266,45 +278,10 @@ export default class Search {
     let search = new Search();
     const typeInput = entries.find(([k]) => k.match(/search.*type/i));
     if (typeInput) {
-      const type = typeInput[1].toLowerCase().replace(/(^\w)|\s+(\w)/g, (letter) => letter.toUpperCase()).replaceAll(/\s/g, '');
-      try {
-        const mod = await import(`./types/${type}Search.js`);
-        if (mod.default) {
-          // eslint-disable-next-line new-cap
-          search = new mod.default();
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(`failed to load Search Type for ${type}`, error);
-      }
+      const type = typeInput[1].replace(/(^\w)|\s+(\w)/g, (letter) => letter.toUpperCase()).replaceAll(/\s/g, '');
+      search = await Search.load(type);
     }
     search.populateFromConfig(entries);
-    return search;
-  }
-
-  /**
-   * Creates a Search instance from a Suggestion Query String
-   *
-   * @param {String} query
-   */
-  static async fromSuggestionQuery(query) {
-    const urlParams = new URLSearchParams(query);
-    let search = new Search();
-    let type = urlParams.get('SearchType');
-    if (type) {
-      type = type.replace(/(^\w)|\s+(\w)/g, (letter) => letter.toUpperCase()).replaceAll(/\s/g, '');
-      try {
-        const mod = await import(`./types/${type}Search.js`);
-        if (mod.default) {
-          // eslint-disable-next-line new-cap
-          search = new mod.default();
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(`failed to load Search Type for ${type}`, error);
-      }
-    }
-    search.populateFromSuggestion(urlParams);
     return search;
   }
 
@@ -316,16 +293,7 @@ export default class Search {
     let search = new Search();
     const { type } = json;
     if (type) {
-      try {
-        const mod = await import(`./types/${type}Search.js`);
-        if (mod.default) {
-          // eslint-disable-next-line new-cap
-          search = new mod.default();
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(`failed to load Search Type for ${type}`, error);
-      }
+      search = await Search.load(type);
     }
     Object.assign(search, json);
     return search;
