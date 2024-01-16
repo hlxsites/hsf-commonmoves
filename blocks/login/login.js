@@ -54,6 +54,18 @@ function observeForm() {
   document.head.append(script);
 }
 
+let alreadyDeferred = false;
+function initLogin() {
+  if (alreadyDeferred) {
+    return;
+  }
+  alreadyDeferred = true;
+  const script = document.createElement('script');
+  script.type = 'module';
+  script.src = `${window.hlx.codeBasePath}/blocks/login/login-delayed.js`;
+  document.head.append(script);
+}
+
 export default function decorate(block) {
   block.innerHTML = `
     <div class="login-overlay"></div>
@@ -122,4 +134,5 @@ export default function decorate(block) {
     </div>
   `;
   observeForm();
+  initLogin();
 }

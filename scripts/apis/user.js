@@ -30,5 +30,7 @@ export async function login(credentials) {
   });
   if (resp.ok) {
     console.log('Success!');
+  } else {
+    console.error('Failed to login');
   }
 }
