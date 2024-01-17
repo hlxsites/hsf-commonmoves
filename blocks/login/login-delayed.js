@@ -1,5 +1,5 @@
 import { close, displayError, reset } from './login.js';
-import { login } from '../../scripts/apis/user.js';
+import { login, isLoggedIn, getUserDetails } from '../../scripts/apis/user.js';
 
 const block = document.querySelector('.login.block');
 
@@ -33,11 +33,24 @@ function loginError(response) {
 }
 
 /**
+ * Checks if the user is logged in and updates the header accordingly.
+ */
+function checkForLoggedInUser() {
+  if (isLoggedIn()) {
+    const userDetailsLink = document.body.querySelector('.nav-profile .username a');
+    document.body.querySelector('.nav-profile .login').style.display = 'none';
+    document.body.querySelector('.nav-profile .username').style.display = 'block';
+    const userDetails = getUserDetails();
+    userDetailsLink.textContent = userDetails?.profile?.firstName || 'Valued Customer';
+  }
+}
+
+/**
  * Submits the form.
  *
  * @param {HTMLFormElement} form
  */
-function submit(form) {
+async function submit(form) {
   reset();
 
   if (isValid(form)) {
@@ -45,11 +58,10 @@ function submit(form) {
       username: form.querySelector('input[name="username"]').value,
       password: form.querySelector('input[name="password"]').value,
     };
-    const userDetails = login(credentials, loginError);
+    const userDetails = await login(credentials, loginError);
     if (userDetails) {
       close();
-      const userDetailsLink = document.body.querySelector('.username a');
-      userDetailsLink.textContent = userDetails?.profile?.firstName || 'Valued Customer';
+      checkForLoggedInUser();
     }
   }
 }
@@ -107,3 +119,5 @@ block.querySelector('.cta a.cancel').addEventListener('click', (e) => {
   e.stopPropagation();
   close();
 });
+
+checkForLoggedInUser();

@@ -42,7 +42,7 @@ export function getUserDetails() {
 
 async function fetchUserProfile(username) {
   const time = new Date().getTime();
-  const profileResponse = await fetch(`https://www.bhhs.com/bin/bhhs/cregUserProfile?Email=${username}brendan.robert%40gmail.com&_=${time}`);
+  const profileResponse = await fetch(`${API_URL}/cregUserProfile?Email=${encodeURIComponent(username)}&_=${time}`);
   const json = profileResponse.json();
   return json;
 }
