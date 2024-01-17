@@ -96,6 +96,7 @@ export async function login(credentials, failureCallback = null) {
     return sessionData;
   }
   console.error('Failed to login');
+  logout();
   if (failureCallback) {
     failureCallback(resp);
   }
