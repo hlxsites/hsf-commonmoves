@@ -24,6 +24,14 @@ function isValid(form) {
   return true;
 }
 
+function loginError(response) {
+  if (response.status === 401) {
+    displayError(['Invalid username or password.']);
+  } else {
+    displayError([`There was an error logging in (${response.body})`]);
+  }
+}
+
 /**
  * Submits the form.
  *
@@ -37,7 +45,12 @@ function submit(form) {
       username: form.querySelector('input[name="username"]').value,
       password: form.querySelector('input[name="password"]').value,
     };
-    login(credentials);
+    const userDetails = login(credentials, loginError);
+    if (userDetails) {
+      close();
+      const userDetailsLink = document.body.querySelector('.username a');
+      userDetailsLink.textContent = userDetails?.profile?.firstName || 'Valued Customer';
+    }
   }
 }
 

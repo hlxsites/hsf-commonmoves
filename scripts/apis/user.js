@@ -40,6 +40,13 @@ export function getUserDetails() {
   return JSON.parse(userDetails);
 }
 
+async function fetchUserProfile(username) {
+  const time = new Date().getTime();
+  const profileResponse = await fetch(`https://www.bhhs.com/bin/bhhs/cregUserProfile?Email=${username}brendan.robert%40gmail.com&_=${time}`);
+  const json = profileResponse.json();
+  return json;
+}
+
 /**
  * Logs the user out silently.
  */
@@ -86,10 +93,14 @@ export async function login(credentials, failureCallback = null) {
     const responseJson = await resp.json();
     const { contactKey, externalID } = responseJson;
     const { hsfconsumerid } = JSON.parse(externalID);
+
+    const profile = await fetchUserProfile(credentials.username);
+
     const sessionData = {
       contactKey,
       externalID,
       hsfconsumerid,
+      profile,
       username: credentials.username,
     };
     sessionStorage.setItem('userDetails', JSON.stringify(sessionData));

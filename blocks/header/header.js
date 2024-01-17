@@ -1,6 +1,7 @@
 import { BREAKPOINTS } from '../../scripts/scripts.js';
 import { getMetadata, decorateIcons, decorateSections } from '../../scripts/aem.js';
 import { open as openSignIn, close as closeSignIn } from '../login/login.js';
+import { logout } from '../../scripts/apis/user.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = BREAKPOINTS.large;
@@ -117,6 +118,12 @@ function buildLogo() {
   return logo;
 }
 
+function doLogout() {
+  const userDetailsLink = document.body.querySelector('.username a');
+  userDetailsLink.textContent = 'Sign In';
+  logout();
+}
+
 /**
  * Adds the Profile submenu to the Nav.
  * @param {HTMLDivElement} nav
@@ -143,6 +150,7 @@ function addProfileLogin(nav) {
   `;
   profileList.prepend(...profileMenu.childNodes);
   profileList.querySelector('.login a').addEventListener('click', openSignIn);
+  profileList.querySelector('.user-menu .logout a').addEventListener('click', doLogout);
 }
 
 /**
