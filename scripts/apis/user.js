@@ -91,15 +91,15 @@ export async function login(credentials, failureCallback = null) {
     console.log('Success!');
     // Extract contactKey and externalID from response JSON.  Store in session
     const responseJson = await resp.json();
-    const { contactKey, externalID } = responseJson;
-    const { hsfconsumerid } = JSON.parse(externalID);
+    const { contactKey } = responseJson;
+    // const { hsfconsumerid } = JSON.parse(externalID);
 
     const profile = await fetchUserProfile(credentials.username);
 
     const sessionData = {
       contactKey,
-      externalID,
-      hsfconsumerid,
+      // externalID,
+      // hsfconsumerid,
       profile,
       username: credentials.username,
     };
