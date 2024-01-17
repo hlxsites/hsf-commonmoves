@@ -7,14 +7,66 @@ export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.co
 const API_URL = `https://${DOMAIN}/bin/bhhs`;
 
 /**
+ * Confirms if user is logged in or not
+ * @return {boolean}
+ */
+export function isLoggedIn() {
+  // Check if we have userDetails in session storage
+  const userDetails = sessionStorage.getItem('userDetails');
+  if (!userDetails) {
+    return false;
+  }
+
+  // Check for .rwapiauth cookie
+  const cookies = document.cookie.split(';');
+  const rwapiauthCookie = cookies.find((c) => c.trim().startsWith('.rwapiauth'));
+  if (rwapiauthCookie) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Get user details if they are logged in, otherwise return null.
+ * @returns {object} user details
+ */
+export function getUserDetails() {
+  if (!isLoggedIn()) {
+    return null;
+  }
+
+  const userDetails = sessionStorage.getItem('userDetails');
+  return JSON.parse(userDetails);
+}
+
+/**
+ * Logs the user out silently.
+ */
+export function logout() {
+  // Remove session storage
+  sessionStorage.removeItem('userDetails');
+
+  // Remove cookies
+  const cookies = document.cookie.split(';');
+  cookies.forEach((c) => {
+    const cookie = c.trim();
+    if (cookie.startsWith('.rwapiauth')) {
+      document.cookie = `${cookie}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    }
+  });
+}
+
+/**
  * Authenticates the user based on the username and password.
  *
  * @param {object} credentials
  * @param {string} credentials.username
  * @param {string} credentials.password
- * @return {Promise<void>}
+ * @param {function<Response>} failureCallback Callback provided reponse object.
+ * @return {Promise<Object>} User details if login is successful.
  */
-export async function login(credentials) {
+export async function login(credentials, failureCallback = null) {
   const url = `${API_URL}/cregLoginServlet`;
   const resp = await fetch(url, {
     method: 'POST',
@@ -30,7 +82,22 @@ export async function login(credentials) {
   });
   if (resp.ok) {
     console.log('Success!');
-  } else {
-    console.error('Failed to login');
+    // Extract contactKey and externalID from response JSON.  Store in session
+    const responseJson = await resp.json();
+    const { contactKey, externalID } = responseJson;
+    const { hsfconsumerid } = JSON.parse(externalID);
+    const sessionData = {
+      contactKey,
+      externalID,
+      hsfconsumerid,
+      username: credentials.username,
+    };
+    sessionStorage.setItem('userDetails', JSON.stringify(sessionData));
+    return sessionData;
   }
+  console.error('Failed to login');
+  if (failureCallback) {
+    failureCallback(resp);
+  }
+  return null;
 }
