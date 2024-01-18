@@ -48,6 +48,56 @@ async function fetchUserProfile(username) {
 }
 
 /**
+ * Attempt to update the user profile.  If successful, also update session copy.
+ * Caller must look at response to see if it was successful, etc.
+ * @param {Object} Updated user profile
+ * @returns response object with status, null if user not logged in
+ */
+export async function updateProfile(profile) {
+  const userDetails = getUserDetails();
+  if (userDetails === null) {
+    return null;
+  }
+  const existingProfile = userDetails.profile;
+
+  // Update profile in backend, post object as name/value pairs
+  const time = new Date().getTime();
+  const url = `${API_URL}/cregUserProfile?Email=${encodeURIComponent(userDetails.username)}&_=${time}`;
+  const postBody = {
+    FirstName: profile.firstName,
+    LastName: profile.lastName,
+    MobilePhone: profile.mobilePhone,
+    HomePhone: profile.homePhone,
+    Email: profile.email,
+    EmailNotifications: profile.emailNotifications || existingProfile.emailNotifications || false,
+    ContactKey: existingProfile.contactKey,
+    signInScheme: profile.signInScheme || existingProfile.signInScheme || 'default',
+    HomeAddress1: profile.homeAddress1,
+    HomeAddress2: profile.homeAddress2,
+    HomeCity: profile.homeCity,
+    HomeStateOrProvince: profile.homeStateOrProvince,
+    HomePostalCode: profile.homePostalCode,
+    Language: profile.language,
+    Currency: profile.currency,
+    UnitOfMeasure: profile.measure,
+  };
+  const response = fetch(url, {
+    method: 'PUT',
+    credentials: 'include',
+    mode: 'cors',
+    body: new URLSearchParams(postBody).toString(),
+  });
+
+  if (response.ok) {
+    // Update profile in session storage using a merge
+    userDetails.profile = { ...existingProfile, ...profile };
+    sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+  }
+
+  return response;
+}
+
+/**
  * Logs the user out silently.
  */
 export function logout() {
