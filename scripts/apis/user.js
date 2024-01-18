@@ -88,7 +88,6 @@ export async function login(credentials, failureCallback = null) {
     }).toString(),
   });
   if (resp.ok) {
-    console.log('Success!');
     // Extract contactKey and externalID from response JSON.  Store in session
     const responseJson = await resp.json();
     const { contactKey } = responseJson;
@@ -106,7 +105,6 @@ export async function login(credentials, failureCallback = null) {
     sessionStorage.setItem('userDetails', JSON.stringify(sessionData));
     return sessionData;
   }
-  console.error('Failed to login');
   logout();
   if (failureCallback) {
     failureCallback(resp);
