@@ -98,6 +98,27 @@ export async function updateProfile(profile) {
 }
 
 /**
+ * Request a password reset email.
+ * @returns response object with status, null if user not logged in
+ */
+export async function requestPasswordReset() {
+  const userDetails = getUserDetails();
+  if (userDetails === null) {
+    return null;
+  }
+
+  const time = new Date().getTime();
+  const url = `${API_URL}/cregPasswordReset?Email=${encodeURIComponent(userDetails.username)}&_=${time}`;
+  const response = fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+  });
+
+  return response;
+}
+
+/**
  * Logs the user out silently.
  */
 export function logout() {
