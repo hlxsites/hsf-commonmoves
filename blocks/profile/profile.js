@@ -95,7 +95,7 @@ export default async function decorate(block) {
       <tab name="Contact Info">
         <input type="text" name="firstName" placeholder="First Name" required />
         <input type="text" name="lastName" placeholder="Last Name" required />
-        <input type="text" name="email" placeholder="Email" required />
+        <input type="text" name="email" placeholder="Email Address" required />
         <p class="help">Please manage your email preferences by using "Unsubscribe" option at the bottom of emails you receive.</p>
         <input type="text" name="mobilePhone" placeholder="Mobile Phone" />
         <input type="text" name="homePhone" placeholder="Home Phone" />
@@ -117,11 +117,11 @@ export default async function decorate(block) {
         <select name="country">
           <option value="">Country</option>
         </select>
-        <input type="text" name="address1" placeholder="Address 1" />
-        <input type="text" name="address2" placeholder="Address 2" />
+        <input type="text" name="address1" placeholder="Street Address 1" />
+        <input type="text" name="address2" placeholder="Street Address 2" />
         <input type="text" name="city" placeholder="City" />
         <input type="text" name="stateOrProvince" placeholder="State" />
-        <input type="text" name="postalCode" placeholder="Zip Code" />
+        <input type="text" name="postalCode" placeholder="Zip" />
         <button class="save">Save</button>
       </tab>
       <tab name="Regional Preferences">
