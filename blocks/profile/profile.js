@@ -78,15 +78,13 @@ function populateForm(block) {
     measure: block.querySelector('select[name="measure"]'),
   };
 
-  if (profile) {
-    Object.keys(form).forEach((key) => {
-      form[key].value = profile[key] || '';
-      // If field is required, append asterisk to placeholder
-      if (form[key].required) {
-        form[key].placeholder += '*';
-      }
-    });
-  }
+  Object.keys(form).forEach((key) => {
+    form[key].value = profile[key] || '';
+    // If field is required, append asterisk to placeholder
+    if (form[key].required) {
+      form[key].placeholder += '*';
+    }
+  });
 }
 
 export default async function decorate(block) {
