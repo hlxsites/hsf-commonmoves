@@ -14,6 +14,7 @@
     line-height: var(--line-height-m);
     font-size: var(--body-font-size-m);
     margin: 2em 2em 2em 0;
+    padding: 0;
     background-color: unset;
     text-transform: uppercase;
 }
@@ -35,6 +36,17 @@
     margin-top: 1em;
 }
 
+.profile .tab button {
+    background-color : var(--primary-color);
+    color: var(--white);
+    border: none;
+    padding: 0.7em 2em;
+    margin-top: 2em;
+    text-transform: uppercase;
+    font-size: var(--body-font-size-s);
+    display: block;
+}
+
 .profile .help {
     font-size: var(--body-font-size-xs);
     line-height: var(--line-height-m);
@@ -50,12 +62,34 @@
     margin-right: 0.5em;
 }
 
+.profile input:required:placeholder-shown {
+    border: 2px solid var(--error);
+    background-color: var(--error-highlight);
+}
+
+.profile input:required::placeholder {
+    color: var(--error);
+}
+
 .profile select {
     height: var(--line-height-xxl);
 }
 
 .profile input[name='lastName'] {
     margin-right: 0;
+}
+
+.profile select[name='country'], .profile input[name='address1'], .profile input[name='address2'], .profile input[name='city']  {
+    width: 27em;
+    display: block;
+}
+
+.profile input[name='stateOrProvince'] {
+    width: 18em;
+}
+
+.profile input[name='postalCode'] {
+    width: 8.25em;
 }
 
 .profile input[name='email'] {

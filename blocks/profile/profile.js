@@ -40,26 +40,15 @@ function prepareTabs(block) {
 }
 
 function populateDropdown(select, data) {
-  const options = data.map((d) => `<option value="${d.value}">${d.display}</option>`);
-  select.innerHTML += options.join('');
+  select.innerHTML += data.map((d) => `<option value="${d.value}">${d.display}</option>`).join('');
 }
 
 async function populateDropdowns(block) {
   const dropdownValues = await getDropdownValues();
-  const countryDropdown = block.querySelector('select[name="country"]');
-  const languageDropdown = block.querySelector('select[name="language"]');
-  const currencyDropdown = block.querySelector('select[name="currency"]');
-  const measureDropdown = block.querySelector('select[name="measure"]');
-  const {
-    country,
-    language,
-    currency,
-    measure,
-  } = dropdownValues;
-  populateDropdown(countryDropdown, country.data);
-  populateDropdown(languageDropdown, language.data);
-  populateDropdown(currencyDropdown, currency.data);
-  populateDropdown(measureDropdown, measure.data);
+  populateDropdown(block.querySelector('select[name="country"]'), dropdownValues.country.data);
+  populateDropdown(block.querySelector('select[name="language"]'), dropdownValues.language.data);
+  populateDropdown(block.querySelector('select[name="currency"]'), dropdownValues.currency.data);
+  populateDropdown(block.querySelector('select[name="measure"]'), dropdownValues.measure.data);
 }
 
 function setupPasswordReset(block) {
@@ -72,38 +61,31 @@ function setupPasswordReset(block) {
 function populateForm(block) {
   const { profile } = getUserDetails() || { profile: {} };
 
-  if (profile) {
-    form = {
-      firstName: block.querySelector('input[name="firstName"]'),
-      lastName: block.querySelector('input[name="lastName"]'),
-      email: block.querySelector('input[name="email"]'),
-      mobilePhone: block.querySelector('input[name="mobilePhone"]'),
-      homePhone: block.querySelector('input[name="homePhone"]'),
-      country: block.querySelector('select[name="country"]'),
-      address1: block.querySelector('input[name="address1"]'),
-      address2: block.querySelector('input[name="address2"]'),
-      city: block.querySelector('input[name="city"]'),
-      stateOrProvince: block.querySelector('input[name="stateOrProvince"]'),
-      postalCode: block.querySelector('input[name="postalCode"]'),
-      language: block.querySelector('select[name="language"]'),
-      currency: block.querySelector('select[name="currency"]'),
-      measure: block.querySelector('select[name="measure"]'),
-    };
+  form = {
+    firstName: block.querySelector('input[name="firstName"]'),
+    lastName: block.querySelector('input[name="lastName"]'),
+    email: block.querySelector('input[name="email"]'),
+    mobilePhone: block.querySelector('input[name="mobilePhone"]'),
+    homePhone: block.querySelector('input[name="homePhone"]'),
+    country: block.querySelector('select[name="country"]'),
+    address1: block.querySelector('input[name="address1"]'),
+    address2: block.querySelector('input[name="address2"]'),
+    city: block.querySelector('input[name="city"]'),
+    stateOrProvince: block.querySelector('input[name="stateOrProvince"]'),
+    postalCode: block.querySelector('input[name="postalCode"]'),
+    language: block.querySelector('select[name="language"]'),
+    currency: block.querySelector('select[name="currency"]'),
+    measure: block.querySelector('select[name="measure"]'),
+  };
 
-    form.firstName.value = profile.firstName || '';
-    form.lastName.value = profile.lastName || '';
-    form.email.value = profile.email || '';
-    form.mobilePhone.value = profile.mobilePhone || '';
-    form.homePhone.value = profile.homePhone || '';
-    form.country.value = profile.country || 'US';
-    form.address1.value = profile.address1 || '';
-    form.address2.value = profile.address2 || '';
-    form.city.value = profile.city || '';
-    form.stateOrProvince.value = profile.stateOrProvince || '';
-    form.postalCode.value = profile.postalCode || '';
-    form.language.value = profile.language || '';
-    form.currency.value = profile.currency || '';
-    form.measure.value = profile.measure || '';
+  if (profile) {
+    Object.keys(form).forEach((key) => {
+      form[key].value = profile[key] || '';
+      // If field is required, append asterisk to placeholder
+      if (form[key].required) {
+        form[key].placeholder += '*';
+      }
+    });
   }
 }
 
@@ -125,13 +107,14 @@ export default async function decorate(block) {
           use your contact information, please review our <a href="https://www.bhhs.com/terms-of-use">Terms of Use</a>
           and <a href="https://www.bhhs.com/privacy-policy">Privacy Policy.</a>
         </p>
+        <button class="save">Save</button>
       </tab>
       <tab name="Change Password">
         <p class="help">Click reset, and we will send you a email containing a reset password link.</p>
         <button class="reset-password">Reset Password</button>
       </tab>
       <tab name="Address">
-        <select name="country" required>
+        <select name="country">
           <option value="">Country</option>
         </select>
         <input type="text" name="address1" placeholder="Address 1" />
@@ -139,28 +122,30 @@ export default async function decorate(block) {
         <input type="text" name="city" placeholder="City" />
         <input type="text" name="stateOrProvince" placeholder="State" />
         <input type="text" name="postalCode" placeholder="Zip Code" />
+        <button class="save">Save</button>
       </tab>
       <tab name="Regional Preferences">
         <p>Set the language for emails and this site.</p>
         <h4>Language</h4>
-        <select name="language" required>
+        <select name="language">
           <option value="">Language</option>
         </select>
-        <p>Set the currency and unit of measurement for this site.
+        <p>Set the currency and unit of measurement for this site.</p>
         <h4>Currency</h4>
-        <select name="currency" required>
+        <select name="currency">
           <option value="">Currency</option>
         </select>
         <h4>Unit of Measurement</h4>
-        <select name="measure" required>
+        <select name="measure">
           <option value="">Unit of Measurement</option>
         </select>
+        <button class="save">Save</button>
       </tab>
     </tabs>
   `;
 
-  populateDropdowns(block);
   prepareTabs(block);
-  setupPasswordReset(block);
+  populateDropdowns(block);
   populateForm(block);
+  setupPasswordReset(block);
 }
