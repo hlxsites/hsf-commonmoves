@@ -8,6 +8,15 @@ function asHtml(string) {
   return div.firstChild;
 }
 
+let cachedDropdownValues = {};
+async function getDropdownValues() {
+  if (Object.keys(cachedDropdownValues).length === 0) {
+    const response = await fetch('/account/dropdown-values.json');
+    cachedDropdownValues = await response.json();
+  }
+  return cachedDropdownValues;
+}
+
 function prepareTabs(block) {
   const tabContainer = block.querySelector('tabs');
   const tabs = tabContainer.querySelectorAll('tab');
@@ -30,56 +39,27 @@ function prepareTabs(block) {
   buttonBar.childNodes[0].click();
 }
 
-function populateDropdowns(block) {
+function populateDropdown(select, data) {
+  const options = data.map((d) => `<option value="${d.value}">${d.display}</option>`);
+  select.innerHTML += options.join('');
+}
+
+async function populateDropdowns(block) {
+  const dropdownValues = await getDropdownValues();
   const countryDropdown = block.querySelector('select[name="country"]');
   const languageDropdown = block.querySelector('select[name="language"]');
   const currencyDropdown = block.querySelector('select[name="currency"]');
   const measureDropdown = block.querySelector('select[name="measure"]');
-  const countries = [
-    { name: 'United States', value: 'US' },
-    { name: 'Canada', value: 'CA' },
-  ];
-  const languages = [
-    { name: 'English', value: 'en' },
-    { name: 'French', value: 'fr' },
-  ];
-  const currencies = [
-    { name: 'US Dollar', value: 'USD' },
-    { name: 'Canadian Dollar', value: 'CAD' },
-  ];
-  const measures = [
-    { name: 'Imperial', value: 'imperial' },
-    { name: 'Metric', value: 'metric' },
-  ];
-
-  countries.forEach((country) => {
-    const option = document.createElement('option');
-    option.value = country.value;
-    option.innerHTML = country.name;
-    countryDropdown.append(option);
-  });
-
-  languages.forEach((language) => {
-    const option = document.createElement('option');
-    option.value = language.value;
-    option.innerHTML = language.name;
-    languageDropdown.append(option);
-  });
-
-  currencies.forEach((currency) => {
-    const option = document.createElement('option');
-
-    option.value = currency.value;
-    option.innerHTML = currency.name;
-    currencyDropdown.append(option);
-  });
-
-  measures.forEach((measure) => {
-    const option = document.createElement('option');
-    option.value = measure.value;
-    option.innerHTML = measure.name;
-    measureDropdown.append(option);
-  });
+  const {
+    country,
+    language,
+    currency,
+    measure,
+  } = dropdownValues;
+  populateDropdown(countryDropdown, country.data);
+  populateDropdown(languageDropdown, language.data);
+  populateDropdown(currencyDropdown, currency.data);
+  populateDropdown(measureDropdown, measure.data);
 }
 
 function setupPasswordReset(block) {
@@ -115,7 +95,7 @@ function populateForm(block) {
     form.email.value = profile.email || '';
     form.mobilePhone.value = profile.mobilePhone || '';
     form.homePhone.value = profile.homePhone || '';
-    form.country.value = profile.country || '';
+    form.country.value = profile.country || 'US';
     form.address1.value = profile.address1 || '';
     form.address2.value = profile.address2 || '';
     form.city.value = profile.city || '';
@@ -179,8 +159,8 @@ export default async function decorate(block) {
     </tabs>
   `;
 
+  populateDropdowns(block);
   prepareTabs(block);
   setupPasswordReset(block);
-  populateDropdowns(block);
   populateForm(block);
 }
