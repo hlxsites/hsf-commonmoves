@@ -1,39 +1,22 @@
 /* Styles for tabs and form fields used in profile page */
-.profile .tabs {
-    margin-bottom: 1em;
+.profile nav button {
+    border: none;
+    line-height: var(--line-height-m);
+    font-size: var(--body-font-size-m);
+    margin: 2em 2em 2em 0;
+    background-color: unset;
+    text-transform: uppercase;
 }
 
-.profile .tabs ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-}
-
-.profile .tabs li {
-    display: inline;
-    margin: 0;
-    padding: 0;
-}
-
-.profile .tabs li a {
-    padding: 0.2em 0.5em;
-    margin-right: 0.2em;
-    border: 1px solid #ddd;
-    border-bottom: none;
-    background-color: #eee;
-    text-decoration: none;
-}
-
-.profile .tabs li a:hover {
-    background-color: #ddd;
-}
-
-.profile .tabs li.selected a {
-    background-color: white;
-    border-bottom: 1px solid purple;
+.profile nav button.active {
     font-weight: bold;
+    border-bottom: 3px solid var(--primary-color);
 }
 
-.profile .tabs li.selected a:hover {
-    background-color: white;
+.profile tab, .profile tab tab-name {
+    display: none;
+}
+
+.profile tab.active {
+    display: block;
 }

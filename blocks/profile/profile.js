@@ -1,37 +1,37 @@
 import { getUserDetails, requestPasswordReset, updateProfile, isLoggedIn } from '../../scripts/apis/user.js';
 
+let form = {};
+
+function asHtml(string) {
+  const div = document.createElement('div');
+  div.innerHTML = string;
+  return div.firstChild;
+}
+
 function prepareTabs(block) {
-  const tabs = block.querySelector('tabs');
-  const tabNames = tabs.querySelectorAll('tab-name');
-  const tabContents = tabs.querySelectorAll('content');
+  const tabContainer = block.querySelector('tabs');
+  const tabs = tabContainer.querySelectorAll('tab');
   const tabButtons = [];
-  const tabContentsArray = [];
 
-  tabNames.forEach((tabName) => {
-    tabButtons.push(tabName);
-  });
+  tabs.forEach((tab) => {
+    const tabName = tab.querySelector('tab-name');
+    const tabContents = tab.querySelector('content');
+    tabContents.tabName = tabName.textContent;
 
-  tabContents.forEach((tabContent) => {
-    tabContentsArray.push(tabContent);
-  });
+    const tabButton = asHtml(`<button>${tabName.innerHTML}</button>`);
+    tabButtons.push(tabButton);
 
-  tabButtons.forEach((tabButton) => {
-    tabButton.addEventListener('click', () => {
-      const tabName = tabButton.innerHTML;
-      tabButtons.forEach((button) => {
-        button.classList.remove('active');
-      });
+    tabButton.onclick = () => {
+      tabButtons.forEach((button) => button.classList.remove('active'));
       tabButton.classList.add('active');
-      tabContentsArray.forEach((tabContent) => {
-        if (tabContent.innerHTML.includes(tabName)) {
-          tabContent.classList.add('active');
-        } else {
-          tabContent.classList.remove('active');
-        }
-      });
-    });
+      tabs.forEach((tabContent) => tabContent.classList.remove('active'));
+      tab.classList.add('active');
+    };
   });
 
+  const buttonBar = asHtml('<nav class="tab-buttons"></nav>');
+  tabButtons.forEach((button) => buttonBar.append(button));
+  tabContainer.insertBefore(buttonBar, tabContainer.firstChild);
   tabButtons[0].click();
 }
 
@@ -91,46 +91,48 @@ function setupPasswordReset(block) {
   const resetPassword = block.querySelector('.reset-password');
   resetPassword.addEventListener('click', () => {
     requestPasswordReset();
-  }
+  });
 }
 
 function populateForm(block) {
-  const profile = getUserDetails().profile;
+  const { profile } = getUserDetails();
 
   if (profile) {
-    const firstName = block.querySelector('input[name="firstName"]');
-    const lastName = block.querySelector('input[name="lastName"]');
-    const email = block.querySelector('input[name="email"]');
-    const mobilePhone = block.querySelector('input[name="mobilePhone"]');
-    const homePhone = block.querySelector('input[name="homePhone"]');
-    const country = block.querySelector('select[name="country"]');
-    const address1 = block.querySelector('input[name="address1"]');
-    const address2 = block.querySelector('input[name="address2"]');
-    const city = block.querySelector('input[name="city"]');
-    const stateOrProvince = block.querySelector('input[name="stateOrProvince"]');
-    const postalCode = block.querySelector('input[name="postalCode"]');
-    const language = block.querySelector('select[name="language"]');
-    const currency = block.querySelector('select[name="currency"]');
-    const measure = block.querySelector('select[name="measure"]');
+    form = {
+      firstName: block.querySelector('input[name="firstName"]'),
+      lastName: block.querySelector('input[name="lastName"]'),
+      email: block.querySelector('input[name="email"]'),
+      mobilePhone: block.querySelector('input[name="mobilePhone"]'),
+      homePhone: block.querySelector('input[name="homePhone"]'),
+      country: block.querySelector('select[name="country"]'),
+      address1: block.querySelector('input[name="address1"]'),
+      address2: block.querySelector('input[name="address2"]'),
+      city: block.querySelector('input[name="city"]'),
+      stateOrProvince: block.querySelector('input[name="stateOrProvince"]'),
+      postalCode: block.querySelector('input[name="postalCode"]'),
+      language: block.querySelector('select[name="language"]'),
+      currency: block.querySelector('select[name="currency"]'),
+      measure: block.querySelector('select[name="measure"]'),
+    };
 
-    firstName.value = profile.firstName;
-    lastName.value = profile.lastName;
-    email.value = profile.email;
-    mobilePhone.value = profile.mobilePhone;
-    homePhone.value = profile.homePhone;
-    country.value = profile.country;
-    address1.value = profile.address1;
+    form.firstName.value = profile.firstName;
+    form.lastName.value = profile.lastName;
+    form.email.value = profile.email;
+    form.mobilePhone.value = profile.mobilePhone;
+    form.homePhone.value = profile.homePhone;
+    form.country.value = profile.country;
+    form.address1.value = profile.address1;
 
     if (profile.address2) {
-      address2.value = profile.address2;
+      form.address2.value = profile.address2;
     }
 
-    city.value = profile.city;
-    stateOrProvince.value = profile.stateOrProvince;
-    postalCode.value = profile.postalCode;
-    language.value = profile.language;
-    currency.value = profile.currency;
-    measure.value = profile.measure;
+    form.city.value = profile.city;
+    form.stateOrProvince.value = profile.stateOrProvince;
+    form.postalCode.value = profile.postalCode;
+    form.language.value = profile.language;
+    form.currency.value = profile.currency;
+    form.measure.value = profile.measure;
   }
 }
 
