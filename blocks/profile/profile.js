@@ -127,18 +127,12 @@ export default async function decorate(block) {
       <tab name="Regional Preferences">
         <p>Set the language for emails and this site.</p>
         <h4>Language</h4>
-        <select name="language">
-          <option value="">Language</option>
-        </select>
+        <select name="language"></select>
         <p>Set the currency and unit of measurement for this site.</p>
         <h4>Currency</h4>
-        <select name="currency">
-          <option value="">Currency</option>
-        </select>
+        <select name="currency"></select>
         <h4>Unit of Measurement</h4>
-        <select name="measure">
-          <option value="">Unit of Measurement</option>
-        </select>
+        <select name="measure"></select>
         <button class="save">Save</button>
       </tab>
     </tabs>
