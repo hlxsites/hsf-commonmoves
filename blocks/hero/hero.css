@@ -64,7 +64,7 @@ main .section.full-width > .hero-wrapper {
   inset: 0;
   margin: auto;
   height: 100%;
-  width: 100vw;
+  width: 100%;
   object-fit: cover;
   object-position: center;
 }
