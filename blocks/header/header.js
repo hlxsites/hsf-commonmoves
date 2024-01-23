@@ -119,9 +119,9 @@ function buildLogo() {
 }
 
 function doLogout() {
-  const userDetailsLink = document.body.querySelector('.username a');
-  userDetailsLink.textContent = 'Sign In';
   logout();
+  document.body.querySelector('.nav-profile .login').style.display = 'block';
+  document.body.querySelector('.nav-profile .username').style.display = 'none';
 }
 
 /**
@@ -133,24 +133,21 @@ function addProfileLogin(nav) {
 
   const profileMenu = document.createElement('ul');
   profileMenu.innerHTML = `
-    <li class="login">
-      <a href="#">Sign In</a>
-    </li>
-    <li class="username">
+    <li class="level-1 login"><a href="#">Sign In</a></li>
+    <li class="level-1 username">
       <a href="#">{Username}</a>
-    </li>
-
-    <li class="user-menu">
-      <a href="#">Back</a>
-      <ul>
-         <li class="profile"><a href="#">Profile</a></li>
+      <div class="dropdown-arrow">
+        <div class="up-arrow"></div>
+      </div>
+      <ul class="level-2">
+         <li class="profile"><a href="/account/profile">Profile</a></li>
          <li class="logout"><a href="#">Sign out</a></li>
       </ul>
     </li>
   `;
-  profileList.prepend(...profileMenu.childNodes);
+  profileList.append(...profileMenu.childNodes);
   profileList.querySelector('.login a').addEventListener('click', openSignIn);
-  profileList.querySelector('.user-menu .logout a').addEventListener('click', doLogout);
+  profileList.querySelector('.username .logout a').addEventListener('click', doLogout);
 }
 
 /**

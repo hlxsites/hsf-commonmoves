@@ -42,6 +42,9 @@ function checkForLoggedInUser() {
     document.body.querySelector('.nav-profile .username').style.display = 'block';
     const userDetails = getUserDetails();
     userDetailsLink.textContent = userDetails?.profile?.firstName || 'Valued Customer';
+  } else {
+    document.body.querySelector('.nav-profile .login').style.display = 'block';
+    document.body.querySelector('.nav-profile .username').style.display = 'none';
   }
 }
 

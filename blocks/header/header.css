@@ -127,6 +127,45 @@ body.light-nav {
   display: none;
 }
 
+.header.block nav .nav-profile .level-2 {
+  filter: drop-shadow(0 0 6px rgba(0 0 0 / 25%));
+  background-color: var(--white);
+  padding: 0.25em 0;
+}
+
+.header.block nav .nav-profile .level-1:has(.level-2)>a::after {
+  content: '\f0d7';
+  font-family: var(--font-family-fontawesome);
+  height: var(--body-font-size-s);
+  width: var(--body-font-size-s);
+  margin-left: 10px;
+  color: var(--body-color);
+  transition: transform 0.2s ease-in-out;
+}
+
+.header.block nav .nav-profile .level-1 .level-2 {
+  display:none;
+}
+
+.header.block nav .nav-profile .level-1:hover .level-2 {
+  display: block;
+}
+
+.header.block nav .nav-profile .level-2::before {
+  content: '';
+  position: absolute;
+  top: -0.5em;
+  right: 1em;
+  height: 1em;
+  width: 1em;
+  background-color: var(--white);
+  transform: rotate(45deg);
+}
+
+.header.block nav .nav-profile .level-2 li {
+  padding: 0.4em 0;
+}
+
 .header.block nav .nav-sections {
   display: none;
   grid-area: sections;
