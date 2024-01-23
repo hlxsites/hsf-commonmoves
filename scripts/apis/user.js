@@ -61,8 +61,7 @@ export async function updateProfile(profile) {
   const existingProfile = userDetails.profile;
 
   // Update profile in backend, post object as name/value pairs
-  const time = new Date().getTime();
-  const url = `${API_URL}/cregUserProfile?Email=${encodeURIComponent(userDetails.username)}&_=${time}`;
+  const url = `${API_URL}/cregUserProfile`;
   const postBody = {
     FirstName: profile.firstName,
     LastName: profile.lastName,
@@ -81,16 +80,15 @@ export async function updateProfile(profile) {
     Currency: profile.currency,
     UnitOfMeasure: profile.measure,
   };
-  // Post as multi-part form
-  const formData = new FormData();
-  Object.keys(postBody).forEach((key) => {
-    formData.append(key, postBody[key]);
-  });
   const response = await fetch(url, {
     method: 'PUT',
     credentials: 'include',
     mode: 'cors',
-    body: formData,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'x-requested-with': 'XMLHttpRequest',
+    },
+    body: new URLSearchParams(postBody).toString(),
   });
 
   if (response.ok) {
