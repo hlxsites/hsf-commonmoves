@@ -56,13 +56,6 @@ async function populateDropdowns(block) {
   populateDropdown(block.querySelector('select[name="measure"]'), dropdownValues.measure.data);
 }
 
-function setupPasswordReset(block) {
-  const resetPassword = block.querySelector('.reset-password');
-  resetPassword.addEventListener('click', () => {
-    requestPasswordReset();
-  });
-}
-
 function populateForm(block) {
   const { profile } = getUserDetails() || { profile: {} };
 
@@ -92,30 +85,65 @@ function populateForm(block) {
   });
 }
 
-function clearError() {
-  const error = document.querySelector('.profile-wrapper .error');
-  if (error) {
-    error.parentNode.removeChild(error);
+function clearNotification() {
+  const note = document.querySelector('.profile-wrapper .notification');
+  if (note) {
+    note.parentNode.removeChild(note);
   }
 }
 
-function showError(err) {
-  clearError();
-
-  // Place an error div just after the nav container
+function showNotification(type, iconHtml, message, message2) {
+  clearNotification();
+  let secondPart = '';
+  if (message2) {
+    secondPart = `
+    ${message2.startsWith('<') ? '' : '<p>'}
+    ${message2}
+    ${message2.startsWith('<') ? '' : '</p>'}
+    `;
+  }
   const errDiv = asHtml(`
-    <div class="error">
+    <div class="notification ${type}">
       <p>
-        <img src="/icons/info_circle.svg" aria-hidden="true" alt="Error" class="info-circle">
-        There was a problem processing your request.
+        ${iconHtml}
+        ${message}
       </p>
-      ${err.startsWith('<') ? '' : '<p>'}
-      ${err}
-      ${err.startsWith('<') ? '' : '</p>'}
+      ${secondPart}
     </div>
   `);
   const nav = document.querySelector('.profile-wrapper nav');
   nav.parentNode.insertBefore(errDiv, nav.nextSibling);
+}
+
+function showError(err) {
+  showNotification('error', '<img src="/icons/info_circle.svg" aria-hidden="true" alt="Error" class="info-circle">', 'There was a problem processing your request.', err);
+}
+
+function showSuccess(message) {
+  showNotification('success', '<svg class="success-circle"><use xlink:href="/icons/icons.svg#success"></use></svg>', message);
+}
+
+async function getErrorResponseText(errResponse) {
+  if (typeof errResponse.message !== 'string') {
+    return errResponse.message && errResponse.message.text ? errResponse.message.text() : 'We\'re sorry, but something went wrong.';
+  }
+  return errResponse.message;
+}
+
+function setupPasswordReset(block) {
+  const resetPassword = block.querySelector('.reset-password');
+  resetPassword.addEventListener('click', async () => {
+    try {
+      const response = await requestPasswordReset();
+      if (response.status === 200) {
+        showSuccess('Your password has been reset.<br>Check your email for a link to create a new password.');
+      } else {
+        throw new Error(await response.text());
+      }
+    } catch (errResponse) {
+      showError(await getErrorResponseText(errResponse));
+    }
+  });
 }
 
 function validateForm() {
@@ -165,16 +193,9 @@ function setupSaveHandlers(block) {
         validateForm();
         await performSave();
 
-        clearError();
+        showSuccess('You have successfully saved your profile.');
       } catch (errResponse) {
-        debugger;
-        let errResponseText = '';
-        if (typeof errResponse.message !== 'string') {
-          errResponseText = errResponse.message && errResponse.message.text ? await errResponse.message.text() : 'We\'re sorry, but something went wrong.';
-        } else {
-          errResponseText = errResponse.message;
-        }
-        showError(errResponseText);
+        showError(await getErrorResponseText(errResponse));
       } finally {
         // Re-enable all save buttons
         saveButtons.forEach((b) => {

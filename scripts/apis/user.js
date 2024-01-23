@@ -110,12 +110,18 @@ export async function requestPasswordReset() {
     return null;
   }
 
-  const time = new Date().getTime();
-  const url = `${API_URL}/cregPasswordReset?Email=${encodeURIComponent(userDetails.username)}&_=${time}`;
+  const url = `${API_URL}/cregForgotPasswordtServlet`;
+  const postBody = {
+    Email: userDetails.username,
+  };
   const response = fetch(url, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    },
     credentials: 'include',
     mode: 'cors',
+    body: new URLSearchParams(postBody).toString(),
   });
 
   return response;
