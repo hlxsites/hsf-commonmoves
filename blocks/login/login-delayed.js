@@ -32,19 +32,26 @@ function loginError(response) {
   }
 }
 
+function setVisible(selector, visible = true) {
+  const elem = document.querySelector(selector);
+  if (elem) {
+    elem.style.display = visible ? 'block' : 'none';
+  }
+}
+
 /**
  * Checks if the user is logged in and updates the header accordingly.
  */
 function checkForLoggedInUser() {
   if (isLoggedIn()) {
-    const userDetailsLink = document.body.querySelector('.nav-profile .username a');
-    document.body.querySelector('.nav-profile .login').style.display = 'none';
-    document.body.querySelector('.nav-profile .username').style.display = 'block';
+    setVisible('.nav-profile .login', false);
+    setVisible('.nav-profile .username');
     const userDetails = getUserDetails();
+    const userDetailsLink = document.body.querySelector('.nav-profile .username a');
     userDetailsLink.textContent = userDetails?.profile?.firstName || 'Valued Customer';
   } else {
-    document.body.querySelector('.nav-profile .login').style.display = 'block';
-    document.body.querySelector('.nav-profile .username').style.display = 'none';
+    setVisible('.nav-profile .login');
+    setVisible('.nav-profile .username', false);
   }
 }
 
