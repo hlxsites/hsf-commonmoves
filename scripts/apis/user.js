@@ -66,26 +66,31 @@ export async function updateProfile(profile) {
   const postBody = {
     FirstName: profile.firstName,
     LastName: profile.lastName,
-    MobilePhone: profile.mobilePhone,
-    HomePhone: profile.homePhone,
+    MobilePhone: profile.mobilePhone || '',
+    HomePhone: profile.homePhone || '',
     Email: profile.email,
     EmailNotifications: profile.emailNotifications || existingProfile.emailNotifications || false,
     ContactKey: existingProfile.contactKey,
     signInScheme: profile.signInScheme || existingProfile.signInScheme || 'default',
-    HomeAddress1: profile.homeAddress1,
-    HomeAddress2: profile.homeAddress2,
-    HomeCity: profile.homeCity,
-    HomeStateOrProvince: profile.homeStateOrProvince,
-    HomePostalCode: profile.homePostalCode,
+    HomeAddress1: profile.homeAddress1 || '',
+    HomeAddress2: profile.homeAddress2 || '',
+    HomeCity: profile.homeCity || '',
+    HomeStateOrProvince: profile.homeStateOrProvince || '',
+    HomePostalCode: profile.homePostalCode || '',
     Language: profile.language,
     Currency: profile.currency,
     UnitOfMeasure: profile.measure,
   };
-  const response = fetch(url, {
+  // Post as multi-part form
+  const formData = new FormData();
+  Object.keys(postBody).forEach((key) => {
+    formData.append(key, postBody[key]);
+  });
+  const response = await fetch(url, {
     method: 'PUT',
     credentials: 'include',
     mode: 'cors',
-    body: new URLSearchParams(postBody).toString(),
+    body: formData,
   });
 
   if (response.ok) {

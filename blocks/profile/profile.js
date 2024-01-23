@@ -1,10 +1,15 @@
-import { getUserDetails, requestPasswordReset, updateProfile, isLoggedIn } from '../../scripts/apis/user.js';
+import {
+  getUserDetails,
+  requestPasswordReset,
+  updateProfile,
+  isLoggedIn,
+} from '../../scripts/apis/user.js';
 
 let form = {};
 
 function asHtml(string) {
   const div = document.createElement('div');
-  div.innerHTML = string;
+  div.innerHTML = string.trim();
   return div.firstChild;
 }
 
@@ -87,6 +92,99 @@ function populateForm(block) {
   });
 }
 
+function clearError() {
+  const error = document.querySelector('.profile-wrapper .error');
+  if (error) {
+    error.parentNode.removeChild(error);
+  }
+}
+
+function showError(err) {
+  clearError();
+
+  // Place an error div just after the nav container
+  const errDiv = asHtml(`
+    <div class="error">
+      <p>
+        <img src="/icons/info_circle.svg" aria-hidden="true" alt="Error" class="info-circle">
+        There was a problem processing your request.
+      </p>
+      ${err.startsWith('<') ? '' : '<p>'}
+      ${err}
+      ${err.startsWith('<') ? '' : '</p>'}
+    </div>
+  `);
+  const nav = document.querySelector('.profile-wrapper nav');
+  nav.parentNode.insertBefore(errDiv, nav.nextSibling);
+}
+
+function validateForm() {
+  if (!isLoggedIn()) {
+    throw new Error('You must be logged in to update your profile.');
+  }
+
+  const errors = [];
+  Object.keys(form).forEach((key) => {
+    if (form[key].required && !form[key].value) {
+      let fieldName = form[key].placeholder || key;
+      if (fieldName.endsWith('*')) {
+        fieldName = fieldName.slice(0, -1);
+      }
+      errors.push(`${fieldName} is required.`);
+    }
+  });
+  if (errors.length > 0) {
+    throw new Error(`<ul><li>${errors.join('</li><li>')}</li></ul>`);
+  }
+}
+
+async function performSave() {
+  validateForm();
+  const data = {};
+  Object.keys(form).forEach((key) => {
+    data[key] = form[key].value;
+  });
+  const response = await updateProfile(data);
+  if (response.status === 200) {
+    return response;
+  }
+  const message = await response.text() || 'There was an error saving changes.';
+  throw new Error(message);
+}
+
+function setupSaveHandlers(block) {
+  const saveButtons = block.querySelectorAll('button.save');
+  saveButtons.forEach((button) => {
+    button.addEventListener('click', async () => {
+      try {
+        // disable all save buttons
+        saveButtons.forEach((b) => {
+          b.disabled = true;
+        });
+
+        validateForm();
+        await performSave();
+
+        clearError();
+      } catch (errResponse) {
+        debugger;
+        let errResponseText = '';
+        if (typeof errResponse.message !== 'string') {
+          errResponseText = errResponse.message && errResponse.message.text ? await errResponse.message.text() : 'We\'re sorry, but something went wrong.';
+        } else {
+          errResponseText = errResponse.message;
+        }
+        showError(errResponseText);
+      } finally {
+        // Re-enable all save buttons
+        saveButtons.forEach((b) => {
+          b.disabled = false;
+        });
+      }
+    });
+  });
+}
+
 export default async function decorate(block) {
   block.innerHTML = `
     <tabs class="profile-tabs">
@@ -140,4 +238,5 @@ export default async function decorate(block) {
   populateDropdowns(block);
   populateForm(block);
   setupPasswordReset(block);
+  setupSaveHandlers(block);
 }

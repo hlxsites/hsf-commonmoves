@@ -32,7 +32,7 @@
     display: block;
 }
 
-.profile p {
+.profile .tab > p {
     margin-top: 1em;
 }
 
@@ -94,4 +94,41 @@
 
 .profile input[name='email'] {
     width: calc(100% - 0.25em);
+}
+
+.profile .error {
+    width: 500px;
+    border: 2px solid var(--error);
+    padding: 0;
+    margin: 0 1em 1em 0;
+    color: var(--error);    
+}
+
+.profile .error > p, .profile .error > ul {
+    padding: 1em 1em 0;
+    margin-bottom: 1em;
+}
+
+.profile .error > p:first-of-type {
+    background-color: var(--error-highlight);
+    border-bottom: 1px solid var(--error);
+    margin: 0;
+    padding: 0.25em 1em;
+    line-height: var(--line-height-xl);
+    font-weight: bold;
+}
+
+.profile .error .info-circle {
+    width: 24px;
+    height: 24px;
+    float: left;
+    margin: 0.5em 0.25em 0 0;
+    filter: brightness(4) brightness(0.5) sepia(1) saturate(2) hue-rotate(310deg)
+}
+
+.profile .error ul {
+    list-style: unset;
+    margin-left: 2em;
+    margin-top: 1em;
+    padding: 0;
 }
