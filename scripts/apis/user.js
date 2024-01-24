@@ -32,11 +32,12 @@ export function isLoggedIn() {
  * @returns {object} user details
  */
 export function getUserDetails() {
-  if (!isLoggedIn()) {
-    return null;
-  }
-
   const userDetails = sessionStorage.getItem('userDetails');
+  if (!userDetails) {
+    return {
+      profile: {},
+    };
+  }
   return JSON.parse(userDetails);
 }
 
@@ -47,13 +48,42 @@ async function fetchUserProfile(username) {
   return json;
 }
 
+const profileListeners = [];
+
+/**
+ * Register a callback handler that is fired any time a profile is modified
+ * by either login, logout, updateProfile, or saveProfile
+ *
+ * @param {Function} listener
+ */
+export function onProfileUpdate(listener) {
+  profileListeners.push(listener);
+}
+
+/** Make changes to the user profile in session (does not save to the servlet)
+ * This also triggers any listeners that are registered for profile updates
+ *
+ * @param {Object} Updated user profile
+*/
+export function updateProfile(profile) {
+  const userDetails = getUserDetails();
+
+  // Update profile in session storage using a merge
+  const existingProfile = userDetails.profile;
+  userDetails.profile = { ...existingProfile, ...profile };
+  sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+  profileListeners.forEach((listener) => {
+    listener(userDetails.profile);
+  });
+}
+
 /**
  * Attempt to update the user profile.  If successful, also update session copy.
  * Caller must look at response to see if it was successful, etc.
  * @param {Object} Updated user profile
  * @returns response object with status, null if user not logged in
  */
-export async function updateProfile(profile) {
+export async function saveProfile(profile) {
   const userDetails = getUserDetails();
   if (userDetails === null) {
     return null;
@@ -92,9 +122,8 @@ export async function updateProfile(profile) {
   });
 
   if (response.ok) {
-    // Update profile in session storage using a merge
-    userDetails.profile = { ...existingProfile, ...profile };
-    sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+    // Update profile in session
+    updateProfile(profile);
   }
 
   return response;
@@ -142,6 +171,9 @@ export function logout() {
       document.cookie = `${cookie}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
     }
   });
+  profileListeners.forEach((listener) => {
+    listener({});
+  });
 }
 
 /**
@@ -155,39 +187,50 @@ export function logout() {
  */
 export async function login(credentials, failureCallback = null) {
   const url = `${API_URL}/cregLoginServlet`;
-  const resp = await fetch(url, {
-    method: 'POST',
-    credentials: 'include',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    },
-    body: new URLSearchParams({
-      Username: credentials.username,
-      Password: credentials.password,
-    }).toString(),
-  });
-  if (resp.ok) {
-    // Extract contactKey and externalID from response JSON.  Store in session
-    const responseJson = await resp.json();
-    const { contactKey } = responseJson;
-    // const { hsfconsumerid } = JSON.parse(externalID);
+  let error;
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      credentials: 'include',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      },
+      body: new URLSearchParams({
+        Username: credentials.username,
+        Password: credentials.password,
+      }).toString(),
+    });
+    if (resp.ok) {
+      // Extract contactKey and externalID from response JSON.  Store in session
+      const responseJson = await resp.json();
+      const { contactKey } = responseJson;
+      // const { hsfconsumerid } = JSON.parse(externalID);
 
-    const profile = await fetchUserProfile(credentials.username);
+      const profile = await fetchUserProfile(credentials.username);
 
-    const sessionData = {
-      contactKey,
-      // externalID,
-      // hsfconsumerid,
-      profile,
-      username: credentials.username,
-    };
-    sessionStorage.setItem('userDetails', JSON.stringify(sessionData));
-    return sessionData;
+      const sessionData = {
+        contactKey,
+        // externalID,
+        // hsfconsumerid,
+        profile,
+        username: credentials.username,
+      };
+      sessionStorage.setItem('userDetails', JSON.stringify(sessionData));
+      profileListeners.forEach((listener) => {
+        listener(profile);
+      });
+      return sessionData;
+    }
+    error = resp;
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e.message);
+    error = e.message;
   }
   logout();
   if (failureCallback) {
-    failureCallback(resp);
+    await failureCallback(error);
   }
   return null;
 }

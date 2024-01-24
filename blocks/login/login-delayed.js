@@ -1,5 +1,5 @@
 import { close, displayError, reset } from './login.js';
-import { login, isLoggedIn, getUserDetails } from '../../scripts/apis/user.js';
+import { login } from '../../scripts/apis/user.js';
 
 const block = document.querySelector('.login.block');
 
@@ -24,34 +24,15 @@ function isValid(form) {
   return true;
 }
 
-function loginError(response) {
-  if (response.status === 401) {
-    displayError(['Invalid username or password.']);
+async function loginError(response) {
+  if (response.status) {
+    if (response.status === 401) {
+      displayError(['Invalid username or password.']);
+    } else {
+      displayError([`There was an error logging in: (${await response.text()})`]);
+    }
   } else {
-    displayError([`There was an error logging in (${response.body})`]);
-  }
-}
-
-function setVisible(selector, visible = true) {
-  const elem = document.querySelector(selector);
-  if (elem) {
-    elem.style.display = visible ? 'block' : 'none';
-  }
-}
-
-/**
- * Checks if the user is logged in and updates the header accordingly.
- */
-function checkForLoggedInUser() {
-  if (isLoggedIn()) {
-    setVisible('.nav-profile .login', false);
-    setVisible('.nav-profile .username');
-    const userDetails = getUserDetails();
-    const userDetailsLink = document.body.querySelector('.nav-profile .username a');
-    userDetailsLink.textContent = userDetails?.profile?.firstName || 'Valued Customer';
-  } else {
-    setVisible('.nav-profile .login');
-    setVisible('.nav-profile .username', false);
+    displayError([`There was an error logging in: ${response}`]);
   }
 }
 
@@ -71,7 +52,6 @@ async function submit(form) {
     const userDetails = await login(credentials, loginError);
     if (userDetails) {
       close();
-      checkForLoggedInUser();
     }
   }
 }
@@ -129,5 +109,3 @@ block.querySelector('.cta a.cancel').addEventListener('click', (e) => {
   e.stopPropagation();
   close();
 });
-
-checkForLoggedInUser();

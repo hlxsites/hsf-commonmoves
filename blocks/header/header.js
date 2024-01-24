@@ -1,7 +1,12 @@
 import { BREAKPOINTS } from '../../scripts/scripts.js';
 import { getMetadata, decorateIcons, decorateSections } from '../../scripts/aem.js';
 import { open as openSignIn, close as closeSignIn } from '../login/login.js';
-import { logout } from '../../scripts/apis/user.js';
+import {
+  logout,
+  isLoggedIn,
+  onProfileUpdate,
+  getUserDetails,
+} from '../../scripts/apis/user.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = BREAKPOINTS.large;
@@ -124,6 +129,23 @@ function doLogout() {
   document.body.querySelector('.nav-profile .username').style.display = 'none';
 }
 
+function showHideNavProfile() {
+  const profileList = document.querySelector('.nav-profile ul');
+  if (!profileList) {
+    return;
+  }
+  if (isLoggedIn()) {
+    profileList.querySelector('.login').style.display = 'none';
+    profileList.querySelector('.username').style.display = 'block';
+    const userDetails = getUserDetails();
+    const userDetailsLink = document.body.querySelector('.nav-profile .username a');
+    userDetailsLink.textContent = userDetails?.profile?.firstName || 'Valued Customer';
+  } else {
+    profileList.querySelector('.login').style.display = 'block';
+    profileList.querySelector('.username').style.display = 'none';
+  }
+}
+
 /**
  * Adds the Profile submenu to the Nav.
  * @param {HTMLDivElement} nav
@@ -148,6 +170,7 @@ function addProfileLogin(nav) {
   profileList.append(...profileMenu.childNodes);
   profileList.querySelector('.login a').addEventListener('click', openSignIn);
   profileList.querySelector('.username .logout a').addEventListener('click', doLogout);
+  onProfileUpdate(showHideNavProfile);
 }
 
 /**
@@ -250,5 +273,7 @@ export default async function decorate(block) {
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
     block.querySelector(':scope > div').replaceWith(navWrapper);
+
+    showHideNavProfile();
   }
 }

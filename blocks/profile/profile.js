@@ -1,8 +1,9 @@
 import {
   getUserDetails,
   requestPasswordReset,
-  updateProfile,
+  saveProfile,
   isLoggedIn,
+  onProfileUpdate,
 } from '../../scripts/apis/user.js';
 
 let form = {};
@@ -79,7 +80,7 @@ function populateForm(block) {
   Object.keys(form).forEach((key) => {
     form[key].value = profile[key] || '';
     // If field is required, append asterisk to placeholder
-    if (form[key].required) {
+    if (form[key].required && !form[key].placeholder.endsWith('*')) {
       form[key].placeholder += '*';
     }
   });
@@ -172,7 +173,7 @@ async function performSave() {
   Object.keys(form).forEach((key) => {
     data[key] = form[key].value;
   });
-  const response = await updateProfile(data);
+  const response = await saveProfile(data);
   if (response.status === 200) {
     return response;
   }
@@ -260,4 +261,5 @@ export default async function decorate(block) {
   populateForm(block);
   setupPasswordReset(block);
   setupSaveHandlers(block);
+  onProfileUpdate(() => populateForm(block));
 }
