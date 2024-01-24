@@ -1,6 +1,8 @@
 import { close, displayError, reset } from './login.js';
 import { login } from '../../scripts/apis/user.js';
+import { i18nLookup } from '../../scripts/util.js';
 
+const i18n = await i18nLookup();
 const block = document.querySelector('.login.block');
 
 function isValid(form) {
@@ -27,12 +29,12 @@ function isValid(form) {
 async function loginError(response) {
   if (response.status) {
     if (response.status === 401) {
-      displayError(['Invalid username or password.']);
+      displayError([i18n('Invalid username or password.')]);
     } else {
-      displayError([`There was an error logging in: (${await response.text()})`]);
+      displayError([`${i18n('There was an error logging in')}: (${i18n(await response.text())})`]);
     }
   } else {
-    displayError([`There was an error logging in: ${response}`]);
+    displayError([`${i18n('There was an error logging in')}: ${i18n(response)}`]);
   }
 }
 
