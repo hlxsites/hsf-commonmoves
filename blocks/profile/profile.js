@@ -5,8 +5,10 @@ import {
   isLoggedIn,
   onProfileUpdate,
 } from '../../scripts/apis/user.js';
+import { i18nLookup } from '../../scripts/util.js';
 
 let form = {};
+let i18n;
 
 function asHtml(string) {
   const div = document.createElement('div');
@@ -117,11 +119,11 @@ function showNotification(type, iconHtml, message, message2) {
 }
 
 function showError(err) {
-  showNotification('error', '<img src="/icons/info_circle.svg" aria-hidden="true" alt="Error" class="info-circle">', 'There was a problem processing your request.', err);
+  showNotification('error', '<img src="/icons/info_circle.svg" aria-hidden="true" alt="Error" class="info-circle">', i18n('There was a problem processing your request.'), i18n(err));
 }
 
 function showSuccess(message) {
-  showNotification('success', '<svg class="success-circle"><use xlink:href="/icons/icons.svg#success"></use></svg>', message);
+  showNotification('success', '<svg class="success-circle"><use xlink:href="/icons/icons.svg#success"></use></svg>', i18n(message));
 }
 
 async function getErrorResponseText(errResponse) {
@@ -137,7 +139,7 @@ function setupPasswordReset(block) {
     try {
       const response = await requestPasswordReset();
       if (response.status === 200) {
-        showSuccess('Your password has been reset.<br>Check your email for a link to create a new password.');
+        showSuccess(`${i18n('Your password has been reset.')}<br>${i18n('Check your email for a link to create a new password.')}`);
       } else {
         throw new Error(await response.text());
       }
@@ -149,7 +151,7 @@ function setupPasswordReset(block) {
 
 function validateForm() {
   if (!isLoggedIn()) {
-    throw new Error('You must be logged in to update your profile.');
+    throw new Error(i18n('You must be logged in to update your profile.'));
   }
 
   const errors = [];
@@ -159,7 +161,7 @@ function validateForm() {
       if (fieldName.endsWith('*')) {
         fieldName = fieldName.slice(0, -1);
       }
-      errors.push(`${fieldName} is required.`);
+      errors.push(`${fieldName} ${i18n('is required')}.`);
     }
   });
   if (errors.length > 0) {
@@ -208,50 +210,51 @@ function setupSaveHandlers(block) {
 }
 
 export default async function decorate(block) {
+  i18n = await i18nLookup();
   block.innerHTML = `
     <tabs class="profile-tabs">
-      <tab name="Contact Info">
-        <input type="text" name="firstName" placeholder="First Name" required />
-        <input type="text" name="lastName" placeholder="Last Name" required />
-        <input type="text" name="email" placeholder="Email Address" required />
-        <p class="help">Please manage your email preferences by using "Unsubscribe" option at the bottom of emails you receive.</p>
-        <input type="text" name="mobilePhone" placeholder="Mobile Phone" />
-        <input type="text" name="homePhone" placeholder="Home Phone" />
+      <tab name="${i18n('Contact Info')}">
+        <input type="text" name="firstName" placeholder="${i18n('First Name')}" required />
+        <input type="text" name="lastName" placeholder="${i18n('Last Name')}" required />
+        <input type="text" name="email" placeholder="${i18n('Email Address')}" required />
+        <p class="help">${i18n('Please manage your email preferences by using "Unsubscribe" option at the bottom of emails you receive.')}</p>
+        <input type="text" name="mobilePhone" placeholder="${i18n('Mobile Phone')}" />
+        <input type="text" name="homePhone" placeholder="${i18n('Home Phone')}" />
         <p class="help">
-          By providing your telephone number, you are giving permission to Berkshire Hathaway HomeServices and a franchisee
+          ${i18n(`By providing your telephone number, you are giving permission to Berkshire Hathaway HomeServices and a franchisee
           member of the Berkshire Hathaway HomeServices real estate network to communicate with you by phone or text,
           including automated means, even if your telephone number appears on any "Do Not Call" list. A phone number is not
-          required in order to receive real estate brokerage services. Message/data rates may apply. For more about how we will
-          use your contact information, please review our <a href="https://www.bhhs.com/terms-of-use">Terms of Use</a>
-          and <a href="https://www.bhhs.com/privacy-policy">Privacy Policy.</a>
+          required in order to receive real estate brokerage services. Message/data rates may apply.`)}
+          ${i18n('For more about how we will use your contact information, please review our')} <a href="https://www.bhhs.com/terms-of-use">
+          ${i18n('Terms of Use')}</a> ${i18n('and')} <a href="https://www.bhhs.com/privacy-policy">${i18n('Privacy Policy')}.</a>
         </p>
-        <button class="save">Save</button>
+        <button class="save">${i18n('Save')}</button>
       </tab>
-      <tab name="Change Password">
-        <p class="help">Click reset, and we will send you a email containing a reset password link.</p>
-        <button class="reset-password">Reset Password</button>
+      <tab name="${i18n('Change Password')}">
+        <p class="help">${i18n('Click reset, and we will send you a email containing a reset password link.')}</p>
+        <button class="reset-password">${i18n('Reset Password')}</button>
       </tab>
-      <tab name="Address">
+      <tab name="${i18n('Address')}">
         <select name="country">
-          <option value="">Country</option>
+          <option value="">${i18n('Country')}</option>
         </select>
-        <input type="text" name="address1" placeholder="Street Address 1" />
-        <input type="text" name="address2" placeholder="Street Address 2" />
-        <input type="text" name="city" placeholder="City" />
-        <input type="text" name="stateOrProvince" placeholder="State" />
-        <input type="text" name="postalCode" placeholder="Zip" />
-        <button class="save">Save</button>
+        <input type="text" name="address1" placeholder="${i18n('Street Address')} 1" />
+        <input type="text" name="address2" placeholder="${i18n('Street Address')} 2" />
+        <input type="text" name="city" placeholder="${i18n('City')}" />
+        <input type="text" name="stateOrProvince" placeholder="${i18n('State')}" />
+        <input type="text" name="postalCode" placeholder="${i18n('Zip')}" />
+        <button class="save">${i18n('Save')}</button>
       </tab>
-      <tab name="Regional Preferences">
-        <p>Set the language for emails and this site.</p>
-        <h4>Language</h4>
+      <tab name="${i18n('Regional Preferences')}">
+        <p>${i18n('Set the language for emails and this site.')}</p>
+        <h4>${i18n('Language')}</h4>
         <select name="language"></select>
-        <p>Set the currency and unit of measurement for this site.</p>
-        <h4>Currency</h4>
+        <p>${i18n('Set the currency and unit of measurement for this site.')}</p>
+        <h4>${i18n('Currency')}</h4>
         <select name="currency"></select>
-        <h4>Unit of Measurement</h4>
+        <h4>${i18n('Unit of Measurement')}</h4>
         <select name="measure"></select>
-        <button class="save">Save</button>
+        <button class="save">${i18n('Save')}</button>
       </tab>
     </tabs>
   `;
