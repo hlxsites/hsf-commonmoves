@@ -9,14 +9,14 @@ function isValid(form) {
   const errors = [];
   const user = form.querySelector('input[name="username"]');
   if (!user.value || user.value.trim().length === 0) {
-    errors.push('Email address is required.');
+    errors.push(i18n('Email address is required.'));
     block.querySelector('input[name="username"]').classList.add('error');
   }
 
   const password = form.querySelector('input[name="password"]');
   if (!password.value || password.value.trim().length === 0) {
     block.querySelector('input[name="password"]').classList.add('error');
-    errors.push('Password is required.');
+    errors.push(i18n('Password is required.'));
   }
 
   if (errors.length > 0) {
