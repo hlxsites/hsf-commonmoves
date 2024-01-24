@@ -7,9 +7,11 @@ import {
   onProfileUpdate,
   getUserDetails,
 } from '../../scripts/apis/user.js';
+import { i18nLookup } from '../../scripts/util.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = BREAKPOINTS.large;
+let i18n;
 
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
@@ -139,7 +141,7 @@ function showHideNavProfile() {
     profileList.querySelector('.username').style.display = 'block';
     const userDetails = getUserDetails();
     const userDetailsLink = document.body.querySelector('.nav-profile .username a');
-    userDetailsLink.textContent = userDetails?.profile?.firstName || 'Valued Customer';
+    userDetailsLink.textContent = userDetails?.profile?.firstName || i18n('Valued Customer');
   } else {
     profileList.querySelector('.login').style.display = 'block';
     profileList.querySelector('.username').style.display = 'none';
@@ -155,15 +157,12 @@ function addProfileLogin(nav) {
 
   const profileMenu = document.createElement('ul');
   profileMenu.innerHTML = `
-    <li class="level-1 login"><a href="#">Sign In</a></li>
+    <li class="level-1 login"><a href="#">${i18n('Sign In')}</a></li>
     <li class="level-1 username">
       <a href="#">{Username}</a>
-      <div class="dropdown-arrow">
-        <div class="up-arrow"></div>
-      </div>
       <ul class="level-2">
-         <li class="profile"><a href="/account/profile">Profile</a></li>
-         <li class="logout"><a href="#">Sign out</a></li>
+         <li class="profile"><a href="/account/profile">${i18n('Profile')}</a></li>
+         <li class="logout"><a href="#">${i18n('Sign out')}</a></li>
       </ul>
     </li>
   `;
@@ -183,10 +182,10 @@ function buildHamburger() {
   const icon = document.createElement('div');
   icon.classList.add('nav-hamburger-icon');
   icon.innerHTML = `
-      <svg class="open" role="img" aria-hidden="true" tabindex="-1" aria-label="Open Navigation">
+      <svg class="open" role="img" aria-hidden="true" tabindex="-1" aria-label="${i18n('Open Navigation')}">
         <use id="hamburger-icon" xlink:href="/icons/icons.svg#hamburger-white"></use>
       </svg>
-      <svg class="close" role="img" aria-hidden="true" tabindex="-1" aria-label="Close Navigation">
+      <svg class="close" role="img" aria-hidden="true" tabindex="-1" aria-label="${i18n('Close Navigation')}">
         <use id="close-hamburger-icon" xlink:href="/icons/icons.svg#close-x"></use>
       </svg>
     `;
@@ -199,6 +198,8 @@ function buildHamburger() {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
+  i18n = await i18nLookup();
+
   // fetch nav content
   const navMeta = getMetadata('nav');
   const navPath = navMeta ? new URL(navMeta).pathname : '/nav';
