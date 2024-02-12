@@ -1,13 +1,9 @@
 function observeButtons() {
   const script = document.createElement('script');
   script.id = crypto.randomUUID();
-  script.type = 'text/partytown';
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/property-search-bar/filters/additional-filter-buttons-delayed.js';
-    document.head.append(script);
-  `;
+  script.type = 'text/javascript';
+  script.type = 'module';
+  script.src = `${window.hlx.codeBasePath}/blocks/property-search-bar/filters/additional-filter-buttons-delayed.js`;
   document.head.append(script);
 }
 
@@ -26,7 +22,7 @@ function build() {
       </a>`;
   });
   wrapper.innerHTML = output;
-  observeButtons();
+  window.setTimeout(observeButtons, 3000);
   return wrapper;
 }
 

@@ -11,13 +11,9 @@ import {
 function observeFilters() {
   const script = document.createElement('script');
   script.id = crypto.randomUUID();
-  script.type = 'text/partytown';
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/property-search-bar/filters/top-delayed.js';
-    document.head.append(script);
-  `;
+  script.type = 'text/javascript';
+  script.type = 'module';
+  script.src = `${window.hlx.codeBasePath}/blocks/property-search-bar/filters/top-delayed.js`;
   document.head.append(script);
 }
 
@@ -157,7 +153,7 @@ async function build() {
   bfContainer.append(buildFilterSearchTypesElement(), bfRightSection);
   filterContainer.append(buildTotalResults(), bfContainer);
   container.append(div, filterContainer);
-  observeFilters();
+  window.setTimeout(observeFilters, 3000);
   return container;
 }
 

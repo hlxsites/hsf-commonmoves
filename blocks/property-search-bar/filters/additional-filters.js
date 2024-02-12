@@ -11,13 +11,9 @@ const FILTERS = { ...SEARCH_TYPES, ...TOP_LEVEL_FILTERS, ...EXTRA_FILTERS };
 function observeFilters() {
   const script = document.createElement('script');
   script.id = crypto.randomUUID();
-  script.type = 'text/partytown';
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/property-search-bar/filters/additional-params-delayed.js';
-    document.head.append(script);
-  `;
+  script.type = 'text/javascript';
+  script.type = 'module';
+  script.src = `${window.hlx.codeBasePath}/blocks/property-search-bar/filters/additional-params-delayed.js`;
   document.head.append(script);
 }
 
@@ -204,7 +200,7 @@ async function build() {
   wrapper.classList.add('filter-block', 'hide', 'input');
   wrapper.innerHTML = ` 
     ${output}`;
-  observeFilters();
+  window.setTimeout(observeFilters, 3000);
   return wrapper;
 }
 
