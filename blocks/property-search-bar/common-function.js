@@ -1,6 +1,3 @@
-/* eslint-disable no-param-reassign, no-plusplus, no-mixed-operators, no-unused-expressions, no-nested-ternary, eqeqeq, max-len */
-
-import ApplicationType from '../../scripts/apis/creg/ApplicationType.js';
 
 export const TOP_LEVEL_FILTERS = {
   Price: { label: 'price', type: 'range' },
@@ -8,6 +5,7 @@ export const TOP_LEVEL_FILTERS = {
   MinBathroomsTotal: { label: 'baths', type: 'select' },
   LivingArea: { label: 'square feet', type: 'range' },
 };
+
 export const EXTRA_FILTERS = {
   PropertyType: { label: 'property type', type: 'property' },
   Features: { label: 'keyword search', type: 'keywords-search' },
@@ -26,23 +24,7 @@ export const BOTTOM_LEVEL_FILTERS = {
   Page: { label: '', type: 'child' },
 };
 
-const SQUARE_FEET = [
-  { value: '500', label: '500 Sq Ft' },
-  { value: '750', label: '750 Sq Ft' },
-  { value: '1000', label: '1,000 Sq Ft' },
-  { value: '1250', label: '1,250  Sq Ft' },
-  { value: '1500', label: '1,500 Sq Ft' },
-  { value: '1750', label: '1,750 Sq Ft' },
-  { value: '2000', label: '2,000 Sq Ft' },
-  { value: '2250', label: '2,250 Sq Ft' },
-  { value: '2500', label: '2,500 Sq Ft' },
-  { value: '2750', label: '2,750 Sq Ft' },
-  { value: '3000', label: '3,000 Sq Ft' },
-  { value: '3500', label: '3,500 Sq Ft' },
-  { value: '4000', label: '4,000 Sq Ft' },
-  { value: '5000', label: '5,000 Sq Ft' },
-  { value: '7500', label: '7,500 Sq Ft' },
-];
+
 
 const YEAR_BUILT = [
   { value: '1900', label: '1900' },
@@ -193,10 +175,6 @@ export function formatInput(string) {
   return string.replace(/[/\s]/g, '-').toLowerCase();
 }
 
-export function getPlaceholder(country) {
-  return country === 'US' ? 'Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#' : 'Enter City';
-}
-
 export function addRangeOption(filterName) {
   const config = { ...TOP_LEVEL_FILTERS, ...EXTRA_FILTERS };
   const { label } = config[filterName];
@@ -235,32 +213,6 @@ export function addRangeOption(filterName) {
             `;
   }
   return output;
-}
-
-function abbrNum(d, h) {
-  h = 10 ** h;
-  const k = ['k', 'm', 'b', 't']; let
-    m;
-  for (m = k.length - 1; m >= 0; m--) {
-    const n = 10 ** (3 * (m + 1));
-    if (n <= d) {
-      d = Math.round(d * h / n) / h;
-      d === 1E3 && m < k.length - 1 && (d = 1, m++);
-      d += k[m];
-      break;
-    }
-  }
-  return d;
-}
-
-export function formatPriceLabel(minPrice, maxPrice) {
-  const d = minPrice.replace(/[^0-9]/g, '');
-  const h = maxPrice.replace(/[^0-9]/g, '');
-  return d !== '' && h !== ''
-    ? `$${abbrNum(d, 2)} - $${abbrNum(h, 2)}`
-    : d !== '' ? `$${abbrNum(d, 2)}`
-      : d == '' && h !== '' ? `$0 - $${abbrNum(h, 2)}`
-        : 'Price';
 }
 
 export function processSearchType(value, defaultInput = ApplicationType.FOR_SALE.type) {

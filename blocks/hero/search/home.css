@@ -82,7 +82,11 @@
   line-height: 40px;
 }
 
-.hero.block .content .homes .filters .select-wrapper .selected::after {
+.hero.block .content .homes .filters .select-wrapper .selected p {
+  color: var(--black);
+}
+
+.hero.block .content .homes .filters .select-wrapper > .selected::after {
   display: inline;
   position: absolute;
   right: 0;
@@ -91,7 +95,7 @@
   height: unset;
 }
 
-.hero.block .content .homes .filters .select-wrapper.open .selected::after {
+.hero.block .content .homes .filters .select-wrapper.open > .selected::after {
   content: '\f0d8';
 }
 

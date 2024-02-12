@@ -1,10 +1,10 @@
 import {
   getSelected as getSelectedCountry,
-} from '../../../shared/search-countries/search-countries.js';
+} from '../search-countries/search-countries.js';
 import {
   abort as abortSuggestions,
   get as getSuggestions,
-} from '../../../../scripts/apis/creg/suggestion.js';
+} from '../../../scripts/apis/creg/suggestion.js';
 
 const MORE_INPUT_NEEDED = 'Please enter at least 3 characters.';
 const NO_SUGGESTIONS = 'No suggestions found. Please modify your search.';
@@ -89,9 +89,7 @@ const suggestionSelected = (e, form) => {
   form.querySelector('.search-bar').classList.remove('show-suggestions');
 };
 
-function addEventListeners() {
-  const form = document.querySelector('.hero.block form.homes');
-
+export default function addEventListeners(form) {
   const suggestionsTarget = form.querySelector('.suggester-input .suggester-results');
   form.querySelector('.suggester-input input').addEventListener('input', (e) => {
     inputChanged(e, suggestionsTarget);
@@ -100,5 +98,3 @@ function addEventListeners() {
     suggestionSelected(e, form);
   });
 }
-
-addEventListeners();

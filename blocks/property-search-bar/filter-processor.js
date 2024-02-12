@@ -160,7 +160,7 @@ export function getValueFromStorage(filterName) {
 /**
  *
  * @param {string} name
- * @param {string|obj} value
+ * @param {string|Object} value
  */
 export function setFilterValue(name, value) {
   let params;

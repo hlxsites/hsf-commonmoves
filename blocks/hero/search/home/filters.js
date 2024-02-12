@@ -1,5 +1,6 @@
 import { close as closeCountrySelect } from '../../../shared/search-countries/search-countries.js';
 import { BREAKPOINTS } from '../../../../scripts/scripts.js';
+import { filterItemClicked } from '../../../shared/search/util.js';
 
 const noOverlayAt = BREAKPOINTS.medium;
 
@@ -34,32 +35,17 @@ const closeFilters = (e) => {
   }
 };
 
-const selectClicked = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  const wrapper = e.currentTarget.closest('.select-wrapper');
+const updateExpanded = (wrapper) => {
   const wasOpen = wrapper.classList.contains('open');
-  const thisForm = e.currentTarget.closest('form');
-  thisForm.querySelectorAll('.select-wrapper.open').forEach((select) => {
-    select.classList.remove('open');
+  const thisForm = wrapper.closest('form');
+  thisForm.querySelectorAll('.open').forEach((item) => {
+    item.classList.remove('open');
+    item.querySelector('[aria-expanded="true"]')?.setAttribute('aria-expanded', 'false');
   });
-  closeCountrySelect(thisForm);
   if (!wasOpen) {
     wrapper.classList.add('open');
+    wrapper.querySelector('[aria-expanded="false"]')?.setAttribute('aria-expanded', 'true');
   }
-};
-
-const selectFilterClicked = (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-  const count = e.currentTarget.textContent;
-  const wrapper = e.currentTarget.closest('.select-wrapper');
-  wrapper.querySelector('.selected').textContent = count;
-  wrapper.querySelector('ul li.selected')?.classList.toggle('selected');
-  e.currentTarget.classList.add('selected');
-  wrapper.querySelector('select option[selected="selected"]')?.removeAttribute('selected');
-  wrapper.querySelector(`select option[value="${count.replace('+', '')}"]`).setAttribute('selected', 'selected');
-  wrapper.classList.toggle('open');
 };
 
 function addEventListeners() {
@@ -73,11 +59,15 @@ function addEventListeners() {
   });
 
   form.querySelectorAll('.select-wrapper .selected').forEach((button) => {
-    button.addEventListener('click', selectClicked);
+    button.addEventListener('click', (e) => {
+      const thisForm = e.currentTarget.closest('form');
+      closeCountrySelect(thisForm);
+      updateExpanded(e.currentTarget.closest('.select-wrapper'));
+    });
   });
 
   form.querySelectorAll('.select-wrapper .select-items li').forEach((li) => {
-    li.addEventListener('click', selectFilterClicked);
+    li.addEventListener('click', filterItemClicked);
   });
 }
 

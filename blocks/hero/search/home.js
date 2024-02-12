@@ -3,17 +3,20 @@ import {
 } from '../../shared/search-countries/search-countries.js';
 import { getMetadata, loadScript } from '../../../scripts/aem.js';
 import { getSpinner } from '../../../scripts/util.js';
+import { BED_BATHS, buildFilterSelect, getPlaceholder } from '../../shared/search/util.js';
 import Search from '../../../scripts/apis/creg/search/Search.js';
 import { metadataSearch } from '../../../scripts/apis/creg/creg.js';
 
-function observeForm() {
-  if (document.querySelector('script[src~="/blocks/hero/search/home/suggestion.js"]')) {
-    return;
+async function observeForm(e) {
+  const form = e.target.closest('form');
+  try {
+    const mod = await import(`${window.hlx.codeBasePath}/blocks/shared/search/suggestion.js`);
+    mod.default(form);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('failed to load suggestion library', error);
   }
-  const script = document.createElement('script');
-  script.type = 'module';
-  script.src = `${window.hlx.codeBasePath}/blocks/hero/search/home/suggestion.js`;
-  document.head.append(script);
+  e.target.removeEventListener('focus', observeForm);
 }
 
 async function submitForm(e) {
@@ -71,49 +74,6 @@ async function submitForm(e) {
   });
 }
 
-/**
- * Creates a Select dropdown for filtering search.
- * @param {String} name
- * @param {String} placeholder
- * @param {number} number
- * @returns {HTMLDivElement}
- */
-function buildSelect(name, placeholder, number) {
-  const wrapper = document.createElement('div');
-  wrapper.classList.add('select-wrapper');
-  wrapper.innerHTML = `
-    <select name="${name}" aria-label="${placeholder}">
-      <option value="">${placeholder}</option>
-    </select>
-    <div class="selected" role="button" aria-haspopup="listbox" aria-label="${placeholder}" tabindex="0">${placeholder}</div>
-    <ul class="select-items" role="listbox">
-      <li role="option">${placeholder}</li>
-    </ul>
-  `;
-
-  const select = wrapper.querySelector('select');
-  const ul = wrapper.querySelector('ul');
-  for (let i = 1; i <= number; i += 1) {
-    const option = document.createElement('option');
-    const li = document.createElement('li');
-    li.setAttribute('role', 'option');
-
-    option.value = `${i}`;
-    // eslint-disable-next-line no-multi-assign
-    option.textContent = li.textContent = `${i}+`;
-    select.append(option);
-    ul.append(li);
-  }
-  return wrapper;
-}
-
-function getPlaceholder(country) {
-  if (country && country !== 'US') {
-    return 'Enter City';
-  }
-  return 'Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#';
-}
-
 async function buildForm() {
   const form = document.createElement('form');
   form.classList.add('homes');
@@ -154,8 +114,8 @@ async function buildForm() {
     <div class="filters">
       <input type="text" placeholder="$ Minimum Price" name="minPrice" aria-label="minimum price">
       <input type="text" placeholder="$ Maximum Price" name="maxPrice" aria-label="maximum price">
-      ${buildSelect('bedrooms', 'Bedrooms', 5).outerHTML}
-      ${buildSelect('bathrooms', 'Bathrooms', 5).outerHTML}
+      ${buildFilterSelect('bedrooms', 'Beds', BED_BATHS).outerHTML}
+      ${buildFilterSelect('bathrooms', 'Baths', BED_BATHS).outerHTML}
        <button class="close" aria-label="Close" type="button">
          <svg role="presentation" aria-hidden="true">
           <use xlink:href="/icons/icons.svg#close-x"></use>
@@ -182,7 +142,6 @@ async function buildForm() {
   window.setTimeout(() => {
     loadScript(`${window.hlx.codeBasePath}/blocks/hero/search/home/filters.js`, { type: 'module' });
   }, 3000);
-
   input.addEventListener('focus', observeForm);
 
   form.querySelectorAll('button[type="submit"]').forEach((button) => {
