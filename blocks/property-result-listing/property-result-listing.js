@@ -60,7 +60,7 @@ function buildDisclaimer(html) {
   const wrapper = document.createElement('div');
   wrapper.classList.add('disclaimer');
   wrapper.innerHTML = `
-    <hr role="presentation" aria-hidden="true" tabindex="-1"> 
+    <hr role="presentation" aria-hidden="true" tabindex="-1">
     <div class="text">
     ${html}
     </div>
@@ -95,7 +95,7 @@ function buildPagination(currentPage, totalPages) {
             </div>
         </div>
         <div class="pagination-arrows">
-          <a class="prev arrow ${currentPage === 1 && 'disabled'}" role="button" aria-label="Previous Page"></a> 
+          <a class="prev arrow ${currentPage === 1 && 'disabled'}" role="button" aria-label="Previous Page"></a>
           <a class="next arrow ${currentPage === totalPages && 'disabled'}" role="button" aria-label="Next Page"></a>
         </div>`;
   return wrapper;
@@ -108,7 +108,11 @@ export default async function decorate(block) {
   window.dispatchEvent(event);
   window.addEventListener('onResultUpdated', () => {
     if (getPropertiesCount() > 0) {
-      document.querySelector('.property-result-map-container').style.display = 'block';
+      // update map
+      window.updatePropertyMap(getAllData(), false);
+
+      // document.querySelector('.property-result-map-container').style.display = 'block';
+      document.querySelector('.property-search-template').classList.add('search-map-active');
       const propertyResultContent = document.createElement('div');
       propertyResultContent.classList.add('property-result-content');
       const listings = getPropertyDetails();
@@ -131,10 +135,9 @@ export default async function decorate(block) {
       propertyResultContent.append(buildPropertySearchResultsButton());
       /** build disclaimer */
       propertyResultContent.append(buildDisclaimer(disclaimerHtml));
-      block.prepend(propertyResultContent);
+      block.append(propertyResultContent);
 
-      // update map
-      window.updatePropertyMap(getAllData(), false);
+
 
       document.querySelector('.property-result-map-container').append(disclaimerBlock);
       /** update page on select change */

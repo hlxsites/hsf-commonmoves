@@ -211,7 +211,7 @@ main .section .property-search-bar .button-container a {
 }
 
 .property-search-bar.block .filter {
-    padding: 20px;
+    padding: 20px 15px 16px;
 }
 
 .property-search-bar.block .container-item .header {
@@ -224,7 +224,7 @@ main .section .property-search-bar .button-container a {
 main .section .property-search-bar .title {
     font-size: var(--body-font-size-s);
     white-space: pre;
-    line-height: 50px;
+    line-height: 25px;
     position: relative;
 }
 

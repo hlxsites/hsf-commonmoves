@@ -6,16 +6,15 @@
     padding: 3px;
 }
 
-.property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
+/* .property-search-template.search-map-active .property-result-listing.block > div:first-of-type {
     position: fixed;
     width: 50%;
     left: 50%;
     top: calc(var(--nav-height) + 50px + 120px);
 
-    /* todo need to figureout on how to do this dynamicly */
     height: 600px;
     max-width: calc(1400px/2 - 30px);
-}
+} */
 
 .property-search-template.search-map-active .info-window {
     width: 178px;
@@ -171,7 +170,7 @@
 
 
 .property-search-template .property-result-map {
-    height: 600px;
+    height: 100vh;
     width: 100%;
     display: none;
     position: absolute;
@@ -179,7 +178,6 @@
 
 .property-search-template.search-map-active .property-result-map {
     display: block;
-
 }
 
 .property-search-template .map-controls-container {
@@ -373,6 +371,13 @@
     display: none !important
 }
 
+.property-search-template .property-result-map-container {
+    display: none;
+}
+.property-search-template.search-map-active .property-result-map-container {
+    display: block;
+}
+
 /* end */
 
 @media (min-width: 600px) {
@@ -380,7 +385,7 @@
         bottom: 16vw;
     }
 
-    .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
+    .property-search-template.search-map-active .property-result-listing.block > div:first-of-type {
         width: 100%;
         left: 0;
         top: calc(var(--nav-height) + 50px + 120px);
@@ -389,23 +394,21 @@
     }
 }
 
-.property-result-listing.block .property-result-map-container .disclaimer {
+/* .property-result-listing.block .property-result-content .disclaimer {
     display: none;
-}
+} */
 
-@media (max-width: 899px) {
+/* @media (max-width: 899px) {
     .property-search-template.search-map-active .property-result-listing.block .property-result-map-container .disclaimer {
         display: block;
     }
-}
+} */
 
 @media (min-width: 900px) {
-    .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
+    .property-search-template.search-map-active .property-result-listing.block > div:first-of-type {
         position: fixed;
         width: 100%;
-        left: 50%;
         top: calc(var(--nav-height) + 50px + 120px);
-
         /* todo need to figureout on how to do this dynamicly */
         height: 600px;
     }
@@ -444,6 +447,6 @@
 
 @media (min-width: 1200px) {
     .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
-        max-width: calc(1400px/2 - 30px);
+        /* max-width: calc(1400px/2 - 30px); */
     }
 }
