@@ -1054,7 +1054,7 @@ function loadJS(src) {
   document.head.append(script);
 }
 
-async function initGoogleMapsAPI() {
+export default async function initGoogleMapsAPI() {
   const placeholders = await fetchPlaceholders();
   const CALLBACK_FN = 'initMap';
   window[CALLBACK_FN] = initMap;
@@ -1066,4 +1066,4 @@ async function initGoogleMapsAPI() {
   loadJS(src);
 }
 
-initGoogleMapsAPI();
+// initGoogleMapsAPI();

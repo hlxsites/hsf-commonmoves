@@ -30,7 +30,7 @@ function buildTotalResults() {
 
 function buildMapToggle() {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('map-toggle', 'flex-row', 'center');
+  wrapper.classList.add('map-toggle', 'flex-row', 'center', 'filter');
   wrapper.innerHTML = `
             <a rel="noopener" target="_blank" tabindex="" class="btn btn-map-toggle" role="button">
             <span class="text-up">
