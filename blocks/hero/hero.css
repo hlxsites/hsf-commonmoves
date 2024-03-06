@@ -157,6 +157,10 @@ main .section.full-width > .hero-wrapper {
     margin-top: 100px;
   }
 
+  .hero.block.keep-scale > div {
+    margin-top: unset;
+  }
+
   .hero.block > .row {
     display: flex;
   }
