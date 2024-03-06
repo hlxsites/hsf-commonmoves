@@ -363,9 +363,11 @@
 .property-search-template .property-result-map-container {
     display: none;
 }
+
 .property-search-template.search-map-active .property-result-map-container {
     display: block;
 }
+
 /* end */
 
 @media (min-width: 600px) {

@@ -71,6 +71,24 @@
   z-index: 1;
 }
 
+.property-result-listing.block .disclaimer {
+  font-family: var(--font-family-proxima);
+  font-size: var(--body-font-size-xs);
+  font-weight: var(--font-weight-normal);
+  letter-spacing: var(--letter-spacing-s);
+  color: var(--dark-grey);
+  line-height: var(--line-height-m);
+}
+
+.property-result-listing.block .property-result-map-container .disclaimer {
+  display: block;
+}
+
+.property-result-listing.block [name="Page"] {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .search-map-active .property-result-listing.block .property-list-cards,
 .search-map-active .property-result-listing.block [name="Page"],
 .search-map-active .property-result-listing.block .property-result-content .disclaimer {
@@ -117,11 +135,6 @@
 
 .property-result-listing.block [name="Page"].multiple-inputs .select-item.hide {
   display: none;
-}
-
-.property-result-listing.block [name="Page"] {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .property-result-listing.block [name="Page"] .select-selected,
@@ -201,19 +214,6 @@
 
 .property-result-listing.block .pagination-arrows .arrow.next::after {
   transform: rotate(-45deg) translate(-3px,-3px);
-}
-
-.property-result-listing.block .disclaimer {
-  font-family: var(--font-family-proxima);
-  font-size: var(--body-font-size-xs);
-  font-weight: var(--font-weight-normal);
-  letter-spacing: var(--letter-spacing-s);
-  color: var(--dark-grey);
-  line-height: var(--line-height-m);
-}
-
-.property-result-listing.block .property-result-map-container .disclaimer {
-  display: block;
 }
 
 .property-result-listing.block .disclaimer hr {
@@ -299,6 +299,18 @@ text-align: center;
     flex-direction: row;
   }
 
+  .property-result-listing.block .property-list-cards {
+    grid-template: repeat(8, 0fr) / repeat(4, 1fr);
+  }
+
+  .search-map-active .property-result-listing.block .property-result-content .disclaimer {
+    display: block;
+  }
+
+  .property-result-listing.block .property-result-map-container .disclaimer {
+    display: none;
+  }
+
   .search-map-active .property-result-listing.block .property-list-cards,
   .search-map-active .property-result-listing.block [name="Page"],
   .search-map-active .property-result-listing.block .property-list-cards .property-result-content .disclaimer {
@@ -323,14 +335,6 @@ text-align: center;
     justify-content: flex-end;
   }
 
-  .property-result-listing.block .property-result-map-container .disclaimer {
-    display: none;
-  }
-
-  .search-map-active .property-result-listing.block .property-result-content .disclaimer {
-    display: block;
-  }
-
   .property-result-listing.block [class*="disclaimer"] * {
     font-family: var(--font-family-proxima);
     font-size: var(--body-font-size-xs);
@@ -350,10 +354,6 @@ text-align: center;
 
   .property-result-listing.block .property-search-results-buttons {
     display: none;
-  }
-
-  .property-result-listing.block .property-list-cards {
-    grid-template: repeat(8, 0fr) / repeat(4, 1fr);
   }
 }
 
