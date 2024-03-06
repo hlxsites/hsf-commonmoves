@@ -49,7 +49,6 @@
 
 .property-result-listing.block .property-list-cards {
   display: grid;
-  grid-template: repeat(8, 0fr) / repeat(4, 1fr);
   grid-gap: 20px;
   height: 100%;
 }
@@ -304,7 +303,6 @@ text-align: center;
 
 @media (min-width: 900px) {
   .property-result-listing.block {
-    margin-top: 75px;
     flex-direction: row;
 }
 
@@ -318,7 +316,6 @@ text-align: center;
     width: 58%;
     position: fixed;
     min-height: 800px;
-    max-height: calc(100vh -20px);
   }
 
   .property-search-template.search-map-active .property-result-listing.block .property-result-content {

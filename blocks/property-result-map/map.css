@@ -443,9 +443,3 @@
         margin: 0;
     }
 }
-
-@media (min-width: 1200px) {
-    .property-search-template.search-map-active .property-result-listing.block > div:last-of-type {
-        /* max-width: calc(1400px/2 - 30px); */
-    }
-}
