@@ -7,7 +7,7 @@ import {
 } from '../shared/search/util.js';
 import { decorateIcons, loadScript } from '../../scripts/aem.js';
 
-const SQUARE_FEET = [
+export const SQUARE_FEET = [
   { value: '500', label: '500 Sq Ft' },
   { value: '750', label: '750 Sq Ft' },
   { value: '1000', label: '1,000 Sq Ft' },
@@ -41,7 +41,6 @@ function buildBar() {
         </div>
       </div>
       <div class="result-filters">
-        <!-- TODO: Add the rest of the filters here -->
         ${buildDataListRange('price', 'Price').outerHTML}
         ${buildFilterSelect('bedrooms', 'Beds', BED_BATHS).outerHTML}
         ${buildFilterSelect('bathrooms', 'Baths', BED_BATHS).outerHTML}
@@ -52,38 +51,19 @@ function buildBar() {
         </a>
       </div>
       <a href="#" class="search-submit" aria-label="Search">
-        <span class="icon icon-search">
-        </span>
+        <span class="icon icon-search"></span>
       </a>
+      <div class="advanced-filters">
+      </div>
+      <div class="search-overlay"></div>
     </form>
   `;
   return div;
 }
 
 export default async function decorate(block) {
-  // setInitialValuesFromUrl();
-  /** build top menu html */
-  // const additionalConfig = document.createElement('div');
-  // additionalConfig.append(buildFilterSearchTypesElement());
-  // const additionalFiltersBlock = await additionalFilters.build();
-  // const buttons = await layoutButtons.build();
   block.replaceChildren(buildBar());
-  //
-  // populatePreSelectedFilters();
-  //
-  // // close filters on click outside
-  // document.addEventListener('click', (e) => {
-  //   if (!block.contains(e.target)) {
-  //     closeTopLevelFilters();
-  //   }
-  // });
   decorateIcons(block);
-  // window.addEventListener('onFilterChange', (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   searchProperty();
-  // });
-
   window.setTimeout(() => {
     loadScript(`${window.hlx.codeBasePath}/blocks/property-search-bar/delayed.js`, { type: 'module' });
   }, 3000);

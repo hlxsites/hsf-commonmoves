@@ -1,17 +1,39 @@
 import { getMetadata } from '../../../scripts/aem.js';
 
 export const BED_BATHS = [
-  { value: 1, label: '1+ Beds' },
-  { value: 2, label: '2+ Beds' },
-  { value: 3, label: '3+ Beds' },
-  { value: 4, label: '4+ Beds' },
-  { value: 5, label: '5+ Beds' },
+  { value: 1, label: '1+' },
+  { value: 2, label: '2+' },
+  { value: 3, label: '3+' },
+  { value: 4, label: '4+' },
+  { value: 5, label: '5+' },
 ];
-
 
 export function getPlaceholder() {
   const country = getMetadata('country') || 'US';
   return country === 'US' ? 'Enter City, Address, Zip/Postal Code, Neighborhood, School or MLS#' : 'Enter City';
+}
+
+let bodyCloseListener;
+/**
+ * Helper function to close an expanded item when click events occur elsewhere on the page.
+ * @param {HTMLElement} root context for closing elements
+ */
+export function closeOnBodyClick(root) {
+  if (bodyCloseListener) {
+    document.body.removeEventListener('click', bodyCloseListener);
+  }
+  bodyCloseListener = (e) => {
+    // Don't close if we clicked somewhere inside of the context.
+    if (root.contains(e.target)) {
+      return;
+    }
+    root.classList.remove('open');
+    root.querySelectorAll('.open').forEach((open) => open.classList.remove('open'));
+    root.querySelectorAll('[aria-expanded="true"]').forEach((expanded) => expanded.setAttribute('aria-expanded', 'false'));
+    document.body.removeEventListener('click', bodyCloseListener);
+    bodyCloseListener = undefined;
+  };
+  document.body.addEventListener('click', bodyCloseListener);
 }
 
 /**
@@ -25,14 +47,14 @@ export function getPlaceholder() {
  */
 export function buildFilterSelect(name, placeholder, options) {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('select-wrapper');
+  wrapper.classList.add('select-wrapper', name);
   wrapper.innerHTML = `
     <select name="${name}" aria-label="${placeholder}">
       <option value="">Any ${placeholder}</option>
     </select>
     <div class="selected" role="button" aria-haspopup="listbox" aria-label="${placeholder}" aria-expanded="false" tabindex="0"><span>Any ${placeholder}</span></div>
     <ul class="select-items" role="listbox">
-      <li role="option" class="selected">Any ${placeholder}</li>
+      <li role="option" class="selected" data-value="">Any ${placeholder}</li>
     </ul>
   `;
 
@@ -45,7 +67,7 @@ export function buildFilterSelect(name, placeholder, options) {
     li.setAttribute('data-value', option.value);
     ele.value = option.value;
     // eslint-disable-next-line no-multi-assign
-    ele.textContent = li.textContent = option.label;
+    ele.textContent = li.textContent = `${option.label} ${placeholder}`;
     select.append(ele);
     ul.append(li);
   });
@@ -66,7 +88,7 @@ export function filterItemClicked(e) {
   } else {
     wrapper.querySelector(`select option[value="${value}"]`).setAttribute('selected', 'selected');
   }
-  wrapper.classList.toggle('open');
+  wrapper.classList.remove('open');
   wrapper.querySelector('[aria-expanded="true"]')?.setAttribute('aria-expanded', 'false');
 }
 
@@ -77,7 +99,7 @@ export function filterItemClicked(e) {
  */
 export function buildDataListRange(name, placeholder) {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('range-wrapper');
+  wrapper.classList.add('range-wrapper', name);
   wrapper.innerHTML = `
     <div class="selected" role="button" aria-haspopup="listbox" aria-label="${placeholder}" aria-expanded="false" tabindex="0"><span>${placeholder}</span></div>
     <div class="range-items">
@@ -103,7 +125,7 @@ export function buildDataListRange(name, placeholder) {
  */
 export function buildSelectRange(name, placeholder, boundaries) {
   const wrapper = document.createElement('div');
-  wrapper.classList.add('range-wrapper');
+  wrapper.classList.add('range-wrapper', name);
   wrapper.innerHTML = `
     <div class="selected" role="button" aria-haspopup="listbox" aria-expanded="false" aria-label="${placeholder}" tabindex="0"><span>${placeholder}</span></div>
     <div class="range-items">
@@ -133,7 +155,7 @@ export function buildSelectRange(name, placeholder, boundaries) {
     boundaries.forEach((b) => {
       const opt = document.createElement('option');
       opt.value = b.value;
-      b.textContent = b.label;
+      opt.textContent = b.label;
       item.querySelector('select').append(opt);
       const li = document.createElement('li');
       li.setAttribute('data-value', b.value);

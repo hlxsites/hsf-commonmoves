@@ -2,6 +2,9 @@ import ListingType from './types/ListingType.js';
 import PropertyType from './types/PropertyType.js';
 import OpenHouses from './types/OpenHouses.js';
 
+export const STORAGE_KEY = 'CommonMovesSearchParams';
+export const SEARCH_URL = '/search';
+
 export default class Search {
   input;
 
@@ -15,7 +18,25 @@ export default class Search {
 
   minBathrooms;
 
+  minSqft;
+
+  maxSqft;
+
+  keywords = [];
+
+  matchAnyKeyword = false;
+
+  minYear;
+
+  maxYear;
+
   isNew = false;
+
+  priceChange = false;
+
+  luxury = false;
+
+  bhhsOnly = false;
 
   page = '1';
 
@@ -45,7 +66,7 @@ export default class Search {
             this.#openHouses = OpenHouses[value] ? OpenHouses[value] : undefined;
           }
         },
-        get: () => OpenHouses[this.#openHouses],
+        get: () => this.#openHouses,
       },
 
       listingTypes: {
@@ -110,7 +131,7 @@ export default class Search {
     } else if (typeof type === 'string' && ListingType[type]) {
       t = ListingType[type];
     }
-    if (t) this.#listingTypes.push(t);
+    if (t && !this.#listingTypes.includes(t)) this.#listingTypes.push(t);
   }
 
   /**
@@ -131,7 +152,7 @@ export default class Search {
     } else if (typeof type === 'number') {
       t = PropertyType.fromId(type);
     }
-    if (t) this.#propertyTypes.push(t);
+    if (t && !this.#propertyTypes.includes(t)) this.#propertyTypes.push(t);
   }
 
   /**
@@ -146,7 +167,17 @@ export default class Search {
     if (this.maxPrice) params.set('MaxPrice', this.maxPrice);
     if (this.minBedrooms) params.set('MinBedroomsTotal', this.minBedrooms);
     if (this.minBathrooms) params.set('MinBathroomsTotal', this.minBathrooms);
-    if (this.isNew) params.set('NewListing', this.isNew);
+    if (this.minSqft) params.set('MinLivingArea', this.minSqft);
+    if (this.maxSqft) params.set('MaxLivingArea', this.maxSqft);
+    if (this.keywords && this.keywords.length > 0) params.set('Features', this.keywords.join(','));
+    if (this.matchAnyKeyword) params.set('MatchAnyFeatures', 'true');
+    if (this.minYear || this.maxYear) {
+      params.set('YearBuilt', `${this.minYear || 1800}-${this.maxYear || 2100}`);
+    }
+    if (this.isNew) params.set('NewListing', 'true');
+    if (this.priceChange) params.set('RecentPriceChange', 'true');
+    if (this.luxury) params.set('Luxury', 'true');
+    if (this.bhhsOnly) params.set('FeaturedCompany', 'BHHS');
     if (this.openHouses) params.set('OpenHouses', this.openHouses.value);
 
     params.set('Page', this.page);
@@ -193,9 +224,22 @@ export default class Search {
     });
     this.listingTypes = params.getAll('listingTypes');
     this.propertyTypes = params.getAll('propertyTypes');
-    // Coerce isNew
+    this.keywords = params.getAll('keywords');
+    // Coerce boolean
     if (typeof this.isNew === 'string') {
       this.isNew = Boolean(this.isNew).valueOf();
+    }
+    if (typeof this.matchAnyKeyword === 'string') {
+      this.matchAnyKeyword = Boolean(this.matchAnyKeyword).valueOf();
+    }
+    if (typeof this.priceChange === 'string') {
+      this.priceChange = Boolean(this.priceChange).valueOf();
+    }
+    if (typeof this.luxury === 'string') {
+      this.luxury = Boolean(this.luxury).valueOf();
+    }
+    if (typeof this.bhhsOnly === 'string') {
+      this.bhhsOnly = Boolean(this.bhhsOnly).valueOf();
     }
   }
 
@@ -239,15 +283,17 @@ export default class Search {
    */
   static async load(type) {
     let search = new Search();
-    try {
-      const mod = await import(`./types/${type}Search.js`);
-      if (mod.default) {
-        // eslint-disable-next-line new-cap
-        search = new mod.default();
+    if (type) {
+      try {
+        const mod = await import(`./types/${type}Search.js`);
+        if (mod.default) {
+          // eslint-disable-next-line new-cap
+          search = new mod.default();
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(`failed to load Search Type for ${type}`, error);
       }
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log(`failed to load Search Type for ${type}`, error);
     }
     return search;
   }

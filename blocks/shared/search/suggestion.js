@@ -28,7 +28,7 @@ const buildSuggestions = (suggestions) => {
     category.results.forEach((result) => {
       const li = document.createElement('li');
       li.setAttribute('category', category.searchType);
-      li.setAttribute('display', result.displayText);
+      li.setAttribute('display', result.displayText.trim());
       li.setAttribute('query', result.QueryString);
       li.setAttribute('type', result.type);
       li.textContent = result.SearchParameter;
@@ -48,10 +48,13 @@ const buildSuggestions = (suggestions) => {
 const inputChanged = (e, target) => {
   const { currentTarget } = e;
   const { value } = currentTarget;
+  const searchBar = currentTarget.closest('.search-bar');
   if (value.length > 0) {
-    currentTarget.closest('.search-bar').classList.add('show-suggestions');
+    searchBar.classList.add('show-suggestions');
   } else {
-    currentTarget.closest('.search-bar').classList.remove('show-suggestions');
+    searchBar.classList.remove('show-suggestions');
+    searchBar.querySelector('input[name="query"]').value = '';
+    searchBar.querySelector('input[name="type"]').value = '';
   }
 
   if (value.length <= 2) {

@@ -1,6 +1,6 @@
 import { close as closeCountrySelect } from '../../../shared/search-countries/search-countries.js';
 import { BREAKPOINTS } from '../../../../scripts/scripts.js';
-import { filterItemClicked } from '../../../shared/search/util.js';
+import { closeOnBodyClick, filterItemClicked } from '../../../shared/search/util.js';
 
 const noOverlayAt = BREAKPOINTS.medium;
 
@@ -29,10 +29,7 @@ const closeFilters = (e) => {
   thisForm.querySelectorAll('.select-wrapper.open').forEach((select) => {
     select.classList.remove('open');
   });
-
-  if (!noOverlayAt.matches) {
-    document.body.style.overflowY = 'hidden';
-  }
+  document.body.style.overflowY = '';
 };
 
 const updateExpanded = (wrapper) => {
@@ -46,6 +43,7 @@ const updateExpanded = (wrapper) => {
     wrapper.classList.add('open');
     wrapper.querySelector('[aria-expanded="false"]')?.setAttribute('aria-expanded', 'true');
   }
+  closeOnBodyClick(thisForm);
 };
 
 function addEventListeners() {
@@ -60,6 +58,8 @@ function addEventListeners() {
 
   form.querySelectorAll('.select-wrapper .selected').forEach((button) => {
     button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
       const thisForm = e.currentTarget.closest('form');
       closeCountrySelect(thisForm);
       updateExpanded(e.currentTarget.closest('.select-wrapper'));

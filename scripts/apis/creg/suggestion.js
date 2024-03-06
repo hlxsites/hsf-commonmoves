@@ -18,7 +18,8 @@ const mapSuggestions = (json) => {
     }
   });
   searchTypes.forEach((type) => {
-    const name = type.searchType.replaceAll(/\s+/g, '').toLowerCase();
+    let name = type.searchType.replaceAll(/\s+/g, '').toLowerCase();
+    if (name === 'zip') name = 'zipcode'; // ZipCode != Zip - and broke somewhere along the way.
     if (suggestions[name] && suggestions[name].length) {
       results.push({
         ...type,

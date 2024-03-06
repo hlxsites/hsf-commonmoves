@@ -4,7 +4,7 @@ import {
 import { getMetadata, loadScript } from '../../../scripts/aem.js';
 import { getSpinner } from '../../../scripts/util.js';
 import { BED_BATHS, buildFilterSelect, getPlaceholder } from '../../shared/search/util.js';
-import Search from '../../../scripts/apis/creg/search/Search.js';
+import Search, { SEARCH_URL } from '../../../scripts/apis/creg/search/Search.js';
 import { metadataSearch } from '../../../scripts/apis/creg/creg.js';
 
 async function observeForm(e) {
@@ -77,7 +77,7 @@ async function submitForm(e) {
 async function buildForm() {
   const form = document.createElement('form');
   form.classList.add('homes');
-  form.setAttribute('action', '/search');
+  form.setAttribute('action', SEARCH_URL);
 
   form.innerHTML = `
     <div class="mobile-header">
