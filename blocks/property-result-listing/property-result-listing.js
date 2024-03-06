@@ -137,8 +137,6 @@ export default async function decorate(block) {
       propertyResultContent.append(buildDisclaimer(disclaimerHtml));
       block.append(propertyResultContent);
 
-
-
       document.querySelector('.property-result-map-container').append(disclaimerBlock);
       /** update page on select change */
       block.querySelector('[name="Page"] .select-selected').addEventListener('click', () => {
