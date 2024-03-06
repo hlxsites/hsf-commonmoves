@@ -931,7 +931,7 @@ main .section .property-search-bar .btn.btn-secondary:hover {
     .property-search-template .section.property-search-bar-container {
         margin-bottom: 0;
         position: sticky;
-        top: 140px;
+        top: 65px;
         z-index: 10;
         background: white;
     }
@@ -1013,5 +1013,11 @@ main .section .property-search-bar .btn.btn-secondary:hover {
         margin: 0;
         color: var(--black);
         width: 165px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .property-search-template .section.property-search-bar-container {
+        top: 140px;
     }
 }

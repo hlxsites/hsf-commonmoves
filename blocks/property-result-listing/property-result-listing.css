@@ -6,6 +6,9 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
+}
+
+.search-map-active .property-result-listing.block {
   height: 100vh;
 }
 
@@ -299,16 +302,20 @@ text-align: center;
     flex-direction: row;
   }
 
+  .search-map-active .property-result-listing.block {
+    height: 100%;
+  }
+
   .property-result-listing.block .property-list-cards {
     grid-template: repeat(8, 0fr) / repeat(4, 1fr);
   }
 
-  .search-map-active .property-result-listing.block .property-result-content .disclaimer {
-    display: block;
-  }
-
   .property-result-listing.block .property-result-map-container .disclaimer {
     display: none;
+  }
+
+  .search-map-active .property-result-listing.block .property-result-content .disclaimer {
+    display: block;
   }
 
   .search-map-active .property-result-listing.block .property-list-cards,
