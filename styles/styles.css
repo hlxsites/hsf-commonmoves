@@ -473,7 +473,6 @@ form button[type="submit"]:hover {
   .section .block.hide-on-mobile {
     display: none;
   }
-
 }
 
 @media screen and (min-width: 600px) {

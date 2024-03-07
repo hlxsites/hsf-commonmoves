@@ -60,17 +60,14 @@
   background-color: var(--white);
   border: 1px solid var(--grey);
   box-shadow: 0 3px 9px 2px rgba(0 0 0 / 23%);
-  z-index: 10;
   line-height: 1.5;
+  z-index: 1000;
 }
 
 .hero.block .content .search-bar.show-suggestions .suggester-results {
   display: block;
 }
 
-.hero.block .content .search-bar .suggester-results > li:first-child:not(:only-child){
-  display: none;
-}
 
 .hero.block .content .search-bar .suggester-results > li > ul {
   padding: 0 15px;
@@ -82,6 +79,10 @@
   font-weight: 400;
   text-transform: none;
   letter-spacing: normal;
+}
+
+.hero.block .content .search-bar .suggester-results > li:first-child:not(:only-child){
+  display: none;
 }
 
 .hero.block .content .search-bar .suggester-results .list-title {

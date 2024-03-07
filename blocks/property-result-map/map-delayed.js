@@ -274,7 +274,7 @@ function zj(a, c, f) {
   const t = a.ListingId;
   const y = a.CourtesyOf;
   const A = a.sellingOfficeName;
-  const H = a.ApplicationType;
+  const H = a.ListingType;
   const J = a.listPriceAlternateCurrency;
   const I = a.brImageUrl;
   const P = a.StreetName;
@@ -657,7 +657,7 @@ function Aj(a) {
   const B = a.ListingId;
   const t = a.CourtesyOf;
   const y = a.sellingOfficeName;
-  const A = a.ApplicationType;
+  const A = a.ListingType;
   const H = a.propertyAltCurrencyPrice;
   const J = a.brImageUrl;
   const I = a.propertyAddress;
@@ -778,7 +778,7 @@ function St() {
           const u = a.ListingId;
           const v = a.CourtesyOf;
           const E = a.sellingOfficeName;
-          const G = a.ApplicationType;
+          const G = a.ListingType;
           const X = a.propertyAltCurrencyPrice;
           const Jb = a.brImageUrl;
           const Ab = a.propertyAddress;

@@ -1,9 +1,6 @@
-import { propertySearch } from '../../../scripts/apis/creg/creg.js';
-import { decorateIcons } from '../../../scripts/aem.js';
-
 function createImage(listing) {
   if (listing.SmallMedia?.length > 0) {
-    return `<img src="${listing.SmallMedia[0].mediaUrl}" alt="Property Image" loading="lazy" class="property-thumbnail">`;
+    return `<img src="${listing.SmallMedia[0].mediaUrl}" alt="${listing.StreetName}" loading="lazy" class="property-thumbnail">`;
   }
   return '<div class="property-no-available-image"><span>no images available</span></div>';
 }
@@ -41,7 +38,7 @@ export function createCard(listing) {
   if (listing.PdpPath.includes('LuxuryTheme=true')) {
     item.classList.add('is-luxury');
   }
-  const applicationType = listing.ApplicationType && listing.ApplicationType === 'For Rent' ? `<span class="property-label new-listing">${listing.ApplicationType}</span>` : '';
+  const applicationType = listing.ListingType && listing.ListingType === 'For Rent' ? `<span class="property-label new-listing">${listing.ListingType}</span>` : '';
 
   if (listing.ClosedDate !== '01/01/0001') {
     item.classList.add('is-sold');
@@ -49,7 +46,7 @@ export function createCard(listing) {
   }
 
   item.innerHTML = `
-    <a href="${detailsPath}" rel="noopener" aria-label="${listing.StreetName}">
+    <a href="${detailsPath}" rel="noopener" aria-labelledby="listing-${listing.ListingId}-address">
       <div class="listing-image-container"> 
         <div class="property-image"> 
           ${createImage(listing)} 
@@ -79,7 +76,7 @@ export function createCard(listing) {
       <div class="property-info-wrapper"> 
         <div class="property-info"> 
           <div class="sold-date">Closed: ${listing.ClosedDate}</div>
-          <div class="address"> 
+          <div id="listing-${listing.ListingId}-address" class="address"> 
             ${listing.StreetName}
             <br> 
             ${listing.City}, ${listing.StateOrProvince} ${listing.PostalCode} 
@@ -89,13 +86,21 @@ export function createCard(listing) {
       </div> 
       <div class="property-buttons"> 
         <div class="buttons-row-flex"> 
-          <a aria-label="Contact Form" href="#" class="button-property"> 
-            <span class="icon icon-envelope"></span>
-            <span class="icon icon-envelopedark"></span>
+          <a aria-label="Contact us about ${listing.StreetName}" href="#" class="button-property"> 
+            <span class="icon icon-envelope">
+              <img data-icon-name="envelope" src="/icons/envelope.svg" loading="lazy" alt="envelope">
+            </span>
+            <span class="icon icon-envelopedark">
+              <img data-icon-name="envelopedark" src="/icons/envelopedark.svg" loading="lazy" alt="envelope">
+            </span>
           </a> 
-          <a aria-label="Save" href="#" class="button-property"> 
-            <span class="icon icon-heartempty"></span>
-            <span class="icon icon-heartemptydark"></span>
+          <a aria-label="Save ${listing.StreetName} to saved properties." href="#" class="button-property"> 
+            <span class="icon icon-heartempty">
+              <img data-icon-name="heartempty" src="/icons/heartempty.svg" loading="lazy" alt="heart">
+            </span>
+            <span class="icon icon-heartemptydark">
+              <img data-icon-name="heartempty" src="/icons/heartemptydark.svg" loading="lazy" alt="heart">
+            </span>
           </a>
         </div>
       </div>
@@ -117,21 +122,12 @@ export function createCard(listing) {
 /**
  * Render the results of the provided search into the specified parent element.
  *
- * @param {SearchParameters} searchParams
  * @param {HTMLElement} parent
+ * @param {Object[]} properties results from CREG
  * @return {Promise<void>}
  */
-export async function render(searchParams, parent) {
-  const list = document.createElement('div');
-  list.classList.add('property-list-cards');
-  parent.append(list);
-
-  propertySearch(searchParams).then((results) => {
-    if (results?.properties) {
-      results.properties.forEach((listing) => {
-        list.append(createCard(listing));
-      });
-      decorateIcons(parent);
-    }
+export function render(parent, properties = []) {
+  properties.forEach((listing) => {
+    parent.append(createCard(listing));
   });
 }

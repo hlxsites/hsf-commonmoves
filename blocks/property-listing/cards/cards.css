@@ -2,7 +2,6 @@
 
 .property-list-cards {
   display: flex;
-  height: 400px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -148,7 +147,7 @@
   justify-content: center;
 }
 
-.property-list-cards .property-labels .property-label.open-house svg {
+.property-list-cards .property-labels .property-label.open-house img {
   height: 24px;
   width: 24px;
   margin-right: 5px;
@@ -259,7 +258,7 @@
   left: 0;
 }
 
-.property-list-cards .property-details .property-buttons .button-property svg {
+.property-list-cards .property-details .property-buttons .button-property img {
   width: 24px;
   height: 24px;
 }
@@ -314,7 +313,6 @@
 @media (min-width: 1200px) {
   .property-list-cards {
     display: grid;
-    height: 820px;
     grid-template: repeat(2, 1fr) / repeat(4, 1fr);
     gap: 20px;
     padding-bottom: 20px;
