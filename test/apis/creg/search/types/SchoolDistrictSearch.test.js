@@ -2,7 +2,6 @@ import { describe, it } from 'node:test';
 import { strict as assert } from 'node:assert';
 import Search from '../../../../../scripts/apis/creg/search/Search.js';
 import SchoolDistrictSearch from '../../../../../scripts/apis/creg/search/types/SchoolDistrictSearch.js';
-import PostalCodeSearch from '../../../../../scripts/apis/creg/search/types/PostalCodeSearch.js';
 
 describe('SchoolDistrictSearch', () => {
   describe('create from block config', () => {

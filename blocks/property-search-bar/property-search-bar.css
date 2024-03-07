@@ -253,7 +253,6 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   display: block;
 }
 
-
 .property-search-bar.block form a.search-submit {
   height: 36px;
   width: 36px;
@@ -861,7 +860,6 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
 }
 
 @media screen and (min-width: 600px) {
-
   .property-search-bar.block .advanced-filters .property-types div.options {
     gap: 8px;
   }

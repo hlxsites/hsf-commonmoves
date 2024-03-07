@@ -44,7 +44,7 @@ export async function metadataSearch(search) {
  *
  * @param {string[]} listingIds list of listing ids
  */
-export async function getDetails(...listingIds){
+export async function getDetails(...listingIds) {
   return new Promise((resolve) => {
     const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/listing.js`, { type: 'module' });
     worker.onmessage = (e) => resolve(e.data);

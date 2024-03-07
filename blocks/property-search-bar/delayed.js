@@ -686,7 +686,7 @@ function observeForm(form) {
     toggleAdvancedFilters(e);
   });
 
-  form.querySelector('a#search-apply').addEventListener('click',(e) => {
+  form.querySelector('a#search-apply').addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (!BREAKPOINTS.medium.matches) {
