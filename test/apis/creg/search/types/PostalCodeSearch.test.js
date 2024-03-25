@@ -59,7 +59,7 @@ describe('PostalCodeSearch', () => {
   describe('from suggestion results', () => {
     it('should create Postal Code search', async () => {
       const search = new PostalCodeSearch();
-      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dPostalCode\u0026SearchParameter\u003d12345'));
+      search.populateFromSuggestion(new URLSearchParams('SearchType\u003dPostalCode\u0026CoverageZipcode\u003d12345'));
       assert(search instanceof PostalCodeSearch, 'Created correct type.');
       assert.equal(search.code, '12345', 'Postal Code was correct.');
     });
@@ -72,7 +72,7 @@ describe('PostalCodeSearch', () => {
 
       const queryStr = search.asCregURLSearchParameters().toString();
       assert.match(queryStr, /SearchType=PostalCode/, 'Query string includes search type.');
-      assert.match(queryStr, /SearchParameter=12345/, 'Query string includes Search parameter structure.');
+      assert.match(queryStr, /CoverageZipcode=12345/, 'Query string includes Search parameter structure.');
     });
   });
 });
