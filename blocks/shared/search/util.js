@@ -82,11 +82,11 @@ export function filterItemClicked(e) {
   wrapper.querySelector('.selected span').textContent = e.currentTarget.textContent;
   wrapper.querySelector('ul li.selected')?.classList.toggle('selected');
   e.currentTarget.classList.add('selected');
-  wrapper.querySelector('select option[selected="selected"]')?.removeAttribute('selected');
+  wrapper.querySelectorAll('select option').forEach((o) => { o.selected = false; });
   if (!value) {
-    wrapper.querySelector('select option[value=""]').setAttribute('selected', 'selected');
+    wrapper.querySelector('select option[value=""]').selected = true;
   } else {
-    wrapper.querySelector(`select option[value="${value}"]`).setAttribute('selected', 'selected');
+    wrapper.querySelector(`select option[value="${value}"]`).selected = true;
   }
   wrapper.classList.remove('open');
   wrapper.querySelector('[aria-expanded="true"]')?.setAttribute('aria-expanded', 'false');

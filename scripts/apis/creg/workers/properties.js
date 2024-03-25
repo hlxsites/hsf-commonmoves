@@ -26,7 +26,7 @@ onmessage = async (event) => {
       }
       return {};
     });
-  if (results.properties) {
+  if (results && results.properties) {
     postMessage(results.properties);
   } else {
     postMessage([]);

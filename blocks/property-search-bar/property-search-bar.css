@@ -63,8 +63,6 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   background-color: var(--white);
 }
 
-
-
 .property-search-bar.block form .result-filters {
   display: flex;
   align-items: center;
@@ -81,6 +79,11 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   text-overflow: ellipsis;
   border-left: 1px solid var(--black);
 }
+
+.property-search-bar.block .result-filters .range-wrapper:last-of-type {
+  border-right: 1px solid var(--black);
+}
+
 
 .property-search-bar.block .result-filters .range-wrapper .select-wrapper {
   border: none;
@@ -234,9 +237,9 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   font-weight: var(--font-weight-light);
 }
 
-
 .property-search-bar.block .result-filters a.filter {
   display: flex;
+  margin: 0 8px;
   height: 35px;
   width: 35px;
   align-items: center;
@@ -284,16 +287,16 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   border-bottom: 1px solid var(--grey);
 }
 
-.property-search-bar.block .advanced-filters > div.listing-types {
+.property-search-bar.block .advanced-filters .listing-types {
   display: flex;
   flex-wrap: wrap;
 }
 
-.property-search-bar.block .advanced-filters > div.listing-types > label {
+.property-search-bar.block .advanced-filters .listing-types > label {
   flex-basis: 100%;
 }
 
-.property-search-bar.block .advanced-filters > div.listing-types > div {
+.property-search-bar.block .advanced-filters .listing-types > div {
   flex-basis: 50%;
 }
 
@@ -386,7 +389,6 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   border: none;
   padding: 4px 8px;
 }
-
 
 .property-search-bar.block .advanced-filters .select-wrapper .select-items li:hover {
   color: var(--body-color);
@@ -807,6 +809,7 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   left: 0;
   background-color: var(--dark-grey);
   opacity: .5;
+  z-index: 2;
 }
 
 .property-search-bar.block .search-overlay.visible {

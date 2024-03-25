@@ -11,7 +11,7 @@ export default class PostalCodeSearch extends Search {
   asCregURLSearchParameters() {
     const params = super.asCregURLSearchParameters();
     params.set('SearchType', 'PostalCode');
-    params.set('SearchParameter', this.code);
+    params.set('CoverageZipcode', this.code);
     return params;
   }
 
@@ -23,6 +23,6 @@ export default class PostalCodeSearch extends Search {
 
   populateFromSuggestion(params) {
     super.populateFromSuggestion(params);
-    this.code = params.get('SearchParameter');
+    this.code = params.get('CoverageZipcode');
   }
 }

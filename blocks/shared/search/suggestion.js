@@ -30,7 +30,7 @@ const buildSuggestions = (suggestions) => {
       li.setAttribute('category', category.searchType);
       li.setAttribute('display', result.displayText.trim());
       li.setAttribute('query', result.QueryString);
-      li.setAttribute('type', result.type);
+      li.setAttribute('type', new URLSearchParams(result.QueryString).get('SearchType'));
       li.textContent = result.SearchParameter;
       ul.append(li);
     });

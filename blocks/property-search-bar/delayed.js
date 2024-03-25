@@ -2,7 +2,7 @@ import { BREAKPOINTS } from '../../scripts/scripts.js';
 import { closeOnBodyClick, filterItemClicked } from '../shared/search/util.js';
 import { SQUARE_FEET } from './property-search-bar.js';
 import ListingType from '../../scripts/apis/creg/search/types/ListingType.js';
-import Search, { SEARCH_URL, STORAGE_KEY } from '../../scripts/apis/creg/search/Search.js';
+import Search, { EVENT_NAME, SEARCH_URL } from '../../scripts/apis/creg/search/Search.js';
 
 function toggleAdvancedFilters(e) {
   const open = e.currentTarget.classList.toggle('open');
@@ -134,15 +134,7 @@ function updateSqftLabel(wrapper) {
   wrapper.querySelector('span').innerHTML = label;
 }
 
-function addKeyword(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  const wrapper = e.currentTarget.closest('.keywords');
-  const input = wrapper.querySelector('.keywords-input input[type="text"]');
-  const { value } = input;
-  if (!value) {
-    return;
-  }
+function addKeyword(wrapper, value) {
   const keyword = document.createElement('div');
   keyword.classList.add('keyword');
   keyword.innerHTML = `
@@ -156,7 +148,6 @@ function addKeyword(e) {
   });
 
   wrapper.querySelector('.keywords-list').append(keyword);
-  input.value = '';
 }
 
 async function updateParameters() {
@@ -199,12 +190,15 @@ async function updateParameters() {
   form.querySelectorAll('.property-types button.selected').forEach((btn) => search.addPropertyType(btn.name));
   search.keyword = [];
   form.querySelectorAll('.keywords .keywords-list .keyword span:first-of-type').forEach((kw) => search.keywords.push(kw.textContent));
+  if (form.querySelector('.keywords input[name="matchType"]').value === 'any') {
+    search.matchAnyKeyword = true;
+  }
   input = form.querySelector('.year-range #min-year select');
   if (input.value) search.minYear = input.value;
   input = form.querySelector('.year-range #max-year select');
   if (input.value) search.maxYear = input.value;
   search.isNew = form.querySelector('.is-new input').checked;
-  search.priceChange = form.querySelector('.price-update input').checked;
+  search.priceChange = form.querySelector('.price-change input').checked;
   input = form.querySelector('.open-houses input');
   if (input.checked) search.openHouses = form.querySelector('.open-houses input[name="open-houses-timeframe"]:checked').value;
   input = form.querySelector('.lux input');
@@ -212,12 +206,11 @@ async function updateParameters() {
   input = form.querySelector('.bhhs-only input');
   if (input.checked) search.bhhsOnly = true;
 
-  window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(search));
   form.querySelector('a.filter.open')?.dispatchEvent(new MouseEvent('click'));
-  if (window.location.pathname === SEARCH_URL) {
-    window.location.hash = search.asURLSearchParameters().toString();
+  if (window.location.pathname !== SEARCH_URL) {
+    window.location = `${SEARCH_URL}?${search.asURLSearchParameters().toString()}`;
   } else {
-    window.location = `${SEARCH_URL}#${search.asURLSearchParameters().toString()}`;
+    window.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: search }));
   }
 }
 
@@ -262,7 +255,9 @@ function resetForm(e) {
   const form = e.currentTarget.closest('form');
   form.querySelectorAll('.advanced-filters .listing-types input[checked="checked"]').forEach((input) => input.closest('.filter-toggle').dispatchEvent(new MouseEvent('click')));
   form.querySelector('.advanced-filters input[name="FOR_SALE"]').closest('.filter-toggle').dispatchEvent(new MouseEvent('click'));
-  form.querySelectorAll('.advanced-filters .range-wrapper.price input[type="text"]').forEach((input) => { input.value = ''; });
+  form.querySelectorAll('.advanced-filters .range-wrapper.price input[type="text"]').forEach((input) => {
+    input.value = '';
+  });
   form.querySelectorAll('.advanced-filters .bedrooms li[data-value=""] input').forEach((li) => li.dispatchEvent(new MouseEvent('click')));
   form.querySelectorAll('.advanced-filters .bathrooms li[data-value=""] input').forEach((li) => li.dispatchEvent(new MouseEvent('click')));
   form.querySelectorAll('.advanced-filters .sqft li[data-value=""]').forEach((li) => li.dispatchEvent(new MouseEvent('click')));
@@ -273,28 +268,217 @@ function resetForm(e) {
   form.querySelectorAll('.advanced-filters .misc .filter-toggle input[checked="checked"]').forEach((input) => input.closest('.filter-toggle').dispatchEvent(new MouseEvent('click')));
 }
 
+/**
+ * Updates the bar and advanced form parameters based on the provided Search object.
+ * @param {Search} search
+ */
+// eslint-disable-next-line import/prefer-default-export
+export function updateForm(search) {
+  const bar = document.querySelector('.property-search-bar.block .search-form-wrapper');
+  const advanced = document.querySelector('.property-search-bar.block .advanced-filters');
+
+  bar.querySelector('input[name="type"]').value = search.type;
+  bar.querySelector('input[name="keyword"]').value = search.input || '';
+  bar.querySelector('input[name="min-price"]').value = search.minPrice || '';
+  advanced.querySelector('input[name="adv-min-price"]').value = search.minPrice || '';
+  bar.querySelector('input[name="max-price"]').value = search.maxPrice || '';
+  advanced.querySelector('input[name="adv-max-price"]').value = search.maxPrice || '';
+  updatePriceLabel(bar.querySelector('.range-wrapper.price'));
+
+  const beds = search.minBedrooms;
+  let display;
+  bar.querySelector('.select-wrapper.bedrooms ul li.selected')?.classList.toggle('selected');
+  if (beds) {
+    bar.querySelector(`.select-wrapper.bedrooms select option[value="${beds}"]`).selected = true;
+    advanced.querySelector(`div.bedrooms input[value="${beds}"]`).checked = true;
+    const selected = bar.querySelector(`.select-wrapper.bedrooms ul li[data-value="${beds}"]`);
+    selected.classList.add('selected');
+    display = selected.textContent;
+  } else {
+    bar.querySelector('.select-wrapper.bedrooms select option[value=""]').selected = true;
+    advanced.querySelector('div.bedrooms input[value=""]').checked = true;
+    const selected = bar.querySelector('.select-wrapper.bedrooms ul li[data-value=""]');
+    selected.classList.add('selected');
+    display = selected.textContent;
+  }
+
+  bar.querySelector('.select-wrapper.bedrooms div.selected span').textContent = display;
+  const baths = search.minBathrooms;
+  bar.querySelector('.select-wrapper.bathrooms ul li.selected')?.classList.toggle('selected');
+  if (baths) {
+    bar.querySelector(`.select-wrapper.bathrooms select option[value="${baths}"]`).selected = true;
+    advanced.querySelector(`div.bathrooms input[value="${baths}"]`).checked = true;
+    const selected = bar.querySelector(`.select-wrapper.bathrooms ul li[data-value="${baths}"]`);
+    selected.classList.add('selected');
+    display = selected.textContent;
+  } else {
+    bar.querySelector('.select-wrapper.bathrooms select option[value=""]').selected = true;
+    advanced.querySelector('div.bathrooms input[value=""]').checked = true;
+    const selected = bar.querySelector('.select-wrapper.bathrooms ul li[data-value=""]');
+    selected.classList.add('selected');
+    display = selected.textContent;
+  }
+  bar.querySelector('.select-wrapper.bathrooms div.selected span').textContent = display;
+
+  const { minSqft, maxSqft } = search;
+  bar.querySelector('.range-wrapper.sqft #min-sqft ul li.selected').classList.remove('selected');
+  advanced.querySelector('div.sqft #adv-min-sqft ul li.selected').classList.remove('selected');
+  if (minSqft) {
+    bar.querySelector(`.range-wrapper.sqft #min-sqft select option[value="${minSqft}"]`).selected = true;
+    bar.querySelector(`.range-wrapper.sqft #min-sqft ul li[data-value="${minSqft}"]`).classList.add('selected');
+    advanced.querySelector(`div.sqft #adv-min-sqft select option[value="${minSqft}"]`).selected = true;
+    advanced.querySelector(`div.sqft #adv-min-sqft ul li[data-value="${minSqft}"]`).classList.add('selected');
+  } else {
+    bar.querySelector('.range-wrapper.sqft #min-sqft select option[value=""]').selected = true;
+    bar.querySelector('.range-wrapper.sqft #min-sqft ul li[data-value=""]').classList.add('selected');
+    advanced.querySelector('div.sqft #adv-min-sqft select option[value=""]').selected = true;
+    advanced.querySelector('div.sqft #adv-min-sqft ul li[data-value=""]').classList.add('selected');
+  }
+  bar.querySelector('.range-wrapper.sqft #min-sqft div.selected span').textContent = bar.querySelector('.range-wrapper.sqft #min-sqft ul li.selected').textContent;
+  advanced.querySelector('div.sqft #adv-min-sqft div.selected span').textContent = advanced.querySelector('div.sqft #adv-min-sqft ul li.selected').textContent;
+
+  bar.querySelector('.range-wrapper.sqft #max-sqft ul li.selected').classList.remove('selected');
+  advanced.querySelector('div.sqft #adv-max-sqft ul li.selected').classList.remove('selected');
+  if (maxSqft) {
+    bar.querySelector(`.range-wrapper.sqft #max-sqft select option[value="${maxSqft}"]`).selected = true;
+    bar.querySelector(`.range-wrapper.sqft #max-sqft ul li[data-value="${maxSqft}"]`).classList.add('selected');
+    advanced.querySelector(`div.sqft #adv-max-sqft select option[value="${maxSqft}"]`).selected = true;
+    advanced.querySelector(`div.sqft #adv-max-sqft ul li[data-value="${maxSqft}"]`).classList.add('selected');
+  } else {
+    bar.querySelector('.range-wrapper.sqft #max-sqft select option[value=""]').selected = true;
+    bar.querySelector('.range-wrapper.sqft #max-sqft ul li[data-value=""]').classList.add('selected');
+    advanced.querySelector('div.sqft #adv-max-sqft select option[value=""]').selected = true;
+    advanced.querySelector('div.sqft #adv-max-sqft ul li[data-value=""]').classList.add('selected');
+  }
+  bar.querySelector('.range-wrapper.sqft #max-sqft div.selected span').textContent = bar.querySelector('.range-wrapper.sqft #max-sqft ul li.selected').textContent;
+  advanced.querySelector('div.sqft #adv-max-sqft div.selected span').textContent = advanced.querySelector('div.sqft #adv-max-sqft ul li.selected').textContent;
+  updateSqftLabel(bar.querySelector('.range-wrapper.sqft'));
+
+  advanced.querySelectorAll('.listing-types .filter-toggle.disabled').forEach((t) => t.classList.remove('disabled'));
+  advanced.querySelectorAll('.listing-types .filter-toggle input[type="checkbox"]').forEach((c) => {
+    c.removeAttribute('checked');
+    c.nextElementSibling.classList.remove('checked');
+  });
+  search.listingTypes.forEach((t) => {
+    const chkbx = advanced.querySelector(`.listing-types .filter-toggle input[name="${t.type}"]`);
+    chkbx.checked = true;
+    chkbx.nextElementSibling.classList.add('checked');
+    if (t.type === ListingType.FOR_RENT.type) {
+      advanced.querySelector(`.listing-types .filter-toggle input[name="${ListingType.PENDING.type}"]`).closest('.filter-toggle').classList.add('disabled');
+    } else if (t.type === ListingType.PENDING.type) {
+      advanced.querySelector(`.listing-types .filter-toggle input[name="${ListingType.FOR_RENT.type}"]`).closest('.filter-toggle').classList.add('disabled');
+    }
+  });
+
+  advanced.querySelectorAll('.property-types button.selected').forEach((b) => b.classList.remove('selected'));
+  search.propertyTypes.forEach((t) => {
+    advanced.querySelector(`.property-types button[name="${t.name}"]`).classList.add('selected');
+  });
+  const unselected = advanced.querySelector('.property-types button:not(.selected)');
+  if (unselected) {
+    advanced.querySelector('.property-types .all label input').checked = false;
+  } else {
+    advanced.querySelector('.property-types .all label input').checked = true;
+  }
+
+  const kwWrapper = advanced.querySelector('.keywords');
+  kwWrapper.querySelector('.keywords-list').replaceChildren();
+  search.keywords.forEach((kw) => addKeyword(kwWrapper, kw));
+  if (search.matchAnyKeyword) {
+    advanced.querySelector('.keywords input[value="any"]').checked = true;
+  } else {
+    advanced.querySelector('.keywords input[value="all"]').checked = true;
+  }
+
+  const { minYear, maxYear } = search;
+  const minYearWrapper = advanced.querySelector('div.year-range #min-year');
+  minYearWrapper.querySelector('ul li.selected').classList.remove('selected');
+  if (minYear) {
+    minYearWrapper.querySelector(`select option[value="${minYear}"]`).selected = true;
+    minYearWrapper.querySelector(`ul li[data-value="${minYear}"]`).classList.add('selected');
+  } else {
+    minYearWrapper.querySelector('select option[value=""]').selected = true;
+    minYearWrapper.querySelector('ul li[data-value=""]').classList.add('selected');
+  }
+  minYearWrapper.querySelector('div.selected span').textContent = minYearWrapper.querySelector('ul li.selected').textContent;
+
+  const maxYearWrapper = advanced.querySelector('div.year-range #max-year');
+  maxYearWrapper.querySelector('ul li.selected').classList.remove('selected');
+  if (maxYear) {
+    maxYearWrapper.querySelector(`select option[value="${maxYear}"]`).selected = true;
+    maxYearWrapper.querySelector(`ul li[data-value="${maxYear}"]`).classList.add('selected');
+  } else {
+    maxYearWrapper.querySelector('select option[value=""]').selected = true;
+    maxYearWrapper.querySelector('ul li[data-value=""]').classList.add('selected');
+  }
+  maxYearWrapper.querySelector('div.selected span').textContent = maxYearWrapper.querySelector('ul li.selected').textContent;
+
+  if (search.isNew) {
+    advanced.querySelector('.is-new .filter-toggle input').checked = true;
+    advanced.querySelector('.is-new .filter-toggle .checkbox').classList.add('checked');
+  } else {
+    advanced.querySelector('.is-new .filter-toggle input').checked = false;
+    advanced.querySelector('.is-new .filter-toggle .checkbox').classList.remove('checked');
+  }
+
+  if (search.priceChange) {
+    advanced.querySelector('.price-change .filter-toggle input').checked = true;
+    advanced.querySelector('.price-change .filter-toggle .checkbox').classList.add('checked');
+  } else {
+    advanced.querySelector('.price-change .filter-toggle input').checked = false;
+    advanced.querySelector('.price-change .filter-toggle .checkbox').classList.remove('checked');
+  }
+
+  if (search.openHouses) {
+    advanced.querySelector('.open-houses .filter-toggle input').checked = true;
+    advanced.querySelector('.open-houses .filter-toggle .checkbox').classList.add('checked');
+    advanced.querySelector('.open-houses .open-houses-timeframe').classList.add('visible');
+    advanced.querySelector(`.open-houses input[value=${search.openHouses.name}]`).checked = true;
+  } else {
+    advanced.querySelector('.open-houses .filter-toggle input').checked = false;
+    advanced.querySelector('.open-houses .filter-toggle .checkbox').classList.remove('checked');
+    advanced.querySelector('.open-houses .open-houses-timeframe').classList.remove('visible');
+  }
+
+  if (search.luxury) {
+    advanced.querySelector('.lux .filter-toggle input').checked = true;
+    advanced.querySelector('.lux .filter-toggle .checkbox').classList.add('checked');
+  } else {
+    advanced.querySelector('.lux .filter-toggle input').checked = false;
+    advanced.querySelector('.lux .filter-toggle .checkbox').classList.remove('checked');
+  }
+
+  if (search.luxury) {
+    advanced.querySelector('.bhhs-only .filter-toggle input').checked = true;
+    advanced.querySelector('.bhhs-only .filter-toggle .checkbox').classList.add('checked');
+  } else {
+    advanced.querySelector('.bhhs-only .filter-toggle input').checked = false;
+    advanced.querySelector('.bhhs-only .filter-toggle .checkbox').classList.remove('checked');
+  }
+}
+
 function buildAdvancedFilters() {
   const wrapper = document.querySelector('.property-search-bar.block .advanced-filters');
   wrapper.innerHTML = `
     <div class="listing-types">
       <label class="section-label">Search Types</label>
       <div class="filter-toggle">
-        <input name="FOR_SALE" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" checked="checked" value="${ListingType.FOR_SALE.type}">
+        <input name="${ListingType.FOR_SALE.type}" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" checked="checked" value="${ListingType.FOR_SALE.type}">
         <div class="checkbox checked"></div>
         <label role="presentation">${ListingType.FOR_SALE.label}</label>
       </div>
       <div class="filter-toggle">
-        <input name="FOR_RENT" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${ListingType.FOR_RENT.type}">
+        <input name="${ListingType.FOR_RENT.type}" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${ListingType.FOR_RENT.type}">
         <div class="checkbox"></div>
         <label role="presentation">${ListingType.FOR_RENT.label}</label>
       </div>
       <div class="filter-toggle">
-        <input name="PENDING" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${ListingType.PENDING.type}">
+        <input name="${ListingType.PENDING.type}" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${ListingType.PENDING.type}">
         <div class="checkbox"></div>
         <label role="presentation">${ListingType.PENDING.label}</label>
       </div>
       <div class="filter-toggle">
-        <input name="RECENTLY_SOLD" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${ListingType.RECENTLY_SOLD.type}">
+        <input name="${ListingType.RECENTLY_SOLD.type}" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="${ListingType.RECENTLY_SOLD.type}">
         <div class="checkbox"></div>
         <label role="presentation">${ListingType.RECENTLY_SOLD.label}</label>
       </div>
@@ -456,7 +640,7 @@ function buildAdvancedFilters() {
         </div>
       </div>
       <hr>
-      <div class="price-update">
+      <div class="price-change">
         <div class="filter-toggle">
           <label role="presentation">Recent Price Changes</label>
           <input name="price-change" hidden="hidden" type="checkbox" aria-label="Hidden checkbox" value="true">
@@ -608,12 +792,8 @@ function observeForm(form) {
     t.addEventListener('click', (e) => {
       e.preventDefault();
       const { currentTarget } = e;
-      const checked = currentTarget.querySelector('div.checkbox').classList.toggle('checked');
-      if (checked) {
-        currentTarget.querySelector('input').setAttribute('checked', 'checked');
-      } else {
-        currentTarget.querySelector('input').removeAttribute('checked');
-      }
+      const ipt = currentTarget.querySelector('input');
+      ipt.checked = currentTarget.querySelector('div.checkbox').classList.toggle('checked');
     });
   });
 
@@ -626,8 +806,10 @@ function observeForm(form) {
     const input = e.target.closest('.filter-toggle')?.querySelector('input');
     if (input && input.value === ListingType.FOR_RENT.type) {
       e.currentTarget.querySelector(`input[value="${ListingType.PENDING.type}"]`).closest('.filter-toggle').classList.toggle('disabled');
+      document.querySelector(`.property-search-results .listing-types input[value="${ListingType.PENDING.type}"]`)?.closest('.filter-toggle').classList.toggle('disabled');
     } else if (input && input.value === ListingType.PENDING.type) {
       e.currentTarget.querySelector(`input[value="${ListingType.FOR_RENT.type}"]`).closest('.filter-toggle').classList.toggle('disabled');
+      document.querySelector(`.property-search-results .listing-types input[value="${ListingType.FOR_RENT.type}"]`).closest('.filter-toggle').classList.toggle('disabled');
     }
   });
 
@@ -662,7 +844,18 @@ function observeForm(form) {
     }
   });
 
-  form.querySelector('.advanced-filters .keywords button').addEventListener('click', addKeyword);
+  form.querySelector('.advanced-filters .keywords button').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const wrapper = e.currentTarget.closest('.keywords');
+    const input = wrapper.querySelector('.keywords-input input[type="text"]');
+    const { value } = input;
+    if (!value) {
+      return;
+    }
+    addKeyword(wrapper, value);
+    input.value = '';
+  });
 
   form.querySelectorAll('.year-range .select-wrapper div.selected').forEach((button) => {
     button.addEventListener('click', filterSelectClicked);

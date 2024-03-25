@@ -17,6 +17,7 @@ module.exports = {
     'import/extensions': ['error', {
       js: 'always',
     }],
-    'max-len': ['error', { "code": 200 }]
+    'max-len': ['error', { "code": 200 }],
+    'function-paren-newline': 'off',
   },
 };

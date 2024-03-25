@@ -1,5 +1,5 @@
 import { getMetadata, readBlockConfig } from '../../scripts/aem.js';
-import { render as renderCards } from './cards/cards.js';
+import { render as renderCards } from '../shared/property/cards.js';
 import Search from '../../scripts/apis/creg/search/Search.js';
 import { propertySearch } from '../../scripts/apis/creg/creg.js';
 

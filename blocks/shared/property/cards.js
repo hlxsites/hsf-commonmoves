@@ -127,7 +127,9 @@ export function createCard(listing) {
  * @return {Promise<void>}
  */
 export function render(parent, properties = []) {
+  const cards = [];
   properties.forEach((listing) => {
-    parent.append(createCard(listing));
+    cards.push(createCard(listing));
   });
+  parent.replaceChildren(...cards);
 }

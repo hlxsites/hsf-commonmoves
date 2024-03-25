@@ -2,13 +2,15 @@ import ListingType from './types/ListingType.js';
 import PropertyType from './types/PropertyType.js';
 import OpenHouses from './types/OpenHouses.js';
 
+export const EVENT_NAME = 'UpdateSearch';
+
 export const STORAGE_KEY = 'CommonMovesSearchParams';
 export const SEARCH_URL = '/search';
 
 export default class Search {
   input;
 
-  type;
+  type = 'Empty';
 
   minPrice;
 
@@ -134,6 +136,19 @@ export default class Search {
     if (t && !this.#listingTypes.includes(t)) this.#listingTypes.push(t);
   }
 
+  removeListingType(type) {
+    let t;
+    if (typeof type === 'object' && ListingType[type.type]) {
+      t = ListingType[type.type];
+    } else if (typeof type === 'string' && ListingType[type]) {
+      t = ListingType[type];
+    }
+    if (t && this.#listingTypes.includes(t)) {
+      const idx = this.#listingTypes.indexOf(t);
+      this.#listingTypes.splice(idx, 1);
+    }
+  }
+
   /**
    * Adds a property type to the current list.
    *
@@ -156,11 +171,36 @@ export default class Search {
   }
 
   /**
+   * Removes a property type to the current list.
+   *
+   * @param {PropertyType|String} type
+   */
+  removePropertyType(type) {
+    let t;
+    if (typeof type === 'object') {
+      if (type.name) {
+        t = PropertyType[type.name];
+      } else if (type.id) {
+        t = PropertyType.fromId(type.id);
+      }
+    } else if (typeof type === 'string') {
+      t = PropertyType[type];
+    } else if (typeof type === 'number') {
+      t = PropertyType.fromId(type);
+    }
+    if (t && this.#propertyTypes.includes(t)) {
+      const idx = this.#propertyTypes.indexOf(t);
+      this.#propertyTypes.splice(idx, 1);
+    }
+  }
+
+  /**
    * Converts this Search instance into URL Search Parameters for the CREG API.
    * @return {URLSearchParams}
    */
   asCregURLSearchParameters() {
     const params = new URLSearchParams();
+    params.set('SearchType', this.type);
 
     if (this.input) params.set('SearchInput', this.input);
     if (this.minPrice) params.set('MinPrice', this.minPrice);
@@ -283,7 +323,7 @@ export default class Search {
    */
   static async load(type) {
     let search = new Search();
-    if (type) {
+    if (type && type !== 'Empty') {
       try {
         const mod = await import(`./types/${type}Search.js`);
         if (mod.default) {
@@ -306,7 +346,7 @@ export default class Search {
   static async fromQueryString(query) {
     const params = new URLSearchParams(query);
     let search = new Search();
-    if (params.has('type')) {
+    if (params.has('type') && params.get('type') !== 'Empty') {
       const type = params.get('type').replace(/(^\w)|\s+(\w)/g, (letter) => letter.toUpperCase());
       search = await Search.load(type);
     }
@@ -338,7 +378,7 @@ export default class Search {
   static async fromJSON(json) {
     let search = new Search();
     const { type } = json;
-    if (type) {
+    if (type && type !== 'Empty') {
       search = await Search.load(type);
     }
     Object.assign(search, json);
