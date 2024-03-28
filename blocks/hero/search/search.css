@@ -17,6 +17,7 @@
   text-transform: uppercase;
   color: var(--white);
   cursor: default;
+  z-index: 1;
 }
 
 .hero.block > div .content .search .options .option.active {
