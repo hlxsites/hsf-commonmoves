@@ -25,9 +25,21 @@ onmessage = async (event) => {
         return resp.json();
       }
       return {};
+    })
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.log('Failed to fetch properties from API.', error);
+      return {};
     });
-  if (results && results.properties) {
-    postMessage(results.properties);
+  if (results) {
+    const resp = {
+      properties: results.properties || [],
+      disclaimer: results.disclaimer.Text,
+      clusters: results.listingClusters || [],
+      pages: results['@odata.context'],
+      count: results['@odata.count'],
+    };
+    postMessage(resp);
   } else {
     postMessage([]);
   }

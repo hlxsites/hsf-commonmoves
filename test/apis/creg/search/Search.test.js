@@ -9,7 +9,7 @@ describe('Search', () => {
   it('should have defaults', () => {
     const search = new Search();
     assert.equal(search.page, '1', 'Default page parameter.');
-    assert.equal(search.pageSize, '32', 'Default page size parameter.');
+    assert.equal(search.pageSize, '36', 'Default page size parameter.');
     assert.equal(search.isNew, false, 'Default new listing parameter.');
     assert.deepStrictEqual(search.listingTypes, [ListingType.FOR_SALE], 'Default listing type parameter.');
     assert.deepStrictEqual(search.propertyTypes, [PropertyType.CONDO_TOWNHOUSE, PropertyType.SINGLE_FAMILY], 'Default property type parameter.');
@@ -87,7 +87,7 @@ describe('Search', () => {
       const queryStr = search.asURLSearchParameters().toString();
 
       assert.match(queryStr, /page=1/, 'Query string includes page parameter.');
-      assert.match(queryStr, /pageSize=32/, 'Query string includes page size parameter.');
+      assert.match(queryStr, /pageSize=36/, 'Query string includes page size parameter.');
       assert.match(queryStr, /listingTypes=FOR_SALE/, 'Query string includes listing types parameter.');
       assert.match(queryStr, /propertyTypes=CONDO_TOWNHOUSE&propertyTypes=SINGLE_FAMILY/, 'Query string includes property type parameter.');
       assert.match(queryStr, /sortBy=PRICE/, 'Query string includes sort property parameter.');
@@ -193,7 +193,7 @@ describe('Search', () => {
       const queryStr = search.asCregURLSearchParameters().toString();
 
       assert.match(queryStr, /Page=1/, 'Query string includes updated page parameter.');
-      assert.match(queryStr, /PageSize=32/, 'Query string includes updated page size parameter.');
+      assert.match(queryStr, /PageSize=36/, 'Query string includes updated page size parameter.');
       assert.match(queryStr, /ApplicationType=FOR_SALE/, 'Query string includes Application type parameter.');
       assert.match(queryStr, /PropertyType=1%2C2/, 'Query string includes property type parameter.');
       assert.match(queryStr, /Sort=PRICE_DESCENDING/, 'Query string includes sort parameter.');

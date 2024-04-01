@@ -7,6 +7,7 @@ main .section.property-search-bar-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
 }
 
 main .section.property-search-bar-container .property-search-bar-wrapper {
@@ -24,6 +25,7 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   height: 50px;
   padding: 0 15px;
@@ -40,7 +42,6 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   height: 100%;
   width: 100%;
 }
-
 
 .property-search-bar.block form .search-bar {
   position: relative;
@@ -116,7 +117,6 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   color: var(--body-color);
   border: 1px solid var(--platinum);
 }
-
 
 .property-search-bar.block .result-filters .range-wrapper > .selected span,
 .property-search-bar.block .result-filters .select-wrapper > .selected span {
@@ -256,6 +256,11 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   display: block;
 }
 
+.property-search-bar.block form a.save-search {
+  display: none;
+}
+
+
 .property-search-bar.block form a.search-submit {
   height: 36px;
   width: 36px;
@@ -264,7 +269,6 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   border: 1px solid var(--grey);
   background-color: var(--white);
 }
-
 
 .property-search-bar.block .advanced-filters {
   display: none;
@@ -897,6 +901,26 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
     order: 2;
   }
 
+  .property-search-bar.block form a.save-search {
+    display: initial;
+    padding: 7px 10px;
+    border: 1px solid var(--white);
+    font-size: var(--body-font-size-s);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-m);
+    line-height: var(--line-height-s);
+    white-space: nowrap;
+  }
+
+  .property-search-bar.block form a.save-search span {
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    color: var(--white);
+    text-transform: uppercase;
+  }
+
   .property-search-bar.block .advanced-filters {
     width: 600px;
     right: 0;
@@ -906,6 +930,8 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   .property-search-bar.block .advanced-filters .attributes {
     display: none;
   }
+
+
 
   .property-search-bar.block .search-overlay {
     position: fixed;

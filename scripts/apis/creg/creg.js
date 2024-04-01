@@ -6,10 +6,19 @@ export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.co
 const CREG_API_URL = `https://${DOMAIN}/bin/bhhs`;
 
 /**
+ * @typedef {Object} SearchResults
+ * @property {Array<Object>} properties
+ * @property {String} disclaimer
+ * @property {Array<Object>} clusters
+ * @property {String} pages
+ * @property {String} count
+ */
+
+/**
  * Perform a search and return only the properties.
  *
  * @param {Search} search the Search object instance
- * @return {Promise<Property[]>} resolving the properties fetched
+ * @return {Promise<SearchResults>} resolving the properties fetched
  */
 export async function propertySearch(search) {
   return new Promise((resolve) => {

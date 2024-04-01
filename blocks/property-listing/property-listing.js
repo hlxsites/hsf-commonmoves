@@ -34,6 +34,6 @@ export default async function decorate(block) {
   list.classList.add('property-list-cards', `rows-${Math.floor(search.pageSize / 8)}`);
   block.append(list);
   propertySearch(search).then((results) => {
-    renderCards(list, results);
+    renderCards(list, results.properties);
   });
 }

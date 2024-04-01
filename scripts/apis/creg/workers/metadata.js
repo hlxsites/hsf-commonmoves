@@ -25,7 +25,7 @@ onmessage = async (event) => {
         return resp.json();
       }
       return {};
-    });
+    }) || {};
   Object.keys(results).forEach((k) => {
     if (typeof results[k] === 'object' || Array.isArray(results[k])) {
       delete results[k];

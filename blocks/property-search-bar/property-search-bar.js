@@ -49,6 +49,7 @@ function buildBar() {
           <span class="icon icon-filter-white"></span>
           <span class="icon icon-close-x-white"></span>
         </a>
+        <a class="save-search" type="button" aria-label="Save Search" role="button"><span>Save Search</span></a>
       </div>
       <a href="#" class="search-submit" aria-label="Search">
         <span class="icon icon-search"></span>

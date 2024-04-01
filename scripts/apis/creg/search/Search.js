@@ -42,7 +42,7 @@ export default class Search {
 
   page = '1';
 
-  pageSize = '32';
+  pageSize = '36';
 
   franchiseeCode;
 

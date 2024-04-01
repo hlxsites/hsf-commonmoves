@@ -10,9 +10,6 @@
   padding-bottom: 10px;
 }
 
-.property-list-cards::-webkit-scrollbar {
-  display: none;
-}
 
 .property-list-cards .listing-tile {
   display: flex;
@@ -177,13 +174,13 @@
   bottom: 0;
 }
 
-.property-list-cards .listing-image-container .property-price {
-  padding-top: 7px;
-  padding-left: 10px;
+.property-list-cards .listing-image-container .property-price p {
+  display: inline-block;;
+  margin: 0;
+  padding: 7px 10px;
   font-weight: var(--font-weight-bold);
   font-size: var(--body-font-size-l);
   line-height: var(--line-height-s);
-  max-width: 70%;
   background-color: var(--white);
   color: var(--body-color);
 }
