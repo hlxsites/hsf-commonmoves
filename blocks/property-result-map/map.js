@@ -28,14 +28,9 @@ function initGoogleMapsAPI() {
   }
   alreadyDeferred = true;
   const script = document.createElement('script');
-  script.type = 'text/partytown';
+  script.type = 'module';
   script.id = crypto.randomUUID();
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/property-result-map/map-delayed.js';
-    document.head.append(script);
-  `;
+  script.src = `${window.hlx.codeBasePath}/blocks/property-result-map/map-delayed.js`;
   document.head.append(script);
 }
 
