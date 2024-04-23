@@ -17,4 +17,10 @@ async function loadAdobeLaunch() {
   });
 }
 
-if (!window.location.host.includes('localhost')) await loadAdobeLaunch();
+if (!window.location.host.includes('localhost')
+  && !window.location.host.includes('.hlx.live')
+  && !window.location.host.includes('.hlx.page')
+  && !window.location.host.includes('.aem.live')
+  && !window.location.host.includes('.aem.page')) {
+  await loadAdobeLaunch();
+}

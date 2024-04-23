@@ -1,4 +1,6 @@
-### Property Search 
+### Property Search Bar 
+
+#### State Changes
 
 Search bar contains all filters, details on what will be searched.
 
@@ -6,10 +8,8 @@ Search bar contains all filters, details on what will be searched.
 
 * Closing the advanced search, changing the viewport to > 900px, or applying the parameters, synchronizes the Property attributes from the advanced list, to the bar.
 
-#### Event order
+#### Searching
 
-1. Clicking the search button or using the `Apply` button in advanced filters, converts the parameters into a JSON object and stores it in session storage.
-
-1. Search bar updates the URL and Hash location
-
-1. Hash change initiates the search on the property result listing block.
+Clicking Search on bar, or Clicking 'Apply' in the advanced filter view, will either: 
+  1. Change the URL to the search results page, if not there
+  1. Emit the Search Event with the parameters as a payload. Search Results block handles everything else.

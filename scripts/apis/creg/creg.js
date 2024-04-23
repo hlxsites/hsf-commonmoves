@@ -1,6 +1,8 @@
 /* Wrapper for all Creg API endpoints */
 
 // TODO: Use Sidekick Plugin for this
+import { getMetadata } from '../../aem.js';
+
 const urlParams = new URLSearchParams(window.location.search);
 export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.com' : 'www.bhhs.com';
 const CREG_API_URL = `https://${DOMAIN}/bin/bhhs`;
@@ -55,11 +57,13 @@ export async function metadataSearch(search) {
  */
 export async function getDetails(...listingIds) {
   return new Promise((resolve) => {
+    const officeId = getMetadata('office-id');
     const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/listing.js`, { type: 'module' });
     worker.onmessage = (e) => resolve(e.data);
     worker.postMessage({
       api: CREG_API_URL,
       ids: listingIds,
+      officeId,
     });
   });
 }

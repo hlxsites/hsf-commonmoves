@@ -3,7 +3,7 @@ import Search from '../Search.js';
 export default class RadiusSearch extends Search {
   #lat;
 
-  #long;
+  #lon;
 
   #distance;
 
@@ -18,12 +18,12 @@ export default class RadiusSearch extends Search {
         },
         get: () => this.#lat,
       },
-      long: {
+      lon: {
         enumerable: true,
         set: (value) => {
-          this.#long = `${parseFloat(`${value}`).toFixed(7)}`;
+          this.#lon = `${parseFloat(`${value}`).toFixed(7)}`;
         },
-        get: () => this.#long,
+        get: () => this.#lon,
       },
       distance: {
         enumerable: true,
@@ -39,7 +39,7 @@ export default class RadiusSearch extends Search {
     const params = super.asCregURLSearchParameters();
     params.set('SearchType', this.type);
     params.set('Latitude', this.lat);
-    params.set('Longitude', this.long);
+    params.set('Lonitude', this.lon);
     params.set('Distance', this.distance);
     return params;
   }
@@ -49,7 +49,7 @@ export default class RadiusSearch extends Search {
     let entry = entries.find(([k]) => k.includes('lat'));
     if (entry) [, this.lat] = entry;
     entry = entries.find(([k]) => k.includes('lon'));
-    if (entry) [, this.long] = entry;
+    if (entry) [, this.lon] = entry;
     entry = entries.find(([k]) => k.includes('dist'));
     if (entry) [, this.distance] = entry;
   }

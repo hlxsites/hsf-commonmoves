@@ -69,6 +69,11 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   align-items: center;
 }
 
+.property-search-bar.block form .result-filters .selected span {
+  color: var(--white);
+}
+
+
 .property-search-bar.block .result-filters .range-wrapper,
 .property-search-bar.block .result-filters .select-wrapper {
   display: none;

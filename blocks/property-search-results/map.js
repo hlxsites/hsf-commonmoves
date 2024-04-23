@@ -1,54 +1,347 @@
-let alreadyDeferred = false;
+/* global google */
+/* global markerClusterer */
 
-function buildCustomControls() {
-  const container = document.createElement('div');
-  container.classList.add('map-controls-container');
-  container.innerHTML = `<div class="custom-controls">
-        <a data-text="Satellite" data-text-map="Map" class="map-style-hybrid" role="button" aria-label="Satellite View"></a> 
-        <a data-text="Draw" data-text-close="Complete Draw" class="map-draw-complete d-none" role="button" aria-label="Complete Draw"></a>
-        <a data-text="Draw" data-text-close="Close" class="map-draw" role="button" aria-label="Close"></a> 
-        <div class="zoom-controls">
-            <a class="map-zoom-in" role="button" aria-label="Zoom In"></a> 
-            <a class="map-zoom-out" role="button" aria-label="Zoom Out"></a>
-        </div>
-    </div>
-    <div class="map-draw-tooltip d-none">
-       Click points on the map to draw your search
-    </div>
-    <div class="map-search-wrapper">
-    <a data-text-add="Add map boundary" data-text-remove="Remove map boundary" class="map-search-toggle" role="button" aria-label="Remove Map Boundary"></a>
-    </div>
-    `;
-  return container;
+import { loadScript } from '../../scripts/aem.js';
+import loadMaps from '../../scripts/google-maps/index.js';
+import {
+  a, div, img, p, span,
+} from '../../scripts/dom-helpers.js';
+import displayClusters from './map/clusters.js';
+import { UPDATE_SEARCH_EVENT } from '../../scripts/apis/creg/search/Search.js';
+import BoxSearch from '../../scripts/apis/creg/search/types/BoxSearch.js';
+import displayPins, { pinGroupClickHandler, ClusterRenderer, clearInfos } from './map/pins.js';
+
+const zoom = 10;
+const maxZoom = 18;
+
+let gmap;
+let renderInProgress;
+
+let mapMarkers = [];
+let clusterer;
+let boundsTimeout;
+
+const MAP_STYLE = [{
+  featureType: 'administrative',
+  elementType: 'labels.text.fill',
+  stylers: [{ color: '#444444' }],
+}, {
+  featureType: 'administrative.locality',
+  elementType: 'labels.text.fill',
+  stylers: [{ saturation: '-42' }, { lightness: '-53' }, { gamma: '2.98' }],
+}, {
+  featureType: 'administrative.neighborhood',
+  elementType: 'labels.text.fill',
+  stylers: [{ saturation: '1' }, { lightness: '31' }, { weight: '1' }],
+}, {
+  featureType: 'administrative.neighborhood',
+  elementType: 'labels.text.stroke',
+  stylers: [{ visibility: 'off' }],
+}, {
+  featureType: 'administrative.land_parcel',
+  elementType: 'labels.text.fill',
+  stylers: [{ lightness: '12' }],
+}, {
+  featureType: 'landscape',
+  elementType: 'all',
+  stylers: [{ saturation: '67' }],
+}, {
+  featureType: 'landscape.man_made',
+  elementType: 'geometry.fill',
+  stylers: [{ visibility: 'on' }, { color: '#ececec' }],
+}, {
+  featureType: 'landscape.natural',
+  elementType: 'geometry.fill',
+  stylers: [{ visibility: 'on' }],
+}, {
+  featureType: 'landscape.natural.landcover',
+  elementType: 'geometry.fill',
+  stylers: [{ visibility: 'on' }, { color: '#ffffff' }, { saturation: '-2' }, { gamma: '7.94' }],
+}, {
+  featureType: 'landscape.natural.terrain',
+  elementType: 'geometry',
+  stylers: [{ visibility: 'on' }, { saturation: '94' }, { lightness: '-30' }, { gamma: '8.59' }, { weight: '5.38' }],
+}, {
+  featureType: 'poi',
+  elementType: 'all',
+  stylers: [{ visibility: 'off' }],
+}, {
+  featureType: 'poi.park',
+  elementType: 'geometry',
+  stylers: [{ saturation: '-26' }, { lightness: '20' }, { weight: '1' }, { gamma: '1' }],
+}, {
+  featureType: 'poi.park',
+  elementType: 'geometry.fill',
+  stylers: [{ visibility: 'on' }],
+}, {
+  featureType: 'road',
+  elementType: 'all',
+  stylers: [{ saturation: -100 }, { lightness: 45 }],
+}, {
+  featureType: 'road',
+  elementType: 'geometry.fill',
+  stylers: [{ visibility: 'on' }, { color: '#fafafa' }],
+}, {
+  featureType: 'road',
+  elementType: 'geometry.stroke',
+  stylers: [{ visibility: 'off' }],
+}, {
+  featureType: 'road',
+  elementType: 'labels.text.fill',
+  stylers: [{ gamma: '0.95' }, { lightness: '3' }],
+}, {
+  featureType: 'road',
+  elementType: 'labels.text.stroke',
+  stylers: [{ visibility: 'off' }],
+}, {
+  featureType: 'road.highway',
+  elementType: 'all',
+  stylers: [{ visibility: 'simplified' }],
+}, {
+  featureType: 'road.highway',
+  elementType: 'geometry',
+  stylers: [{ lightness: '100' }, { gamma: '5.22' }],
+}, {
+  featureType: 'road.highway',
+  elementType: 'geometry.stroke',
+  stylers: [{ visibility: 'on' }],
+}, {
+  featureType: 'road.arterial',
+  elementType: 'labels.icon',
+  stylers: [{ visibility: 'off' }],
+}, {
+  featureType: 'transit',
+  elementType: 'all',
+  stylers: [{ visibility: 'off' }],
+}, {
+  featureType: 'water',
+  elementType: 'all',
+  stylers: [{ color: '#b3dced' }, { visibility: 'on' }],
+}, {
+  featureType: 'water',
+  elementType: 'labels.text.fill',
+  stylers: [{ visibility: 'on' }, { color: '#ffffff' }],
+}, {
+  featureType: 'water',
+  elementType: 'labels.text.stroke',
+  stylers: [{ visibility: 'off' }, { color: '#e6e6e6' }],
+}];
+
+function decorateMap(parent) {
+  /* @formatter:off */
+  const controls = div({ class: 'map-controls-wrapper' },
+    div({ class: 'custom-controls' },
+      a({
+        class: 'map-style',
+        role: 'button',
+        'aria-label': 'Satellite View',
+      },
+      img({ src: '/icons/globe.png' }),
+      span({ class: 'satellite' }, 'Satellite'),
+      span({ class: 'map' }, 'Map'),
+      ),
+      a({
+        class: 'map-draw-complete',
+        role: 'button',
+        'aria-label': 'Complete Draw',
+      },
+      img({ src: '/icons/checkmark.svg' }),
+      span('Done')),
+      a({
+        class: 'map-draw',
+        role: 'button',
+        'aria-label': 'Draw',
+      },
+      img({ class: 'draw', src: '/icons/pencil.svg' }),
+      img({ class: 'close', src: '/icons/close-x.svg' }),
+      span({ class: 'draw' }, 'Draw'),
+      span({ class: 'close' }, 'Close'),
+      ),
+      div({ class: 'zoom-controls' },
+        a({ class: 'zoom-in', role: 'button', 'aria-label': 'Zoom In' }, 'Zoom In'),
+        a({ class: 'zoom-out', role: 'button', 'aria-label': 'Zoom Out' }, 'Zoom Out'),
+      ),
+    ),
+  );
+  const info = div({ class: 'map-draw-info' },
+    p({ class: 'map-draw-tooltip' }, 'Click points on the map to draw your search.'),
+    p({ class: 'map-draw-boundary-link' },
+      a({ role: 'button', 'aria-label': 'Remove Map Boundary' }, 'Add Map Boundary'),
+    ),
+  );
+
+  /* @formatter:on */
+  parent.append(controls, info);
 }
 
-function initGoogleMapsAPI() {
-  if (alreadyDeferred) {
+function observeControls(block) {
+  block.querySelector('.search-map-container a.map-draw').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.closest('.search-map-container').classList.toggle('drawing');
+  });
+
+  block.querySelector('.search-map-container a.map-style').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.closest('.search-map-container').classList.toggle('map');
+    e.currentTarget.closest('.search-map-container').classList.toggle('satellite');
+    const type = gmap.getMapTypeId();
+    if (type === google.maps.MapTypeId.ROADMAP) {
+      gmap.setMapTypeId(google.maps.MapTypeId.SATELLITE);
+    } else {
+      gmap.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+    }
+  });
+
+  block.querySelector('.search-map-container a.zoom-in').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    alert('Handle zoom event.');
+  });
+
+  block.querySelector('.search-map-container a.zoom-out').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    alert('Handle zoom event.');
+  });
+}
+
+function hideMarkers() {
+  mapMarkers.forEach((marker) => {
+    marker.setVisible(false);
+    marker.setMap(null);
+  });
+}
+
+function getMarkerBounds(markers) {
+  const bounds = new google.maps.LatLngBounds();
+  markers.forEach((m) => {
+    bounds.extend(m.getPosition());
+  });
+  return bounds;
+}
+
+async function boundsChanged() {
+  window.clearTimeout(boundsTimeout);
+  boundsTimeout = window.setTimeout(() => {
+    const bounds = gmap.getBounds();
+    const search = new BoxSearch();
+    search.populateFromURLSearchParameters(new URLSearchParams(window.location.search));
+    search.maxLat = bounds.getNorthEast().lat();
+    search.maxLon = bounds.getNorthEast().lng();
+    search.minLat = bounds.getSouthWest().lat();
+    search.minLon = bounds.getSouthWest().lng();
+    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+  }, 1000);
+}
+
+/**
+ * Updates the map view with the new results.
+ * @param results
+ */
+export async function displayResults(results) {
+  renderInProgress = true;
+  // Map isn't loaded yet.
+  if (!gmap) {
+    window.setTimeout(() => {
+      displayResults(results);
+    }, 1000);
     return;
   }
-  alreadyDeferred = true;
-  const script = document.createElement('script');
-  script.type = 'text/partytown';
-  script.id = crypto.randomUUID();
-  script.innerHTML = `
-    const script = document.createElement('script');
-    script.type = 'module';
-    script.src = '${window.hlx.codeBasePath}/blocks/property-result-map/map-delayed.js';
-    document.head.append(script);
-  `;
-  document.head.append(script);
+
+  // Map needs to be initialized.
+  if (gmap.getRenderingType() === google.maps.RenderingType.UNINITIALIZED) {
+    gmap.addListener('renderingtype_changed', () => {
+      displayResults(results);
+    });
+    return;
+  }
+  // Clear any info windows
+  // Clear any existing Markers.
+  if (!results.properties || results.properties.length === 0) return;
+
+  if (mapMarkers.length) {
+    clusterer.clearMarkers();
+    hideMarkers();
+    mapMarkers = [];
+  }
+
+  if (results.clusters.length) {
+    mapMarkers = await displayClusters(gmap, results.clusters);
+  } else if (results.pins.length) {
+    mapMarkers = await displayPins(gmap, results.pins);
+    clusterer.addMarkers(mapMarkers);
+  }
+
+  if (mapMarkers.length) {
+    gmap.fitBounds(getMarkerBounds(mapMarkers), 0);
+  }
+  renderInProgress = false;
 }
 
-export default async function renderMap(block) {
-  const container = document.createElement('div');
-  const mobileClusterInfo = document.createElement('div');
-  mobileClusterInfo.classList.add('mobile-cluster-info-window');
-  const mobileInfo = document.createElement('div');
-  mobileInfo.classList.add('mobile-info-window');
-  container.classList.add('property-result-map-container');
-  const map = document.createElement('div');
-  map.classList.add('property-result-map');
-  container.append(map, buildCustomControls(), mobileClusterInfo, mobileInfo);
-  block.append(container);
-  initGoogleMapsAPI();
+/**
+ * Loads Google Maps and draws the initial view.
+ * @param block
+ * @return {Promise<void>}
+ */
+export async function initMap(block) {
+  renderInProgress = true;
+  const ele = block.querySelector('#gmap-canvas');
+
+  gmap = new google.maps.Map(ele, {
+    zoom,
+    maxZoom,
+    center: { lat: 41.24216, lng: -96.207990 },
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    clickableIcons: false,
+    gestureHandling: 'greedy',
+    styles: MAP_STYLE,
+    visualRefresh: true,
+    disableDefaultUI: true,
+  });
+
+  decorateMap(block.querySelector('.search-results-map'));
+  block.querySelector('.search-map-wrapper').append(div({ class: 'mobile-info-window' }));
+  observeControls(block);
+
+  // TODO: Hide/remove infoboxes when drag or zoom occurs.
+  gmap.addListener('click', clearInfos);
+
+  gmap.addListener('dragend', () => {
+    clearInfos();
+    boundsChanged();
+  });
+  gmap.addListener('dblclick', () => {
+    clearInfos();
+    boundsChanged();
+  });
+
+  gmap.addListener('zoom_changed', () => {
+    if (renderInProgress) {
+      return;
+    }
+    boundsChanged();
+  });
+
+  /*
+    TODO: Draw on the map
+    * Draw lines
+    * Hide all search and features on map
+    * if Any lines intersect, terminate the draw
+    * if the click "done" close the polygon
+    * if canceled. drop all lines and reset map.
+   */
+
+  clusterer = new markerClusterer.MarkerClusterer({ map: gmap, renderer: ClusterRenderer, onClusterClick: pinGroupClickHandler });
 }
+
+// Anytime a search is performed, hide any existing markers.
+// window.addEventListener(EVENT_NAME, hideMarkers);
+
+/* Load all the map libraries here */
+loadMaps();
+await google.maps.importLibrary('core');
+await google.maps.importLibrary('maps');
+await google.maps.importLibrary('marker');
+await loadScript('https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js', { type: 'application/javascript' });

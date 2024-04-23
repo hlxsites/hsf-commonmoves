@@ -6,7 +6,6 @@ import Search from '../search/Search.js';
  * @param {Object} event the worker event.
  * @param {string} event.data.api the URL to fetch.
  * @param {Search} event.data.searches search context
- *
  */
 onmessage = async (event) => {
   const { api, search } = event.data;
@@ -36,7 +35,9 @@ onmessage = async (event) => {
       properties: results.properties || [],
       disclaimer: results.disclaimer.Text,
       clusters: results.listingClusters || [],
+      pins: results.listingPins || [],
       pages: results['@odata.context'],
+      page: search.page,
       count: results['@odata.count'],
     };
     postMessage(resp);

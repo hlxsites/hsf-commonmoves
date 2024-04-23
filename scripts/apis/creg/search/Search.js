@@ -2,7 +2,7 @@ import ListingType from './types/ListingType.js';
 import PropertyType from './types/PropertyType.js';
 import OpenHouses from './types/OpenHouses.js';
 
-export const EVENT_NAME = 'UpdateSearch';
+export const UPDATE_SEARCH_EVENT = 'UpdateSearch';
 
 export const STORAGE_KEY = 'CommonMovesSearchParams';
 export const SEARCH_URL = '/search';
@@ -257,6 +257,9 @@ export default class Search {
 
   populateFromURLSearchParameters(params) {
     [...params.entries()].forEach(([k, v]) => {
+      if (k === 'type') {
+        return;
+      }
       // Fill object.
       if (Object.hasOwn(this, k)) {
         this[k] = v;

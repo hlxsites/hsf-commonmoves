@@ -160,6 +160,7 @@ p, span, input {
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--letter-spacing-reg);
   line-height: var(--line-height-m);
+  color: var(--body-color);
 }
 
 p {

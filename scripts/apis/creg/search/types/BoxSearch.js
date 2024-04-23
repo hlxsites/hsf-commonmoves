@@ -5,9 +5,9 @@ export default class BoxSearch extends Search {
 
   #maxLat;
 
-  #minLong;
+  #minLon;
 
-  #maxLong;
+  #maxLon;
 
   constructor() {
     super();
@@ -27,19 +27,19 @@ export default class BoxSearch extends Search {
         },
         get: () => this.#maxLat,
       },
-      minLong: {
+      minLon: {
         enumerable: true,
         set: (value) => {
-          this.#minLong = `${parseFloat(`${value}`).toFixed(7)}`;
+          this.#minLon = `${parseFloat(`${value}`).toFixed(7)}`;
         },
-        get: () => this.#minLong,
+        get: () => this.#minLon,
       },
-      maxLong: {
+      maxLon: {
         enumerable: true,
         set: (value) => {
-          this.#maxLong = `${parseFloat(`${value}`).toFixed(7)}`;
+          this.#maxLon = `${parseFloat(`${value}`).toFixed(7)}`;
         },
-        get: () => this.#maxLong,
+        get: () => this.#maxLon,
       },
     });
   }
@@ -54,11 +54,11 @@ export default class BoxSearch extends Search {
         geometry: {
           type: 'Polygon',
           coordinates: [[
-            [this.minLong, this.minLat], // Bottom left
-            [this.minLong, this.maxLat], // Top left
-            [this.maxLong, this.maxLat], // Top right
-            [this.maxLong, this.minLat], // Bottom right
-            [this.minLong, this.minLat], // Close the box
+            [this.minLon, this.minLat], // Bottom left
+            [this.minLon, this.maxLat], // Top left
+            [this.maxLon, this.maxLat], // Top right
+            [this.maxLon, this.minLat], // Bottom right
+            [this.minLon, this.minLat], // Close the box
           ]],
         },
       }],
@@ -74,8 +74,8 @@ export default class BoxSearch extends Search {
     entry = entries.find(([k]) => k.includes('max') && k.includes('lat'));
     if (entry) [, this.maxLat] = entry;
     entry = entries.find(([k]) => k.includes('min') && k.includes('lon'));
-    if (entry) [, this.minLong] = entry;
+    if (entry) [, this.minLon] = entry;
     entry = entries.find(([k]) => k.includes('max') && k.includes('lon'));
-    if (entry) [, this.maxLong] = entry;
+    if (entry) [, this.maxLon] = entry;
   }
 }

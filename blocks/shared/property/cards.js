@@ -124,7 +124,6 @@ export function createCard(listing) {
  *
  * @param {HTMLElement} parent
  * @param {Object[]} properties results from CREG
- * @return {Promise<void>}
  */
 export function render(parent, properties = []) {
   const cards = [];

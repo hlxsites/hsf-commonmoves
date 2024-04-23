@@ -51,7 +51,7 @@
 
 .property-list-cards .listing-image-container {
   position: relative;
-  height: 100%;
+  padding-top: 73.5294%;
 }
 
 .property-list-cards .listing-image-container .property-image {
@@ -62,6 +62,7 @@
   right: 0;
   bottom: 0;
   object-fit: cover;
+  object-position: center;
 }
 
 .property-list-cards .is-sold .listing-image-container .property-image {

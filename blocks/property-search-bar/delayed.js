@@ -2,7 +2,7 @@ import { BREAKPOINTS } from '../../scripts/scripts.js';
 import { closeOnBodyClick, filterItemClicked } from '../shared/search/util.js';
 import { SQUARE_FEET } from './property-search-bar.js';
 import ListingType from '../../scripts/apis/creg/search/types/ListingType.js';
-import Search, { EVENT_NAME, SEARCH_URL } from '../../scripts/apis/creg/search/Search.js';
+import Search, { UPDATE_SEARCH_EVENT, SEARCH_URL } from '../../scripts/apis/creg/search/Search.js';
 
 function toggleAdvancedFilters(e) {
   const open = e.currentTarget.classList.toggle('open');
@@ -210,7 +210,7 @@ async function updateParameters() {
   if (window.location.pathname !== SEARCH_URL) {
     window.location = `${SEARCH_URL}?${search.asURLSearchParameters().toString()}`;
   } else {
-    window.dispatchEvent(new CustomEvent(EVENT_NAME, { detail: search }));
+    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
   }
 }
 
@@ -806,10 +806,8 @@ function observeForm(form) {
     const input = e.target.closest('.filter-toggle')?.querySelector('input');
     if (input && input.value === ListingType.FOR_RENT.type) {
       e.currentTarget.querySelector(`input[value="${ListingType.PENDING.type}"]`).closest('.filter-toggle').classList.toggle('disabled');
-      document.querySelector(`.property-search-results .listing-types input[value="${ListingType.PENDING.type}"]`)?.closest('.filter-toggle').classList.toggle('disabled');
     } else if (input && input.value === ListingType.PENDING.type) {
       e.currentTarget.querySelector(`input[value="${ListingType.FOR_RENT.type}"]`).closest('.filter-toggle').classList.toggle('disabled');
-      document.querySelector(`.property-search-results .listing-types input[value="${ListingType.FOR_RENT.type}"]`).closest('.filter-toggle').classList.toggle('disabled');
     }
   });
 
@@ -907,3 +905,9 @@ function observeForm(form) {
 
 buildAdvancedFilters();
 observeForm(document.querySelector('.property-search-bar.block form'));
+// Reset bar if user moves through history state.
+window.addEventListener('popstate', async () => {
+  document.querySelectorAll('.property-search-bar .open').forEach((el) => el.classList.remove('open'));
+  document.querySelectorAll('.property-search-bar .search-overlay.visible').forEach((el) => el.classList.remove('visible'));
+  document.querySelectorAll('.property-search-bar [aria-expanded="true"]').forEach((el) => el.setAttribute('aria-expanded', 'false'));
+});
