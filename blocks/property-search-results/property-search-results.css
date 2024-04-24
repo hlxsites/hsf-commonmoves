@@ -438,12 +438,16 @@ main .section.property-search-results-container {
   }
 
   .property-search-results.block.map-view .search-results-wrapper .property-list-cards {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr
   }
 }
 
 @media screen and (min-width: 1200px) {
   .property-search-results.block .search-results-wrapper .property-list-cards {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .property-search-results.block.map-view .search-results-wrapper .property-list-cards {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

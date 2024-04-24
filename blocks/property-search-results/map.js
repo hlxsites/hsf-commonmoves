@@ -1,5 +1,4 @@
 /* global google */
-/* global markerClusterer */
 
 import { loadScript } from '../../scripts/aem.js';
 import loadMaps from '../../scripts/google-maps/index.js';
@@ -9,7 +8,12 @@ import {
 import displayClusters from './map/clusters.js';
 import { UPDATE_SEARCH_EVENT } from '../../scripts/apis/creg/search/Search.js';
 import BoxSearch from '../../scripts/apis/creg/search/types/BoxSearch.js';
-import displayPins, { pinGroupClickHandler, ClusterRenderer, clearInfos } from './map/pins.js';
+import {
+  clearInfos,
+  hideInfos,
+  getMarkerClusterer,
+  displayPins,
+} from './map/pins.js';
 
 const zoom = 10;
 const maxZoom = 18;
@@ -17,7 +21,7 @@ const maxZoom = 18;
 let gmap;
 let renderInProgress;
 
-let mapMarkers = [];
+const mapMarkers = [];
 let clusterer;
 let boundsTimeout;
 
@@ -158,8 +162,8 @@ function decorateMap(parent) {
       span({ class: 'close' }, 'Close'),
       ),
       div({ class: 'zoom-controls' },
-        a({ class: 'zoom-in', role: 'button', 'aria-label': 'Zoom In' }, 'Zoom In'),
-        a({ class: 'zoom-out', role: 'button', 'aria-label': 'Zoom Out' }, 'Zoom Out'),
+        a({ class: 'zoom-in', role: 'button', 'aria-label': 'Zoom In' }),
+        a({ class: 'zoom-out', role: 'button', 'aria-label': 'Zoom Out' }),
       ),
     ),
   );
@@ -197,21 +201,26 @@ function observeControls(block) {
   block.querySelector('.search-map-container a.zoom-in').addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    alert('Handle zoom event.');
+    gmap.setZoom(gmap.getZoom() + 1);
   });
 
   block.querySelector('.search-map-container a.zoom-out').addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    alert('Handle zoom event.');
+    gmap.setZoom(gmap.getZoom() - 1);
   });
 }
 
-function hideMarkers() {
-  mapMarkers.forEach((marker) => {
-    marker.setVisible(false);
-    marker.setMap(null);
-  });
+function clearMarkers() {
+  clearInfos();
+  clusterer.clearMarkers();
+  if (mapMarkers.length) {
+    mapMarkers.forEach((marker) => {
+      marker.setVisible(false);
+      marker.setMap(null);
+    });
+  }
+  mapMarkers.length = 0;
 }
 
 function getMarkerBounds(markers) {
@@ -240,8 +249,7 @@ async function boundsChanged() {
  * Updates the map view with the new results.
  * @param results
  */
-export async function displayResults(results) {
-  renderInProgress = true;
+async function displayResults(results) {
   // Map isn't loaded yet.
   if (!gmap) {
     window.setTimeout(() => {
@@ -261,23 +269,20 @@ export async function displayResults(results) {
   // Clear any existing Markers.
   if (!results.properties || results.properties.length === 0) return;
 
-  if (mapMarkers.length) {
-    clusterer.clearMarkers();
-    hideMarkers();
-    mapMarkers = [];
-  }
+  clearMarkers();
 
   if (results.clusters.length) {
-    mapMarkers = await displayClusters(gmap, results.clusters);
+    mapMarkers.push(...(await displayClusters(gmap, results.clusters)));
   } else if (results.pins.length) {
-    mapMarkers = await displayPins(gmap, results.pins);
+    mapMarkers.push(...(await displayPins(gmap, results.pins)));
     clusterer.addMarkers(mapMarkers);
   }
 
   if (mapMarkers.length) {
-    gmap.fitBounds(getMarkerBounds(mapMarkers), 0);
+    renderInProgress = true;
+    gmap.fitBounds(getMarkerBounds(mapMarkers), 45);
+    renderInProgress = false;
   }
-  renderInProgress = false;
 }
 
 /**
@@ -285,7 +290,7 @@ export async function displayResults(results) {
  * @param block
  * @return {Promise<void>}
  */
-export async function initMap(block) {
+async function initMap(block) {
   renderInProgress = true;
   const ele = block.querySelector('#gmap-canvas');
 
@@ -302,18 +307,20 @@ export async function initMap(block) {
   });
 
   decorateMap(block.querySelector('.search-results-map'));
-  block.querySelector('.search-map-wrapper').append(div({ class: 'mobile-info-window' }));
+  block.querySelector('.search-map-wrapper').append(div({ class: 'mobile-info-window info-window' }));
   observeControls(block);
 
-  // TODO: Hide/remove infoboxes when drag or zoom occurs.
-  gmap.addListener('click', clearInfos);
+  gmap.addListener('click', () => {
+    hideInfos();
+  });
 
+  // Don't use 'bounds_changed' event for updating results - fires too frequently.
   gmap.addListener('dragend', () => {
-    clearInfos();
+    hideInfos();
     boundsChanged();
   });
   gmap.addListener('dblclick', () => {
-    clearInfos();
+    hideInfos();
     boundsChanged();
   });
 
@@ -321,6 +328,7 @@ export async function initMap(block) {
     if (renderInProgress) {
       return;
     }
+    hideInfos();
     boundsChanged();
   });
 
@@ -333,7 +341,7 @@ export async function initMap(block) {
     * if canceled. drop all lines and reset map.
    */
 
-  clusterer = new markerClusterer.MarkerClusterer({ map: gmap, renderer: ClusterRenderer, onClusterClick: pinGroupClickHandler });
+  clusterer = getMarkerClusterer(gmap);
 }
 
 // Anytime a search is performed, hide any existing markers.
@@ -345,3 +353,8 @@ await google.maps.importLibrary('core');
 await google.maps.importLibrary('maps');
 await google.maps.importLibrary('marker');
 await loadScript('https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js', { type: 'application/javascript' });
+
+export {
+  displayResults,
+  initMap,
+};

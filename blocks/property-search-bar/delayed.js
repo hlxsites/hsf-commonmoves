@@ -153,16 +153,21 @@ function addKeyword(wrapper, value) {
 async function updateParameters() {
   const form = document.querySelector('.property-search-bar.block form');
   // Build Search Obj and store it.
-  let type = form.querySelector('input[name="type"]').value;
-  if (type) {
-    type = type.replaceAll(/\s/g, '');
-    if (type === 'ZipCode') {
-      type = 'PostalCode';
-    } else if (type === 'MLS #') {
-      type = 'MLSListingKey';
+  let search;
+  if (window.location.pathname !== SEARCH_URL) {
+    let type = form.querySelector('input[name="type"]').value;
+    if (type) {
+      type = type.replaceAll(/\s/g, '');
+      if (type === 'ZipCode') {
+        type = 'PostalCode';
+      } else if (type === 'MLS #') {
+        type = 'MLSListingKey';
+      }
     }
+    search = await Search.load(type);
+  } else {
+    search = await Search.fromQueryString(window.location.search);
   }
-  const search = await Search.load(type);
   let input = form.querySelector('.suggester-input input[type="text"]');
   if (input.value) search.input = input.value;
   input = form.querySelector('.result-filters input[name="min-price"]');

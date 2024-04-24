@@ -94,7 +94,6 @@ async function doSearch(search) {
   searchController = new AbortController();
   window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(search));
   search.franchiseeCode = getMetadata('office-id');
-  const block = document.querySelector('.property-search-results.block');
   const contentWrapper = document.querySelector('.property-search-results.block .search-results-content');
   contentWrapper.classList.add('loading');
   contentWrapper.scrollTo({ top: 0, behavior: 'smooth' });
