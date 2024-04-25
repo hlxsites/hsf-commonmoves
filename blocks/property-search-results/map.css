@@ -176,43 +176,6 @@
   display: initial;
 }
 
-/*.property-search-results.block .search-map-wrapper .info-window {*/
-/*  display: flex;*/
-/*  gap: 10px;*/
-/*  flex-direction: column;*/
-/*}*/
-
-
-/*!* stylelint-disable-next-line no-descending-specificity *!*/
-/*.property-search-results.block .search-map-wrapper .info-window a {*/
-/*  display: flex;*/
-/*  gap: 10px;*/
-/*  align-items: center;*/
-/*  text-decoration: none;*/
-/*}*/
-
-/*.property-search-results.block .search-map-wrapper .info-window .image-wrapper {*/
-/*  position: relative;*/
-/*  height: 35px;*/
-/*  width: 50px;*/
-/*}*/
-
-/*!* stylelint-disable-next-line no-descending-specificity *!*/
-/*.property-search-results.block .search-map-wrapper .info-window .image-wrapper img {*/
-/*  position: absolute;*/
-/*  top: 0;*/
-/*  left: 0;*/
-/*  width: 100%;*/
-/*  height: 100%;*/
-/*  object-position: center;*/
-/*  object-fit: cover;*/
-/*}*/
-
-/*.property-search-results.block .search-map-wrapper .info-window .info {*/
-/*  display: flex;*/
-/*  flex-direction: column;*/
-/*}*/
-
 .property-search-results.block .search-map-wrapper .info-window {
   position: relative;
   background-color: var(--white);
@@ -264,7 +227,9 @@
   gap: 10px;
   border-bottom: 1px solid var(--grey);
   text-decoration: none;
-  grid-template-columns: 50px 1fr;
+  grid-template:
+      "image info"
+      / 50px 1fr;
 }
 
 .property-search-results.block .search-map-wrapper .info-window a.info-wrapper:last-of-type {
@@ -272,15 +237,22 @@
 }
 
 .property-search-results.block .search-map-wrapper .info-window .info-wrapper .image-wrapper {
+  grid-area: image;
   position: relative;
   height: 105px;
   width: 150px;
 }
 
+.property-search-results.block .search-map-wrapper .mobile-info-window .info-wrapper .image-wrapper,
 .property-search-results.block .search-map-wrapper .info-window.cluster .info-wrapper .image-wrapper {
   position: relative;
   height: 35px;
   width: 50px;
+}
+
+.property-search-results.block .search-map-wrapper .mobile-info-window .info-wrapper .image-wrapper .luxury,
+.property-search-results.block .search-map-wrapper .info-window.cluster .info-wrapper .image-wrapper .luxury {
+  display: none;
 }
 
 .property-search-results.block .search-map-wrapper .info-window .info-wrapper .image-wrapper img {
@@ -294,28 +266,51 @@
 }
 
 .property-search-results.block .search-map-wrapper .info-window .info-wrapper .info {
+  grid-area: info;
   display: flex;
   flex-direction: column;
 }
 
-.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .price {
-  font-family: var(--font-family-proxima);
+.property-search-results.block .search-map-wrapper .info-window.cluster .info-wrapper .info hr,
+.property-search-results.block .search-map-wrapper .mobile-info-window .info-wrapper .info hr {
+  display: none;
+}
+
+.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .price .us {
+  display: block;
   font-size: 18px;
   font-weight: var(--font-weight-semibold);
   line-height: normal;
   letter-spacing: normal;
 }
 
-.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .address,
-.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .providers {
-  font-family: var(--font-family-proxima);
+
+.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .details span {
+  display: block;
+  line-height: normal;
+}
+
+.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .details .address {
   font-size: var(--body-font-size-s);
+  line-height: var(--line-height-m);
+  letter-spacing: var(--line-height-s);
+}
+
+.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .details .address .danger {
+  display: block;
+  color: red;
+  font-size: var(--body-font-size-s);
+}
+
+
+.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .providers {
+  font-size: var(--body-font-size-xxs);
   line-height: var(--line-height-m);
   letter-spacing: normal;
 }
 
 .property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .property-buttons {
-  display: flex;
+  display: none;
   gap: 15px;
 }
 
@@ -343,13 +338,17 @@
   display: none;
 }
 
-
 .property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .property-buttons a:hover span.icon-envelopedark,
 .property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .property-buttons a:hover span.icon-heartemptydark {
   display: block;
 }
 
 .property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .property-buttons a span.icon-heartfull {
+  display: none;
+}
+
+
+.property-search-results.block .search-map-wrapper .info-window .info-wrapper .info .listing-info {
   display: none;
 }
 
@@ -404,4 +403,10 @@
     overflow-y: scroll;
   }
 
+  .property-search-results.block .search-map-wrapper .info-window:not(.cluster) a.info-wrapper {
+    grid-template:
+      "image"
+      "info"
+      / 1fr
+  }
 }

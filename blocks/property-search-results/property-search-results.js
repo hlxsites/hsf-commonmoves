@@ -1,5 +1,5 @@
 import {
-  a, div, hr, input, label, li, option, p, select, span, ul, img,
+  a, div, input, label, li, option, p, select, span, ul, img, domEl,
 } from '../../scripts/dom-helpers.js';
 import Search, {
   UPDATE_SEARCH_EVENT,
@@ -105,7 +105,7 @@ async function doSearch(search) {
         displayList(parent, results);
         displayMap(results);
         contentWrapper.querySelector('.search-results-disclaimer-wrapper').replaceChildren(
-          hr({ role: 'presentation', 'aria-hidden': true, tabindex: -1 }),
+          domEl('hr', { role: 'presentation', 'aria-hidden': true, tabindex: -1 }),
           div({ class: 'search-results-disclaimer' }, ...sanitizeDisclaimer(results.disclaimer)),
         );
         contentWrapper.classList.remove('loading');

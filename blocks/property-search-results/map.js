@@ -332,6 +332,16 @@ async function initMap(block) {
     boundsChanged();
   });
 
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    window.clearTimeout(resizeTimeout);
+    resizeTimeout = window.setTimeout(() => {
+      renderInProgress = true;
+      hideInfos();
+      gmap.fitBounds(getMarkerBounds(mapMarkers), 45);
+      renderInProgress = false;
+    }, 500);
+  });
   /*
     TODO: Draw on the map
     * Draw lines
