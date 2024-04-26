@@ -18,8 +18,7 @@ function createInfo(property) {
   const href = property.PdpPath.includes('www.commonmoves.com') ? `/property/detail/pid-${property.ListingId}` : property.PdpPath;
   const providers = [];
   if (property.propertyProviders || property.originatingSystemName) {
-    providers.push('Listing Provided by:');
-    providers.push(domEl('br'));
+    providers.push('Listing Provided by: ');
     providers.push(property.propertyProviders || property.originatingSystemName);
   }
 
@@ -30,37 +29,36 @@ function createInfo(property) {
     ),
   );
 
-  // if (property.sellingOfficeName) {
-  const address = details.querySelector('.address');
-  address.prepend(
-    span({ class: 'danger' }, `${property.mlsStatus || ''} ${property.ClosedDate || ''}`),
-  );
-  // }
+  if (property.sellingOfficeName) {
+    const address = details.querySelector('.address');
+    address.prepend(
+      span({ class: 'danger' }, `${property.mlsStatus || ''} ${property.ClosedDate || ''}`),
+    );
+  }
 
-  // if (property.municipality) {
-  details.append(span({ class: 'municipality' }, property.municipality || 'Municipality'));
-  // }
+  if (property.municipality) {
+    details.append(span({ class: 'municipality' }, property.municipality));
+  }
 
   details.append(span({ class: 'providers' }, ...providers));
 
   const listing = div({ class: 'listing-info' });
-  // if (property.addMlsFlag === 'true') {
-  listing.append(span({ class: 'mls' }, `MLS ID: ${property.ListingId}`));
-  // }
-  // if (property.CourtesyOf) {
-  listing.append(span({ class: 'courtesy' }, `Listing courtesy of: ${property.CourtesyOf}`));
-  // }
-  // if (property.sellingOfficeName) {
-  listing.append(span({ class: 'courtesy' }, `Listing sold by: ${property.sellingOfficeName}`));
-  // }
-  // if (property.addMlsFlag && property.listAor) {
-  const aor = div({ class: 'aor' }, p(`Listing provided by: ${property.listAor}`));
-  // if (property.brImageUrl) {
-  aor.append(p({ class: 'aor-img' }, img({ src: property.brImageUrl || 'https://images.fnistools.com/images/common/BRLogos/PrimeMLS_logo_color_rgb.png' })));
-  // }
-  listing.append(aor);
-
-  // }
+  if (property.addMlsFlag === 'true') {
+    listing.append(span({ class: 'mls' }, `MLS ID: ${property.ListingId}`));
+  }
+  if (property.CourtesyOf) {
+    listing.append(span({ class: 'courtesy' }, `Listing courtesy of: ${property.CourtesyOf}`));
+  }
+  if (property.sellingOfficeName) {
+    listing.append(span({ class: 'courtesy' }, `Listing sold by: ${property.sellingOfficeName}`));
+  }
+  if (property.addMlsFlag && property.listAor) {
+    const aor = div({ class: 'aor' }, span(`Listing provided by: ${property.listAor}`));
+    if (property.brImageUrl) {
+      aor.append(span({ class: 'aor-img' }, img({ src: property.brImageUrl })));
+    }
+    listing.append(aor);
+  }
 
   const image = div({ class: 'image-wrapper' },
     div({ class: 'luxury' }, span('Luxury Collection')),
@@ -69,7 +67,7 @@ function createInfo(property) {
   const info = div({ class: 'info' },
     div({ class: 'price' },
       span({ class: 'us' }, property.ListPriceUS || ''),
-      span({ class: 'alt' }, property.listPriceAlternateCurrency || property.ListPriceUS),
+      span({ class: 'alt' }, property.listPriceAlternateCurrency || ''),
     ),
     div({ class: 'property-buttons' },
       a({ class: 'contact-us', 'aria-label': `Contact us about ${property.StreetName}` },
@@ -203,7 +201,9 @@ const ClusterRenderer = {
     // Do not fire the fetch immediately, give the user a beat to move their mouse to desired target.
     marker.addListener('mouseout', () => window.clearTimeout(moTimeout));
     marker.addListener('mouseover', () => {
-      moTimeout = window.setTimeout(() => clusterMouseHandler(marker, cluster), 500);
+      if (BREAKPOINTS.medium.matches) {
+        moTimeout = window.setTimeout(() => clusterMouseHandler(marker, cluster), 500);
+      }
     });
     return marker;
   },
@@ -300,7 +300,9 @@ function createPinMarker(pin) {
   // Do not fire the fetch immediately, give the user a beat to move their mouse to desired target.
   marker.addListener('mouseout', () => window.clearTimeout(moTimeout));
   marker.addListener('mouseover', () => {
-    moTimeout = window.setTimeout(() => pinMouseHandler(marker, pin), 500);
+    if (BREAKPOINTS.medium.matches) {
+      moTimeout = window.setTimeout(() => pinMouseHandler(marker, pin), 500);
+    }
   });
 
   marker.listingKey = pin.listingKey;

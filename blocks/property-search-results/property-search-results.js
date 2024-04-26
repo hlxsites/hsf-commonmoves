@@ -245,6 +245,7 @@ export default async function decorate(block) {
     const newSearch = await Search.fromQueryString(window.location.search);
     updateFilters(newSearch);
     updateForm(newSearch);
+    // TODO: reinit the map?? (it keeps the old pins while the search is loading)
     doSearch(newSearch);
   });
 

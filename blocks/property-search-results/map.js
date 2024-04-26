@@ -279,9 +279,7 @@ async function displayResults(results) {
   }
 
   if (mapMarkers.length) {
-    renderInProgress = true;
-    gmap.fitBounds(getMarkerBounds(mapMarkers), 45);
-    renderInProgress = false;
+    gmap.panTo(getMarkerBounds(mapMarkers).getCenter());
   }
 }
 
