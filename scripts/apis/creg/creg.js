@@ -90,3 +90,17 @@ export function propertySearch(params) {
     worker.postMessage({ url });
   });
 }
+
+/**
+ * Get saved properties for a user.
+ *
+ * @param {SearchParameters} params the parameters
+ */
+export function getSavedProperties(contactKey) {
+  return new Promise((resolve) => {
+    const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/propertySearch.js`);
+    const url = `${CREG_API_URL}/cregPropertySaveServlet?ContactKey=${contactKey}&_=1714144375935`;
+    worker.onmessage = (e) => resolve(e.data);
+    worker.postMessage({ url });
+  });
+}

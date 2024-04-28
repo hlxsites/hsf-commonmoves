@@ -1,4 +1,4 @@
-import { propertySearch } from '../../../scripts/apis/creg/creg.js';
+import { propertySearch, getSavedProperties } from '../../../scripts/apis/creg/creg.js';
 import { decorateIcons } from '../../../scripts/aem.js';
 
 function createImage(listing) {
@@ -125,8 +125,21 @@ export async function render(searchParams, parent) {
   const list = document.createElement('div');
   list.classList.add('property-list-cards');
   parent.append(list);
-
   propertySearch(searchParams).then((results) => {
+    if (results?.properties) {
+      results.properties.forEach((listing) => {
+        list.append(createCard(listing));
+      });
+      decorateIcons(parent);
+    }
+  });
+}
+
+export async function renderSavedProperties(contactKey, parent) {
+  const list = document.createElement('div');
+  list.classList.add('property-list-cards');
+  parent.append(list);
+  getSavedProperties(contactKey).then((results) => {
     if (results?.properties) {
       results.properties.forEach((listing) => {
         list.append(createCard(listing));
