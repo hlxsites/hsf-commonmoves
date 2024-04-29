@@ -14,16 +14,26 @@ import {
   getMarkerClusterer,
   displayPins,
 } from './map/pins.js';
+import {
+  startPolygon,
+  addPolygonPoint,
+  closePolygon,
+  clearPolygon,
+} from './map/drawing.js';
+import PolygonSearch from '../../scripts/apis/creg/search/types/PolygonSearch.js';
 
 const zoom = 10;
 const maxZoom = 18;
 
 let gmap;
-let renderInProgress;
+let renderInProgress = false;
 
 const mapMarkers = [];
 let clusterer;
 let boundsTimeout;
+
+let drawingClickListener;
+let polygon;
 
 const MAP_STYLE = [{
   featureType: 'administrative',
@@ -145,7 +155,7 @@ function decorateMap(parent) {
       span({ class: 'map' }, 'Map'),
       ),
       a({
-        class: 'map-draw-complete',
+        class: 'map-draw-complete disabled',
         role: 'button',
         'aria-label': 'Complete Draw',
       },
@@ -178,11 +188,71 @@ function decorateMap(parent) {
   parent.append(controls, info);
 }
 
+async function boundsChanged() {
+  if (polygon) return;
+  window.clearTimeout(boundsTimeout);
+  boundsTimeout = window.setTimeout(() => {
+    const bounds = gmap.getBounds();
+    const search = new BoxSearch();
+    search.populateFromURLSearchParameters(new URLSearchParams(window.location.search));
+    search.maxLat = bounds.getNorthEast().lat();
+    search.maxLon = bounds.getNorthEast().lng();
+    search.minLat = bounds.getSouthWest().lat();
+    search.minLon = bounds.getSouthWest().lng();
+    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+  }, 1000);
+}
+
+function doneDrawing() {
+  polygon = closePolygon();
+  drawingClickListener.remove();
+  gmap.setOptions({ gestureHandling: 'cooperative' });
+  document.querySelector('.property-search-results.block .search-map-container').classList.remove('drawing');
+  const search = new PolygonSearch();
+  search.populateFromURLSearchParameters(new URLSearchParams(window.location.search));
+  polygon.getPath().forEach((latLng) => {
+    search.addPoint({ lat: latLng.lat(), lon: latLng.lng() });
+  });
+  window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+}
+
+function endDrawing() {
+  clearPolygon();
+  polygon = undefined;
+  drawingClickListener.remove();
+  gmap.setOptions({ gestureHandling: 'cooperative' });
+  document.querySelector('.property-search-results.block .search-map-container').classList.remove('drawing');
+  boundsChanged();
+}
+
+function drawingClickHandler(e) {
+  if (addPolygonPoint(e.latLng)) {
+    doneDrawing();
+  }
+}
+
+function startDrawing() {
+  gmap.setOptions({ gestureHandling: 'none' });
+  drawingClickListener = gmap.addListener('click', drawingClickHandler);
+  startPolygon(gmap);
+}
+
 function observeControls(block) {
   block.querySelector('.search-map-container a.map-draw').addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
-    e.currentTarget.closest('.search-map-container').classList.toggle('drawing');
+    const start = e.currentTarget.closest('.search-map-container').classList.toggle('drawing');
+    if (start) {
+      startDrawing(gmap);
+    } else {
+      endDrawing();
+    }
+  });
+
+  block.querySelector('.search-map-container a.map-draw-complete').addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    doneDrawing();
   });
 
   block.querySelector('.search-map-container a.map-style').addEventListener('click', (e) => {
@@ -231,25 +301,12 @@ function getMarkerBounds(markers) {
   return bounds;
 }
 
-async function boundsChanged() {
-  window.clearTimeout(boundsTimeout);
-  boundsTimeout = window.setTimeout(() => {
-    const bounds = gmap.getBounds();
-    const search = new BoxSearch();
-    search.populateFromURLSearchParameters(new URLSearchParams(window.location.search));
-    search.maxLat = bounds.getNorthEast().lat();
-    search.maxLon = bounds.getNorthEast().lng();
-    search.minLat = bounds.getSouthWest().lat();
-    search.minLon = bounds.getSouthWest().lng();
-    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
-  }, 1000);
-}
-
 /**
  * Updates the map view with the new results.
  * @param results
  */
 async function displayResults(results) {
+  renderInProgress = true;
   // Map isn't loaded yet.
   if (!gmap) {
     window.setTimeout(() => {
@@ -278,8 +335,28 @@ async function displayResults(results) {
     clusterer.addMarkers(mapMarkers);
   }
 
-  if (mapMarkers.length) {
-    gmap.panTo(getMarkerBounds(mapMarkers).getCenter());
+  const bounds = getMarkerBounds(mapMarkers);
+  if (!gmap.getBounds().contains(bounds.getCenter())) {
+    gmap.fitBounds(bounds);
+  }
+  renderInProgress = false;
+}
+
+/**
+ * Reinitialize the Map based on history navigation.
+ *
+ * @param search the search that will be performed.
+ */
+function reinitMap(search) {
+  clearMarkers();
+  clearPolygon();
+  if (search instanceof PolygonSearch) {
+    startPolygon(gmap);
+    search.points.forEach((point) => {
+      const { lat, lon } = point;
+      addPolygonPoint(new google.maps.LatLng({ lat: parseFloat(lat), lng: parseFloat(lon) }));
+    });
+    polygon = closePolygon();
   }
 }
 
@@ -288,8 +365,7 @@ async function displayResults(results) {
  * @param block
  * @return {Promise<void>}
  */
-async function initMap(block) {
-  renderInProgress = true;
+async function initMap(block, search) {
   const ele = block.querySelector('#gmap-canvas');
 
   gmap = new google.maps.Map(ele, {
@@ -298,7 +374,7 @@ async function initMap(block) {
     center: { lat: 41.24216, lng: -96.207990 },
     mapTypeId: google.maps.MapTypeId.ROADMAP,
     clickableIcons: false,
-    gestureHandling: 'greedy',
+    gestureHandling: 'cooperative',
     styles: MAP_STYLE,
     visualRefresh: true,
     disableDefaultUI: true,
@@ -330,26 +406,15 @@ async function initMap(block) {
     boundsChanged();
   });
 
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    window.clearTimeout(resizeTimeout);
-    resizeTimeout = window.setTimeout(() => {
-      renderInProgress = true;
-      hideInfos();
-      gmap.fitBounds(getMarkerBounds(mapMarkers), 45);
-      renderInProgress = false;
-    }, 500);
-  });
-  /*
-    TODO: Draw on the map
-    * Draw lines
-    * Hide all search and features on map
-    * if Any lines intersect, terminate the draw
-    * if the click "done" close the polygon
-    * if canceled. drop all lines and reset map.
-   */
-
   clusterer = getMarkerClusterer(gmap);
+  if (search instanceof PolygonSearch) {
+    startPolygon(gmap);
+    search.points.forEach((point) => {
+      const { lat, lon } = point;
+      addPolygonPoint(new google.maps.LatLng({ lat: parseFloat(lat), lng: parseFloat(lon) }));
+    });
+    polygon = closePolygon();
+  }
 }
 
 // Anytime a search is performed, hide any existing markers.
@@ -361,8 +426,9 @@ await google.maps.importLibrary('core');
 await google.maps.importLibrary('maps');
 await google.maps.importLibrary('marker');
 await loadScript('https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js', { type: 'application/javascript' });
-
+await loadScript('https://unpkg.com/jsts/dist/jsts.min.js', { type: 'application/javascript' });
 export {
   displayResults,
   initMap,
+  reinitMap,
 };

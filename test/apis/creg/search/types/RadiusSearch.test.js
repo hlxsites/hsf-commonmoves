@@ -22,7 +22,7 @@ describe('RadiusSearch', () => {
       });
       assert(search instanceof RadiusSearch, 'Created correct type.');
       assert.equal(search.lat, '75.9876543', 'Longitude set.');
-      assert.equal(search.long, '-101.1234568', 'Latitude set.');
+      assert.equal(search.lon, '-101.1234568', 'Latitude set.');
       assert.equal(search.distance, '5', 'Distance set.');
     });
   });
@@ -40,13 +40,13 @@ describe('RadiusSearch', () => {
     it('should read radius specific parameters', async () => {
       const search = new RadiusSearch();
       search.lat = 75.987654321;
-      search.long = -101.123456789;
+      search.lon = -101.123456789;
       search.distance = 10;
 
       const queryStr = search.asURLSearchParameters().toString();
       assert.match(queryStr, /type=Radius/, 'Query string includes search type parameter.');
       assert.match(queryStr, /lat=75.9876543/, 'Query string includes lat.');
-      assert.match(queryStr, /long=-101.1234568/, 'Query string includes long.');
+      assert.match(queryStr, /lon=-101.1234568/, 'Query string includes lon.');
       assert.match(queryStr, /distance=10/, 'Query string includes distance');
       const created = await Search.fromQueryString(queryStr);
       assert.deepStrictEqual(created, search, 'Object was parsed from query string correctly.');
@@ -63,7 +63,7 @@ describe('RadiusSearch', () => {
     it('should read radius specific parameters', async () => {
       const search = new RadiusSearch();
       search.lat = 75.987654321;
-      search.long = -101.123456789;
+      search.lon = -101.123456789;
       search.distance = 10;
       const created = await Search.fromJSON(JSON.parse(JSON.stringify(search)));
       assert.deepStrictEqual(created, search, 'To/From JSON correct.');
@@ -71,15 +71,15 @@ describe('RadiusSearch', () => {
   });
 
   describe('to CREG URL Search Parameters', () => {
-    it('should have Box search parameters', () => {
+    it('should have Radius search parameters', () => {
       const search = new RadiusSearch();
       search.lat = 75.987654321;
-      search.long = -101.123456789;
+      search.lon = -101.123456789;
       search.distance = 10;
       const queryStr = search.asCregURLSearchParameters().toString();
       assert.match(queryStr, /SearchType=Radius/, 'Query string includes search type.');
       assert.match(queryStr, /Latitude=75.9876543/, 'Query string includes lat.');
-      assert.match(queryStr, /Longitude=-101.1234568/, 'Query string includes long.');
+      assert.match(queryStr, /Longitude=-101.1234568/, 'Query string includes lon.');
       assert.match(queryStr, /Distance=10/, 'Query string includes distance');
     });
   });

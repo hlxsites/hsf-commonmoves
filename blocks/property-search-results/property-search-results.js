@@ -14,7 +14,7 @@ import { BREAKPOINTS } from '../../scripts/scripts.js';
 import observe from './observers.js';
 import loader from './loader.js';
 import { displayResults as displayList } from './results.js';
-import { displayResults as displayMap } from './map.js';
+import { displayResults as displayMap, reinitMap } from './map.js';
 
 let searchController;
 
@@ -118,8 +118,8 @@ async function doSearch(search) {
 export default async function decorate(block) {
   const config = readBlockConfig(block);
 
-  // const view = BREAKPOINTS.medium.matches ? 'map-view' : 'list-view';
-  block.classList.add('map-view');
+  const view = BREAKPOINTS.medium.matches ? 'map-view' : 'list-view';
+  block.classList.add(view);
   /* @formatter:off */
   const filters = div({ class: 'property-search-filters' },
     div({ class: 'listing-types' },
@@ -245,7 +245,7 @@ export default async function decorate(block) {
     const newSearch = await Search.fromQueryString(window.location.search);
     updateFilters(newSearch);
     updateForm(newSearch);
-    // TODO: reinit the map?? (it keeps the old pins while the search is loading)
+    reinitMap(newSearch);
     doSearch(newSearch);
   });
 
@@ -259,6 +259,6 @@ export default async function decorate(block) {
   window.setTimeout(async () => {
     const mod = await import(`${window.hlx.codeBasePath}/blocks/property-search-results/map.js`);
     initMap = mod.initMap;
-    initMap(block);
+    initMap(block, search);
   }, 3000);
 }

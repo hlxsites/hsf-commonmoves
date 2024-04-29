@@ -344,7 +344,7 @@ export default class Search {
   /**
    * Builds a new Search instance from a URL query string
    * @param {String} query the query string
-   * @return {Search} the search instance
+   * @return {Promise<Search>} the search instance
    */
   static async fromQueryString(query) {
     const params = new URLSearchParams(query);
@@ -360,7 +360,7 @@ export default class Search {
   /**
    * Builds a new Search instance from a Block Config.
    * @param {Object} config the block config
-   * @return {Search} the search instance
+   * @return {Promise<Search>} the search instance
    */
   static async fromBlockConfig(config) {
     const entries = Object.entries(config);
@@ -377,6 +377,7 @@ export default class Search {
   /**
    * Creates Search instance from a JSON Object.
    * @param {Object} json
+   * @return {Promise<Search>} the search instance
    */
   static async fromJSON(json) {
     let search = new Search();

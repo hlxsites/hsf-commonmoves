@@ -39,7 +39,7 @@ export default class RadiusSearch extends Search {
     const params = super.asCregURLSearchParameters();
     params.set('SearchType', this.type);
     params.set('Latitude', this.lat);
-    params.set('Lonitude', this.lon);
+    params.set('Longitude', this.lon);
     params.set('Distance', this.distance);
     return params;
   }

@@ -1,8 +1,12 @@
 /* global google */
 
 import Search, { UPDATE_SEARCH_EVENT } from '../../../scripts/apis/creg/search/Search.js';
+import { DRAWING_ENDED, DRAWING_STARTED } from './drawing.js';
+
+let drawing = false;
 
 const clusterClickHandler = async (map, cluster) => {
+  if (drawing) return;
   const center = new google.maps.LatLng(cluster.centerLat, cluster.centerLon);
   map.panTo(center);
   const search = await Search.load('Box');
@@ -53,12 +57,14 @@ export function createClusterMaker(cluster) {
 }
 
 export default async function displayClusters(map, clusters) {
+  map.getDiv().addEventListener(DRAWING_STARTED, () => { drawing = true; });
+  map.getDiv().addEventListener(DRAWING_ENDED, () => { drawing = false; });
+
   const markers = [];
   clusters.forEach((cluster) => {
     const marker = createClusterMaker(cluster);
     marker.setMap(map);
-    marker.addListener('click', (e) => {
-      e.stop();
+    marker.addListener('click', () => {
       clusterClickHandler(marker.map, cluster);
     });
     markers.push(marker);

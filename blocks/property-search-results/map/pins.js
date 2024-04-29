@@ -8,7 +8,9 @@ import { getDetails } from '../../../scripts/apis/creg/creg.js';
 import {
   a, p, div, img, span, domEl,
 } from '../../../scripts/dom-helpers.js';
+import { DRAWING_ENDED, DRAWING_STARTED } from './drawing.js';
 
+let drawing;
 let moTimeout;
 let moController;
 
@@ -137,6 +139,9 @@ async function clusterMouseHandler(marker, cluster) {
   moController?.abort();
   moController = new AbortController();
   const controller = moController;
+  if (marker.infoWindow?.visible) {
+    return;
+  }
   hideInfos();
   if (!marker.infoWindow && !controller.signal.aborted) {
     const content = div({ class: 'info-window cluster' }, div({ class: 'loading' }, p('Loading...')));
@@ -163,7 +168,7 @@ async function clusterMouseHandler(marker, cluster) {
       tmp.close();
     });
   }
-  if (controller.signal.aborted || marker.infoWindow.visible) {
+  if (controller.signal.aborted) {
     return;
   }
   marker.infoWindow.open({ anchor: marker, shouldFocus: false });
@@ -201,6 +206,7 @@ const ClusterRenderer = {
     // Do not fire the fetch immediately, give the user a beat to move their mouse to desired target.
     marker.addListener('mouseout', () => window.clearTimeout(moTimeout));
     marker.addListener('mouseover', () => {
+      if (drawing) return;
       if (BREAKPOINTS.medium.matches) {
         moTimeout = window.setTimeout(() => clusterMouseHandler(marker, cluster), 500);
       }
@@ -210,6 +216,7 @@ const ClusterRenderer = {
 };
 
 function pinGroupClickHandler(e, cluster) {
+  if (drawing) return;
   if (BREAKPOINTS.medium.matches && e.domEvent instanceof TouchEvent) {
     clusterMouseHandler(cluster.marker, cluster);
   } else {
@@ -238,6 +245,9 @@ async function pinMouseHandler(marker, pin) {
   moController?.abort();
   moController = new AbortController();
   const controller = moController;
+  if (marker.infoWindow?.visible) {
+    return;
+  }
   hideInfos();
   if (!marker.infoWindow && !controller.signal.aborted) {
     const content = div({ class: 'info-window' }, div({ class: 'loading' }, p('Loading...')));
@@ -255,7 +265,7 @@ async function pinMouseHandler(marker, pin) {
       tmp.close();
     });
   }
-  if (controller.signal.aborted || marker.infoWindow.visible) {
+  if (controller.signal.aborted) {
     return;
   }
   marker.infoWindow.open({ anchor: marker, shouldFocus: false });
@@ -291,6 +301,7 @@ function createPinMarker(pin) {
     },
   });
   marker.addListener('click', (e) => {
+    if (drawing) return;
     if (BREAKPOINTS.medium.matches && e.domEvent instanceof TouchEvent) {
       pinMouseHandler(marker, pin);
     } else {
@@ -300,6 +311,7 @@ function createPinMarker(pin) {
   // Do not fire the fetch immediately, give the user a beat to move their mouse to desired target.
   marker.addListener('mouseout', () => window.clearTimeout(moTimeout));
   marker.addListener('mouseover', () => {
+    if (drawing) return;
     if (BREAKPOINTS.medium.matches) {
       moTimeout = window.setTimeout(() => pinMouseHandler(marker, pin), 500);
     }
@@ -310,6 +322,9 @@ function createPinMarker(pin) {
 }
 
 async function displayPins(map, pins) {
+  map.getDiv().addEventListener(DRAWING_STARTED, () => { drawing = true; });
+  map.getDiv().addEventListener(DRAWING_ENDED, () => { drawing = false; });
+
   const markers = [];
   pins.forEach((pin) => {
     const marker = createPinMarker(pin);

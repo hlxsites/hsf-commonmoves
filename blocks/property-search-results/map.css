@@ -5,6 +5,10 @@
   background-color: var(--white);
 }
 
+.property-search-results.block .search-map-container.drawing {
+  cursor: pointer;
+}
+
 .property-search-results.block .search-map-container .search-results-map {
   position: absolute;
   top: 0;
@@ -55,6 +59,10 @@
   color: var(--body-color);
 }
 
+.property-search-results.block .search-map-container.drawing .custom-controls .map-style {
+  pointer-events: none;
+}
+
 .property-search-results.block .search-map-container.satellite .custom-controls .map-style span.map {
   display: none;
 }
@@ -66,6 +74,10 @@
 .property-search-results.block .search-map-container .custom-controls .map-style img {
   height: 24px;
   width: 24px;
+}
+
+.property-search-results.block .search-map-container.drawing .custom-controls .map-style * {
+  opacity: .3;
 }
 
 .property-search-results.block .search-map-container .custom-controls .map-draw img.draw {
@@ -97,6 +109,14 @@
   display: none;
 }
 
+.property-search-results.block .search-map-container .custom-controls .map-draw-complete.disabled {
+  pointer-events: none;
+}
+
+.property-search-results.block .search-map-container .custom-controls .map-draw-complete.disabled * {
+  opacity: .3;
+}
+
 .property-search-results.block .search-map-container.drawing .custom-controls .map-draw-complete {
   display: flex;
 }
@@ -108,42 +128,17 @@
 
 .property-search-results.block .search-map-container .custom-controls .zoom-controls {
   display: none;
-  box-shadow: 0 0 3px 2px rgba(0 0 0 / 30%);
 }
 
-.property-search-results.block .search-map-container .custom-controls .zoom-controls a {
-  display: block;
-  position: relative;
-  height: 45px;
-  width: 45px;
-  background-color: var(--white);
-  cursor: pointer;
-  pointer-events: all;
-
+.property-search-results.block .search-map-container.drawing .custom-controls .zoom-controls a {
+  pointer-events: none;
 }
 
-.property-search-results.block .search-map-container .custom-controls .zoom-controls a::before {
-  content: ' ';
-  position: absolute;
-  display: block;
-  background-color: var(--body-color);
-  height: 1px;
-  left: calc(50% - 8px);
-  top: 50%;
-  width: 16px;
+.property-search-results.block .search-map-container.drawing .custom-controls .zoom-controls a::before,
+.property-search-results.block .search-map-container.drawing .custom-controls .zoom-controls a::after {
+  opacity: .3;
 }
 
-
-.property-search-results.block .search-map-container .custom-controls .zoom-controls a.zoom-in::after {
-  content: ' ';
-  position: absolute;
-  display: block;
-  background-color: var(--body-color);
-  width: 1px;
-  top: calc(50% - 8px);
-  left: 50%;
-  height: 16px;
-}
 
 .property-search-results.block .search-map-container .map-draw-info {
   display: none;
@@ -155,7 +150,6 @@
   top: 0;
   width: 100%;
   background-color: var(--light-grey);
-
 }
 
 .property-search-results.block .search-map-container.drawing .map-draw-info p {
@@ -360,10 +354,6 @@
     transform: translateY(50%);
   }
 
-  .property-search-results.block .search-map-container .custom-controls .zoom-controls {
-    display: block;
-  }
-
   .property-search-results.block .search-map-wrapper .mobile-info-window {
     display: none;
   }
@@ -521,4 +511,51 @@
     object-fit: contain;
     object-position: center;
   }
+
+  .property-search-results.block .search-map-container.drawing .map-draw-info p {
+    font-size: var(--body-font-size-m);
+    line-height: 65px;
+  }
+
+
+  .property-search-results.block .search-map-container .custom-controls .zoom-controls {
+    display: block;
+    box-shadow: 0 0 3px 2px rgba(0 0 0 / 30%);
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .property-search-results.block .search-map-container .custom-controls .zoom-controls a {
+    display: block;
+    position: relative;
+    height: 45px;
+    width: 45px;
+    background-color: var(--white);
+    cursor: pointer;
+    pointer-events: all;
+
+  }
+
+  .property-search-results.block .search-map-container .custom-controls .zoom-controls a::before {
+    content: ' ';
+    position: absolute;
+    display: block;
+    background-color: var(--body-color);
+    height: 1px;
+    left: calc(50% - 8px);
+    top: 50%;
+    width: 16px;
+  }
+
+
+  .property-search-results.block .search-map-container .custom-controls .zoom-controls a.zoom-in::after {
+    content: ' ';
+    position: absolute;
+    display: block;
+    background-color: var(--body-color);
+    width: 1px;
+    top: calc(50% - 8px);
+    left: 50%;
+    height: 16px;
+  }
+
 }
