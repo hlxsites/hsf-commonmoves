@@ -238,7 +238,6 @@ export default async function decorate(block) {
   }
   updateFilters(search);
   updateForm(search);
-  doSearch(search);
   observe(block);
 
   window.addEventListener('popstate', async () => {
@@ -260,5 +259,6 @@ export default async function decorate(block) {
     const mod = await import(`${window.hlx.codeBasePath}/blocks/property-search-results/map.js`);
     initMap = mod.initMap;
     initMap(block, search);
+    doSearch(search);
   }, 3000);
 }
