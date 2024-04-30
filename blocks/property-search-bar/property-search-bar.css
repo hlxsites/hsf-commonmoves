@@ -847,9 +847,9 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
 
 .property-search-bar.block .search-bar .suggester-results .list-title {
   padding: 15px 15px 5px;
-  font-family: var(--font-family-proxima);
+  font-family: var(--font-family-primary);
   font-size: var(--body-font-size-s);
-  font-weight: 700;
+  font-weight: var(--font-weight-bold);
   text-transform: uppercase;
   letter-spacing: .5px;
   color: var(--black);
@@ -935,8 +935,6 @@ main .section.property-search-bar-container .property-search-bar-wrapper {
   .property-search-bar.block .advanced-filters .attributes {
     display: none;
   }
-
-
 
   .property-search-bar.block .search-overlay {
     position: fixed;

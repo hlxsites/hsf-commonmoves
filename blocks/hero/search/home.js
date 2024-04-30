@@ -103,24 +103,24 @@ async function buildForm() {
         </div>
       </div>
       <button class="filter" type="button" aria-label="More Filters" aria-haspopup="true">
-        <span class="icon icon-filter">
-          <img src="/icons/filter.svg" role="presentation" alt="Filter"/>
-        </span>
+        <svg>
+          <use xlink:href="/icons/icons.svg#search-filter"></use>
+        </svg>
+      </button>
+      <button class="close" aria-label="Close" type="button">
+        <svg role="presentation" aria-hidden="true">
+          <use xlink:href="/icons/icons.svg#close-x"></use>
+        </svg>
       </button>
       <button class="search-submit" aria-label="Search Homes" type="submit">
         <span>Search</span>
       </button>
     </div>
     <div class="filters">
-      <input type="text" placeholder="$ Minimum Price" name="minPrice" aria-label="minimum price">
-      <input type="text" placeholder="$ Maximum Price" name="maxPrice" aria-label="maximum price">
-      ${buildFilterSelect('bedrooms', 'Beds', BED_BATHS).outerHTML}
-      ${buildFilterSelect('bathrooms', 'Baths', BED_BATHS).outerHTML}
-       <button class="close" aria-label="Close" type="button">
-         <svg role="presentation" aria-hidden="true">
-          <use xlink:href="/icons/icons.svg#close-x"></use>
-        </svg>
-      </button>
+      <input type="text" placeholder="$ Minimum Price" name="MinPrice" aria-label="minimum price">
+      <input type="text" placeholder="$ Maximum Price" name="MaxPrice" aria-label="maximum price">
+      ${buildFilterSelect('MinBedroomsTotal', 'Bedrooms', BED_BATHS).outerHTML}
+      ${buildFilterSelect('MinBathroomsTotal', 'Bathrooms', BED_BATHS).outerHTML}
     </div>
     <button class="submit" type="submit">Search</button>
   `;
