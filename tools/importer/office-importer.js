@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 /* global WebImporter */
-/* eslint-disable no-console, class-methods-use-this */
+/* eslint-disable no-console, class-methods-use-this, prefer-destructuring */
 /**
  * Sanitizes a string for use as class name.
  * @param {string} name The unsanitized string
@@ -55,17 +55,6 @@ export default {
     WebImporter.rules.transformBackgroundImages(main, document);
     WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
     WebImporter.rules.convertIcons(main, document);
-
-    const path = ((u) => {
-      let p = new URL(u).pathname;
-      if (p.endsWith('/')) {
-        p = `${p}index`;
-      }
-      return decodeURIComponent(p)
-        .toLowerCase()
-        .replace(/\.html$/, '')
-        .replace(/[^a-z0-9/]/gm, '-');
-    })(url);
 
     const offices = [...document.querySelectorAll('article.cmp-card')];
     return offices
