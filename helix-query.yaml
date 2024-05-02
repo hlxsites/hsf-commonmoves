@@ -44,7 +44,7 @@ indices:
         value: attribute(el, "content")
   offices:
     include:
-      - /offices/*
+      - /offices/**
     target: /offices.json
     properties:
       lastModified:
