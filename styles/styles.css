@@ -444,6 +444,36 @@ main .section.banner .default-content-wrapper {
   text-transform: uppercase;
 }
 
+.btn {
+  font-family: "Manrope";
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: normal;
+  padding: 7px 25px;
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: 0;
+  width: 100%;
+}
+
+.btn.btn-primary{
+  background: #670038;
+  color: #f5f1f2;
+  border: 0;
+  font-size: 16px;
+}
+
+.btn.btn-secondary{
+  background: #fff;
+  color: #670038;
+  border: 1px solid #670038;
+  font-size: 16px;
+}
+
+
+
 .btn:not(:disabled, .disabled) {
   cursor: pointer;
 }
