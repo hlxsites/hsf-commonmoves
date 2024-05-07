@@ -98,15 +98,9 @@ export function propertySearch(params) {
  */
 export function getSavedProperties(contactKey) {
   return new Promise((resolve) => {
-    //get current timestamp
-    const timestamp = Date.now();
-    const url = `${CREG_API_URL}/cregPropertySaveServlet?ContactKey=${contactKey}&_=${timestamp}`;
-    fetch(url).then(async (resp) => {
-      if (resp.ok) {
-        resolve(await resp.json());
-      } else {
-        resolve({});
-      }
-    });
-});
+    const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/propertySearch.js`);
+    const url = `${CREG_API_URL}/cregPropertySaveServlet?ContactKey=${contactKey}&_=1714144375935`;
+    worker.onmessage = (e) => resolve(e.data);
+    worker.postMessage({ url });
+  });
 }

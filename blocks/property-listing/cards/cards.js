@@ -95,7 +95,7 @@ export function createCard(listing) {
           </a> 
           <a aria-label="Save" href="#" class="button-property"> 
             <span class="icon icon-heartempty"></span>
-            <span class="icon icon-heartfilled"></span>
+            <span class="icon icon-heartemptydark"></span>
           </a>
         </div>
       </div>
@@ -136,25 +136,15 @@ export async function render(searchParams, parent) {
 }
 
 export async function renderSavedProperties(contactKey, parent) {
-  return new Promise((resolve) => {
-    const list = document.createElement('div');
-    list.classList.add('property-list-cards');
-    parent.append(list);
-    getSavedProperties(contactKey).then((results) => {
-      if (results?.properties) {
-        const promises = results.properties.map((listing) => {
-          return new Promise((resolve) => {
-            list.append(createCard(listing));
-            resolve();
-          });
-        });
-        Promise.all(promises).then(() => {
-          decorateIcons(parent);
-          resolve();
-        });
-      } else {
-        resolve();
-      }
-    });
+  const list = document.createElement('div');
+  list.classList.add('property-list-cards');
+  parent.append(list);
+  getSavedProperties(contactKey).then((results) => {
+    if (results?.properties) {
+      results.properties.forEach((listing) => {
+        list.append(createCard(listing));
+      });
+      decorateIcons(parent);
+    }
   });
 }
