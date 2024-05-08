@@ -121,6 +121,17 @@ export function formatPrice(num, precision = 1) {
   return num;
 }
 
+export function phoneFormat(num) {
+  // Remove any non-digit characters from the string
+  let phoneNum = num.replace(/\D/g, '');
+  if (!phoneNum) {
+    return '';
+  }
+  // Format the phoneNumber according to (XXX) XXX-XXXX
+  phoneNum = phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+  return phoneNum;
+}
+
 const Util = {
   getSpinner,
   showModal,
