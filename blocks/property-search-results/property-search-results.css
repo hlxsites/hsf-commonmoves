@@ -28,21 +28,72 @@ main .section.property-search-results-container {
 
 .property-search-results.block .search-results-loader {
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
+  left: 50%;
+  height: 100%;
+  width: 100%;
   max-width: 400px;
+  transform: translateX(-50%);
+  margin: 0 auto;
   opacity: 0;
   visibility: hidden;
   transition: all 2s linear;
-  z-index: 1;
+  z-index: 2
 }
-
 
 .property-search-results.block .loading .search-results-loader {
   opacity: 1;
   visibility: visible;
+  transition: all 2s linear;
+}
+
+.property-search-results.block .search-results-loader .animation {
+  position: relative;
+  width: 100%;
+}
+
+@keyframes pulse {
+  from {
+    border: 0 solid white;
+  }
+
+  to {
+    border: 75px solid white
+  }
+}
+
+.property-search-results.block .search-results-loader .pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  animation: linear 2s infinite alternate pulse;
+  z-index: 2;
+}
+
+.property-search-results.block .search-results-loader picture {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding-bottom: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.property-search-results.block .search-results-loader picture img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
 }
 
 .property-search-results.block .search-results-content {
@@ -54,12 +105,13 @@ main .section.property-search-results-container {
   padding: 10px;
   opacity: 1;
   visibility: visible;
-  transition: all 1s linear;
+  transition: all 2s linear;
 }
 
 .property-search-results.block .loading .search-results-wrapper {
   opacity: 0;
   visibility: hidden;
+  transition: all 2s linear;
 }
 
 .property-search-results.block.list-view .search-map-wrapper {
@@ -356,10 +408,6 @@ main .section.property-search-results-container {
 
 .property-search-results.block .desktop-view-options {
   display: none;
-}
-
-.property-search-results.block .search-results-content .search-results-loader video {
-  width: 100%;
 }
 
 /** Override the default card display */

@@ -99,19 +99,18 @@ async function doSearch(search, redraw = true) {
   contentWrapper.classList.add('loading');
   contentWrapper.scrollTo({ top: 0, behavior: 'smooth' });
   const parent = document.querySelector('.property-search-results.block .search-results-wrapper');
-  return new Promise((resolve) => {
+  return new Promise(() => {
     const controller = searchController;
     propertySearch(search).then((results) => {
       if (!controller.signal.aborted) {
         displayList(parent, results);
-        if (redraw) displayMap(results);
         contentWrapper.querySelector('.search-results-disclaimer-wrapper').replaceChildren(
           domEl('hr', { role: 'presentation', 'aria-hidden': true, tabindex: -1 }),
           div({ class: 'search-results-disclaimer' }, ...sanitizeDisclaimer(results.disclaimer)),
         );
         contentWrapper.classList.remove('loading');
+        if (redraw) displayMap(results);
       }
-      resolve();
     });
   });
 }
