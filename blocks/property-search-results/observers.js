@@ -37,7 +37,7 @@ export default function observe(block) {
       } else {
         search.removeListingType(ipt.value);
       }
-      window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+      window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: { search } }));
     });
   });
 
@@ -81,7 +81,7 @@ export default function observe(block) {
       const search = await Search.fromQueryString(window.location.search);
       search.sortBy = selected.getAttribute('data-sort-by');
       search.sortDirection = selected.getAttribute('data-sort-direction');
-      window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+      window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: { search } }));
     });
   });
 }

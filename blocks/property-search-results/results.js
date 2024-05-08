@@ -75,7 +75,7 @@ function buildPagination(total, current) {
     const page = e.currentTarget.getAttribute('data-value');
     const search = await Search.fromQueryString(window.location.search);
     search.page = page;
-    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: { search, redraw: false } }));
   };
 
   selectWrapper.querySelectorAll('.select-items li').forEach((opt) => {

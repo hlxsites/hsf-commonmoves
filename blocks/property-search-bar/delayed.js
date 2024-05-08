@@ -215,7 +215,7 @@ async function updateParameters() {
   if (window.location.pathname !== SEARCH_URL) {
     window.location = `${SEARCH_URL}?${search.asURLSearchParameters().toString()}`;
   } else {
-    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: { search } }));
   }
 }
 

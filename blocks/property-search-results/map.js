@@ -199,7 +199,7 @@ async function boundsChanged() {
     search.maxLon = bounds.getNorthEast().lng();
     search.minLat = bounds.getSouthWest().lat();
     search.minLon = bounds.getSouthWest().lng();
-    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+    window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: { search } }));
   }, 1000);
 }
 
@@ -213,7 +213,7 @@ function doneDrawing() {
   polygon.getPath().forEach((latLng) => {
     search.addPoint({ lat: latLng.lat(), lon: latLng.lng() });
   });
-  window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+  window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: { search } }));
 }
 
 function endDrawing() {

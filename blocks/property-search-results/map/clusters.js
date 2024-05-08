@@ -15,7 +15,7 @@ const clusterClickHandler = async (map, cluster) => {
   search.minLon = cluster.swLon;
   search.maxLat = cluster.neLat;
   search.maxLon = cluster.neLon;
-  window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: search }));
+  window.dispatchEvent(new CustomEvent(UPDATE_SEARCH_EVENT, { detail: { search } }));
 };
 
 const compensateForCluster = (count) => {

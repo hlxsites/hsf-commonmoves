@@ -86,10 +86,11 @@ function updateFilters(search) {
 
 /**
  * Perform the search
- * @param {Search} search
+ * @param {Search} search the search to perform
+ * @param {boolean} redraw if the map should be updated
  * @return {Promise<void>}
  */
-async function doSearch(search) {
+async function doSearch(search, redraw = true) {
   searchController?.abort();
   searchController = new AbortController();
   window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(search));
@@ -103,7 +104,7 @@ async function doSearch(search) {
     propertySearch(search).then((results) => {
       if (!controller.signal.aborted) {
         displayList(parent, results);
-        displayMap(results);
+        if (redraw) displayMap(results);
         contentWrapper.querySelector('.search-results-disclaimer-wrapper').replaceChildren(
           domEl('hr', { role: 'presentation', 'aria-hidden': true, tabindex: -1 }),
           div({ class: 'search-results-disclaimer' }, ...sanitizeDisclaimer(results.disclaimer)),
@@ -249,10 +250,10 @@ export default async function decorate(block) {
   });
 
   window.addEventListener(UPDATE_SEARCH_EVENT, async (e) => {
-    const newSearch = e.detail;
+    const { search: newSearch, redraw } = e.detail;
     updateFilters(newSearch);
     window.history.pushState(null, '', new URL(`${SEARCH_URL}?${newSearch.asURLSearchParameters().toString()}`, window.location));
-    doSearch(newSearch);
+    doSearch(newSearch, redraw);
   });
 
   window.setTimeout(async () => {
