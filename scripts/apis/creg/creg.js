@@ -110,3 +110,22 @@ export function getSavedProperties(contactKey) {
     });
 });
 }
+
+/**
+ * Remove a saved property for a user.
+ *
+ * @param {String} contactKey the contact key
+ * @param {String} propertyId the property id
+ */
+export function removeSavedProperty(contactKey, propertyId) {
+  return new Promise((resolve) => {
+    const url = `${CREG_API_URL}/cregPropertySaveServlet?notificationId=${propertyId}&ContactKey=${contactKey}`;
+    fetch(url).then(async (resp) => {
+      if (resp.ok) {
+        resolve(await resp.json());
+      } else {
+        resolve({});
+      }
+    });
+  });
+}

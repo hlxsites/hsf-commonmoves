@@ -97,6 +97,10 @@
         left: 0;
       }
 
+      .saved-properties .property-list-cards{
+        height: unset;
+      }
+
   @media screen and (min-width: 600px){
     .cmp-confirmation-modal {
         width: 500px;

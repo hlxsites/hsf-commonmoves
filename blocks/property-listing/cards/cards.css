@@ -274,7 +274,7 @@
   display: none;
 }
 
-.property-list-cards .property-details .property-buttons .icon-heartfilled {
+.property-list-cards .property-details .property-buttons .icon-heartemptydark {
   display: none;
 }
 
@@ -282,7 +282,7 @@
   display: block;
 }
 
-.property-list-cards .property-details .property-buttons .button-property:hover .icon-heartfilled {
+.property-list-cards .property-details .property-buttons .button-property:hover .icon-heartemptydark {
   display: block;
 }
 
