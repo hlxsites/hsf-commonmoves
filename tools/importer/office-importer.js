@@ -71,8 +71,7 @@ export default {
         const [city, stateZip] = address2.split(', ');
         const [state, zip] = stateZip.split(' ');
         const phone = address.split('<br>')[2].replace('Office', 'main');
-        let fax = address.split('<br>')[3];
-        if (fax) fax = fax.replace('Office Fax', 'fax');
+        const fax = address.split('<br>')[3]?.replace('Office Fax', 'fax');
         const contact = office.querySelector('article.cmp-card .cmp-card__content .cmp-card__desc p:last-of-type');
         const [contactName, contactTitle, contactPhone, contactEmail] = contact.innerText.split('\n');
         const image = office.querySelector('.cmp-card__image a picture img');
@@ -80,10 +79,10 @@ export default {
 
         // build first block
         const cell1 = document.createElement('div');
-        cell1.innerHTML = `Berkshire Hathaway HomeServices<br>Commonwealth Real Estate<br>${phone} | ${fax}<br><a href='/contact-us'>Contact Us</a>`;
+        cell1.innerHTML = `<h2>Berkshire Hathaway HomeServices<br>Commonwealth Real Estate</h2><p>${phone} | ${fax}</p><a href='/contact-us'>Contact Us</a>`;
         const cell2 = document.createElement('div');
-        cell2.innerHTML = `<h4>Location</h4>${address1}<br>${address2}<br><a href='https://maps.google.com/maps?q=${address1.replaceAll(' ', '+')}%2C+${city.replaceAll(' ', '+')}%2C+${state}+${zip}'>Directions</a>`;
-        const cells = [['Columns'], [cell1, cell2]];
+        cell2.innerHTML = `<h4>Location</h4><p>${address1}</p><p>${address2}</p><a href='https://maps.google.com/maps?q=${address1.replaceAll(' ', '+')}%2C+${city.replaceAll(' ', '+')}%2C+${state}+${zip}'>Directions</a>`;
+        const cells = [['Columns (office)'], [cell1, cell2]];
         const table = WebImporter.DOMUtils.createTable(cells, document);
         result.append(table);
 
@@ -98,8 +97,8 @@ export default {
         meta.Location = location;
         meta.Type = type;
         meta.Address = address1;
-        meta.Phone = address.split('<br>')[2];
-        meta.Fax = address.split('<br>')[3];
+        meta.Phone = address.split('<br>')[2]?.trim();
+        meta.Fax = address.split('<br>')[3]?.trim();
         meta['City State Zip'] = address2;
         meta['Contact Name'] = contactName;
         meta['Contact Title'] = contactTitle;
