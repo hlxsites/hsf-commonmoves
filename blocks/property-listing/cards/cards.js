@@ -30,6 +30,7 @@ export function createCard(listing) {
 
   const item = document.createElement('div');
   item.classList.add('listing-tile');
+  item.dataset.id = listing.PropId;
   if (listing.OpenHouses?.length > 0) {
     item.classList.add('has-open-houses');
   }
@@ -93,7 +94,7 @@ export function createCard(listing) {
             <span class="icon icon-envelope"></span>
             <span class="icon icon-envelopedark"></span>
           </a> 
-          <a aria-label="Save" href="#" class="button-property"> 
+          <a aria-label="Save" href="javascript:void(0);" class="button-property save-icon"> 
             <span class="icon icon-heartempty"></span>
             <span class="icon icon-heartfilled"></span>
           </a>
@@ -122,16 +123,26 @@ export function createCard(listing) {
  * @return {Promise<void>}
  */
 export async function render(searchParams, parent) {
-  const list = document.createElement('div');
-  list.classList.add('property-list-cards');
-  parent.append(list);
-  propertySearch(searchParams).then((results) => {
-    if (results?.properties) {
-      results.properties.forEach((listing) => {
-        list.append(createCard(listing));
-      });
-      decorateIcons(parent);
-    }
+  return new Promise((resolve) => {
+    const list = document.createElement('div');
+    list.classList.add('property-list-cards');
+    parent.append(list);
+    propertySearch(searchParams).then((results) => {
+      if (results?.properties) {
+        const promises = results.properties.map((listing) => {
+          return new Promise((resolve) => {
+            list.append(createCard(listing));
+            resolve();
+          });
+        });
+        Promise.all(promises).then(() => {
+          decorateIcons(parent);
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
   });
 }
 

@@ -4,6 +4,8 @@ import SearchType, { searchTypeFor } from '../../scripts/apis/creg/SearchType.js
 import PropertyType from '../../scripts/apis/creg/PropertyType.js';
 import MapSearch from './map-search.js';
 import RadiusSearch from './radius-search.js';
+import { isLoggedIn, getUserDetails } from '../../../scripts/apis/user.js';
+import { getSavedProperties, saveProperty } from '../../../scripts/apis/creg/creg.js';
 
 /* eslint-disable no-param-reassign */
 const buildListingTypes = (configEntry) => {
@@ -135,4 +137,48 @@ export default async function decorate(block) {
   search.officeId = getMetadata('office-id');
 
   await search.render(block, false);
+
+  const user = await getUserDetails();
+  if (!user) {
+    return;
+  }
+  const contactKey = user.contactKey;
+
+  getSavedProperties(contactKey).then((results) => {
+    if (results?.properties) {
+      results.properties.forEach((listing) => {
+        const card = block.querySelector(`[data-id="${listing.PropId}"]`);
+        if (card) {
+          card.classList.add('saved');
+        }
+      });
+    }
+  });
+
+  const saveButtons = block.querySelectorAll('.button-property.save-icon');
+  saveButtons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      let property = {};
+      property.name = button.closest('.listing-tile').querySelector('a').getAttribute('aria-label');
+      property.contactKey = contactKey;
+      property.propertyId = button.closest('.listing-tile').dataset.id;
+      property.listingKey = button.closest('.listing-tile').dataset.id;
+      property.frequencyInstant = true;
+      property.frequencyDaily = false;
+      property.frequencyWeekly = false;
+      property.frequencyNever = false;
+      property.email = true;
+      property.push = true;
+      property.text = true;
+      property.active = true;
+      property.notes = [];
+      property.notificationMethod = 'status_change';
+      property.leadParam = 'CompanyKey%253DWI303%2526LeadBrand%253D11413101981000010000';
+      saveProperty(property).then((result) => {
+      const listingTile = button.closest('.listing-tile');
+      listingTile.classList.add('saved');
+      });
+    });
+  });
 }

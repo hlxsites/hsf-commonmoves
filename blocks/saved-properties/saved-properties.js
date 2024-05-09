@@ -1,4 +1,3 @@
-import { loadCSS } from '../../scripts/aem.js';
 import { renderSavedProperties as renderCards } from '../property-listing/cards/cards.js';
 import { getUserDetails } from '../../scripts/apis/user.js';
 import { removeSavedProperty } from '../../scripts/apis/creg/creg.js';
@@ -64,7 +63,7 @@ export default async function decorate(block) {
         const listingLink = listingToRemove.querySelector('a');
         let propertyId = listingLink.getAttribute('href').split('/').pop();
         if(propertyId){
-            propertyId = propertyId.split('-')[1];
+            propertyId = propertyId.split('pid-')[1].split('?')[0];
         }
         const confirmationModal = block.querySelector('.cmp-confirmation-modal');
         confirmationModal.classList.remove('open');

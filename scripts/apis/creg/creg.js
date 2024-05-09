@@ -119,12 +119,45 @@ export function getSavedProperties(contactKey) {
  */
 export function removeSavedProperty(contactKey, propertyId) {
   return new Promise((resolve) => {
+    console.log(propertyId);
     const url = `${CREG_API_URL}/cregPropertySaveServlet?notificationId=${propertyId}&ContactKey=${contactKey}`;
-    fetch(url).then(async (resp) => {
+    fetch(url, {
+      method: 'DELETE'
+    }).then(async (resp) => {
       if (resp.ok) {
-        resolve(await resp.json());
+      resolve(await resp.json());
       } else {
-        resolve({});
+      resolve({});
+      }
+    });
+  });
+}
+
+/**
+ * Save a property for a user.
+ *
+ * @param {String} contactKey the contact key
+ * @param {String} propertyId the property id
+ */
+export function saveProperty(property) {
+  return new Promise((resolve) => {
+    // use property to create form data
+    const formData = new FormData();
+    Object.keys(property).forEach((key) => {
+      formData.append(key, encodeURIComponent(property[key]));
+    });
+    const url = `${CREG_API_URL}/cregPropertySaveServlet`;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+      'CSRF-Token': 'undefined'
+      },
+      body: formData
+    }).then(async (resp) => {
+      if (resp.ok) {
+      resolve(await resp.json());
+      } else {
+      resolve({});
       }
     });
   });
