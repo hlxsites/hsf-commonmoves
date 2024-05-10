@@ -10,17 +10,17 @@ export default async function decorate(block) {
   const { contactKey } = user;
   await renderCards(contactKey, block);
   const unsaveModal = document.createElement('div');
-  unsaveModal.innerHTML = `<div class="cmp-confirmation-modal">
-    <div class="cmp-form-loader">
-    <div class="cmp-form-loader__image exit"><div class="spinner"><div class="double-bounce1"></div> <div class="double-bounce2"></div></div></div>
-       <div class="cmp-form-loader__content">
+  unsaveModal.innerHTML = `<div class="confirmation-modal">
+    <div class="form-loader">
+    <div class="form-loader-image exit"><div class="spinner"><div class="double-bounce1"></div> <div class="double-bounce2"></div></div></div>
+       <div class="form-loader-content">
           <div class="message">Are you sure you want to unsave this property?</div>
           <div class="confirmation-modal-buttons">
-             <section class="cmp-cta modal-cta mr-2"><a rel="noopener noreferrer" href="javascript:void(0)" tabindex="" class="btn btn-primary unsave-btn" role="button"><span class="cmp-cta__btn-text">
+             <section class="cta modal-cta mr-2"><a rel="noopener noreferrer" href="javascript:void(0)" tabindex="" class="btn btn-primary unsave-btn" role="button"><span class="cta-btn-text">
                 Unsave
                 </span></a>
              </section>
-             <section class="cmp-cta modal-cta cancel-button"><a rel="noopener noreferrer" href="javascript:void(0)" tabindex="" class="btn btn-secondary" role="button"><span class="cmp-cta__btn-text">
+             <section class="cta modal-cta cancel-button"><a rel="noopener noreferrer" href="javascript:void(0)" tabindex="" class="btn btn-secondary" role="button"><span class="cta-btn-text">
                 cancel
                 </span></a>
              </section>
@@ -28,7 +28,7 @@ export default async function decorate(block) {
        </div>
     </div>
  </div>
- <div class="cmp-confirmation-modal__overlay"></div>`;
+ <div class="confirmation-modal-overlay"></div>`;
   block.append(unsaveModal);
 
   const saveButtons = document.querySelectorAll('.saved-properties .button-property .icon-heartfilled');
@@ -37,7 +37,7 @@ export default async function decorate(block) {
       e.preventDefault();
       const listingTile = button.closest('.listing-tile');
       listingTile.classList.add('unsave');
-      const confirmationModal = block.querySelector('.cmp-confirmation-modal');
+      const confirmationModal = block.querySelector('.confirmation-modal');
       confirmationModal.classList.add('open');
       const $body = document.querySelector('body');
       $body.classList.add('modal-open');
@@ -51,7 +51,7 @@ export default async function decorate(block) {
     listingTile.forEach((tile) => {
       tile.classList.remove('unsave');
     });
-    const confirmationModal = block.querySelector('.cmp-confirmation-modal');
+    const confirmationModal = block.querySelector('.confirmation-modal');
     confirmationModal.classList.remove('open');
     const $body = document.querySelector('body');
     $body.classList.remove('modal-open');
@@ -68,7 +68,7 @@ export default async function decorate(block) {
     if (propertyId) {
       [propertyId] = propertyId.split('?');
     }
-    const confirmationModal = block.querySelector('.cmp-confirmation-modal');
+    const confirmationModal = block.querySelector('.confirmation-modal');
     const $body = document.querySelector('body');
     $body.classList.remove('modal-open');
     removeSavedProperty(contactKey, propertyId).then(() => {

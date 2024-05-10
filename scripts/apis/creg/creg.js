@@ -98,7 +98,7 @@ export function propertySearch(params) {
  */
 export function getSavedProperties(contactKey) {
   return new Promise((resolve) => {
-    //get current timestamp
+    // get current timestamp
     const timestamp = Date.now();
     const url = `${CREG_API_URL}/cregPropertySaveServlet?ContactKey=${contactKey}&_=${timestamp}`;
     fetch(url).then(async (resp) => {
@@ -108,7 +108,7 @@ export function getSavedProperties(contactKey) {
         resolve({});
       }
     });
-});
+  });
 }
 
 /**
@@ -119,15 +119,14 @@ export function getSavedProperties(contactKey) {
  */
 export function removeSavedProperty(contactKey, propertyId) {
   return new Promise((resolve) => {
-    console.log(propertyId);
     const url = `${CREG_API_URL}/cregPropertySaveServlet?notificationId=${propertyId}&ContactKey=${contactKey}`;
     fetch(url, {
-      method: 'DELETE'
+      method: 'DELETE',
     }).then(async (resp) => {
       if (resp.ok) {
-      resolve(await resp.json());
+        resolve(await resp.json());
       } else {
-      resolve({});
+        resolve({});
       }
     });
   });
@@ -150,14 +149,14 @@ export function saveProperty(property) {
     fetch(url, {
       method: 'POST',
       headers: {
-      'CSRF-Token': 'undefined'
+        'CSRF-Token': 'undefined',
       },
-      body: formData
+      body: formData,
     }).then(async (resp) => {
       if (resp.ok) {
-      resolve(await resp.json());
+        resolve(await resp.json());
       } else {
-      resolve({});
+        resolve({});
       }
     });
   });

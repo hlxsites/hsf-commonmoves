@@ -445,7 +445,7 @@ main .section.banner .default-content-wrapper {
 }
 
 .btn {
-  font-family: "Manrope";
+  font-family: var(--font-family-primary);
   font-weight: 400;
   letter-spacing: 1px;
   text-transform: uppercase;

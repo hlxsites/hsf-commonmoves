@@ -4,8 +4,8 @@ import SearchType, { searchTypeFor } from '../../scripts/apis/creg/SearchType.js
 import PropertyType from '../../scripts/apis/creg/PropertyType.js';
 import MapSearch from './map-search.js';
 import RadiusSearch from './radius-search.js';
-import { isLoggedIn, getUserDetails } from '../../../scripts/apis/user.js';
-import { getSavedProperties, saveProperty } from '../../../scripts/apis/creg/creg.js';
+import { getUserDetails } from '../../scripts/apis/user.js';
+import { getSavedProperties, saveProperty } from '../../scripts/apis/creg/creg.js';
 
 /* eslint-disable no-param-reassign */
 const buildListingTypes = (configEntry) => {

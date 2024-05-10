@@ -8,7 +8,7 @@
   display: none;
 }
 
-.saved-properties.block .cmp-confirmation-modal {
+.saved-properties.block .confirmation-modal {
   border: 0;
   display: none;
   background: #fff;
@@ -19,10 +19,9 @@
   top: auto;
   bottom: auto;
   min-height: 0;
-  padding: 20px 20px 30px 20px;
+  padding: 20px 20px 30px;
   height: auto;
   width: 100%;
-  max-width: -webkit-calc(100vw - 30px);
   max-width: calc(100vw - 30px);
 }
 
@@ -30,7 +29,7 @@ body.modal-open {
   overflow: hidden;
 }
 
-.saved-properties.block .cmp-confirmation-modal.open {
+.saved-properties.block .confirmation-modal.open {
   display: block;
   z-index: 1050;
   opacity: 1;
@@ -39,16 +38,16 @@ body.modal-open {
   transform: translate(-50%, -50%);
 }
 
-.saved-properties.block .cmp-form-loader {
+.saved-properties.block .form-loader {
   position: relative;
 }
 
-.saved-properties.block .cmp-form-loader__content {
+.saved-properties.block .form-loader-content {
   position: relative;
 }
 
-.saved-properties.block .cmp-confirmation-modal .message {
-  font-family: "Manrope";
+.saved-properties.block .confirmation-modal .message {
+  font-family: var(--font-family-primary);
   font-size: 22px;
   font-style: normal;
   font-weight: 400;
@@ -58,31 +57,27 @@ body.modal-open {
   text-align: center;
 }
 
-.saved-properties.block .cmp-confirmation-modal .cmp-cta {
+.saved-properties.block .confirmation-modal .cta {
   width: 165px;
 }
 
-.saved-properties.block .cmp-confirmation-modal .cmp-cta:first-child {
+.saved-properties.block .confirmation-modal .cta:first-child {
   margin-right: .5rem;
 }
 
 
-.saved-properties.block .cmp-confirmation-modal .confirmation-modal-buttons {
+.saved-properties.block .confirmation-modal .confirmation-modal-buttons {
   display: flex;
   margin-top: 10px;
   justify-content: center;
 }
 
-.saved-properties.block .cmp-confirmation-modal .confirmation-modal-buttons .modal-cta .btn {
+.saved-properties.block .confirmation-modal .confirmation-modal-buttons .modal-cta .btn {
   cursor: pointer;
   text-align: center;
 }
 
-.saved-properties.block .cmp-confirmation-modal.open+.cmp-confirmation-modal__overlay {
-  display: block;
-}
-
-.saved-properties.block .cmp-confirmation-modal__overlay {
+.saved-properties.block .confirmation-modal-overlay {
   background-color: #212529;
   width: 100%;
   height: 100%;
@@ -94,52 +89,51 @@ body.modal-open {
   left: 0;
 }
 
+.saved-properties.block .confirmation-modal.open+.confirmation-modal-overlay {
+  display: block;
+}
+
 .saved-properties.block .property-list-cards {
   height: unset;
 }
 
-.cmp-form-loader__image.exit {
+.form-loader-image.exit {
   opacity: 0;
   pointer-events: none;
 }
 
-.cmp-form-loader__image.exit.show {
+.form-loader-image.exit.show {
   opacity: 1;
   transition: all 1s ease-in;
   pointer-events: all;
 }
 
-.cmp-form-loader__image {
+.form-loader-image {
   position: absolute;
   height: 100%;
   width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
-  -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
   -ms-flex-pack: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #FFFFFF80;
   z-index: 2;
 }
 
-.cmp-form-loader .spinner {
+.form-loader .spinner {
   width: 40px;
   height: 40px;
   position: relative;
 }
 
-.cmp-form-loader .double-bounce1, .cmp-form-loader .double-bounce2 {
+.form-loader .double-bounce1, .form-loader .double-bounce2 {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: #670038;
+  background-color: var(--primary-color);
   opacity: .6;
   position: absolute;
   top: 0;
@@ -147,18 +141,17 @@ body.modal-open {
   animation: sk-bounce 2s infinite ease-in-out;
 }
 
-.cmp-form-loader .double-bounce2 {
-  -webkit-animation-delay: -1s;
+.form-loader .double-bounce2 {
   animation-delay: -1s;
 }
 
 @media screen and (min-width: 600px) {
-  .saved-properties.block .cmp-confirmation-modal {
+  .saved-properties.block .confirmation-modal {
     width: 500px;
     padding: 30px;
   }
 
-  .saved-properties.block .cmp-confirmation-modal .modal-cta .btn {
+  .saved-properties.block .confirmation-modal .modal-cta .btn {
     display: inline-block;
   }
 }
