@@ -129,12 +129,11 @@ export async function render(searchParams, parent) {
     parent.append(list);
     propertySearch(searchParams).then((results) => {
       if (results?.properties) {
-        const promises = results.properties.map((listing) => {
-          return new Promise((resolve) => {
-            list.append(createCard(listing));
-            resolve();
-          });
-        });
+        // eslint-disable-next-line no-shadow
+        const promises = results.properties.map((listing) => new Promise((resolve) => {
+          list.append(createCard(listing));
+          resolve();
+        }));
         Promise.all(promises).then(() => {
           decorateIcons(parent);
           resolve();
@@ -153,12 +152,11 @@ export async function renderSavedProperties(contactKey, parent) {
     parent.append(list);
     getSavedProperties(contactKey).then((results) => {
       if (results?.properties) {
-        const promises = results.properties.map((listing) => {
-          return new Promise((resolve) => {
-            list.append(createCard(listing));
-            resolve();
-          });
-        });
+        // eslint-disable-next-line no-shadow
+        const promises = results.properties.map((listing) => new Promise((resolve) => {
+          list.append(createCard(listing));
+          resolve();
+        }));
         Promise.all(promises).then(() => {
           decorateIcons(parent);
           resolve();

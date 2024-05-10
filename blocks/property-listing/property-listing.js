@@ -142,7 +142,7 @@ export default async function decorate(block) {
   if (!user) {
     return;
   }
-  const contactKey = user.contactKey;
+  const { contactKey } = user;
 
   getSavedProperties(contactKey).then((results) => {
     if (results?.properties) {
@@ -159,7 +159,7 @@ export default async function decorate(block) {
   saveButtons.forEach((button) => {
     button.addEventListener('click', (e) => {
       e.preventDefault();
-      let property = {};
+      const property = {};
       property.Name = button.closest('.listing-tile').querySelector('a').getAttribute('aria-label');
       property.ContactKey = contactKey;
       property.PropertyId = button.closest('.listing-tile').dataset.id;
@@ -175,9 +175,9 @@ export default async function decorate(block) {
       property.Notes = [];
       property.NotificationMethod = 'status_change';
       property.leadParam = 'CompanyKey%253DWI303%2526LeadBrand%253D11413101981000010000';
-      saveProperty(property).then((result) => {
-      const listingTile = button.closest('.listing-tile');
-      listingTile.classList.add('saved');
+      saveProperty(property).then(() => {
+        const listingTile = button.closest('.listing-tile');
+        listingTile.classList.add('saved');
       });
     });
   });
