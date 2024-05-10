@@ -98,6 +98,60 @@ body.modal-open {
   height: unset;
 }
 
+.cmp-form-loader__image.exit {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cmp-form-loader__image.exit.show {
+  opacity: 1;
+  transition: all 1s ease-in;
+  pointer-events: all;
+}
+
+.cmp-form-loader__image {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  z-index: 2;
+}
+
+.cmp-form-loader .spinner {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.cmp-form-loader .double-bounce1, .cmp-form-loader .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #670038;
+  opacity: .6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: sk-bounce 2s infinite ease-in-out;
+}
+
+.cmp-form-loader .double-bounce2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
 @media screen and (min-width: 600px) {
   .saved-properties.block .cmp-confirmation-modal {
     width: 500px;

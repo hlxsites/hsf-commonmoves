@@ -11,6 +11,7 @@ export default async function decorate(block) {
     const unsaveModal = document.createElement('div');
     unsaveModal.innerHTML = `<div class="cmp-confirmation-modal">
     <div class="cmp-form-loader">
+    <div class="cmp-form-loader__image exit"><div class="spinner"><div class="double-bounce1"></div> <div class="double-bounce2"></div></div></div>
        <div class="cmp-form-loader__content">
           <div class="message">Are you sure you want to unsave this property?</div>
           <div class="confirmation-modal-buttons">
@@ -55,10 +56,11 @@ export default async function decorate(block) {
         $body.classList.remove('modal-open');
     });
 
-    // click even on unsave button
     const unsaveButton = block.querySelector('.unsave-btn');
     unsaveButton.addEventListener('click', (e) => {
         e.preventDefault();
+        const spinner = block.querySelector('.exit');
+        spinner.classList.add('show');
         const listingToRemove = block.querySelector('.unsave');
         const listingLink = listingToRemove.querySelector('a');
         let propertyId = listingLink.getAttribute('href').split('/').pop();
@@ -66,11 +68,13 @@ export default async function decorate(block) {
             propertyId = propertyId.split('pid-')[1].split('?')[0];
         }
         const confirmationModal = block.querySelector('.cmp-confirmation-modal');
-        confirmationModal.classList.remove('open');
         const $body = document.querySelector('body');
         $body.classList.remove('modal-open');
-        removeSavedProperty(contactKey, propertyId).then(() =>
-            listingToRemove.remove()
+        removeSavedProperty(contactKey, propertyId).then(() =>{
+            spinner.classList.remove('show');
+            listingToRemove.remove();
+            confirmationModal.classList.remove('open');
+        }
         );
     });
 }
