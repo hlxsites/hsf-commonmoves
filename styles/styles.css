@@ -472,8 +472,6 @@ main .section.banner .default-content-wrapper {
   font-size: 16px;
 }
 
-
-
 .btn:not(:disabled, .disabled) {
   cursor: pointer;
 }
