@@ -678,7 +678,7 @@ function Aj(a) {
     luxury: !1,
     isCompanyListing: !1,
   } : f;
-  a = a.ƒ;
+  a = a.propertyProviders;
   // @todo prepare content for info window
   const cont = new Template().render({
     image: c,
