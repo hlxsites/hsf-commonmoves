@@ -3,17 +3,15 @@ import {
 } from '../../scripts/scripts.js';
 import buildSearch from './search/search.js';
 
-const decorateVideo = (link) => {
-  const { parentElement } = link;
+const decorateVideo = (parent, src) => {
   const video = document.createElement('video');
   video.classList.add('hero-video');
   video.loop = true;
   const source = document.createElement('source');
-  source.src = link.href;
+  source.src = src;
   source.type = 'video/mp4';
   video.appendChild(source);
-  parentElement.appendChild(video);
-  link.remove();
+  parent.appendChild(video);
   video.muted = true;
   video.play();
 };
@@ -53,8 +51,11 @@ export default async function decorate(block) {
   const videoLink = videoWrapper?.firstElementChild;
   // transform link into a video tag
   if (videoLink) {
+    const parent = videoLink.parentElement;
+    const videoHref = videoLink.href;
+    videoLink.remove();
     setTimeout(() => {
-      decorateVideo(videoLink);
+      decorateVideo(parent, videoHref);
     }, 3000);
   }
 
