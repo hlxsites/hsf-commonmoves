@@ -6,7 +6,7 @@ import buildSearch from './search/search.js';
 const decorateVideo = (link) => {
   const { parentElement } = link;
   const video = document.createElement('video');
-  video.classList.add('hero-video', 'hide');
+  video.classList.add('hero-video');
   video.loop = true;
   const source = document.createElement('source');
   source.src = link.href;
@@ -14,11 +14,8 @@ const decorateVideo = (link) => {
   video.appendChild(source);
   parentElement.appendChild(video);
   link.remove();
-  setTimeout(() => {
-    video.classList.remove('hide');
-    video.muted = true;
-    video.play();
-  }, 500);
+  video.muted = true;
+  video.play();
 };
 
 async function getPictures(block) {
@@ -55,7 +52,11 @@ export default async function decorate(block) {
   videoWrapper.classList.add('video-wrapper');
   const videoLink = videoWrapper?.firstElementChild;
   // transform link into a video tag
-  if (videoLink) decorateVideo(videoLink);
+  if (videoLink) {
+    setTimeout(() => {
+      decorateVideo(videoLink);
+    }, 3000);
+  }
 
   const pictures = await getPictures(block);
   preloadHeroImage(pictures[0]);
