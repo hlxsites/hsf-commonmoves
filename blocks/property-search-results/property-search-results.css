@@ -446,6 +446,7 @@ main .section.property-search-results-container {
 
   .property-search-results.block .search-map-wrapper {
     grid-area: map;
+    overflow: scroll;
   }
 
   .property-search-results.block .search-results-content {
