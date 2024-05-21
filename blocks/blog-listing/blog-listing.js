@@ -2,9 +2,6 @@ import {
   readBlockConfig,
 } from '../../scripts/aem.js';
 
-const urlParams = new URLSearchParams(window.location.search);
-export const API_HOST = urlParams.get('env') === 'stage' ? 'https://ignite-staging.bhhs.com' : 'https://www.bhhs.com';
-
 const DEFAULT_SCROLL_INTERVAL_MS = 6000;
 const DEFAULT_DESCRIPTION_LENGTH = 141;
 const category = window.location.pathname.split('/').filter(Boolean)[1] ?? '';
@@ -18,9 +15,9 @@ let scrollInterval;
 function buildApiPath(offset, count) {
   let url;
   if (category === '') {
-    url = `${API_HOST}/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
+    url = `/bin/bhhs/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
   } else {
-    url = `${API_HOST}/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${category}.offset_${offset}.count_${count}.json`;
+    url = `/bin/bhhs/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${category}.offset_${offset}.count_${count}.json`;
   }
   return url;
 }
@@ -50,7 +47,7 @@ function trimDescription(description) {
 }
 
 function buildImageUrl(path) {
-  return new URL(`${API_HOST}${path}`).href;
+  return new URL(`/bin/bhhs${path}`).href;
 }
 
 function prepareBlogArticleUrl(link) {
