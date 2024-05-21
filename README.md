@@ -35,7 +35,7 @@ There are numerous APIs that this site relies on, including but not limited to:
 * Agent (details, search)
 * Suggestions 
 
-All of these APIs are hosted AMS system. To make use of them locally, a local proxy is needed.
+All of these APIs are hosted on an AMS system. To make use of them locally, a proxy is needed.
 
 There are two ways to set up the local proxy:
 
@@ -46,10 +46,10 @@ There are two ways to set up the local proxy:
 
 Either way, you need to download and install a local proxy. These instructions use [Proxyman](https://proxyman.io/download). Once you download and install Proxyman, you will need to also install the Proxyman CA certs. These are needed to be able to route the secure traffic.
 
+
 #### Real Domain Proxy
 
 In this setup, the proxy is configured to route non-API traffic on the Staging domain to your local computer. So all requests _except_ the APIs will go the local host. The API calls will remain routed to the Stage domain.
-
 
 1. Create a new Allow List entry:
     * _Tools_ => _Allow List_
