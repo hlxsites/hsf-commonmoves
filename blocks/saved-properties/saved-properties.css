@@ -1,6 +1,6 @@
 @import url('../../blocks/property-listing/property-listing.css');
 
-.saved-properties.block .property-list-cards .property-details .property-buttons .button-property .icon-heartfilled {
+.saved-properties.block .property-list-cards .property-details .property-buttons .button-property .icon-heartfull {
   display: block;
 }
 
@@ -75,6 +75,13 @@ body.modal-open {
 .saved-properties.block .confirmation-modal .confirmation-modal-buttons .modal-cta .btn {
   cursor: pointer;
   text-align: center;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.saved-properties.block .confirmation-modal .confirmation-modal-buttons .modal-cta .btn span{
+  font-size: 16px;
+  font-weight: 700;
 }
 
 .saved-properties.block .confirmation-modal-overlay {

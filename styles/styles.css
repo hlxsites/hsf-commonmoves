@@ -173,6 +173,7 @@ p, span, input {
   font-weight: var(--font-weight-normal);
   letter-spacing: var(--letter-spacing-reg);
   line-height: var(--line-height-m);
+  color: var(--body-color);
 }
 
 p {
@@ -460,9 +461,24 @@ main .section.banner .default-content-wrapper {
 
 .btn.btn-primary{
   background: #670038;
-  color: #f5f1f2;
   border: 0;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn.btn-primary span{
+  color: #f5f1f2;
   font-size: 16px;
+}
+
+.btn.btn-primary:hover{
+  background-color: #670038;
+    border: 0;
+    box-shadow: none;
+}
+
+.btn.btn-primary:hover span{
+  color: #c299af;
 }
 
 .btn.btn-secondary{
@@ -470,6 +486,16 @@ main .section.banner .default-content-wrapper {
   color: #670038;
   border: 1px solid #670038;
   font-size: 16px;
+}
+
+.btn.btn-secondary:hover{
+  background-color: #670038;
+  border: 1px solid #670038;
+  box-shadow: none;
+}
+
+.btn.btn-secondary:hover span{
+  color: #c299af;
 }
 
 .btn:not(:disabled, .disabled) {
@@ -545,7 +571,6 @@ form button[type="submit"]:hover {
   .section .block.hide-on-mobile {
     display: none;
   }
-
 }
 
 @media screen and (min-width: 600px) {
