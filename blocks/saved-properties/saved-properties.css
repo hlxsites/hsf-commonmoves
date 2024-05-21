@@ -11,7 +11,7 @@
 .saved-properties.block .confirmation-modal {
   border: 0;
   display: none;
-  background: #fff;
+  background: var(--white);
   position: fixed;
   z-index: 1050;
   right: auto;
@@ -50,10 +50,10 @@ body.modal-open {
   font-family: var(--font-family-primary);
   font-size: 22px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   letter-spacing: normal;
   line-height: 140%;
-  color: #3a3a3a;
+  color: var(--body-color);
   text-align: center;
 }
 
@@ -75,17 +75,15 @@ body.modal-open {
 .saved-properties.block .confirmation-modal .confirmation-modal-buttons .modal-cta .btn {
   cursor: pointer;
   text-align: center;
-  font-size: 16px;
-  font-weight: 700;
 }
 
 .saved-properties.block .confirmation-modal .confirmation-modal-buttons .modal-cta .btn span{
-  font-size: 16px;
-  font-weight: 700;
+  font-size: var(--body-font-size-s);
+  font-weight: var(--font-weight-bold);
 }
 
 .saved-properties.block .confirmation-modal-overlay {
-  background-color: #212529;
+  background-color: var(--very-dark-blue);
   width: 100%;
   height: 100%;
   position: fixed;
@@ -104,39 +102,35 @@ body.modal-open {
   height: unset;
 }
 
-.form-loader-image.exit {
+.saved-properties.block .form-loader-image.exit {
   opacity: 0;
   pointer-events: none;
 }
 
-.form-loader-image.exit.show {
+.saved-properties.block .form-loader-image.exit.show {
   opacity: 1;
   transition: all 1s ease-in;
   pointer-events: all;
 }
 
-.form-loader-image {
+.saved-properties.block .form-loader-image {
   position: absolute;
   height: 100%;
   width: 100%;
   display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  background-color: #FFFFFF80;
+  background-color: var(--semi-transparent-white);
   z-index: 2;
 }
 
-.form-loader .spinner {
+.saved-properties.block .form-loader .spinner {
   width: 40px;
   height: 40px;
   position: relative;
 }
 
-.form-loader .double-bounce1, .form-loader .double-bounce2 {
+.saved-properties.block .form-loader .double-bounce1, .form-loader .double-bounce2 {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -148,7 +142,7 @@ body.modal-open {
   animation: sk-bounce 2s infinite ease-in-out;
 }
 
-.form-loader .double-bounce2 {
+.saved-properties.block .form-loader .double-bounce2 {
   animation-delay: -1s;
 }
 

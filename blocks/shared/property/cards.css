@@ -278,6 +278,10 @@
   display: block;
 }
 
+.property-list-cards .listing-tile.saved .property-details .property-buttons .save-btn:hover .icon-heartfull {
+  display: block;
+}
+
 .property-list-cards .listing-tile.saved .property-details .property-buttons .icon-heartempty {
   display: none;
 }

@@ -95,7 +95,7 @@ export function createCard(listing) {
               <img data-icon-name="envelopedark" src="/icons/envelopedark.svg" loading="lazy" alt="envelope">
             </span>
           </a> 
-          <a aria-label="Save ${listing.StreetName} to saved properties." href="#" class="button-property"> 
+          <a aria-label="Save ${listing.StreetName} to saved properties." href="#" class="button-property save-btn"> 
             <span class="icon icon-heartempty">
               <img data-icon-name="heartempty" src="/icons/heartempty.svg" loading="lazy" alt="heart">
             </span>

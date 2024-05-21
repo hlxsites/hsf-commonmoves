@@ -40,6 +40,8 @@
   --error: #d3636a;
   --error-highlight: #f9e1e2;
   --input-placeholder: #7f7a7a;
+  --very-dark-blue: #212529;
+  --semi-transparent-white: #FFFFFF80;
 
 
   /* Blog Colors (only?) */
@@ -447,20 +449,20 @@ main .section.banner .default-content-wrapper {
 
 .btn {
   font-family: var(--font-family-primary);
-  font-weight: 400;
+  font-weight: var(--font-weight-normal);
   letter-spacing: 1px;
   text-transform: uppercase;
   text-decoration: none;
   white-space: normal;
   padding: 7px 25px;
-  font-size: 14px;
+  font-size: var(--body-font-size-xs);
   line-height: 1.5;
   border-radius: 0;
   width: 100%;
 }
 
 .btn.btn-primary{
-  background: #670038;
+  background: var(--primary-color);
   border: 0;
   cursor: pointer;
   text-align: center;
@@ -472,30 +474,30 @@ main .section.banner .default-content-wrapper {
 }
 
 .btn.btn-primary:hover{
-  background-color: #670038;
+  background-color: var(--primary-color);
     border: 0;
     box-shadow: none;
 }
 
 .btn.btn-primary:hover span{
-  color: #c299af;
+  color: var(--primary-light);
 }
 
 .btn.btn-secondary{
   background: #fff;
-  color: #670038;
-  border: 1px solid #670038;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
   font-size: 16px;
 }
 
 .btn.btn-secondary:hover{
-  background-color: #670038;
-  border: 1px solid #670038;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color);
   box-shadow: none;
 }
 
 .btn.btn-secondary:hover span{
-  color: #c299af;
+  color: var(--primary-light);
 }
 
 .btn:not(:disabled, .disabled) {
