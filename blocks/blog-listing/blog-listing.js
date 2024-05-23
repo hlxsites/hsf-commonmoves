@@ -15,9 +15,9 @@ let scrollInterval;
 function buildApiPath(offset, count) {
   let url;
   if (category === '') {
-    url = `/bin/bhhs/content/bhhs-franchisee/ma312/en/us/blog/jcr:content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
+    url = `/content/bhhs-franchisee/ma312/en/us/blog/_jcr_content/root/blog_home.blogs.offset_${offset}.count_${count}.json`;
   } else {
-    url = `/bin/bhhs/content/bhhs-franchisee/ma312/en/us/blog/blog-category/jcr:content/root/blog_category.blogCategory.category_${category}.offset_${offset}.count_${count}.json`;
+    url = `/content/bhhs-franchisee/ma312/en/us/blog/blog-category/_jcr_content/root/blog_category.blogCategory.category_${category}.offset_${offset}.count_${count}.json`;
   }
   return url;
 }
@@ -46,10 +46,6 @@ function trimDescription(description) {
   return `${trimmedDescription.substring(0, DEFAULT_DESCRIPTION_LENGTH)}...`;
 }
 
-function buildImageUrl(path) {
-  return new URL(`/bin/bhhs${path}`).href;
-}
-
 function prepareBlogArticleUrl(link) {
   return link.replace(/\.html$/, '');
 }
@@ -69,9 +65,9 @@ function buildBlogItem(block, data, addClass = false) {
   blogContainer.innerHTML = `
     <div class="image-content">
       <picture>
-        <source media="(max-width:767px)" srcset="${buildImageUrl(mobileImage)}">
-        <source media="(min-width:768px) and (max-width:1279px)" srcset="${buildImageUrl(tabletImage)}">
-        <img src="${buildImageUrl(image)}" class="image" aria-label="${title}" alt="${title}">
+        <source media="(max-width:767px)" srcset="${mobileImage}">
+        <source media="(min-width:768px) and (max-width:1279px)" srcset="${tabletImage}">
+        <img src="${image}" class="image" aria-label="${title}" alt="${title}">
       </picture>
     </div>
     <div class="blog-content">

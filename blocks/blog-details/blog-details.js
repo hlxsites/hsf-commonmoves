@@ -5,11 +5,11 @@ function getBlogDetailsPath() {
 }
 
 function buildApiPath() {
-  return `/bin/bhhs/blog/blog-detail/jcr:content/${getBlogDetailsPath()}.json`;
+  return `/blog/blog-detail/jcr:content/${getBlogDetailsPath()}.json`;
 }
 
 function buildImageUrl(path) {
-  return `/bin/bhhs${path}`;
+  return `${path}`;
 }
 
 /**

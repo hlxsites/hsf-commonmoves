@@ -62,7 +62,7 @@ In this setup, the proxy is configured to route non-API traffic on the Staging d
    * _Tools_ => _Map Remote_
    * Matching Rule:
      * Name: `BHHS API`
-     * Rule: `https://stage.commonmoves.com(?!/bin).*`
+     * Rule: `https://stage.commonmoves.com(?!(/bin|/content)).*`
      * Any, Use Regex
      * Include all subpaths of this URL: Checked
    * Map To: 
@@ -100,7 +100,7 @@ $ openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout localhost.
     * _Tools_ => _Map Remote_
    * Matching Rule
      * Name: *BHHS API*
-     * Rule: `https://proxyman.debug:\d+/bin/bhhs.*`
+     * Rule: `https://proxyman.debug:\d+(/bin|/content).*`
      * Any, Use Regex
      * Include all subpaths of this URL: checked
    * Map To
