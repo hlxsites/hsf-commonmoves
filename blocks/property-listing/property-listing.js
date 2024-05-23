@@ -28,6 +28,11 @@ export default async function decorate(block) {
   } else {
     block.innerHTML = '';
   }
+  const user = await getUserDetails();
+  if (!user) {
+    return;
+  }
+  const { contactKey } = user;
 
   const search = await Search.fromBlockConfig(config);
   search.franchiseeCode = getMetadata('office-id');
@@ -36,22 +41,15 @@ export default async function decorate(block) {
   block.append(list);
   propertySearch(search).then((results) => {
     renderCards(list, results.properties);
-  });
-
-  const user = await getUserDetails();
-  if (!user) {
-    return;
-  }
-  const { contactKey } = user;
-
-  getSavedProperties(contactKey).then((results) => {
-    if (results?.properties) {
-      results.properties.forEach((listing) => {
-        const card = block.querySelector(`[data-id="${listing.PropId}"]`);
-        if (card) {
-          card.classList.add('saved');
-        }
-      });
-    }
+    getSavedProperties(contactKey).then((savedProps) => {
+      if (savedProps?.properties) {
+        savedProps.properties.forEach((listing) => {
+          const card = block.querySelector(`[data-id="${listing.PropId}"]`);
+          if (card) {
+            card.classList.add('saved');
+          }
+        });
+      }
+    });
   });
 }
