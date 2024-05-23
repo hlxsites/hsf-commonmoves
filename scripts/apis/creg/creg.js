@@ -73,7 +73,6 @@ export async function getEconomicDetails(lat, long) {
     const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/economic.js`, { type: 'module' });
     worker.onmessage = (e) => resolve(e.data);
     worker.postMessage({
-      api: CREG_API_URL,
       lat,
       long,
     });
