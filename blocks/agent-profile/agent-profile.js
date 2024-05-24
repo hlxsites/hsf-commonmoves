@@ -1,20 +1,20 @@
-import { getMetadata } from '../../scripts/aem.js';
+import { decorateIcons, getMetadata } from '../../scripts/aem.js';
 import {
-  a, div, h1, ul, li, img,
+  a, div, h1, ul, li, img, span,
 } from '../../scripts/dom-helpers.js';
 
 const getPhoneDiv = () => {
   let phoneDiv;
   let phoneUl;
 
-  if (getMetadata('agent-direct-phone')) {
+  if (getMetadata('direct-phone')) {
     phoneUl = ul({});
-    phoneUl.append(li({}, 'Direct: ', getMetadata('agent-direct-phone')));
+    phoneUl.append(li({}, 'Direct: ', getMetadata('direct-phone')));
   }
 
-  if (getMetadata('agent-office-phone')) {
+  if (getMetadata('office-phone')) {
     phoneUl = phoneUl || ul({});
-    phoneUl.append(li({}, 'Office: ', getMetadata('agent-office-phone')));
+    phoneUl.append(li({}, 'Office: ', getMetadata('office-phone')));
   }
 
   if (phoneUl) {
@@ -28,10 +28,11 @@ const getPhoneDiv = () => {
 
 const getWebsiteDiv = () => {
   let websiteDiv;
-  const websiteUrl = getMetadata('agent-website');
+  const websiteUrl = getMetadata('website');
 
   if (websiteUrl) {
-    const anchor = a({ href: websiteUrl, class: 'button', title: 'my website' }, 'my website');
+    const text = 'my website';
+    const anchor = a({ href: websiteUrl, title: text, 'aria-label': text }, text);
     websiteDiv = div({ class: 'website' }, anchor);
   }
 
@@ -40,10 +41,10 @@ const getWebsiteDiv = () => {
 
 const getEmailDiv = () => {
   let emailDiv;
-  const agentEmail = getMetadata('agent-email');
+  const agentEmail = getMetadata('email');
 
   if (agentEmail) {
-    const anchor = a({ href: `mailto:${agentEmail}`, class: 'button', title: agentEmail }, agentEmail);
+    const anchor = a({ href: `mailto:${agentEmail}`, title: agentEmail, 'aria-label': agentEmail }, agentEmail);
     emailDiv = div({ class: 'email' }, anchor);
   }
 
@@ -51,17 +52,44 @@ const getEmailDiv = () => {
 };
 
 const getImageDiv = () => {
-  const agentPhoto = getMetadata('agent-photo');
+  const agentPhoto = getMetadata('photo');
   return div({ class: 'profile-image' }, img({ src: agentPhoto }));
+};
+
+const getSocialDiv = () => {
+  const socialDiv = div({ class: 'social' });
+  let socialUl;
+
+  ['facebook', 'instagram', 'linkedin'].forEach((x) => {
+    const url = getMetadata(x);
+    socialUl = socialUl || ul({});
+    if (url) {
+      const socialLi = li({}, a({
+        href: url, class: x, title: x, 'aria-label': x,
+      }, span({ class: `icon icon-${x}` })));
+      socialUl.append(socialLi);
+    }
+  });
+
+  if (socialUl) {
+    socialDiv.append(socialUl);
+    return socialDiv;
+  }
+
+  return null;
 };
 
 export default async function decorate(block) {
   const profileImage = getImageDiv();
   const profileContent = div({ class: 'profile-content' },
-    div({ class: 'name' }, h1({}, getMetadata('agent-name'))),
-    div({ class: 'designation' }, getMetadata('agent-designation')),
-    div({ class: 'license-number' }, getMetadata('agent-license-number')),
+    div({ class: 'name' }, h1({}, getMetadata('name'))),
+    div({ class: 'designation' }, getMetadata('designation')),
   );
+
+  const licenseNumber = getMetadata('license-number');
+  if (licenseNumber) {
+    profileContent.append(div({ class: 'license-number' }, `LIC# ${licenseNumber}`));
+  }
 
   const emailDiv = getEmailDiv();
   if (emailDiv) {
@@ -78,6 +106,14 @@ export default async function decorate(block) {
     profileContent.append(phoneDiv);
   }
 
-  profileContent.append(div({ class: 'contact-me' }, a({ href: '#', class: 'button' }, 'Contact Me')));
+  const contactMeText = 'Contact Me';
+  profileContent.append(div({ class: 'contact-me' },
+    a({ href: '#', title: contactMeText, 'aria-label': contactMeText }, contactMeText)));
+
+  const socialDiv = getSocialDiv();
+  if (socialDiv) {
+    profileContent.append(socialDiv);
+  }
+  decorateIcons(profileContent);
   block.replaceChildren(profileImage, profileContent);
 }

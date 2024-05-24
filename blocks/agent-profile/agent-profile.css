@@ -1,80 +1,86 @@
-.agent-profile {
+.agent-profile.block {
   display: flex;
   padding: 0 1rem;
 }
 
-.agent-profile .profile-image img {
+.agent-profile.block .profile-image img {
   width: 9.375rem;
   height: 11.875rem;
 }
 
-.agent-profile .profile-content .contact-me {
+.agent-profile.block .profile-content .contact-me {
     margin-top: 1.5rem;
 }
 
-.agent-profile .profile-content {
+.agent-profile.block .profile-content {
   padding-left: 1.5rem;
   font-size: var(--body-font-size-s);
 }
 
-.agent-profile .profile-content .name {
+.agent-profile.block .profile-content .name {
   font-size: var(--body-font-size-xl);
   line-height: var(--line-height-m);
   margin-bottom: 0.5rem;
 }
 
-.agent-profile .profile-content .designation,
-.agent-profile .profile-content .license-number {
+.agent-profile.block .profile-content .designation,
+.agent-profile.block .profile-content .license-number {
   font-size: var(--body-font-size-xs);
   text-transform: uppercase;
   margin-bottom: 0.25rem;
 }
 
-.agent-profile .profile-content .social>a {
-  margin-right: 1rem;
+.agent-profile.block .profile-content .social ul {
+  display: flex;
+  margin-top: 1rem;
+  opacity: .5;
 }
 
-.agent-profile .profile-content .email a,
-.agent-profile .profile-content .website a {
+.agent-profile.block .profile-content .social li {
+  margin-right: 0.5rem;
+}
+
+.agent-profile.block .profile-content .email a,
+.agent-profile.block .profile-content .website a {
   font-size: var(--body-font-size-xs);
   color: var(--black);
   text-transform: lowercase;
 }
 
-.agent-profile .profile-content .contact-me a {
+.agent-profile.block .profile-content .contact-me a {
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
   font-weight: var(--font-weight-bold);
-  letter-spacing: 1.6px;
+  letter-spacing: var(--letter-spacing-m);
   text-transform: uppercase;
   padding: 0.5rem 1rem;
   text-decoration: none;
 }
 
-.agent-profile .profile-content .contact-me a:hover {
+.agent-profile.block .profile-content .contact-me a:hover {
   color: var(--primary-light);
   background-color: var(--primary-color);
 }
 
-.agent-profile .profile-content .website,
-.agent-profile .profile-content .email {
+.agent-profile.block .profile-content .website,
+.agent-profile.block .profile-content .email {
   margin-bottom: 0.25rem;
 }
 
-.agent-profile .profile-content .phone {
+.agent-profile.block .profile-content .phone {
   font-size: var(--body-font-size-xs);
 }
 
-.agent-profile .profile-content .phone li {
+.agent-profile.block .profile-content .phone li {
   margin-bottom: 0.25rem;
 }
 
 @media (min-width: 1200px) {
-  .agent-profile-container {
+  main .section.agent-profile-container {
     position: relative;
   }
 
-  .agent-profile-wrapper {
+  main .section.agent-profile-container .agent-profile-wrapper {
     position: absolute;
     display: flex;
     left: auto;
@@ -87,28 +93,37 @@
     background-color: var(--white);
   }
 
-  .agent-profile {
+  .agent-profile.block {
     position: relative;
-    line-height: var(--line-height-m);
+    line-height: var(--line-height-s);
   }
 
-  .agent-profile .profile-image img {
+  .agent-profile.block .profile-image img {
     width: 13.125rem;
     height: 15.625rem;
   }
 
-  .agent-profile .profile-content .phone {
+  .agent-profile.block .profile-content .phone {
     font-size: var(--body-font-size-s);
     margin-top: 2px;
     line-height: var(--line-height-m);
   }
 
-  .agent-profile .profile-content .email a,
-  .agent-profile .profile-content .website a {
+  .agent-profile.block .profile-content .email a,
+  .agent-profile.block .profile-content .website a {
     font-size: var(--body-font-size-xs);
   }
 
-  .agent-profile .profile-content {
+  .agent-profile.block .profile-content {
     padding-left: 1.875rem;
+  }
+
+  .agent-profile.block .profile-content .designation,
+  .agent-profile.block .profile-content .license-number {
+    margin-bottom: unset;
+  }
+
+  .agent-profile.block .profile-content .phone li {
+    margin-bottom: unset;
   }
 }
