@@ -53,7 +53,7 @@ const getEmailDiv = () => {
 
 const getImageDiv = () => {
   const agentPhoto = getMetadata('photo');
-  return div({ class: 'profile-image' }, img({ src: agentPhoto }));
+  return div({ class: 'profile-image' }, img({ src: agentPhoto, alt: getMetadata('name'), loading: 'lazy' }));
 };
 
 const getSocialDiv = () => {

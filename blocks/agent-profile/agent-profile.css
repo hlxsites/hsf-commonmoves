@@ -3,13 +3,18 @@
   padding: 0 1rem;
 }
 
+main .section.agent-profile-container .agent-profile-wrapper {
+  word-break: break-word;
+}
+
 .agent-profile.block .profile-image img {
   width: 9.375rem;
   height: 11.875rem;
 }
 
 .agent-profile.block .profile-content .contact-me {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
+  display: none;
 }
 
 .agent-profile.block .profile-content {
@@ -45,6 +50,7 @@
   font-size: var(--body-font-size-xs);
   color: var(--black);
   text-transform: lowercase;
+  word-wrap: break-word;
 }
 
 .agent-profile.block .profile-content .contact-me a {
@@ -75,6 +81,12 @@
   margin-bottom: 0.25rem;
 }
 
+@media (min-width: 600px) {
+  .agent-profile.block .profile-content .contact-me {
+    display: block;
+  }
+}
+
 @media (min-width: 1200px) {
   main .section.agent-profile-container {
     position: relative;
@@ -89,7 +101,6 @@
     bottom: 4.625rem;
     padding: 1.875rem 1.875rem 0;
     z-index: 1;
-    word-break: break-word;
     background-color: var(--white);
   }
 
