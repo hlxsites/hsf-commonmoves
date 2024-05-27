@@ -80,8 +80,6 @@ export default async function decorate(block) {
 
   const tableElement = table({}, thead({}, theadTr), trBody);
   const heading1 = h1({}, 'Closed Transactions');
-  block.append(heading1);
-  block.append(tableElement);
   const anchor = a({ class: 'show-more' });
   anchor.addEventListener('click', () => {
     if (anchor.classList.contains('show-more')) {
@@ -103,5 +101,5 @@ export default async function decorate(block) {
     }
   });
 
-  block.append(anchor);
+  block.replaceChildren(heading1, tableElement, anchor);
 }
