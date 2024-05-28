@@ -3,10 +3,6 @@
 // TODO: Use Sidekick Plugin for this
 import { getMetadata } from '../../aem.js';
 
-const urlParams = new URLSearchParams(window.location.search);
-export const DOMAIN = urlParams.get('env') === 'stage' ? 'ignite-staging.bhhs.com' : 'www.bhhs.com';
-const CREG_API_URL = `https://${DOMAIN}/bin/bhhs`;
-
 /**
  * @typedef {Object} SearchResults
  * @property {Array<Object>} properties
@@ -27,7 +23,6 @@ export async function propertySearch(search) {
     const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/properties.js`, { type: 'module' });
     worker.onmessage = (e) => resolve(e.data);
     worker.postMessage({
-      api: CREG_API_URL,
       search,
     });
   });
@@ -44,7 +39,6 @@ export async function metadataSearch(search) {
     const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/metadata.js`, { type: 'module' });
     worker.onmessage = (e) => resolve(e.data);
     worker.postMessage({
-      api: CREG_API_URL,
       search,
     });
   });
@@ -61,9 +55,26 @@ export async function getDetails(...listingIds) {
     const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/listing.js`, { type: 'module' });
     worker.onmessage = (e) => resolve(e.data);
     worker.postMessage({
-      api: CREG_API_URL,
       ids: listingIds,
       officeId,
+    });
+  });
+}
+
+/**
+ * Gets the economic details for the specified listing.
+ *
+ * @param {string} lat latitude
+ * @param {string} long longitude
+ * @return {Promise<Object>} resolving the economic details
+ */
+export async function getEconomicDetails(lat, long) {
+  return new Promise((resolve) => {
+    const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/economic.js`, { type: 'module' });
+    worker.onmessage = (e) => resolve(e.data);
+    worker.postMessage({
+      lat,
+      long,
     });
   });
 }
