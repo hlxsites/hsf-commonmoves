@@ -461,42 +461,42 @@ main .section.banner .default-content-wrapper {
   width: 100%;
 }
 
-.btn.btn-primary{
+.btn.button-primary{
   background: var(--primary-color);
   border: 0;
   cursor: pointer;
   text-align: center;
 }
 
-.btn.btn-primary span{
+.btn.button-primary span{
   color: #f5f1f2;
   font-size: 16px;
 }
 
-.btn.btn-primary:hover{
+.btn.button-primary:hover{
   background-color: var(--primary-color);
     border: 0;
     box-shadow: none;
 }
 
-.btn.btn-primary:hover span{
+.btn.button-primary:hover span{
   color: var(--primary-light);
 }
 
-.btn.btn-secondary{
+.btn.button-secondary{
   background: #fff;
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
   font-size: 16px;
 }
 
-.btn.btn-secondary:hover{
+.btn.button-secondary:hover{
   background-color: var(--primary-color);
   border: 1px solid var(--primary-color);
   box-shadow: none;
 }
 
-.btn.btn-secondary:hover span{
+.btn.button-secondary:hover span{
   color: var(--primary-light);
 }
 

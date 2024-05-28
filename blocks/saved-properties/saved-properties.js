@@ -64,11 +64,11 @@ export default async function decorate(block) {
        <div class="form-loader-content">
           <div class="message">Are you sure you want to unsave this property?</div>
           <div class="confirmation-modal-buttons">
-             <section class="cta modal-cta mr-2"><a rel="noopener noreferrer" href="javascript:void(0)" tabindex="" class="btn btn-primary unsave-btn" role="button"><span class="cta-btn-text">
+             <section class="cta modal-cta mr-2"><a rel="noopener noreferrer" href="javascript:void(0)" tabindex="" class="btn button-primary unsave-btn" role="button"><span class="cta-btn-text">
                 Unsave
                 </span></a>
              </section>
-             <section class="cta modal-cta cancel-button"><a rel="noopener noreferrer" href="javascript:void(0)" tabindex="" class="btn btn-secondary" role="button"><span class="cta-btn-text">
+             <section class="cta modal-cta cancel-button"><a rel="noopener noreferrer" href="javascript:void(0)" tabindex="" class="btn button-secondary" role="button"><span class="cta-btn-text">
                 cancel
                 </span></a>
              </section>
