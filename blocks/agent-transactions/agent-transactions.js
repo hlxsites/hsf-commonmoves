@@ -8,7 +8,7 @@ const getClosedTransactions = async () => {
   const formattedData = [];
 
   try {
-    const response = await fetch(`https://www.commonmoves.com/bin/bhhs/agentPropertyListingsServlet.${agentId}.json`);
+    const response = await fetch(`/bin/bhhs/agentPropertyListingsServlet.${agentId}.json`);
     const data = await response.json();
 
     if (data && data?.closedTransactions?.properties?.length) {
