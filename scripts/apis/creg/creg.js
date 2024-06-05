@@ -3,6 +3,8 @@
 // TODO: Use Sidekick Plugin for this
 import { getMetadata } from '../../aem.js';
 
+const CREG_PROPERY_SAVE_API_URL = '/bin/bhhs/cregPropertySaveServlet';
+
 /**
  * @typedef {Object} SearchResults
  * @property {Array<Object>} properties
@@ -70,7 +72,7 @@ export function getSavedProperties(contactKey) {
   return new Promise((resolve) => {
     // get current timestamp
     const timestamp = Date.now();
-    const url = `${CREG_API_URL}/cregPropertySaveServlet?ContactKey=${contactKey}&_=${timestamp}`;
+    const url = `${CREG_PROPERY_SAVE_API_URL}?ContactKey=${contactKey}&_=${timestamp}`;
     fetch(url).then(async (resp) => {
       if (resp.ok) {
         resolve(await resp.json());
@@ -89,7 +91,7 @@ export function getSavedProperties(contactKey) {
  */
 export function removeSavedProperty(contactKey, propertyId) {
   return new Promise((resolve) => {
-    const url = `${CREG_API_URL}/cregPropertySaveServlet?notificationId=${propertyId}&ContactKey=${contactKey}`;
+    const url = `${CREG_PROPERY_SAVE_API_URL}?notificationId=${propertyId}&ContactKey=${contactKey}`;
     fetch(url, {
       method: 'DELETE',
     }).then(async (resp) => {
@@ -115,7 +117,7 @@ export function saveProperty(property) {
     Object.keys(property).forEach((key) => {
       formData.append(key, encodeURIComponent(property[key]));
     });
-    const url = `${CREG_API_URL}/cregPropertySaveServlet`;
+    const url = `${CREG_PROPERY_SAVE_API_URL}`;
     fetch(url, {
       method: 'POST',
       headers: {
