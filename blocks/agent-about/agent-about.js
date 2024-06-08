@@ -48,7 +48,7 @@ export default function decorate(block) {
           child.children[1].classList.add('hide');
           child.append(div({ class: `${name}-truncate` },
             `${child.children[1].textContent.substring(0, threshold)}...`));
-          const anchor = a({ class: 'view-more' });
+          const anchor = a({ class: 'view-more', href: '#' });
           child.append(anchor);
           viewMoreOnClick(name, anchor, block);
         }
@@ -68,7 +68,7 @@ export default function decorate(block) {
             });
 
           child.append(div({ class: `${name}-truncate` }, tempUl));
-          const anchor = a({ class: 'view-more' });
+          const anchor = a({ class: 'view-more', href: '#' });
           child.append(anchor);
           viewMoreOnClick(name, anchor, block);
         }

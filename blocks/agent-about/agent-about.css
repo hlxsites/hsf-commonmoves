@@ -7,10 +7,6 @@
   letter-spacing: normal;
 }
 
-.agent-about.block a {
-  cursor: pointer;
-}
-
 .agent-about.block .hide {
   display: none;
 }
@@ -21,6 +17,7 @@
   margin-top: 1rem;
   text-decoration: underline;
   font-size: var(--body-font-size-xs);
+  color: var(--black);
 }
 
 .agent-about.block a.view-more::after {
