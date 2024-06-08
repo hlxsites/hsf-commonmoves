@@ -10,10 +10,10 @@ export default function decorate(block) {
   const postalCode = getMetadata('postalcode');
 
   const textDiv = div({ class: 'address' },
-    p({}, 'Berkshire Hathaway HomeServices'),
-    p({}, 'Commonwealth Real Estate'),
-    p({}, streetAddress),
-    p({}, `${addressLocality}, ${addressRegion} ${postalCode}`),
+    p('Berkshire Hathaway HomeServices'),
+    p('Commonwealth Real Estate'),
+    p(streetAddress),
+    p(`${addressLocality}, ${addressRegion} ${postalCode}`),
   );
   const text = `${streetAddress}, ${addressLocality}, ${addressRegion} ${postalCode}`;
 
