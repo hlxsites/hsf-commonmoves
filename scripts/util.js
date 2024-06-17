@@ -1,4 +1,5 @@
 import { fetchPlaceholders } from './aem.js';
+import { div, domEl } from './dom-helpers.js';
 
 /**
  * Creates the standard Spinner Div.
@@ -6,10 +7,10 @@ import { fetchPlaceholders } from './aem.js';
  * @returns {HTMLDivElement} the spinner div.
  */
 export function getSpinner() {
-  const div = document.createElement('div');
-  div.classList.add('loading-spinner');
-  div.innerHTML = '<span></span>';
-  return div;
+  const spinner = document.createElement('div');
+  spinner.classList.add('loading-spinner');
+  spinner.innerHTML = '<span></span>';
+  return spinner;
 }
 
 /**
@@ -49,6 +50,41 @@ export function showModal(content) {
   document.body.append(modal);
 }
 
+let sideModal;
+let focusElement;
+
+export function removeSideModal() {
+  if (!sideModal) return;
+  sideModal.parentNode.nextSibling.remove();
+  sideModal.parentNode.remove();
+  sideModal = null;
+  document.body.classList.remove('disable-scroll');
+  if (focusElement) focusElement.focus();
+}
+
+export async function showSideModal(content, decorateContent) {
+  if (!sideModal) {
+    const temp = div(
+      domEl('aside', { class: 'side-modal' }, div()),
+      div({ class: 'side-modal-overlay' }),
+    );
+    sideModal = temp.querySelector('.side-modal');
+    document.body.append(temp);
+  }
+  const container = sideModal.querySelector('div');
+  container.replaceChildren(...content);
+
+  if (decorateContent) await decorateContent(container);
+
+  // required delay for animation to work
+  setTimeout(() => {
+    document.body.classList.add('disable-scroll');
+    sideModal.ariaExpanded = true;
+  });
+
+  focusElement = document.activeElement;
+}
+
 function createTextKey(text) {
   // create a key that can be used to look up the text in the placeholders
   const words = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/);
@@ -80,9 +116,12 @@ export async function i18nLookup(prefix) {
   };
 }
 
-/*
-  * Returns the environment type based on the hostname.
-*/
+/**
+ * Retrieves the environment type based on the provided hostname.
+ *
+ * @param {string} [hostname=window.location.hostname] - The hostname to determine the environment.
+ * @returns {string} The environment type ('live', 'preview', or 'dev').
+ */
 export function getEnvType(hostname = window.location.hostname) {
   const fqdnToEnvType = {
     'commonmoves.com': 'live',
@@ -93,6 +132,24 @@ export function getEnvType(hostname = window.location.hostname) {
     'main--hsf-commonmoves--hlxsites.hlx.live': 'dev',
   };
   return fqdnToEnvType[hostname] || 'dev';
+}
+
+/**
+ * Retrieves the value of a cookie by its name.
+ *
+ * @param {string} cookieName - The name of the cookie to retrieve.
+ * @returns {string|null} The value of the cookie, or null if not found.
+ */
+export function getCookieValue(cookieName) {
+  const cookies = document.cookie.split(';');
+  const foundCookie = cookies.find((cookie) => {
+    const trimmedCookie = cookie.trim();
+    return trimmedCookie.includes(cookieName);
+  });
+  if (foundCookie) {
+    return foundCookie.split('=', 2)[1];
+  }
+  return null;
 }
 
 /**
@@ -137,6 +194,7 @@ const Util = {
   showModal,
   i18nLookup,
   getEnvType,
+  getCookieValue,
 };
 
 export default Util;
