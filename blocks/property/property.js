@@ -1,6 +1,8 @@
 import { decorateIcons } from '../../scripts/aem.js';
 import { getEnvelope } from '../../scripts/apis/creg/creg.js';
-import { a, div, img, p, span } from '../../scripts/dom-helpers.js';
+import {
+  a, div, img, p, span,
+} from '../../scripts/dom-helpers.js';
 import { formatCurrency, formatNumber } from '../../scripts/util.js';
 
 /**

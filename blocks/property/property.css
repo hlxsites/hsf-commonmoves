@@ -1,15 +1,15 @@
 .property.block .property-details {
   display: flex;
   flex-wrap: wrap;
-  padding: 15px 0 20px 0;
+  padding: 15px 0 20px;
 }
 
-.property.block .backnav {
+.property.block .property-details .backnav {
   flex: 0 0 100%;
   max-width: 100%;
 }
 
-.property.block .back a {
+.property.block .property-details .back a {
   font-family: var(--font-family-primary);
   font-size: 12px;
   font-style: normal;
@@ -35,7 +35,7 @@
   max-width: 100%;
 }
 
-.property.block .property-address {
+.property.block .property-info .property-address {
   font-size: var(--heading-font-size-l);
   font-style: normal;
   font-weight: 400;
@@ -45,7 +45,7 @@
   font-family: var(--font-family-secondary);
 }
 
-.property.block .property-specs {
+.property.block .property-info .property-specs {
   font-family: var(--font-family-primary);
   font-size: var(--body-font-size-xs);
   font-style: normal;
@@ -55,7 +55,7 @@
   color: #2a2223;
 }
 
-.property.block .courtesy {
+.property.block .property-info .courtesy {
   font-family: var(--font-family-primary);
   font-size: var(--body-font-size-xxs);
   font-style: normal;
