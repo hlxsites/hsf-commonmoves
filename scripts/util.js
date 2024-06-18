@@ -198,8 +198,8 @@ export function formatCurrency(amount) {
   return formatter.format(amount);
 }
 
-export function formatNumber(num) {
-  const formatter = new Intl.NumberFormat('en-US');
+export function formatNumber(num, precision = 0) {
+  const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: precision });
   return formatter.format(num);
 }
 

@@ -1,4 +1,40 @@
-/* nothing yet */
+.property.block .property-details {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px 0 20px 0;
+}
+
+.property.block .backnav {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.property.block .back a {
+  font-family: var(--font-family-primary);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: 130%;
+  color: #2a2223;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+}
+
+.property.block .property-details > .save-share {
+  order: 0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 100%;
+}
+
+.property.block .property-details > .property-info {
+  order: 2;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
 .property.block .property-address {
   font-size: var(--heading-font-size-l);
   font-style: normal;
@@ -29,7 +65,8 @@
   color: var(--dark-grey);
 }
 
-.property.block .property-price {
+.property.block .property-details > .property-price {
+  order: 3;
   font-family: var(--font-family-primary);
   font-size: var(--heading-font-size-l);
   font-style: normal;
@@ -37,4 +74,63 @@
   letter-spacing: normal;
   line-height: var(--line-height-xs);
   color: var(--black);
+  margin-top: 1rem;
+}
+
+.property.block .button-container {
+  margin-bottom: 0;
+}
+
+.property.block .button-container a,
+.property.block .button-container a:hover {
+  color: #2a2223;
+  border: 1px solid var(--grey);
+  padding: 5px 15px;
+  background-color: var(--white);
+}
+
+.property.block .button-container .icon-heartempty,
+.property.block .button-container .icon-share-empty {
+  margin-right: 8px;
+}
+
+.property.block .button-container .icon-heartempty img,
+.property.block .button-container .icon-share-empty img{
+  width: 23px;
+  height: 23px;
+  vertical-align: middle;
+}
+
+@media (min-width: 600px) {
+  .property.block .property-details > .property-price {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+    margin-top: 0;
+    line-height: var(--line-height-m);
+    padding-left: 15px;
+  }
+
+  .property.block .property-details > .property-info {
+    flex: 0 0 66.667%;
+    max-width: 66.667%;
+    padding-right: 15px;
+  }
+}
+
+@media (min-width: 900px) {
+  .property.block .property-details > .save-share {
+    flex: 0 0 28%;
+    max-width: 28%;
+    order: 4;
+  }
+
+  .property.block .property-details > .property-price {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+
+  .property.block .property-details > .property-info {
+    flex: 0 0 47%;
+    max-width: 47%;
+  }
 }

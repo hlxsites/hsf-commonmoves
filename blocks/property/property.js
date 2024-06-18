@@ -29,38 +29,24 @@ export default async function decorate(block) {
 
   window.propertyData = await getPropertyByPropId(propId);
   block.innerHTML = '';
-/*   const row = div({ class: 'row' },
-    div({ class: 'back' },
-      a({ href: '#' }, 'Back'),
-    ),
-    div({ class: 'luxury-property' },
-      img({ src: 'lux_mark.png', alt: 'Luxury Property' }),
-    ),
-  );
-  block.append(row); */
+
   if (!window.propertyData) {
     block.innerHTML = 'Property not found';
   } else {
     const property = window.propertyData.propertyDetails;
-    const propertyMedia = property.photos;
-    const propertySmallMedia = property.smallPhotos;
     const propertyPrice = formatCurrency(property.listPrice);
     const propertyAddress = window.propertyData.addressLine1;
     const propertyAddress2 = window.propertyData.addressLine2;
     const rooms = property.bedroomsTotal + property.interiorFeatures.bathroomsTotal;
     const bedBath = property.bedroomsTotal ? `${property.bedroomsTotal} bed / ${property.interiorFeatures.bathroomsTotal} bath` : '';
     const livingSpace = property.livingArea ? `${formatNumber(property.livingArea)} ${property.interiorFeatures.livingAreaUnits}` : '';
-    const lotSF = property.lotSizeArea ? `${property.lotSizeArea} ${property.interiorFeatures.livingAreaUnits}` : '';
-    const lotAcre = property.lotSizeAcres ? `${property.lotSizeAcres} acres lot size` : '';
+    const lotSF = property.lotSizeSquareFeet ? `${formatNumber(property.lotSizeSquareFeet)} ${property.interiorFeatures.livingAreaUnits}` : '';
+    const lotAcre = property.lotSizeAcres ? `${formatNumber(property.lotSizeAcres, 2)} acres lot size` : '';
     let propertySpecs = bedBath;
     propertySpecs += rooms ? ` / ${livingSpace}` : livingSpace;
     propertySpecs += rooms ? ` / ${lotSF}` : '';
     propertySpecs += property.lotSizeArea ? `, ${lotAcre}` : '';
     propertySpecs += propertySpecs.length ? ` / ${property.propertySubType}` : '';
-    const propertyLatitude = property.Latitude;
-    const propertyLongitude = property.Longitude;
-    const propertyId = property.PropId;
-    const propertyOpenHouses = property.OpenHouses;
     const propertyCourtesyOf = property.courtesyOf;
 
     const propertyDetails = div({ class: 'property-details' },
@@ -86,6 +72,19 @@ export default async function decorate(block) {
       ),
     );
     block.append(propertyDetails);
+
+    if (property.isLuxury) {
+      const luxury = div({ class: 'luxury' },
+        img({ src: '/icons/lux_mark_classic_blk.svg', alt: 'Luxury Property' }),
+      );
+      propertyDetails.prepend(luxury);
+    }
+    const nav = div({ class: 'backnav' },
+      div({ class: 'back' },
+        a({ href: '#' }, 'Back'),
+      ),
+    );
+    propertyDetails.prepend(nav);
     decorateIcons(block);
   }
 }
