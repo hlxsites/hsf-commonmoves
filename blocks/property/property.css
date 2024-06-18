@@ -81,21 +81,21 @@
   margin-bottom: 0;
 }
 
-.property.block .button-container a,
-.property.block .button-container a:hover {
+.property.block .property-details .button-container a,
+.property.block .property-details .button-container a:hover {
   color: #2a2223;
   border: 1px solid var(--grey);
   padding: 5px 15px;
   background-color: var(--white);
 }
 
-.property.block .button-container .icon-heartempty,
-.property.block .button-container .icon-share-empty {
+.property.block .property-details .button-container .icon-heartempty,
+.property.block .property-details .button-container .icon-share-empty {
   margin-right: 8px;
 }
 
-.property.block .button-container .icon-heartempty img,
-.property.block .button-container .icon-share-empty img{
+.property.block .property-details .button-container .icon-heartempty img,
+.property.block .property-details .button-container .icon-share-empty img{
   width: 23px;
   height: 23px;
   vertical-align: middle;
