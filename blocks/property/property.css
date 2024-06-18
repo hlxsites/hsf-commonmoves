@@ -1,1 +1,40 @@
 /* nothing yet */
+.property.block .property-address {
+  font-size: var(--heading-font-size-l);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: var(--line-height-m);
+  color: #2a2223;
+  font-family: var(--font-family-secondary);
+}
+
+.property.block .property-specs {
+  font-family: var(--font-family-primary);
+  font-size: var(--body-font-size-xs);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: var(--line-height-m);
+  color: #2a2223;
+}
+
+.property.block .courtesy {
+  font-family: var(--font-family-primary);
+  font-size: var(--body-font-size-xxs);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: normal;
+  line-height: var(--line-height-s);
+  color: var(--dark-grey);
+}
+
+.property.block .property-price {
+  font-family: var(--font-family-primary);
+  font-size: var(--heading-font-size-l);
+  font-style: normal;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: normal;
+  line-height: var(--line-height-xs);
+  color: var(--black);
+}

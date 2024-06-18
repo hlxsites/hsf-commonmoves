@@ -189,6 +189,20 @@ export function phoneFormat(num) {
   return phoneNum;
 }
 
+export function formatCurrency(amount) {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  });
+  return formatter.format(amount);
+}
+
+export function formatNumber(num) {
+  const formatter = new Intl.NumberFormat('en-US');
+  return formatter.format(num);
+}
+
 const Util = {
   getSpinner,
   showModal,
