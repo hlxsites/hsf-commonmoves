@@ -262,16 +262,31 @@
   left: 0;
 }
 
-.property-list-cards .property-details .property-buttons .button-property img {
-  width: 24px;
-  height: 24px;
-}
-
 .property-list-cards .property-details .property-buttons .icon-envelopedark {
   display: none;
 }
 
 .property-list-cards .property-details .property-buttons .icon-heartemptydark {
+  display: none;
+}
+
+.property-list-cards .property-details .property-buttons .icon-heartfull {
+  display: none;
+}
+
+.property-list-cards .listing-tile.saved .property-details .property-buttons .icon-heartfull {
+  display: block;
+}
+
+.property-list-cards .listing-tile.saved .property-details .property-buttons .save-btn:hover .icon-heartfull {
+  display: block;
+}
+
+.property-list-cards .listing-tile.saved .property-details .property-buttons .icon-heartempty {
+  display: none;
+}
+
+.property-list-cards .listing-tile.saved .property-details .property-buttons .icon-heartemptydark {
   display: none;
 }
 
@@ -288,6 +303,10 @@
 }
 
 .property-list-cards .property-details .property-buttons .button-property:hover .icon-heartempty {
+  display: none;
+}
+
+.property-list-cards .property-details .property-buttons .button-property:hover .icon-heartfull {
   display: none;
 }
 
