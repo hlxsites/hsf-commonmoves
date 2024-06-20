@@ -1,0 +1,96 @@
+.carousel-slider {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin-top: 150px;
+}
+
+.carousel-slider .slide-container {
+  display: flex;
+  flex-direction: row;
+/*   position: relative;
+  height: inherit;
+  width: inherit; */
+  overflow: hidden;
+  gap: 10px;
+}
+
+.carousel-slider .slide {
+  height: inherit;
+  width: inherit;
+}
+
+/* .carousel-slider .slide > div {
+  height: inherit;
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
+
+.carousel-slider .btn-prev {
+  left: -15px;
+}
+
+.carousel-slider .btn-prev::before {
+  content: "\f053";
+  font-family: var(--font-family-fontawesome);
+}
+
+.carousel-slider .btn-next {
+  right: -15px;
+}
+
+.carousel-slider .btn-next::before {
+  content: "\f054";
+  font-family: var(--font-family-fontawesome);
+}
+
+.carousel-slider .btn-prev,
+.carousel-slider .btn-next {
+  position: absolute;
+  background: var(--white);
+  height: 50px;
+  width: 50px;
+  top: 50%;
+  margin-top: -25px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: black;
+  text-align: center;
+  line-height: 3rem;
+  justify-content: center;
+  transition: all 0.2s ease-in;
+}
+
+.carousel-slider div.thumbs {
+  padding: 0;
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.carousel-slider div.thumbs div {
+  display: inline-block;
+  opacity: 0.5;
+}
+
+.carousel-slider div.thumbs div button {
+  padding: 0;
+  height: 40px;
+  width: 40px;
+  margin-right: 2px;
+  border: 0;
+  cursor: pointer;
+  background-position: center;
+  background-size: cover;
+}
+
+.carousel-slider div.thumbs div.active {
+  opacity: 1;
+}
+
+.carousel-slider-container {
+  margin: 1rem 1rem 2rem;
+}

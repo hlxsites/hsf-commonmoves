@@ -1,54 +1,42 @@
 import { a, div, img } from '../../scripts/dom-helpers.js';
-
-let slideIndex = 1;
-function showSlides(n) {
-  const slides = document.getElementsByClassName('slide');
-  if (n > slides.length) { slideIndex = 1; }
-  if (n < 1) { slideIndex = slides.length; }
-  slides.forEach((slide) => {
-    slide.style.display = 'none';
-  });
-  slides[slideIndex - 1].style.display = 'block';
-}
-
-showSlides(slideIndex);
-
-function moveSlide(n) {
-  showSlides(slideIndex += n);
-}
-// Call showSlides function every 5 seconds
-let autoSlide = setInterval(() => {
-  moveSlide(1);
-}, 5000);
-
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-// Add pause on hover (optional)
-document.querySelector('.aem-EdgeCarousel').addEventListener('mouseover', () => {
-  clearInterval(autoSlide);
-});
-
-document.querySelector('.aem-EdgeCarousel').addEventListener('mouseout', () => {
-  autoSlide = setInterval(() => {
-    moveSlide(1);
-  }, 5000);
-});
+import { getEnvelope } from '../../scripts/apis/creg/creg.js';
 
 function builtCarousel(block) {
-  const carousel = div({ class: 'carousel' },
-    div({ class: 'slide' }),
-    a({ class: 'prev', onclick: 'moveSlide(-1)' }, '❮'),
-    a({ class: 'next', onclick: 'moveSlide(1)' }, '❯'),
+  const galleryContent = div({ class: 'gallery-content' },
+    div({ class: 'gallery' }),
   );
-
-  const thumbs = div({ class: 'carousel-thumbnails' },
-    img({ class: 'thumbnail', src: 'path-to-your-image-1.jpg', onclick: 'currentSlide(1)' }),
-  );
-  block.append(carousel, thumbs);
+  const galleryModal = div({ class: 'gallery-modal' });
+  block.append(galleryContent, galleryModal);
 }
 
-export default function decorate(block) {
-  builtCarousel(block);
+/**
+ * Retrieves the property ID from the current URL path.
+ * @returns {string|null} The property ID if found in the URL path, or null if not found.
+ */
+function getPropIdFromPath() {
+  const url = window.location.pathname;
+  const match = url.match(/pid-(\d+)/);
+  if (match && match[1]) {
+    return match[1];
+  }
+  return null;
+}
+
+async function getPropertyByPropId(propId) {
+  const resp = await getEnvelope(propId);
+  return resp;
+}
+
+export default async function decorate(block) {
+  const propId = getPropIdFromPath();
+  window.propertyData = await getPropertyByPropId(propId);
+  block.innerHTML = '';
+
+  // TODO: switch to use global propertyData
+  if (!window.propertyData) {
+    block.innerHTML = 'Property not found';
+  } else {
+    const property = window.propertyData.propertyDetails;
+    builtCarousel(block);
+  }
 }
