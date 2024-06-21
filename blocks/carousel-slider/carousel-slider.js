@@ -42,11 +42,13 @@ function syncActiveThumb(carousel, activeSlide) {
  * @param {number} [slideIndex=0] - The index of the slide to scroll to.
  */
 function scrollToSlide(carousel, slideIndex = 0) {
+  const slideWidth = carousel.querySelector('.slide').offsetWidth + 5;
   const carouselSlider = carousel.querySelector('.slide-container');
-  carouselSlider.scrollTo({ left: carousel.querySelector('.slide').offsetWidth * slideIndex, behavior: 'smooth' });
+  carouselSlider.style.transform = `translateX(${-curSlide * slideWidth}px)`;
   const thumbSlider = carousel.querySelector('.thumbs');
-  thumbSlider.scrollTo({ left: thumbSlider.querySelector('div').offsetWidth * slideIndex, behavior: 'smooth' });
-  syncActiveThumb(carousel, slideIndex);
+  if (curSlide > 1) thumbSlider.scrollTo({ left: thumbSlider.querySelector('div').offsetWidth * (curSlide - 1), behavior: 'smooth' });
+
+  syncActiveThumb(carousel, curSlide);
   // sync slide
   [...carouselSlider.children].forEach((slide, index) => {
     if (index === slideIndex) {
@@ -135,7 +137,7 @@ function buildNav(dir) {
  * @returns {HTMLElement} - The thumbnails container element.
  */
 function buildThumbnails(slides = []) {
-  const thumbnails = div({ class: 'thumbs', role: 'tablist' });
+  const thumbnails = div({ class: 'thumbs', role: 'tablist', style: `width: ${Math.round(window.innerWidth * 0.9)}px` });
   slides.forEach((slide, index) => {
     const thumb = div({
       role: 'presentation',
@@ -173,14 +175,13 @@ function buildSlide(item, index) {
     class: 'slide',
     id: `${SLIDE_ID_PREFIX}${index}`,
     'data-slide-index': index,
-    style: `transform: translateX(${index * 100}%)`,
     role: 'tabpanel',
     'aria-hidden': index === 0 ? 'false' : 'true',
     'aria-describedby': `${SLIDE_CONTROL_ID_PREFIX}${index}`,
     tabindex: index === 0 ? '0' : '-1',
-  }, div(
-    img({ src: item.mediaUrl, width: '300px' }),
-  ),
+    style: `width: ${Math.round(window.innerWidth * 0.9)}px`,
+  },
+  img({ src: item.mediaUrl }),
   );
   return slide;
 }
@@ -260,15 +261,15 @@ export default async function decorate(block) {
     carousel.appendChild(buildSlide(slide, index));
   });
 
-  // add decorated carousel to block
   block.append(carousel);
 
-  // add nav buttons and dots to block
+  // add nav buttons and thumbs to block
   if (slides.length > 1) {
     const prevBtn = buildNav('prev');
     const nextBtn = buildNav('next');
+    const btns = div({ class: 'btns', style: `width: ${Math.round(window.innerWidth * 0.9)}px` }, prevBtn, nextBtn);
     const thumbs = buildThumbnails(slides);
-    block.append(prevBtn, nextBtn, thumbs);
+    block.append(btns, thumbs);
     syncActiveThumb(block, 0);
   }
 

@@ -1,45 +1,38 @@
 .carousel-slider {
   position: relative;
-  height: 100%;
   width: 100%;
   margin-top: 150px;
+  overflow: hidden;
 }
 
 .carousel-slider .slide-container {
   display: flex;
-  flex-direction: row;
-/*   position: relative;
-  height: inherit;
-  width: inherit; */
-  overflow: hidden;
-  gap: 10px;
+  gap: 5px;
+  transition: transform 0.5s ease-in-out;
 }
 
 .carousel-slider .slide {
-  height: inherit;
-  width: inherit;
+  flex: 0 0 auto;
+  position: relative;
+  max-height: 500px;
 }
 
-/* .carousel-slider .slide > div {
-  height: inherit;
-  width: inherit;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-} */
+.carousel-slider .slide img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
 
-.carousel-slider .btn-prev {
-  left: -15px;
+.carousel-slider .btns {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .carousel-slider .btn-prev::before {
   content: "\f053";
   font-family: var(--font-family-fontawesome);
-}
-
-.carousel-slider .btn-next {
-  right: -15px;
 }
 
 .carousel-slider .btn-next::before {
@@ -49,23 +42,20 @@
 
 .carousel-slider .btn-prev,
 .carousel-slider .btn-next {
-  position: absolute;
-  background: var(--white);
-  height: 50px;
-  width: 50px;
-  top: 50%;
+  background: #a9a9a990;
+  height: 40px;
+  width: 40px;
   margin-top: -25px;
   cursor: pointer;
   font-size: 1.2rem;
   color: black;
   text-align: center;
-  line-height: 3rem;
-  justify-content: center;
+  line-height: 2.5rem;
   transition: all 0.2s ease-in;
 }
 
 .carousel-slider div.thumbs {
-  padding: 0;
+  padding: 10px 0;
   width: 100%;
   overflow-x: auto;
   white-space: nowrap;
@@ -93,4 +83,14 @@
 
 .carousel-slider-container {
   margin: 1rem 1rem 2rem;
+}
+
+@media (min-width: 900px) {
+  .carousel-slider .btns,
+  .carousel-slider div.thumbs {
+    display: none;
+  }
+  .carousel-slider .arrows {
+    display: inline;
+  }
 }
