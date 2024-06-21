@@ -1,4 +1,9 @@
 import { fetchPlaceholders } from './aem.js';
+import {
+  div,
+  img,
+  domEl,
+} from './dom-helpers.js';
 
 /**
  * Creates the standard Spinner Div.
@@ -6,10 +11,10 @@ import { fetchPlaceholders } from './aem.js';
  * @returns {HTMLDivElement} the spinner div.
  */
 export function getSpinner() {
-  const div = document.createElement('div');
-  div.classList.add('loading-spinner');
-  div.innerHTML = '<span></span>';
-  return div;
+  const spinner = document.createElement('div');
+  spinner.classList.add('loading-spinner');
+  spinner.innerHTML = '<span></span>';
+  return spinner;
 }
 
 /**
@@ -132,11 +137,19 @@ export function phoneFormat(num) {
   return phoneNum;
 }
 
+export const getLoader = (className) => div({ class: `${className}-loader` },
+  div({ class: 'animation' },
+    domEl('picture', img({ src: '/styles/images/loading.png' })),
+    div({ class: 'pulse' }),
+  ),
+);
+
 const Util = {
   getSpinner,
   showModal,
   i18nLookup,
   getEnvType,
+  getLoader,
 };
 
 export default Util;

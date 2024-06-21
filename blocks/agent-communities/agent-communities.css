@@ -1,5 +1,5 @@
 .agent-communities.block {
-  display: none;
+  height: 1000px;
 }
 
 .agent-communities.block .cards-list {
@@ -92,6 +92,76 @@
   height: calc(100% + var(--zoom));
   margin: calc(0px - var(--zoom)/2);
   transition: margin var(--anim-speed) ease-in-out, width var(--anim-speed) ease-in-out, height var(--anim-speed) ease-in-out;
+}
+
+.agent-communities.block .agent-communities-loader {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 50%;
+  height: 100%;
+  width: 100%;
+  max-width: 400px;
+  transform: translateX(-50%);
+  margin: 0 auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 2s linear;
+  z-index: 2
+}
+
+.agent-communities.block.loading .agent-communities-loader {
+  opacity: 1;
+  visibility: visible;
+  transition: all 2s linear;
+}
+
+.agent-communities.block .agent-communities-loader .animation {
+  position: relative;
+  width: 100%;
+}
+
+@keyframes pulse {
+  from {
+    border: 0 solid white;
+  }
+
+  to {
+    border: 75px solid white
+  }
+}
+
+.agent-communities.block .agent-communities-loader .pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  animation: linear 2s infinite alternate pulse;
+  z-index: 2;
+}
+
+.agent-communities.block .agent-communities-loader picture {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding-bottom: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.agent-communities.block .agent-communities-loader picture img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  object-fit: cover;
 }
 
 @media (min-width: 600px) {

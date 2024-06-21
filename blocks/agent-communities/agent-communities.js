@@ -4,9 +4,12 @@ import {
   span,
   p,
 } from '../../scripts/dom-helpers.js';
+import { getLoader } from '../../scripts/util.js';
 
 export default async function decorate(block) {
-  block.classList.add('cards');
+  block.classList.add('cards', 'loading');
+  block.appendChild(getLoader('agent-communities'));
+
   window.setTimeout(async () => {
     // const url = `/commonwealth-real-estate-ma312${window.location.pathname}`;
     const url = '/commonwealth-real-estate-ma312/east-greenwich/barry-alofsin/cid-473521';
@@ -46,7 +49,7 @@ export default async function decorate(block) {
           a({ class: 'hero-item-explore', href: `/communities/${data1.name.split(' ').join('-').toLowerCase()}` }, `Explore ${data1.name}`),
         );
 
-        block.appendChild(heroItemDiv);
+        block.replaceChildren(heroItemDiv);
       }
 
       if (data2.length) {
@@ -94,7 +97,6 @@ export default async function decorate(block) {
       });
 
       block.appendChild(cardsList);
-      block.style.display = 'inline';
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Error fetching data', error);
