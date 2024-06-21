@@ -1,3 +1,7 @@
+.agent-communities.block {
+  display: none;
+}
+
 .agent-communities.block .cards-list {
   display: flex;
   flex-wrap: wrap;
