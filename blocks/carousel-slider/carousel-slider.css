@@ -8,19 +8,36 @@
 .carousel-slider .slide-container {
   display: flex;
   gap: 5px;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 0.5s ease;
 }
 
 .carousel-slider .slide {
   flex: 0 0 auto;
   position: relative;
-  max-height: 500px;
+  max-height: 440px;
 }
 
 .carousel-slider .slide img {
   width: 100%;
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
+}
+
+.carousel-slider .slide .new-listing {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  height: 24px;
+  font-size: var(--heading-font-size-xs);
+  padding: 3px 7px;
+  line-height: var(--line-height-m);
+  font-weight: var(--font-weight-semibold);
+  display: none;
+  background: var(--primary-color);
+  color: var(--white);
+  letter-spacing: var(--letter-spacing-m);
+  text-transform: uppercase;
 }
 
 .carousel-slider .btns {

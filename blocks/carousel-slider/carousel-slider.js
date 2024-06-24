@@ -182,6 +182,7 @@ function buildSlide(item, index) {
     style: `width: ${Math.round(window.innerWidth * 0.9)}px`,
   },
   img({ src: item.mediaUrl }),
+  div({ class: 'new-listing' }, 'New Listing'),
   );
   return slide;
 }
