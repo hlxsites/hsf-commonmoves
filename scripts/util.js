@@ -152,6 +152,22 @@ export function getCookieValue(cookieName) {
   return null;
 }
 
+export function getImageURL(jsonString) {
+  try {
+    const data = JSON.parse(jsonString);
+    if (Array.isArray(data) && data.length > 0) {
+      const imageUrl = new URL(data[0].url);
+      // Replace the hostname and pathname with the new ones
+      imageUrl.hostname = 'hsfazpw2storagesf1.blob.core.windows.net';
+      imageUrl.pathname = `/hsflibrary${imageUrl.pathname}`;
+      return imageUrl.toString();
+    }
+  } catch (error) {
+    return '/media/images/no-profile-image.png';
+  }
+  return null; // Add a return statement at the end of the function
+}
+
 /**
  * Format a provided value to a shorthand number.
  * From: https://reacthustle.com/blog/how-to-convert-number-to-kmb-format-in-javascript
