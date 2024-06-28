@@ -1,4 +1,4 @@
-import { decorateIcons, loadBlock } from '../../scripts/aem.js';
+import { buildBlock, decorateBlock, decorateIcons, loadBlock } from '../../scripts/aem.js';
 import { getEnvelope } from '../../scripts/apis/creg/creg.js';
 import {
   a, button, div, domEl, img, p, span,
@@ -40,7 +40,6 @@ async function getPropertyByPropId(propId) {
 }
 
 export default async function decorate(block) {
-  // let property = {};
   let propId = getPropIdFromPath(); // assumes the listing page pathname ends with the propId
   // TODO: remove this test propId
   if (!propId) propId = '358207023'; // commercial '368554873'; // '375215759'; // luxury '358207023';
@@ -106,8 +105,10 @@ export default async function decorate(block) {
     decorateIcons(block);
 
     // Load the carousel slider block
-    /* const carousel = await loadBlock('carousel-slider');
-    block.append(carousel); */
+    const carousel = buildBlock('carousel-slider', '');
+    block.append(carousel);
+    decorateBlock(carousel);
+    loadBlock(carousel);
 
     // create contact info
     const description = div({ class: 'details-description' },

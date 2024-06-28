@@ -6,7 +6,6 @@ async function getPropertyByPropId(propId) {
   return resp;
 }
 
-
 const SLIDE_ID_PREFIX = 'slide';
 const SLIDE_CONTROL_ID_PREFIX = 'carousel-slide-control';
 
@@ -193,9 +192,11 @@ function buildSlide(item, index) {
  * @param block HTML block from Franklin
  */
 export default async function decorate(block) {
-  const propId = '370882966';
-
-  window.propertyData = await getPropertyByPropId(propId);
+  // TODO: remove this test propId
+  if (!window.propertyData) {
+    const propId = '358207023'; // commercial '368554873'; // '375215759'; // luxury '358207023';
+    window.propertyData = await getPropertyByPropId(propId);
+  }
   block.innerHTML = '';
 
   const carousel = document.createElement('div');
