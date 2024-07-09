@@ -94,3 +94,43 @@ export async function getEnvelope(listingId) {
     });
   });
 }
+
+/**
+ * Gets the school details for the specified listing.
+ *
+ * @param {string} lat latitude
+ * @param {string} long longitude
+ * @return {Promise<Object>} resolving the economic details
+ */
+export async function getSchools(lat, long) {
+  return new Promise((resolve) => {
+    const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/schools.js`, { type: 'module' });
+    worker.onmessage = (e) => resolve(e.data);
+    worker.postMessage({
+      lat,
+      long,
+    });
+  });
+}
+
+/**
+ * Gets the market trends for .
+ *
+ * @param {string} listingId - The ID of the listing.
+ * @param {string} lat latitude
+ * @param {string} long longitude
+ * @param {string} zipcode the zip code
+ * @return {Promise<Object>} resolving the economic details
+ */
+export async function getMarketTrends(listingId, lat, long, zipcode) {
+  return new Promise((resolve) => {
+    const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/markettrends.js`, { type: 'module' });
+    worker.onmessage = (e) => resolve(e.data);
+    worker.postMessage({
+      listingId,
+      lat,
+      long,
+      zipcode,
+    });
+  });
+}
