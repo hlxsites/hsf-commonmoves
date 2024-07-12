@@ -193,9 +193,9 @@ function buildSlide(item, index) {
  */
 export default async function decorate(block) {
   // TODO: remove this test propId
-  if (!window.propertyData) {
+  if (!window.envelope) {
     const propId = '358207023'; // commercial '368554873'; // '375215759'; // luxury '358207023';
-    window.propertyData = await getPropertyByPropId(propId);
+    window.envelope = await getPropertyByPropId(propId);
   }
   block.innerHTML = '';
 
@@ -257,7 +257,7 @@ export default async function decorate(block) {
   });
 
   // process each slide
-  const slides = [...window.propertyData.propertyDetails.smallPhotos];
+  const slides = [...window.envelope.propertyDetails.smallPhotos];
   maxSlide = slides.length - 1;
   slides.forEach((slide, index) => {
     carousel.appendChild(buildSlide(slide, index));

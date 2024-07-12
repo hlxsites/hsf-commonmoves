@@ -1,9 +1,11 @@
 import { buildBlock, decorateBlock, decorateIcons, loadBlock } from '../../scripts/aem.js';
-import { getEnvelope } from '../../scripts/apis/creg/creg.js';
+import { getDetails, getEnvelope } from '../../scripts/apis/creg/creg.js';
 import {
   a, button, div, domEl, img, p, span,
 } from '../../scripts/dom-helpers.js';
-import { formatCurrency, formatNumber, getImageURL } from '../../scripts/util.js';
+import {
+  formatCurrency, formatNumber, formatDate, getImageURL, to12HourTime,
+} from '../../scripts/util.js';
 
 function toggleHeight() {
   const content = document.getElementById('remark-content');
@@ -34,26 +36,23 @@ function getPropIdFromPath() {
   return null;
 }
 
-async function getPropertyByPropId(propId) {
-  const resp = await getEnvelope(propId);
-  return resp;
-}
-
 export default async function decorate(block) {
   let propId = getPropIdFromPath(); // assumes the listing page pathname ends with the propId
   // TODO: remove this test propId
-  if (!propId) propId = '358207023'; // commercial '368554873'; // '375215759'; // luxury '358207023';
+  if (!propId) propId = '376611673'; // commercial '368554873'; // '375215759'; // luxury '358207023';
 
-  window.propertyData = await getPropertyByPropId(propId);
+  window.envelope = await getEnvelope(propId);
+  window.listing = await getDetails(propId);
   block.innerHTML = '';
 
-  if (!window.propertyData) {
+  if (!window.envelope) {
     block.innerHTML = 'Property not found';
   } else {
-    const property = window.propertyData.propertyDetails;
+    const property = window.envelope.propertyDetails;
+    const [details] = window.listing;
     const propertyPrice = formatCurrency(property.listPrice);
-    const propertyAddress = window.propertyData.addressLine1;
-    const propertyAddress2 = window.propertyData.addressLine2;
+    const propertyAddress = window.envelope.addressLine1;
+    const propertyAddress2 = window.envelope.addressLine2;
     const rooms = property.bedroomsTotal + property.interiorFeatures.bathroomsTotal;
     const bedBath = property.bedroomsTotal ? `${property.bedroomsTotal} bed / ${property.interiorFeatures.bathroomsTotal} bath` : '';
     const livingSpace = property.livingArea ? `${formatNumber(property.livingArea)} ${property.interiorFeatures.livingAreaUnits}` : '';
@@ -71,6 +70,15 @@ export default async function decorate(block) {
         div({ class: 'property-address' }, propertyAddress, document.createElement('br'), propertyAddress2),
         div({ class: 'property-specs' }, propertySpecs),
         div({ class: 'courtesy' }, propertyCourtesyOf),
+        details.OpenHouses.length ? div({ class: 'open-house' },
+          div({ class: 'row' },
+            div({ class: 'icon-wrapper' },
+              span({ class: 'icon icon-openhouse' }),
+              div({ class: 'label' }, 'Open House'),
+            ),
+            div({ class: 'meta-wrapper' }),
+          ),
+        ) : '',
       ),
       div({ class: 'property-price' }, propertyPrice),
       div({ class: 'save-share' },
@@ -89,6 +97,16 @@ export default async function decorate(block) {
       ),
     );
     block.append(propertyDetails);
+
+    if (details.OpenHouses.length) {
+      details.OpenHouses.forEach((openHouse) => {
+        const temp = div({ class: 'datetime' },
+          div({ class: 'date' }, formatDate(openHouse.OpenHouseDate)),
+          div({ class: 'time' }, to12HourTime(openHouse.OpenHouseStartTime), ' to ', to12HourTime(openHouse.OpenHouseEndTime)),
+        );
+        block.querySelector('.open-house .meta-wrapper').append(temp);
+      });
+    }
 
     if (property.isLuxury) {
       const luxury = div({ class: 'luxury' },
@@ -169,14 +187,5 @@ export default async function decorate(block) {
       phone.textContent = agent.telephone;
       phone.href = `tel:${agent.telephone}`;
     }
-
-    // new section with property details
-    // disclaimer
-    // market trends
-    // calculator
-    // schools
-    // Occupancy
-    // housing trends
-    // load economic data block
   }
 }

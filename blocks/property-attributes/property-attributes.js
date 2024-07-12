@@ -2,16 +2,16 @@ import {
   div, domEl, span,
 } from '../../scripts/dom-helpers.js';
 import {
-  formatNumber, phoneFormat, formatCurrency,
+  formatNumber, phoneFormat, formatCurrency, toggleAccordion,
 } from '../../scripts/util.js';
-import { decorateIcons } from '../../scripts/aem.js';
-
-function toggleAccordion(event) {
-  const content = event.target;
-  content.classList.toggle('active');
-}
+import {
+  decorateIcons,
+} from '../../scripts/aem.js';
 
 export function formatListToHTML(str) {
+  if (!str) {
+    return '';
+  }
   const strParts = str.split(',').map((part) => part.trim());
 
   const strElements = [];
@@ -28,10 +28,10 @@ export function formatListToHTML(str) {
 export default async function decorate(block) {
   block.innerHTML = '';
 
-  if (!window.propertyData) {
+  if (!window.envelope) {
     block.innerHTML = 'Property not found';
   } else {
-    const property = window.propertyData.propertyDetails;
+    const property = window.envelope.propertyDetails;
     const lotSF = property.lotSizeSquareFeet ? `${formatNumber(property.lotSizeSquareFeet)} ${property.interiorFeatures.livingAreaUnits}` : '';
 
     const title = div({ class: 'title' }, 'Property Details');
@@ -99,7 +99,7 @@ export default async function decorate(block) {
         div({ class: 'accordion-content' },
           div({ class: 'table' },
             div({ class: 'label' }, 'Lot/Land Description'),
-            div({ class: 'td' }, property.interiorFeatures.description || 0),
+            div({ class: 'td' }, formatListToHTML(property.interiorFeatures.description)),
             div({ class: 'label' }, 'Foundation'),
             div({ class: 'td' }, property.interiorFeatures.foundation),
             div({ class: 'label' }, 'Parking Spaces'),
@@ -128,27 +128,22 @@ export default async function decorate(block) {
             div({ class: 'label' }, 'Price Per Sq Ft'),
             div({ class: 'td' }, formatCurrency(property.utilityAndBuilding.pricePerSqFt)),
             div({ class: 'label' }, 'Architectural Style'),
-            div({ class: 'td' }, property.utilityAndBuilding.architecturalStyle),
+            div({ class: 'td' }, formatListToHTML(property.utilityAndBuilding.architecturalStyle)),
           ),
         ),
       ),
     );
 
+    // disclaimer
     const disclaimer = div({ class: 'idxDisclaimer' },
       domEl('hr'),
       property.idxDisclaimer,
     );
 
     block.append(title, details, features);
-    block.parentNode.parentNode.insertAdjacentElement('afterEnd', disclaimer);
+    const section = document.querySelector('.property-attributes-container');
+    section.insertAdjacentElement('afterend', disclaimer);
   }
 
   decorateIcons(block);
-  // disclaimer
-  // market trends
-  // calculator
-  // schools
-  // Occupancy
-  // housing trends
-  // load economic data block
 }

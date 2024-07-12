@@ -1,6 +1,7 @@
 import { getDetails, getEconomicDetails } from '../../scripts/apis/creg/creg.js';
 import { div, span } from '../../scripts/dom-helpers.js';
 import { decorateIcons } from '../../scripts/aem.js';
+import { toggleAccordion } from '../../scripts/util.js';
 
 const keys = [
   'ListPriceUS',
@@ -24,11 +25,6 @@ function pick(obj, ...args) {
   return args.reduce((res, key) => ({ ...res, [key]: obj[key] }), { });
 }
 
-function toggleAccordion(event) {
-  const content = event.target;
-  content.classList.toggle('active');
-}
-
 /**
  * Retrieves the property ID from the current URL path.
  * @returns {string|null} The property ID if found in the URL path, or null if not found.
@@ -40,11 +36,6 @@ function getPropIdFromPath() {
     return match[1];
   }
   return null;
-}
-
-async function getPropertyByPropId(propId) {
-  const resp = await getDetails(propId);
-  return resp[0];
 }
 
 async function getSocioEconomicData(latitude, longitude) {
@@ -157,7 +148,7 @@ export default async function decorate(block) {
   // TODO: remove this test propId
   if (!propId) propId = '370882966';
 
-  const propertyData = await getPropertyByPropId(propId);
+  const propertyData = await getDetails(propId);
   if (propertyData) {
     property = pick(propertyData, ...keys);
     if (property.Latitude && property.Longitude) {

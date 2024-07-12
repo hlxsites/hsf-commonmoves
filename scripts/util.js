@@ -219,6 +219,34 @@ export function formatNumber(num, precision = 0) {
   return formatter.format(num);
 }
 
+export function formatDate(dateString) {
+  const date = new Date(dateString);
+  // Array of weekday names
+  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  // Get the weekday name, day, and month
+  const weekdayName = weekdays[date.getDay()];
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  // Return the formatted date string
+  return `${weekdayName} ${month}/${day}`;
+}
+
+export function to12HourTime(timeString) {
+  const [hours, minutes] = timeString.split(':');
+  let period = 'AM';
+  let hour = hours;
+  if (hours > 12) {
+    hour = hours - 12;
+    period = 'PM';
+  }
+  return `${hour}:${minutes} ${period}`;
+}
+
+export function toggleAccordion(event) {
+  const content = event.target;
+  content.classList.toggle('active');
+}
+
 const Util = {
   getSpinner,
   showModal,

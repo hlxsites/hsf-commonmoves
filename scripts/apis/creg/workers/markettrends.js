@@ -3,18 +3,18 @@
  *
  * @param {Object} event the worker event.
  * @param {string} event.data.api the URL to fetch.
- * @param {string} event.data.id - The ID of the listing.
+ * @param {string} event.data.listingId - The ID of the listing.
  * @param {string} event.data.lat latitude
  * @param {string} event.data.long longitude
  * @param {string} event.data.zipcode the zip code
  */
 onmessage = async (event) => {
   const {
-    id, lat, long, zip,
+    listingId, lat, long, zipcode,
   } = event.data;
   const promises = [];
   promises.push(
-    fetch(`/bin/bhhs/pdp/cregSchoolServlet?PropertyId=${id}&Latitude=${lat}&Longitude=${long}&zipCode=${zip}`)
+    fetch(`/bin/bhhs/CregMarketTrends?PropertyId=${listingId}&Latitude=${lat}&Longitude=${long}&zipCode=${zipcode}`)
       .then((resp) => (resp.ok ? resp.json() : undefined)),
   );
 

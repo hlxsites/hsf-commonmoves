@@ -112,6 +112,8 @@
 }
 
 div.idxDisclaimer {
+  max-width: var(--normal-page-width);
+  margin: 0 auto 3.5em;
   font-size: var(--body-font-size-xxs);
   line-height: var(--line-height-s);
   color: var(--dark-grey);
