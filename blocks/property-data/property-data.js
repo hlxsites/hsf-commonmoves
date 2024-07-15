@@ -1,7 +1,7 @@
 import { getMarketTrends } from '../../scripts/apis/creg/creg.js';
 import { div } from '../../scripts/dom-helpers.js';
 import {
-  formatCurrency,
+  formatCurrency, toggleAccordion,
 } from '../../scripts/util.js';
 
 function daysOnMarket(listingContractDate) {
@@ -35,8 +35,8 @@ export default async function decorate(block) {
       div({ class: 'accordion-header', onclick: (e) => toggleAccordion(e) }, 'Market Trends'),
       div({ class: 'accordion-content' },
         div({ class: 'row' },
-          div({ class: 'address' }, property.unstructuredAddress),
-          div({ class: 'zip' }, `ZIP Code: ${property.postalCode}`),
+          div({ class: 'head' }, property.unstructuredAddress),
+          div({ class: 'head' }, `ZIP Code: ${property.postalCode}`),
         ),
         div({ class: 'row' },
           div({ class: 'td' },
