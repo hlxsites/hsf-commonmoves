@@ -114,7 +114,7 @@ export async function getSchools(lat, long) {
 }
 
 /**
- * Gets the market trends for .
+ * Gets the market trends for a listing.
  *
  * @param {string} listingId - The ID of the listing.
  * @param {string} lat latitude
@@ -131,6 +131,22 @@ export async function getMarketTrends(listingId, lat, long, zipcode) {
       lat,
       long,
       zipcode,
+    });
+  });
+}
+
+/**
+ * Gets the price history for a listing.
+ *
+ * @param {string} listingId - The ID of the listing.
+ * @return {Promise<Object>} resolving the economic details
+ */
+export async function getPriceHistory(listingId) {
+  return new Promise((resolve) => {
+    const worker = new Worker(`${window.hlx.codeBasePath}/scripts/apis/creg/workers/pricehistory.js`, { type: 'module' });
+    worker.onmessage = (e) => resolve(e.data);
+    worker.postMessage({
+      listingId,
     });
   });
 }
