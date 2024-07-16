@@ -152,6 +152,22 @@ export function getCookieValue(cookieName) {
   return null;
 }
 
+export function getImageURL(jsonString) {
+  try {
+    const data = JSON.parse(jsonString);
+    if (Array.isArray(data) && data.length > 0) {
+      const imageUrl = new URL(data[0].url);
+      // Replace the hostname and pathname with the new ones
+      imageUrl.hostname = 'hsfazpw2storagesf1.blob.core.windows.net';
+      imageUrl.pathname = `/hsflibrary${imageUrl.pathname}`;
+      return imageUrl.toString();
+    }
+  } catch (error) {
+    return '/media/images/no-profile-image.png';
+  }
+  return null; // Add a return statement at the end of the function
+}
+
 /**
  * Format a provided value to a shorthand number.
  * From: https://reacthustle.com/blog/how-to-convert-number-to-kmb-format-in-javascript
@@ -187,6 +203,48 @@ export function phoneFormat(num) {
   // Format the phoneNumber according to (XXX) XXX-XXXX
   phoneNum = phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
   return phoneNum;
+}
+
+export function formatCurrency(amount) {
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    maximumFractionDigits: 0,
+  });
+  return formatter.format(amount);
+}
+
+export function formatNumber(num, precision = 0) {
+  const formatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: precision });
+  return formatter.format(num);
+}
+
+export function formatDate(dateString) {
+  const date = new Date(dateString);
+  // Array of weekday names
+  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  // Get the weekday name, day, and month
+  const weekdayName = weekdays[date.getDay()];
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  // Return the formatted date string
+  return `${weekdayName} ${month}/${day}`;
+}
+
+export function to12HourTime(timeString) {
+  const [hours, minutes] = timeString.split(':');
+  let period = 'AM';
+  let hour = hours;
+  if (hours > 12) {
+    hour = hours - 12;
+    period = 'PM';
+  }
+  return `${hour}:${minutes} ${period}`;
+}
+
+export function toggleAccordion(event) {
+  const content = event.target;
+  content.classList.toggle('active');
 }
 
 const Util = {
