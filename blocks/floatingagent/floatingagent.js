@@ -12,11 +12,15 @@ import {
 import { decorateFormLinks } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
+  block.classList.add('design4');
   const agentName = getMetadata('name');
   const agentDesc = getMetadata('description');
   const pic = getMetadata('photo');
   const lic = getMetadata('license-number');
-
+  const design = getMetadata('design');
+  const theme = getMetadata('theme');
+  block.classList.add(design);
+  block.classList.add(theme);
   const agentPicture = document.createElement('picture');
   agentPicture.appendChild(img({
     loading: 'lazy',
@@ -34,7 +38,6 @@ export default function decorate(block) {
   );
 
   const contactButton = a({ class: 'contactagent', href: '/fragments/contact-property-form' }, 'CONTACT AGENT');
-
   block.append(
     div({ class: 'floating-agent-col' }, agentPicture),
     agentInfo,

@@ -86,6 +86,11 @@ export default async function decorate(block) {
     div({ class: 'designation' }, getMetadata('designation')),
   );
 
+  const design = getMetadata('design');
+  const theme = getMetadata('theme');
+  block.parentElement.classList.add(design);
+  block.parentElement.classList.add(theme);
+
   const licenseNumber = getMetadata('license-number');
   if (licenseNumber) {
     profileContent.append(div({ class: 'license-number' }, `LIC# ${licenseNumber}`));

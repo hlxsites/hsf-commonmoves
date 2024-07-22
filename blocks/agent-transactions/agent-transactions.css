@@ -21,6 +21,10 @@
   display: table-row;
 }
 
+.agent-transactions.block.design4.traditional thead {
+  background: var(--primary-color);
+}
+
 .agent-transactions.block thead {
   background: var(--platinum);
   font-size: var(--body-font-size-xs);
@@ -33,6 +37,10 @@
   padding-bottom: 0.5rem;
   padding-top: 0.25rem;
   font-size: var(--body-font-size-xs);
+}
+
+.agent-transactions.block.design4.traditional a {
+  color: var(--primary-color);
 }
 
 .agent-transactions.block a {

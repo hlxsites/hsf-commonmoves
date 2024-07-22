@@ -39,6 +39,10 @@ export default async function decorate(block) {
   if (transactionsData.length === 0) {
     return;
   }
+  const design = getMetadata('design');
+  const theme = getMetadata('theme');
+  block.classList.add(design);
+  block.classList.add(theme);
 
   const thList = ['address', 'city', 'state', 'sold price', 'beds', 'baths', 'approx sq. ft.', 'type', 'closed date'];
   const thDefault = { class: 'default', list: [0, 3] };
