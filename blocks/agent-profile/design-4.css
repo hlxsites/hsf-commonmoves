@@ -1,9 +1,11 @@
-.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-image img {
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-image img,
+.design-4.calm main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-image img {
     width: 136px;
     height: 136px;
 }
 
-.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content{
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content,
+.design-4.calm main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content{
     padding-left: 0;
 }
 
@@ -32,7 +34,13 @@
     margin-bottom: 10px;
 }
 
-.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block  {
-    display: block !important;
+.design-4.calm main .section.agent-profile-container .agent-profile-wrapper {
+   background-color: #bad8e1;
+   width: inherit !important;
+   margin-bottom: 10px;
+}
 
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block,
+.design-4.calm main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block {
+    display: block !important;
 }

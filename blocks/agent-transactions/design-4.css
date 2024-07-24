@@ -3,6 +3,10 @@
     background: var(--primary-color);
 }
 
+.design-4.calm .agent-transactions.block thead {
+    background-color: #bad8e1;
+}
+
 .design-4.traditional .agent-transactions.block a {
     color: var(--primary-color);
 }
