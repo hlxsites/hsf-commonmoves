@@ -1,0 +1,8 @@
+.design-4.traditional main .cards.block.icons .cards-list .cards-item .card-body p,
+.design-4.traditional main .cards.block.icons .cards-list .cards-item .card-body h4 {
+    color: white;
+}
+
+.design-4.traditional main .cards.block.icons .cards-list .cards-item .icon img {
+    filter: brightness(0) invert(1);
+}
