@@ -13,27 +13,13 @@
     z-index: 999;
 }
 
-.floatingagent.block.design4.traditional {
-    background-color: var(--primary-color);
-}
-
 .floatingagent.block > .floating-agent-col {
     display: none;
-}
-
-.floatingagent.block.design4.traditional > .agentinfo > p , .floatingagent.block.design4.traditional > .agentinfo >h2 {
-    color: var(--tertiary-color);;
 }
 
 .floatingagent.block > .agentinfo {
     display: none;
 }
-
-.floatingagent.block.design4.traditional > .contactagent {
-    background: var(--tertiary-color);
-    color: var(--primary-color);
-}
-
 
 .floatingagent.block > .contactagent {
     display: block;

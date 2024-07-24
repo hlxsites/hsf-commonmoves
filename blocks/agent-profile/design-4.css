@@ -1,0 +1,38 @@
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-image img {
+    width: 136px;
+    height: 136px;
+}
+
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content{
+    padding-left: 0;
+}
+
+
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content .phone,
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content .email a,
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content .website,
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content .name,
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content .designation,
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content .license-number {
+    color: var(--tertiary-color) !important;
+}
+
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content .contact-me a{
+    border: 1px solid var(--tertiary-color);
+    color: var(--tertiary-color);
+}
+
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block .profile-content .social .icon img {
+    filter: brightness(0) invert(1);
+}
+
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper {
+    background-color:#2a2223 !important;
+    width: inherit !important;
+    margin-bottom: 10px;
+}
+
+.design-4.traditional main .section.agent-profile-container .agent-profile-wrapper .agent-profile.block  {
+    display: block !important;
+
+}

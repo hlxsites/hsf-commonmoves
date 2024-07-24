@@ -1,0 +1,8 @@
+
+.design-4.traditional .agent-transactions.block thead {
+    background: var(--primary-color);
+}
+
+.design-4.traditional .agent-transactions.block a {
+    color: var(--primary-color);
+}

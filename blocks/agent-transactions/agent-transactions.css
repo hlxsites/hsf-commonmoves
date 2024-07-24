@@ -21,10 +21,6 @@
   display: table-row;
 }
 
-.agent-transactions.block.design4.traditional thead {
-  background: var(--primary-color);
-}
-
 .agent-transactions.block thead {
   background: var(--platinum);
   font-size: var(--body-font-size-xs);
@@ -39,9 +35,6 @@
   font-size: var(--body-font-size-xs);
 }
 
-.agent-transactions.block.design4.traditional a {
-  color: var(--primary-color);
-}
 
 .agent-transactions.block a {
   line-height: var(--line-height-m);

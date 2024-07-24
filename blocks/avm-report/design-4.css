@@ -1,0 +1,9 @@
+.design-4.traditional main .avm-report-container {
+    background-color: #2a2223;
+}
+
+.design-4.traditional main .avm-report-container .avm-report.block h2,
+.design-4.traditional main .avm-report-container .avm-report.block p{
+    color: white;
+}
+

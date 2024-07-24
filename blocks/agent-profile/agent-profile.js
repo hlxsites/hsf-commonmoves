@@ -1,4 +1,4 @@
-import { decorateIcons, getMetadata } from '../../scripts/aem.js';
+import { decorateIcons, getMetadata, loadCSS } from '../../scripts/aem.js';
 import {
   a, div, h1, ul, li, img, span,
 } from '../../scripts/dom-helpers.js';
@@ -86,10 +86,10 @@ export default async function decorate(block) {
     div({ class: 'designation' }, getMetadata('designation')),
   );
 
-  const design = getMetadata('design');
-  const theme = getMetadata('theme');
-  block.parentElement.classList.add(design);
-  block.parentElement.classList.add(theme);
+  const design = getMetadata('template');
+  const { blockName } = block.dataset;
+
+  await loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${design}.css`);
 
   const licenseNumber = getMetadata('license-number');
   if (licenseNumber) {

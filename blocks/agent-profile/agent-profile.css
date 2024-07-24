@@ -7,48 +7,9 @@ main .section.agent-profile-container .agent-profile-wrapper {
   word-break: break-word;
 }
 
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional {
-  background-color:#2a2223 !important;
-  width: inherit !important;
-  margin-bottom: 10px;
-}
-
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block  {
-  display: block !important;
-
-}
-
 .agent-profile.block .profile-image img {
   width: 9.375rem;
   height: 11.875rem;
-}
-
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-image img {
-  width: 136px;
-  height: 136px;
-}
-
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content{
-  padding-left: 0;
-}
-
-
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content .phone,
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content .email a,
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content .website,
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content .name,
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content .designation,
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content .license-number {
-  color: var(--tertiary-color) !important;
-}
-
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content .contact-me a{
-  border: 1px solid var(--tertiary-color);
-  color: var(--tertiary-color);
-}
-
-main .section.agent-profile-container .agent-profile-wrapper.design4.traditional .agent-profile.block .profile-content .social .icon img {
-  filter: brightness(0) invert(1);
 }
 
 .agent-profile.block .profile-content .contact-me {

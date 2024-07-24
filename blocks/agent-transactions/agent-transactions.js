@@ -1,7 +1,7 @@
 import {
   table, tbody, th, thead, tr, td, h1, a,
 } from '../../scripts/dom-helpers.js';
-import { getMetadata } from '../../scripts/aem.js';
+import { getMetadata, loadCSS } from '../../scripts/aem.js';
 
 const getClosedTransactions = async () => {
   const agentId = getMetadata('id');
@@ -39,10 +39,10 @@ export default async function decorate(block) {
   if (transactionsData.length === 0) {
     return;
   }
-  const design = getMetadata('design');
-  const theme = getMetadata('theme');
-  block.classList.add(design);
-  block.classList.add(theme);
+  const design = getMetadata('template');
+  const { blockName } = block.dataset;
+
+  await loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${design}.css`);
 
   const thList = ['address', 'city', 'state', 'sold price', 'beds', 'baths', 'approx sq. ft.', 'type', 'closed date'];
   const thDefault = { class: 'default', list: [0, 3] };
