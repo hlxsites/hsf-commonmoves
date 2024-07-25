@@ -28,6 +28,10 @@ const getCol = (list, colText) => {
 };
 
 export default function decorate(block) {
+  const designType = getMetadata('design');
+  if (designType !== null) {
+    return;
+  }
   const aboutText = getMetadata('about');
   const accreditations = getMetadata('professional-accreditations');
   const languages = getMetadata('languages');
@@ -44,7 +48,7 @@ export default function decorate(block) {
         const name = 'about-text';
         const threshold = 245;
         child.children[1].classList.add(name);
-        if (child.children[1].textContent > threshold) {
+        if (child.children[1].textContent.length > threshold) {
           child.children[1].classList.add('hide');
           child.append(div({ class: `${name}-truncate` },
             `${child.children[1].textContent.substring(0, threshold)}...`));
