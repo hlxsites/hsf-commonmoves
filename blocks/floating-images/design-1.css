@@ -42,7 +42,7 @@ Theme Name: Traditional
 }
 
 @media (min-width: 900px) {
-  .design-1.traditional .block.floating-images .image {
+  .design-1.traditional .with-border .block.floating-images .image {
     box-shadow: var(--primary-color) 4.375rem -4.375rem;
   }
 }
@@ -71,7 +71,7 @@ Theme Name: Black & White
 }
 
 @media (min-width: 900px) {
-  .design-1.black-white .block.floating-images .image {
+  .design-1.black-white .with-border .block.floating-images .image {
     box-shadow: var(--black) 4.375rem -4.375rem;
   }
 }
