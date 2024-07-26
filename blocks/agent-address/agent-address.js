@@ -1,9 +1,13 @@
 import { getMetadata } from '../../scripts/aem.js';
+import { loadTemplateCSS } from '../../scripts/util.js';
 import {
   a, div, p,
 } from '../../scripts/dom-helpers.js';
 
 export default function decorate(block) {
+  const blockName = block.getAttribute('data-block-name');
+  const designType = getMetadata('template');
+  loadTemplateCSS(blockName, designType);
   const streetAddress = getMetadata('street-address');
   const city = getMetadata('city');
   const state = getMetadata('state');
