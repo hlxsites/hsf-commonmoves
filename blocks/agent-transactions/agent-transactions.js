@@ -2,6 +2,7 @@ import {
   table, tbody, th, thead, tr, td, h1, a,
 } from '../../scripts/dom-helpers.js';
 import { getMetadata } from '../../scripts/aem.js';
+import { loadTemplateCSS } from '../../scripts/util.js';
 
 const getClosedTransactions = async () => {
   const agentId = getMetadata('id');
@@ -39,6 +40,9 @@ export default async function decorate(block) {
   if (transactionsData.length === 0) {
     return;
   }
+  const blockName = block.getAttribute('data-block-name');
+  const designType = getMetadata('template');
+  loadTemplateCSS(blockName, designType);
 
   const thList = ['address', 'city', 'state', 'sold price', 'beds', 'baths', 'approx sq. ft.', 'type', 'closed date'];
   const thDefault = { class: 'default', list: [0, 3] };
