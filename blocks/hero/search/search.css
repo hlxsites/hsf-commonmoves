@@ -148,3 +148,9 @@
     padding: 10px;
   }
 }
+
+@media screen and (min-width: 1200px) and (max-width: 1400px) {
+  .hero.block.small-size .content .search-bar {
+    max-width: 505px;
+  }
+}

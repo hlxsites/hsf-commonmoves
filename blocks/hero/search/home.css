@@ -274,3 +274,9 @@
     max-height: 185px;
   }
 }
+
+@media screen and (min-width: 1200px) and (max-width: 1400px) {
+  .hero.block > div .content h2 {
+    max-width: 505px;
+  }
+}
