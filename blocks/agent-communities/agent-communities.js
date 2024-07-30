@@ -11,8 +11,7 @@ export default async function decorate(block) {
   block.appendChild(getLoader('agent-communities'));
 
   window.setTimeout(async () => {
-    // const url = `/commonwealth-real-estate-ma312${window.location.pathname}`;
-    const url = '/commonwealth-real-estate-ma312/east-greenwich/barry-alofsin/cid-473521';
+    const url = `/commonwealth-real-estate-ma312${window.location.pathname}`;
     const bhhsCode = 'bhhs-ma312';
 
     const finalUrl = new URL('https://api.liveby.com/v1/pages');
