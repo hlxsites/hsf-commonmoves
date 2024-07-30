@@ -1,0 +1,19 @@
+.design-3.black-white .floating-images .content {
+    border: 2px solid;
+    background-color: white;
+    z-index: 10;
+}
+
+.design-3.black-white .floating-images div {
+    background-color: unset;
+}
+
+.design-3.black-white .floating-images .content h2,
+.design-3.black-white .floating-images .content p {
+    color: var(--black);
+}
+
+.design-3.black-white .floating-images .content p > a {
+    border: 1px solid;
+    color: var(--black);
+}
