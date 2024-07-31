@@ -1,5 +1,6 @@
 /* styles for the floating images auto block */
 @import url('luxury-collection-template.css');
+@import url('./design-1.css');
 
 .block.floating-images {
   margin-bottom: 5em;
