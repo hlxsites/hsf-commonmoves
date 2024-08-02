@@ -1,7 +1,5 @@
 import { showModal } from '../../scripts/util.js';
-
 import loadMaps from '../../scripts/google-maps/index.js';
-import { getMetadata, loadCSS } from '../../scripts/aem.js';
 
 let autocompleteAttached = false;
 
@@ -48,8 +46,4 @@ export default async function decorate(block) {
     window.location = redirect;
   });
   block.append(form);
-  const design = getMetadata('template');
-  const { blockName } = block.dataset;
-
-  await loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${design}.css`);
 }

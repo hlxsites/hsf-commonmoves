@@ -1,4 +1,4 @@
-import { getMetadata, loadCSS } from '../../scripts/aem.js';
+import { getMetadata } from '../../scripts/aem.js';
 import {
   a, div, ul, li,
 } from '../../scripts/dom-helpers.js';
@@ -27,7 +27,7 @@ const getCol = (list, colText) => {
   return div(div(colText), div(colsUl));
 };
 
-export default async function decorate(block) {
+export default function decorate(block) {
   const aboutText = getMetadata('about');
   const accreditations = getMetadata('professional-accreditations');
   const languages = getMetadata('languages');
@@ -75,8 +75,4 @@ export default async function decorate(block) {
       }
     });
   }
-  const design = getMetadata('template');
-  const { blockName } = block.dataset;
-
-  await loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${design}.css`);
 }

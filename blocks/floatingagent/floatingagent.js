@@ -1,5 +1,5 @@
 import {
-  getMetadata, loadCSS,
+  getMetadata,
 } from '../../scripts/aem.js';
 import {
   a,
@@ -11,16 +11,13 @@ import {
 } from '../../scripts/dom-helpers.js';
 import { decorateFormLinks } from '../../scripts/scripts.js';
 
-export default async function decorate(block) {
+export default function decorate(block) {
   block.classList.add('design4');
   const agentName = getMetadata('name');
   const agentDesc = getMetadata('description');
   const pic = getMetadata('photo');
   const lic = getMetadata('license-number');
-  const design = getMetadata('template');
-  const { blockName } = block.dataset;
 
-  await loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${design}.css`);
   const agentPicture = document.createElement('picture');
   agentPicture.appendChild(img({
     loading: 'lazy',

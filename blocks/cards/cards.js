@@ -1,6 +1,4 @@
-import { getMetadata, loadCSS } from '../../scripts/aem.js';
-
-export default async function decorate(block) {
+export default function decorate(block) {
   const cards = [...block.children];
 
   // Check for a title row
@@ -56,8 +54,4 @@ export default async function decorate(block) {
       list.append(row);
     });
   }
-  const design = getMetadata('template');
-  const { blockName } = block.dataset;
-
-  await loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${design}.css`);
 }

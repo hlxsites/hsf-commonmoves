@@ -1,3 +1,5 @@
+@import url('design-4.css');
+
 .agent-transactions.block table {
   width: 100%;
   font-size: var(--body-font-size-s);
@@ -34,7 +36,6 @@
   padding-top: 0.25rem;
   font-size: var(--body-font-size-xs);
 }
-
 
 .agent-transactions.block a {
   line-height: var(--line-height-m);
