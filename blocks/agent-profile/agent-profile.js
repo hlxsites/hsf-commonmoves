@@ -1,8 +1,7 @@
 import { decorateIcons, getMetadata } from '../../scripts/aem.js';
 import {
-  a, div, h1, ul, li, img, span,
+  a, div, h1, ul, li, img, span, p,
 } from '../../scripts/dom-helpers.js';
-import { getDesign, loadTemplateCSS } from '../../scripts/util.js';
 
 const getPhoneDiv = () => {
   let phoneDiv;
@@ -80,7 +79,26 @@ const getSocialDiv = () => {
   return null;
 };
 
-const defaultDesign = (block) => {
+const decorateAddress = (block) => {
+  const streetAddress = getMetadata('street-address');
+  const city = getMetadata('city');
+  const state = getMetadata('state');
+  const zip = getMetadata('zip');
+  const text = `${streetAddress}, ${city}, ${state} ${zip}`;
+
+  const addressDiv = div({ class: 'address' },
+    p('Berkshire Hathaway HomeServices'),
+    p('Commonwealth Real Estate'),
+    p(streetAddress),
+    p(`${city}, ${state} ${zip}`),
+    a({ href: `https://maps.google.com/maps?q=${text}`, target: '_blank' }, 'Directions'),
+  );
+
+  block.append(addressDiv);
+};
+
+const decorateProfileDetails = (block) => {
+  const profileDetails = div({ class: 'profile-details' });
   const profileImage = getImageDiv();
   const profileContent = div({ class: 'profile-content' },
     div({ class: 'name' }, h1(getMetadata('name'))),
@@ -115,140 +133,73 @@ const defaultDesign = (block) => {
   if (socialDiv) {
     profileContent.append(socialDiv);
   }
+
   decorateIcons(profileContent);
-  block.replaceChildren(profileImage, profileContent);
+  profileDetails.append(profileImage, profileContent);
+  block.replaceChildren(profileDetails);
 };
 
-const getCol = (list) => {
-  const colsUl = ul();
-  list.split(',').forEach((x) => {
-    colsUl.append(li(x.trim()));
-  });
-  return colsUl;
-};
-
-const viewMoreOnClickDesign1 = (name, anchor, block) => {
+const viewMoreOnClick = (name, anchor, block) => {
   anchor.addEventListener('click', (event) => {
     event.preventDefault();
-    if (anchor.classList.contains(`${name}-view-more`)) {
-      anchor.classList.remove(`${name}-view-more`);
-      anchor.classList.add(`${name}-view-less`);
-      block.querySelector(`.${name}`).classList.remove('hide');
+    if (anchor.classList.contains('view-more')) {
+      anchor.classList.remove('view-more');
+      anchor.classList.add('view-less');
+      block.querySelector(`.${name}-non-truncate`).classList.remove('hide');
       block.querySelector(`.${name}-truncate`).classList.add('hide');
     } else {
-      anchor.classList.remove(`${name}-view-less`);
-      anchor.classList.add(`${name}-view-more`);
-      block.querySelector(`.${name}`).classList.add('hide');
+      anchor.classList.remove('view-less');
+      anchor.classList.add('view-more');
+      block.querySelector(`.${name}-non-truncate`).classList.add('hide');
       block.querySelector(`.${name}-truncate`).classList.remove('hide');
     }
   });
 };
 
-const changeAboutDesign1 = (profileContent) => {
-  const name = 'about';
-  const about = profileContent.querySelector(`.${name}`);
+const decorateAbout = (block) => {
+  const text = 'about';
+  const aboutText = getMetadata(text);
+  const aboutDiv = div({ class: text });
   const threshold = 245;
-
-  if (about.textContent.length > threshold) {
-    about.classList.add('hide');
-    profileContent.append(div({ class: `${name}-truncate` },
-      `${about.textContent.substring(0, threshold)}...`));
-
-    const anchor = a({ class: `${name}-view-more`, href: '#' });
-    profileContent.append(anchor);
-    viewMoreOnClickDesign1(name, anchor, profileContent);
-  }
+  aboutDiv.append(div({ class: `${text}-truncate` }, aboutText.substring(0, threshold)));
+  aboutDiv.append(div({ class: `${text}-non-truncate hide` }, aboutText));
+  aboutDiv.append(a({ href: '#', class: 'view-more' }));
+  viewMoreOnClick(text, aboutDiv.querySelector('a'), block);
+  block.append(aboutDiv);
 };
 
-const changeLangAndPADesign1 = (langOrPA, name) => {
+const createLangoOrProfAccred = (key, langProfAccredDiv) => {
   const threshold = 3;
-  const liItems = langOrPA.querySelectorAll(`.${name} li`);
-  const lan = langOrPA.querySelector(`.${name}`);
+  const truncateDiv = ul({ class: `${key}-truncate` });
+  const nontruncateDiv = ul({ class: `${key}-non-truncate hide` });
 
-  if (liItems.length > threshold) {
-    lan.classList.add('hide');
-    const tempUl = ul();
-    Array.from(lan.querySelectorAll('li'))
-      .slice(0, threshold).forEach((liItem) => {
-        const tempLi = li(liItem.textContent);
-        tempUl.append(tempLi);
-      });
+  getMetadata(key).split(',').filter((x) => x).forEach((x, index) => {
+    if (index < threshold) {
+      truncateDiv.append(li(x.trim()));
+    }
+    nontruncateDiv.append(li(x.trim()));
+  });
 
-    langOrPA.append(div({ class: `${name}-truncate` }, tempUl));
-    const anchor = a({ class: `${name}-view-more`, href: '#' });
-    langOrPA.append(anchor);
-    viewMoreOnClickDesign1(name, anchor, langOrPA);
-  }
+  const anchor = a({ href: '#', class: 'view-more' });
+  langProfAccredDiv.append(div({ class: key },
+    truncateDiv,
+    nontruncateDiv,
+    anchor,
+  ));
+
+  viewMoreOnClick(key, anchor, langProfAccredDiv);
 };
 
-/**
- * Design 1
- * @param {*} block
- */
-const design1 = (block) => {
-  const profileImage = getImageDiv();
-  const profileContent = div({ class: 'profile-content' },
-    div({ class: 'name' }, h1(getMetadata('name'))),
-    div({ class: 'designation' }, getMetadata('designation')),
-  );
-
-  const licenseNumber = getMetadata('license-number');
-  if (licenseNumber) {
-    profileContent.append(div({ class: 'license-number' }, `LIC# ${licenseNumber}`));
-  }
-
-  const emailDiv = getEmailDiv();
-  if (emailDiv) {
-    profileContent.append(emailDiv);
-  }
-
-  const websiteDiv = getWebsiteDiv();
-  if (websiteDiv) {
-    profileContent.append(websiteDiv);
-  }
-
-  const phoneDiv = getPhoneDiv();
-  if (phoneDiv) {
-    profileContent.append(phoneDiv);
-  }
-
-  const aboutText = getMetadata('about');
-  const accreditations = getMetadata('professional-accreditations');
-  const languages = getMetadata('languages');
-
-  profileContent.append(div({ class: 'about' }, aboutText));
-  changeAboutDesign1(profileContent);
-
-  const professionalAccreditationsLangDiv = div({ class: 'professional-acc-lang' });
-  professionalAccreditationsLangDiv.append(div({ class: 'professional-accreditations-text' }, 'accreditations'));
-  const professionalAccreditationsDiv = div({ class: 'professional-accreditations' }, getCol(accreditations));
-  professionalAccreditationsLangDiv.append(professionalAccreditationsDiv);
-  changeLangAndPADesign1(professionalAccreditationsLangDiv, 'professional-accreditations');
-
-  const languagesDiv = div({ class: 'languages' }, getCol(languages));
-  professionalAccreditationsLangDiv.append(div({ class: 'languages-text' }, 'languages'));
-  professionalAccreditationsLangDiv.append(languagesDiv);
-  changeLangAndPADesign1(professionalAccreditationsLangDiv, 'languages');
-  profileContent.append(professionalAccreditationsLangDiv);
-
-  changeLangAndPADesign1(profileContent);
-  changeLangAndPADesign1(profileContent);
-
-  const contactMeText = 'Contact Me';
-  profileContent.append(div({ class: 'contact-me' },
-    a({ href: '#', title: contactMeText, 'aria-label': contactMeText }, contactMeText)));
-
-  decorateIcons(profileContent);
-  block.replaceChildren(profileImage, profileContent);
+const decorateLangProfAccred = (block) => {
+  const langProfAccredDiv = div({ class: 'lang-prof-accred' });
+  createLangoOrProfAccred('languages', langProfAccredDiv);
+  createLangoOrProfAccred('professional-accreditations', langProfAccredDiv);
+  block.append(langProfAccredDiv);
 };
 
 export default async function decorate(block) {
-  const blockName = block.getAttribute('data-block-name');
-  const designType = getMetadata('template');
-  const func = getDesign(designType, defaultDesign, design1);
-  loadTemplateCSS(blockName, designType);
-
-  if (func !== null) {
-    func(block);
-  }
+  decorateProfileDetails(block);
+  decorateAbout(block);
+  decorateLangProfAccred(block);
+  decorateAddress(block);
 }
