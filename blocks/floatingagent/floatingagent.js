@@ -12,6 +12,7 @@ import {
 import { decorateFormLinks } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
+  block.classList.add('design4');
   const agentName = getMetadata('name');
   const agentDesc = getMetadata('description');
   const pic = getMetadata('photo');
@@ -34,7 +35,6 @@ export default function decorate(block) {
   );
 
   const contactButton = a({ class: 'contactagent', href: '/fragments/contact-property-form' }, 'CONTACT AGENT');
-
   block.append(
     div({ class: 'floating-agent-col' }, agentPicture),
     agentInfo,

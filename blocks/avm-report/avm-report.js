@@ -1,5 +1,4 @@
 import { showModal } from '../../scripts/util.js';
-
 import loadMaps from '../../scripts/google-maps/index.js';
 
 let autocompleteAttached = false;
