@@ -12,7 +12,6 @@ import {
 import { decorateFormLinks } from '../../scripts/scripts.js';
 
 export default function decorate(block) {
-  block.classList.add('design4');
   const agentName = getMetadata('name');
   const agentDesc = getMetadata('description');
   const pic = getMetadata('photo');
