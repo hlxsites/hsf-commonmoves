@@ -552,7 +552,7 @@ form button[type="submit"]:hover {
   }
 }
 
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 900px) {
   main .section.two-columns {
     flex-direction: row;
   }
