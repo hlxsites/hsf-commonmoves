@@ -1,3 +1,5 @@
+@import url('design-4.css');
+
 .floatingagent.block {
     display: flex;
     align-items: center;
@@ -24,6 +26,7 @@
 .floatingagent.block > .contactagent {
     display: block;
     align-self: center;
+    font-weight: 800;
     background: var(--primary-color);
     color: var(--tertiary-color);
     border: 0;

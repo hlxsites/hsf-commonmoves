@@ -34,7 +34,6 @@ export default function decorate(block) {
   );
 
   const contactButton = a({ class: 'contactagent', href: '/fragments/contact-property-form' }, 'CONTACT AGENT');
-
   block.append(
     div({ class: 'floating-agent-col' }, agentPicture),
     agentInfo,
