@@ -1,7 +1,8 @@
 import { getMetadata, readBlockConfig } from '../../scripts/aem.js';
 import { render as renderCards } from '../shared/property/cards.js';
 import Search from '../../scripts/apis/creg/search/Search.js';
-import { propertySearch } from '../../scripts/apis/creg/creg.js';
+import { propertySearch, getSavedProperties } from '../../scripts/apis/creg/creg.js';
+import { getUserDetails } from '../../scripts/apis/user.js';
 import {
   a, div, p, span,
 } from '../../scripts/dom-helpers.js';
@@ -38,10 +39,25 @@ export default async function decorate(block) {
   } else {
     block.innerHTML = '';
   }
+  const user = await getUserDetails();
+  if (!user) {
+    return;
+  }
+  const { contactKey } = user;
 
   const list = div({ class: `property-list-cards rows-${Math.floor(search.pageSize / 4)}` });
   block.append(list);
   propertySearch(search).then((results) => {
     renderCards(list, results.properties);
+    getSavedProperties(contactKey).then((savedProps) => {
+      if (savedProps?.properties) {
+        savedProps.properties.forEach((listing) => {
+          const card = block.querySelector(`[data-id="${listing.PropId}"]`);
+          if (card) {
+            card.classList.add('saved');
+          }
+        });
+      }
+    });
   });
 }
