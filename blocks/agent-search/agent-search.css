@@ -9,6 +9,11 @@ main .section.agent-search-container {
   position: relative;
 }
 
+.agent-search.block .loading-spinner {
+  position: fixed;
+  top: var(--nav-height);
+}
+
 .agent-search.block .search-bar-wrapper {
   position: relative;
   width: 100%;
