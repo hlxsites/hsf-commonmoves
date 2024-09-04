@@ -11,6 +11,10 @@ export default async function decorate(block) {
   // Find and process list type configurations.
   const config = readBlockConfig(block);
   const search = await Search.fromBlockConfig(config);
+  if (search.pageSize % 4 !== 0) {
+    search.pageSize -= (search.pageSize % 4);
+  }
+
   search.franchiseeCode = getMetadata('office-id');
   const searchUrl = `search?${search.asCregURLSearchParameters()}`;
 
@@ -41,7 +45,7 @@ export default async function decorate(block) {
   }
   const { contactKey } = user;
 
-  const list = div({ class: `property-list-cards rows-${Math.floor(search.pageSize / 8)}` });
+  const list = div({ class: `property-list-cards rows-${Math.floor(search.pageSize / 4)}` });
   block.append(list);
   propertySearch(search).then((results) => {
     renderCards(list, results.properties);

@@ -4,14 +4,14 @@ import {
 import { getMetadata } from '../../scripts/aem.js';
 
 const getClosedTransactions = async () => {
-  const agentId = getMetadata('agent-id');
+  const agentId = getMetadata('id');
   const formattedData = [];
 
   try {
     const response = await fetch(`/bin/bhhs/agentPropertyListingsServlet.${agentId}.json`);
     const data = await response.json();
 
-    if (data && data?.closedTransactions?.properties?.length) {
+    if (data?.closedTransactions?.properties?.length) {
       data.closedTransactions.properties.forEach((property) => {
         formattedData.push({
           address: property.StreetName,

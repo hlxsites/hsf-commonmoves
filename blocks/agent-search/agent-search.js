@@ -46,6 +46,7 @@ const search = async () => {
 };
 
 const updateSearch = async (callback) => {
+  document.querySelector('body').classList.add('no-scroll');
   const block = document.querySelector('.agent-search.block');
   const spinner = getSpinner();
   block.append(spinner);
@@ -78,6 +79,7 @@ const updateSearch = async (callback) => {
 
   block.querySelector(RESULTS_SELECTOR).replaceWith(buildResults(agents.value));
   spinner.remove();
+  document.querySelector('body').classList.remove('no-scroll');
   wrapper.scrollIntoView({ behavior: 'smooth' });
 };
 

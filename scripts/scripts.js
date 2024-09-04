@@ -349,6 +349,26 @@ export function loadLogin(main) {
   return loadBlock(loginBlock);
 }
 
+function loadHeaderAndFooter(doc) {
+  const header = doc.querySelector('header');
+  const footer = doc.querySelector('footer');
+
+  header.style.visibility = 'hidden';
+  footer.style.visibility = 'hidden';
+
+  const headerLoaded = loadHeader(header);
+  const footerLoaded = loadFooter(footer);
+
+  headerLoaded.then(() => {
+    header.style.visibility = null;
+  });
+  footerLoaded.then(() => {
+    footer.style.visibility = null;
+  });
+
+  return Promise.all([headerLoaded, footerLoaded]);
+}
+
 /**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
@@ -360,13 +380,18 @@ async function loadLazy(doc) {
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
-  loadLogin(doc.querySelector('main'));
+  // no need to await any of these individually
+  // but want them all to complete before moving on to delayed phase
+  const lazyPromises = [];
 
-  loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  loadFonts();
-  addFavIcon(`${window.hlx.codeBasePath}/styles/bhhs_seal_favicon.ico`);
+  lazyPromises.push(loadHeaderAndFooter(doc));
+  lazyPromises.push(loadLogin(doc.querySelector('main')));
+  lazyPromises.push(loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`));
+  lazyPromises.push(loadFonts());
+  lazyPromises.push(addFavIcon(`${window.hlx.codeBasePath}/styles/bhhs_seal_favicon.ico`));
+
+  await Promise.all(lazyPromises);
+
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
