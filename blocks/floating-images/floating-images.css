@@ -1,12 +1,13 @@
 /* styles for the floating images auto block */
 @import url('luxury-collection-template.css');
+@import url('./design-1.css');
 
 .block.floating-images {
   margin-bottom: 5em;
 }
 
 .block.floating-images > div {
-  background-color: var(--secondary-color);
+  background-color: var(--secondary-light);
   display: flex;
   flex-direction: column-reverse;
   min-height: 530px;
@@ -22,6 +23,7 @@
   object-position: center;
   height: 100%;
   max-width: 100%;
+  width: 100%;
 }
 
 .block.floating-images .content {
@@ -30,15 +32,19 @@
 
 .block.floating-images .content h2 {
   color: var(--primary-color);
+  font-size: 28px;
+  font-weight: var(--font-weight-normal);
   letter-spacing: normal;
   margin-bottom: 0.5em;
   padding: 0 16px;
   text-align: left;
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
 
 .block.floating-images .content p {
   color: var(--primary-color);
+  font-size: var(--body-font-size-s);
+  line-height: 25px;
   padding: 0 16px;
   margin-bottom: 13px;
 }
@@ -55,10 +61,26 @@
   line-height: var(--line-height-m);
 }
 
+.block.floating-images .content a {
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  margin-top: 1rem;
+}
+
+.block.floating-images .content a:hover {
+  background-color: var(--primary-color);
+  color: var(--primary-light);
+}
+
 @media screen and (min-width: 900px) {
   .block.floating-images > div {
     flex-direction: row;
-    align-items: center;
+  }
+
+  .block.floating-images .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   .block.floating-images > div > div {
@@ -110,6 +132,7 @@
 
 @media screen and (min-width: 1200px) {
   .block.floating-images .content h2 {
+    font-size: var(--heading-font-size-xxl);
     padding: 0 80px;
   }
 

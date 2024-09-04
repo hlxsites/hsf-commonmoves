@@ -2,6 +2,7 @@
 
 main .section.hero-container {
   padding: 0;
+  max-width: none;
 }
 
 .hero.block {
@@ -11,6 +12,7 @@ main .section.hero-container {
   margin-bottom: 57px;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 }
 
 main .section.full-width > .hero-wrapper {
@@ -58,8 +60,24 @@ main .section.full-width > .hero-wrapper {
   height: 100%;
 }
 
+/* video included */
+.hero .hero-video {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero .hero-video.hide {
+  display: none;
+}
+
 .hero.block > div {
   padding: 0 16px;
+  width: 100%;
 }
 
 .hero.block.keep-scale {
@@ -99,6 +117,7 @@ main .section.full-width > .hero-wrapper {
 .hero.block > div .content h2,
 .hero.block > div .content p {
   color: var(--white);
+  z-index: 1;
 }
 
 .hero.block > .row > .headline {
@@ -125,6 +144,17 @@ main .section.full-width > .hero-wrapper {
   color: var(--white);
 }
 
+.hero.block > div .content .button-container a {
+  border: 1px solid;
+  color: var(--white);
+}
+
+.hero.block > div .content .button-container a:hover {
+  background-color: var(--primary-light);
+  border: 1px solid var(--primary-light);
+  color: var(--primary-color);
+}
+
 @media screen and (min-width: 600px) {
   .hero.block {
     height: 620px;
@@ -140,6 +170,7 @@ main .section.full-width > .hero-wrapper {
 @media screen and (min-width: 900px) {
   .hero.block > div {
     padding: 0 130px;
+    width: auto;
   }
 }
 

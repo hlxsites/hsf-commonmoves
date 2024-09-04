@@ -1,4 +1,5 @@
-import { fetchPlaceholders } from './aem.js';
+import { fetchPlaceholders, loadCSS } from './aem.js';
+import { div, img, domEl } from './dom-helpers.js';
 
 /**
  * Creates the standard Spinner Div.
@@ -6,10 +7,10 @@ import { fetchPlaceholders } from './aem.js';
  * @returns {HTMLDivElement} the spinner div.
  */
 export function getSpinner() {
-  const div = document.createElement('div');
-  div.classList.add('loading-spinner');
-  div.innerHTML = '<span></span>';
-  return div;
+  const spinner = document.createElement('div');
+  spinner.classList.add('loading-spinner');
+  spinner.innerHTML = '<span></span>';
+  return spinner;
 }
 
 /**
@@ -49,6 +50,41 @@ export function showModal(content) {
   document.body.append(modal);
 }
 
+let sideModal;
+let focusElement;
+
+export function removeSideModal() {
+  if (!sideModal) return;
+  sideModal.parentNode.nextSibling.remove();
+  sideModal.parentNode.remove();
+  sideModal = null;
+  document.body.classList.remove('disable-scroll');
+  if (focusElement) focusElement.focus();
+}
+
+export async function showSideModal(content, decorateContent) {
+  if (!sideModal) {
+    const temp = div(
+      domEl('aside', { class: 'side-modal' }, div()),
+      div({ class: 'side-modal-overlay' }),
+    );
+    sideModal = temp.querySelector('.side-modal');
+    document.body.append(temp);
+  }
+  const container = sideModal.querySelector('div');
+  container.replaceChildren(...content);
+
+  if (decorateContent) await decorateContent(container);
+
+  // required delay for animation to work
+  setTimeout(() => {
+    document.body.classList.add('disable-scroll');
+    sideModal.ariaExpanded = true;
+  });
+
+  focusElement = document.activeElement;
+}
+
 function createTextKey(text) {
   // create a key that can be used to look up the text in the placeholders
   const words = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/);
@@ -80,9 +116,12 @@ export async function i18nLookup(prefix) {
   };
 }
 
-/*
-  * Returns the environment type based on the hostname.
-*/
+/**
+ * Retrieves the environment type based on the provided hostname.
+ *
+ * @param {string} [hostname=window.location.hostname] - The hostname to determine the environment.
+ * @returns {string} The environment type ('live', 'preview', or 'dev').
+ */
 export function getEnvType(hostname = window.location.hostname) {
   const fqdnToEnvType = {
     'commonmoves.com': 'live',
@@ -95,11 +134,98 @@ export function getEnvType(hostname = window.location.hostname) {
   return fqdnToEnvType[hostname] || 'dev';
 }
 
+/**
+ * Retrieves the value of a cookie by its name.
+ *
+ * @param {string} cookieName - The name of the cookie to retrieve.
+ * @returns {string|null} The value of the cookie, or null if not found.
+ */
+export function getCookieValue(cookieName) {
+  const cookies = document.cookie.split(';');
+  const foundCookie = cookies.find((cookie) => {
+    const trimmedCookie = cookie.trim();
+    return trimmedCookie.includes(cookieName);
+  });
+  if (foundCookie) {
+    return foundCookie.split('=', 2)[1];
+  }
+  return null;
+}
+
+/**
+ * Format a provided value to a shorthand number.
+ * From: https://reacthustle.com/blog/how-to-convert-number-to-kmb-format-in-javascript
+ * @param {String|Number} num the number to format
+ * @param {Number} precision
+ */
+export function formatPrice(num, precision = 1) {
+  if (Number.isNaN(Number.parseFloat(num))) {
+    // eslint-disable-next-line no-param-reassign
+    num = Number.parseFloat(num.replaceAll(/,/g, '').replace('$', ''));
+  }
+  const map = [
+    { suffix: 'T', threshold: 1e12 },
+    { suffix: 'B', threshold: 1e9 },
+    { suffix: 'M', threshold: 1e6 },
+    { suffix: 'k', threshold: 1e3 },
+    { suffix: '', threshold: 1 },
+  ];
+
+  const found = map.find((x) => Math.abs(num) >= x.threshold);
+  if (found) {
+    return (num / found.threshold).toFixed(precision) + found.suffix;
+  }
+  return num;
+}
+
+export function phoneFormat(num) {
+  // Remove any non-digit characters from the string
+  let phoneNum = num.replace(/\D/g, '');
+  if (!phoneNum) {
+    return '';
+  }
+  // Format the phoneNumber according to (XXX) XXX-XXXX
+  phoneNum = phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
+  return phoneNum;
+}
+
+export const getDesign = (designType, defaultDesign, design1, design2, design3, design4, design5) => {
+  switch (designType.toLowerCase()) {
+    case 'design-1':
+      return design1;
+    case 'design-2':
+      return design2;
+    case 'design-3':
+      return design3;
+    case 'design-4':
+      return design4;
+    case 'design-5':
+      return design5;
+    default:
+      return defaultDesign;
+  }
+};
+
+export const loadTemplateCSS = (blockName, designType) => {
+  loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${designType.toLowerCase()}.css`);
+};
+
+export const getLoader = (className) => div({ class: `${className}-loader` },
+  div({ class: 'animation' },
+    domEl('picture', img({ src: '/styles/images/loading.png' })),
+    div({ class: 'pulse' }),
+  ),
+);
+
 const Util = {
   getSpinner,
   showModal,
   i18nLookup,
   getEnvType,
+  getCookieValue,
+  getDesign,
+  loadTemplateCSS,
+  getLoader,
 };
 
 export default Util;

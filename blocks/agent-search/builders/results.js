@@ -69,7 +69,7 @@ export const buildResults = (list) => {
   results.append(ul);
 
   ul.classList.add('agent-list');
-  list.forEach((agent) => ul.append(buildCard(agent)));
+  list?.forEach((agent) => ul.append(buildCard(agent)));
 
   return results;
 };

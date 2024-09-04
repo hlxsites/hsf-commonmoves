@@ -5,12 +5,16 @@
  * @param {string} event.data.url the URL to fetch.
  *
  */
-onmessage = (event) => {
-  fetch(event.data.url).then(async (resp) => {
+onmessage = async (event) => {
+  try {
+    const resp = await fetch(event.data.url);
     if (resp.ok) {
       postMessage(await resp.json());
     } else {
       postMessage({});
     }
-  });
+  } catch (e) {
+    console.log('Error fetching data', e);
+    postMessage({});
+  }
 };
