@@ -39,7 +39,6 @@ export default async function decorate(block) {
   if (transactionsData.length === 0) {
     return;
   }
-
   const thList = ['address', 'city', 'state', 'sold price', 'beds', 'baths', 'approx sq. ft.', 'type', 'closed date'];
   const thDefault = { class: 'default', list: [0, 3] };
   const thMedium = { class: 'medium', list: [1, 2] };
